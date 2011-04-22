@@ -1,0 +1,44 @@
+create table tuan_salesdata(
+	`id` int(11) NOT NULL auto_increment,
+	fromsite varchar(25) default '',
+	from_id varchar(25) default '',
+	deal_url varchar(255)  default '',
+	title text  default '',
+	
+	small_image_url varchar(255) default '',
+	medium_image_url varchar(255) default '',
+	large_image_url varchar(255) default '',
+
+	division_id varchar(20) default '',
+	division_name varchar(25) default '',
+	division_lat double default '0',
+	division_lng double default '0',
+
+	vendor_id varchar(25) default '',
+	vendor_name varchar(25) default '',
+	vendor_website_url varchar(255) default '',
+	 
+	status int comment '是否有效，即过期否',
+	start_date datetime,
+	end_date datetime,
+
+	 quantity_sold int default '0',
+	 price int default '0',
+         value int default '0',
+	 discount_percent int default '0',
+
+	 regtime int default '0',
+	 lasttime int default '0',
+
+	   PRIMARY KEY  (`id`),
+  KEY `ix_price` (`price`),
+  KEY `ix_value`(`value`),
+  KEY `ix_sold`(`quantity_sold`),
+  KEY `ix_fromsite` (`fromsite`),
+  KEY `ix_division_id`(`division_id`),
+  KEY `ix_division_name`(`division_name`),
+  KEY `ix_status` (status),
+  KEY ix_end_datetime(end_date),
+  KEY ix_vendor_name(vendor_name),
+  KEY `ix_lasttime` (`lastTime`)
+)  DEFAULT CHARSET=utf8
