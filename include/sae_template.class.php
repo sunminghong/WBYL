@@ -31,11 +31,16 @@ class template {
 	}
 
 	function template() {
-		ob_start(); 
-		$this->defaulttpldir = ROOT.'./templets/mobile';
-		$this->tpldir = ROOT.'./templets/mobile';
+		global $currTemplate;
+		ob_start();
+		$this->defaulttpldir = ROOT.'./templets/'.$currTemplate;
+		$this->tpldir = ROOT.'./templets/'.$currTemplate;
 		$this->objdir = DATADIR.'./templets';
-		$this->langfile = ROOT.'./templets/mobile/templates.lang.php';
+		$this->langfile = ROOT.'./templets/'.$currTemplate.'/templates.lang.php';
+
+		$this->assign('templatepath',WEBROOT.'templets/'.$currTemplate);
+		$this->assign("urlbase",URLBASE);
+		$this->assign('charset', DEFAULT_CHARTSET);
 
 		if (version_compare(PHP_VERSION, '5') == -1) {
 			register_shutdown_function(array(&$this, '__destruct'));

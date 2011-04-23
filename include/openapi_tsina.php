@@ -1,6 +1,6 @@
 <?php
-include_once('openapiAbstract_class.php');
-include_once('TSinaClient_class.php');
+include_once('openapi_abstract_class.php');
+include_once('tsinaclient_class.php');
 class openapi_tsina extends openapiAbstract{
 
 	private $oClient=null;
@@ -31,8 +31,7 @@ class openapi_tsina extends openapiAbstract{
 		if (!is_array($t))
 			return false;
 				
-		$o = new TSinaOAuth( $this->akey , $this->skey , $t['tk'] , $t['sk']  );
-		
+		$o = new TSinaOAuth( $this->akey , $this->skey , $t['tk'] , $t['sk']  );		
 		$last_key = $o->getAccessToken(  $_REQUEST['oauth_verifier'] ) ;
 		
 		//print_r($last_key);exit;
@@ -84,7 +83,7 @@ class openapi_tsina extends openapiAbstract{
 
 		$token=$tokenOrlfromuid;
 		if(!is_array($token)) $token=$this->readToken($token);
-		
+
 		if (!is_array($token))
 			return false;
 		$this->oClient=$c = new TSinaClient( $this->akey , $this->skey , $token['tk'] , $token['sk']);

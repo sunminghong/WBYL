@@ -1,0 +1,28 @@
+#logo{ width:795px; height:124px; margin:10px auto 0; background:url(logo.png) no-repeat top 20px; position:relative; z-index:1}
+#content{ width:795px; height:520px; margin:0 auto; position:relative; top:-25px; z-index:0; background:#fff;}
+.info{ width:720px; height:90px; background:#eaf3fa; position:relative; top:35px; left:37px;}
+.myhead{ width:68px; height:68px; margin:10px; border:1px solid #666; float:left;}
+.intr{ padding:10px; padding-left:18px; color:#555}
+.inputdiv{ width:460px; position:relative; top:100px; margin:auto; background:url(title.png) 15px left no-repeat;}
+.first{ color:#bcbbbb; text-align:center;}
+#toname{ width:200px; margin-left:155px; margin-top:6px; float:left;}
+#submit{ position:relative; top:7px; left:5px;}
+.zhuanbo{position:relative; top:180px; width:550px; margin:auto;}
+textarea{ width:100%; height:60px;}
+
+#txWB_W1{position:relative; top:20px; left:100px; float:left;}
+#zhuanbobtn{ position:relative; top:20px; left:160px; text-align:center;}
+
+html,body{ height:100%;}
+.button{ margin-top:25px; margin-left:155px;}
+.ok{ width:733px; height:572px; background:url(xin.png); position:absolute; z-index:5; width:1px; height:1px; overflow:hidden; margin-left:15px; margin-top:15px;}
+.task{ width:100%; height:100%; position:absolute; background:#000; top:0; left:0;filter:alpha(opacity=25);
+ -moz-opacity:0.25;
+ -khtml-opacity: 0.25;
+ opacity: 0.25;
+}
+.ok .okname{ width:95px; height:23px; line-height:23px; text-align:center; position:absolute;top:203px;left:304px;color:#fff; font-family:"黑体"; font-size:12pt;}
+.checkbox{ position:absolute; width:110px; height:50px; top:300px; left:265px; color:#fff;}
+#oksure{ position:absolute; top:360px; left:289px; cursor:pointer}
+
+#txWB_W1{}

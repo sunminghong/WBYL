@@ -7,9 +7,9 @@ class account extends ctl_base
 		$this->display("home_index");
 	}
 
-	function tologin(){
+	function tologin(){		
 		$lfrom=rq("lfrom","tsina");
-		$callbackurl=URLBASE.'?app=home&act=account&op=callback&lfrom=tsina';
+		$callbackurl=URLBASE.'?act=account&op=callback&lfrom=tsina';
 		
 		$api="openapi_".$lfrom;
 		importlib($api);
@@ -40,7 +40,7 @@ class account extends ctl_base
 				"name"=>$uidarr["name"],
 				"uid"=>$uid
 			);
-			envhelper::saveToken(envhelper::packKUID($lfrom,$userinfo['lfromuid']),$userinfo);			
+			envhelper::saveAccounts(envhelper::packKUID($lfrom,$userinfo['lfromuid']),$userinfo);			
 			
 			$tourl="?app=home&act=my";
 			header("Location: $tourl");

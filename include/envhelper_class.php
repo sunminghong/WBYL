@@ -18,7 +18,7 @@ class envhelper{
 			return $uid;
 	}
 		
-	static public function saveToken($uid,$userinfo){
+	static public function saveAccounts($uid,$userinfo){
 		$json=sreadcookie('sess');
 		if(!$json) $session=array();
 		else{
@@ -43,8 +43,9 @@ class envhelper{
 	/*
 		param $uid string 包含lfrom，UID的一个组合键，由envhelper::packUID算出
 	*/
-	static public function readToken($uid=""){
+	static public function readAccounts($uid=""){
 		$json=sreadcookie('sess');//str_replace("\\","",);
+		
 		if (!$json)
 			return null;
 

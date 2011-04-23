@@ -32,7 +32,7 @@ class dbhelper {
 		}
 		else
 			$dbid=0;
-			
+
 		return self::getConn($GLOBALS['DBCONFIG'][$dbid]);
 	}
 	
@@ -53,12 +53,14 @@ class dbhelper {
 			self::$conns[$key]=$conn;
 			return $conn;
 		}
-		else
+		else{
+			echo '与数据库连接时出现错误！' . mysql_error();exit;
 			return false;		
+		}
 	}
 	
 	/**
-	 * 执行SQL语句，无返回数据
+	 * 执行SQL语句
 	 * @param string $sql sql语句
 	 * @access public
 	 */
@@ -81,7 +83,7 @@ class dbhelper {
 	//事务执行SQL语句
 	static function exesqls($sql,$count=false){
 		connstart();
-		$sqlArr = split (';', $sql);
+		$sqlArr = split (';;;', $sql);
 		mysql_query('BEGIN',self::getConnM());
 		$errnum = 0;
 		$exesqlCount = array();
@@ -217,11 +219,10 @@ class recordset{
 	 * @access public
 	 */	
 	function __construct($sql,$conn){
-		if (!$sql) return;
-		
+		if (!$sql) return;		
 		$res=mysql_query($sql,$conn);
 		if (!$res)return;
-		
+
 		$this->res=$res;
 	}
 	
@@ -230,8 +231,14 @@ class recordset{
 	 * @access public
 	 */		
 	public function next(){
-		if($this->res)
-			return 	mysql_fetch_array($this->res, MYSQL_ASSOC) ; 
+		if($this->res){						
+		try{ 
+				$arr=mysql_fetch_array($this->res, MYSQL_ASSOC) ; 
+				return $arr;
+			}catch(MyException $e){ 
+				echo $e;exit;
+			}
+		}
 		else
 			return false;
 	}

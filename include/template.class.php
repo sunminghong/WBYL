@@ -39,8 +39,8 @@ class template {
 		$this->langfile = ROOT.'./templets/'.$currTemplate.'/templates.lang.php';
 
 		$this->assign('templatepath',WEBROOT.'templets/'.$currTemplate);
+		$this->assign("urlbase",URLBASE);
 		$this->assign('charset', DEFAULT_CHARTSET);
-
 
 		if (version_compare(PHP_VERSION, '5') == -1) {
 			register_shutdown_function(array(&$this, '__destruct'));

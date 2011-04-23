@@ -7,12 +7,12 @@ class account extends ctl_base
 		$this->display("home_index");
 	}
 
-	function tologin(){
+	function tologin(){		
 		$lfrom=rq("lfrom","tsina");
-		$callbackurl=URLBASE.'?app=home&act=account&op=callback&lfrom=tsina';
+		$callbackurl=URLBASE.'?act=account&op=callback&lfrom=tsina';
 		
 		$api="openapi_".$lfrom;
-		import($api);
+		importlib($api);
 		$api=new $api();	
 		$tourl=$api->getLoginUrl($callbackurl);
 		header("Location: $tourl");
@@ -22,7 +22,7 @@ class account extends ctl_base
 		$lfrom=rq("lfrom","tsina");
 		
 		$api="openapi_".$lfrom;
-		import($api);
+		importlib($api);
 		$api=new $api();	
 
 
@@ -37,10 +37,12 @@ class account extends ctl_base
 			$userinfo=array(
 				"lfrom"=>$lfrom,
 				"lfromuid"=>$uidarr['lfromuid'],
-				"name"=>$uidarr["name"],
-				"uid"=>$uid
+				"name"=>$uidarr["screen_name"],
+				"uid"=>$uid,
+				"head"=>$uidarr['	profile_image_url'],
+				"domain"=>$uidarr['domain']
 			);
-			envhelper::saveToken(envhelper::packKUID($lfrom,$userinfo['lfromuid']),$userinfo);			
+			envhelper::saveAccounts(envhelper::packKUID($lfrom,$userinfo['lfromuid']),$userinfo);			
 			
 			$tourl="?app=home&act=my";
 			header("Location: $tourl");

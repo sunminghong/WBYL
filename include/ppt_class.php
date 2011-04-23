@@ -2,7 +2,7 @@
 class ppt{
 	function login($uidarr){
 		$lfromuid=$uidarr['lfromuid'];
-		$sql="select uid,name from ".dbhelper::tname("ppt",'user_lfrom')." where lfromuid='".$uidarr['lfromuid']." and lfrom='".$uidarr['lfrom']."'";
+		$sql="select uid,name from ".dbhelper::tname("ppt",'user_lfrom')." where lfromuid='".$lfromuid."' and lfrom='".$uidarr['lfrom']."'";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$uid=$row['uid'];

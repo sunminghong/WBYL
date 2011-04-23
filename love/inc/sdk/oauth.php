@@ -1,22 +1,11 @@
-<?php 
+<?php
+/**
+ * oauth相关类
+ * @param 
+ * @return
+ * @author tuguska
+ */
 
-//header("Content-type: text/html; charset=utf-8");
-/* 
- * Code based on: 
- * Abraham Williams (abraham@abrah.am) http://abrah.am 
- */ 
-
-/* Load OAuth lib. You can find it at http://oauth.net */ 
-/** 
- * @ignore 
- */ 
-class OAuthException extends Exception { 
-    // pass 
-} 
-
-/*
- * @ignore 
- */ 
 class OAuthConsumer { 
     public $key; 
     public $secret; 
@@ -31,25 +20,18 @@ class OAuthConsumer {
     } 
 } 
 
-/** 
- * @ignore 
- */ 
 class OAuthToken { 
-    // access tokens and request tokens 
     public $key; 
     public $secret; 
 
-    /** 
-     * key = the token 
-     * secret = the token secret 
-     */ 
     function __construct($key, $secret) { 
         $this->key = $key; 
         $this->secret = $secret; 
     } 
 
     /** 
-     * generates the basic string serialization of a token that a server 
+	 * 
+	 * generates the basic string serialization of a token that a server 
      * would respond to request_token and access_token calls with 
      */ 
     function to_string() { 
@@ -62,50 +44,35 @@ class OAuthToken {
     function __toString() { 
         return $this->to_string(); 
     } 
-} 
+}
 
-/** 
- * @ignore 
- */ 
+//oauth签名方法
 class OAuthSignatureMethod { 
     public function check_signature(&$request, $consumer, $token, $signature) { 
         $built = $this->build_signature($request, $consumer, $token); 
         return $built == $signature; 
     } 
-} 
-
-/** 
- * @ignore 
- */ 
+}
 class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod { 
     function get_name() { 
         return "HMAC-SHA1"; 
     } 
 
     public function build_signature($request, $consumer, $token) { 
-        $base_string = $request->get_signature_base_string(); 
-
-		//print_r( $base_string );
+		$base_string = $request->get_signature_base_string(); 
         $request->base_string = $base_string; 
-
         $key_parts = array( 
             $consumer->secret, 
             ($token) ? $token->secret : "" 
         ); 
-
-        //print_r( $key_parts );
+		
 		$key_parts = OAuthUtil::urlencode_rfc3986($key_parts); 
-        
 
 		$key = implode('&', $key_parts); 
-
         return base64_encode(hash_hmac('sha1', $base_string, $key, true)); 
     } 
 } 
 
-/** 
- * @ignore 
- */ 
 class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod { 
     public function get_name() { 
         return "PLAINTEXT"; 
@@ -200,12 +167,12 @@ class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod {
  * @ignore 
  */ 
 class OAuthRequest { 
-    private $parameters; 
+    public $parameters; 
     private $http_method; 
     private $http_url; 
     // for debug purposes 
     public $base_string; 
-    public static $version = '1.0a'; 
+    public static $version = '1.0'; 
     public static $POST_INPUT = 'php://input'; 
 
     function __construct($http_method, $http_url, $parameters=NULL) { 
@@ -271,7 +238,7 @@ class OAuthRequest {
      * pretty much a helper function to set up the request 
      */ 
     public static function from_consumer_and_token($consumer, $token, $http_method, $http_url, $parameters=NULL) { 
-        @$parameters or $parameters = array(); 
+		@$parameters or $parameters = array();
         $defaults = array("oauth_version" => OAuthRequest::$version, 
             "oauth_nonce" => OAuthRequest::generate_nonce(), 
             "oauth_timestamp" => OAuthRequest::generate_timestamp(), 
@@ -280,7 +247,7 @@ class OAuthRequest {
             $defaults['oauth_token'] = $token->key; 
 
         $parameters = array_merge($defaults, $parameters); 
-
+		//unset($parameters['pic']);
         return new OAuthRequest($http_method, $http_url, $parameters); 
     } 
 
@@ -323,6 +290,11 @@ class OAuthRequest {
         if (isset($params['pic'])) { 
             unset($params['pic']); 
         }
+        
+          if (isset($params['image'])) 
+         { 
+            unset($params['image']); 
+        }
 
         // Remove oauth_signature if present 
         // Ref: Spec: 9.1.1 ("The oauth_signature parameter MUST be excluded.") 
@@ -350,7 +322,6 @@ class OAuthRequest {
         //print_r( $parts );
 
         $parts = OAuthUtil::urlencode_rfc3986($parts); 
-
         return implode('&', $parts); 
     } 
 
@@ -398,7 +369,6 @@ class OAuthRequest {
      * builds the data one would send in a POST request 
      */ 
     public function to_postdata( $multi = false ) {
-    //echo "multi=" . $multi . '`';
     if( $multi )
     	return OAuthUtil::build_http_query_multi($this->parameters); 
     else 
@@ -414,7 +384,7 @@ class OAuthRequest {
         foreach ($this->parameters as $k => $v) { 
             if (substr($k, 0, 5) != "oauth") continue; 
             if (is_array($v)) { 
-                throw new OAuthException('Arrays not supported in headers'); 
+                throw new MBOAuthExcep('Arrays not supported in headers'); 
             } 
             $out .= ',' . 
                 OAuthUtil::urlencode_rfc3986($k) . 
@@ -430,14 +400,13 @@ class OAuthRequest {
     } 
 
 
-    public function sign_request($signature_method, $consumer, $token) { 
+	public function sign_request($signature_method, $consumer, $token) { 
         $this->set_parameter( 
             "oauth_signature_method", 
             $signature_method->get_name(), 
             false 
-        ); 
+		);
 		$signature = $this->build_signature($signature_method, $consumer, $token); 
-        //echo "sign=" . $signature;
 		$this->set_parameter("oauth_signature", $signature, false); 
     } 
 
@@ -450,7 +419,6 @@ class OAuthRequest {
      * util function: current timestamp 
      */ 
     private static function generate_timestamp() { 
-        //return 1273566716;
 		return time(); 
     } 
 
@@ -458,7 +426,6 @@ class OAuthRequest {
      * util function: current nonce 
      */ 
     private static function generate_nonce() { 
-        //return '462d316f6f40c40a9e0eef1b009f37fa';
 		$mt = microtime(); 
         $rand = mt_rand(); 
 
@@ -547,7 +514,7 @@ class OAuthServer {
             $version = 1.0; 
         } 
         if ($version && $version != $this->version) { 
-            throw new OAuthException("OAuth version '$version' not supported"); 
+            throw new MBOAuthExcep("OAuth version '$version' not supported"); 
         } 
         return $version; 
     } 
@@ -561,9 +528,10 @@ class OAuthServer {
         if (!$signature_method) { 
             $signature_method = "PLAINTEXT"; 
         } 
+        
         if (!in_array($signature_method, 
             array_keys($this->signature_methods))) { 
-                throw new OAuthException( 
+                throw new MBOAuthExcep( 
                     "Signature method '$signature_method' not supported " . 
                     "try one of the following: " . 
                     implode(", ", array_keys($this->signature_methods)) 
@@ -578,12 +546,12 @@ class OAuthServer {
     private function get_consumer(&$request) { 
         $consumer_key = @$request->get_parameter("oauth_consumer_key"); 
         if (!$consumer_key) { 
-            throw new OAuthException("Invalid consumer key"); 
+            throw new MBOAuthExcep("Invalid consumer key"); 
         } 
 
         $consumer = $this->data_store->lookup_consumer($consumer_key); 
         if (!$consumer) { 
-            throw new OAuthException("Invalid consumer"); 
+            throw new MBOAuthExcep("Invalid consumer"); 
         } 
 
         return $consumer; 
@@ -598,7 +566,7 @@ class OAuthServer {
             $consumer, $token_type, $token_field 
         ); 
         if (!$token) { 
-            throw new OAuthException("Invalid $token_type token: $token_field"); 
+            throw new MBOAuthExcep("Invalid $token_type token: $token_field"); 
         } 
         return $token; 
     } 
@@ -626,7 +594,7 @@ class OAuthServer {
         ); 
 
         if (!$valid_sig) { 
-            throw new OAuthException("Invalid signature"); 
+            throw new MBOAuthExcep("Invalid signature"); 
         } 
     } 
 
@@ -637,7 +605,7 @@ class OAuthServer {
         // verify that timestamp is recentish 
         $now = time(); 
         if ($now - $timestamp > $this->timestamp_threshold) { 
-            throw new OAuthException( 
+            throw new MBOAuthExcep( 
                 "Expired timestamp, yours $timestamp, ours $now" 
             ); 
         } 
@@ -655,7 +623,7 @@ class OAuthServer {
             $timestamp 
         ); 
         if ($found) { 
-            throw new OAuthException("Nonce already used: $nonce"); 
+            throw new MBOAuthExcep("Nonce already used: $nonce"); 
         } 
     } 
 
@@ -689,6 +657,12 @@ class OAuthDataStore {
     } 
 
 } 
+class OAuthDataApi extends OAuthDataStore
+{
+  
+}
+
+
 
 /** 
  * @ignore 
@@ -786,13 +760,11 @@ class OAuthUtil {
             if (isset($parsed_parameters[$parameter])) { 
                 // We have already recieved parameter(s) with this name, so add to the list 
                 // of parameters with this name 
-
                 if (is_scalar($parsed_parameters[$parameter])) { 
                     // This is the first duplicate, so transform scalar (string) into an array 
                     // so we can add the duplicates 
                     $parsed_parameters[$parameter] = array($parsed_parameters[$parameter]); 
                 } 
-
                 $parsed_parameters[$parameter][] = $value; 
             } else { 
                 $parsed_parameters[$parameter] = $value; 
@@ -826,36 +798,38 @@ class OAuthUtil {
 		$multipartbody = '';
 
         foreach ($params as $parameter => $value) { 
-            
-        if( $parameter == 'pic' && $value{0} == '@' )
-        {
-        	$url = ltrim( $value , '@' );
-        	$content = file_get_contents( $url );
-        	$filename = reset( explode( '?' , basename( $url ) ));
-        	$mime = self::get_image_mime($url); 
-        	
-        	$multipartbody .= $MPboundary . "\r\n";
-			$multipartbody .= 'Content-Disposition: form-data; name="pic"; filename="' . $filename . '"'. "\r\n";
-			$multipartbody .= 'Content-Type: '. $mime . "\r\n\r\n";
-			$multipartbody .= $content. "\r\n";
-        }
-        else
-        {
-        	$multipartbody .= $MPboundary . "\r\n";
-			$multipartbody .= 'content-disposition: form-data; name="'.$parameter."\"\r\n\r\n";
-			$multipartbody .= $value."\r\n";
-			
-        }    
-            
-            
-           
-             
+			//if( $parameter == 'pic' && $value{0} == '@' )
+			if( in_array($parameter,array("pic","image")) )
+			{
+				/*
+				$tmp = 'E:\qweibo_proj\trunk\1.txt';
+				$url = ltrim($tmp,'@');
+				$content = file_get_contents( $url );
+				$filename = reset( explode( '?' , basename( $url ) ));
+				$mime = self::get_image_mime($url); 
+				*/
+				//$url = ltrim( $value , '@' );
+				$content = $value[2];//file_get_contents( $url );
+				$filename = $value[1];//reset( explode( '?' , basename( $url ) ));
+				$mime = $value[0];//self::get_image_mime($url); 
+				
+				$multipartbody .= $MPboundary . "\r\n";
+				$multipartbody .= 'Content-Disposition: form-data; name="' . $parameter . '"; filename="' . $filename . '"'. "\r\n";
+				$multipartbody .= 'Content-Type: '. $mime . "\r\n\r\n";
+				$multipartbody .= $content. "\r\n";
+			}
+			else
+			{
+				$multipartbody .= $MPboundary . "\r\n";
+				$multipartbody .= 'Content-Disposition: form-data; name="'.$parameter."\"\r\n\r\n";
+				$multipartbody .= $value."\r\n";
+				
+			}    
         } 
         
-        $multipartbody .=  $endMPboundary;
+        $multipartbody .=  "$endMPboundary\r\n";
         // For each parameter, the name is separated from the corresponding value by an '=' character (ASCII code 61) 
         // Each name-value pair is separated by an '&' character (ASCII code 38) 
-        // echo $multipartbody;
         return $multipartbody; 
     } 
 
@@ -911,352 +885,4 @@ class OAuthUtil {
     	return $mime;
     }
 } 
-
-
-
-/** 
- * 新浪微博 OAuth 认证类 
- * 
- * @package sae 
- * @author Easy Chen 
- * @version 1.0 
- */ 
-abstract class OAuth { 
-    /** 
-     * Contains the last HTTP status code returned.  
-     * 
-     * @ignore 
-     */ 
-    public $http_code; 
-    /** 
-     * Contains the last API call. 
-     * 
-     * @ignore 
-     */ 
-    public $url; 
-    /** 
-     * Set up the API root URL. 
-     * 
-     * @ignore 
-     */ 
-    public $host = ""; //"http://api.t.sina.com.cn/"; 
-    /** 
-     * Set timeout default. 
-     * 
-     * @ignore 
-     */ 
-    public $timeout = 30; 
-    /**  
-     * Set connect timeout. 
-     * 
-     * @ignore 
-     */ 
-    public $connecttimeout = 30;  
-    /** 
-     * Verify SSL Cert. 
-     * 
-     * @ignore 
-     */ 
-    public $ssl_verifypeer = FALSE; 
-    /** 
-     * Respons format. 
-     * 
-     * @ignore 
-     */ 
-    public $format = 'json'; 
-    /** 
-     * Decode returned json data. 
-     * 
-     * @ignore 
-     */ 
-    public $decode_json = TRUE; 
-    /** 
-     * Contains the last HTTP headers returned. 
-     * 
-     * @ignore 
-     */ 
-    public $http_info; 
-    /** 
-     * Set the useragnet. 
-     * 
-     * @ignore 
-     */ 
-    public $useragent = 'Sae T OAuth v0.2.0-beta2'; 
-    /* Immediately retry the API call if the response was not successful. */ 
-    //public $retry = TRUE; 
-    
-
-
-
-    /** 
-     * Set API URLS 
-     */ 
-    /** 
-     * @ignore 
-     */ 
-    function accessTokenURL()  { return $this->host.'oauth/access_token'; } 
-    /** 
-     * @ignore 
-     */ 
-    function authenticateURL() { return $this->host.'oauth/authenticate'; } 
-    /** 
-     * @ignore 
-     */ 
-    function authorizeURL()    { return $this->host.'oauth/authorize'; } 
-    /** 
-     * @ignore 
-     */ 
-    function requestTokenURL() { return $this->host.'oauth/request_token'; } 
-
-
-    /** 
-     * Debug helpers 
-     */ 
-    /** 
-     * @ignore 
-     */ 
-    function lastStatusCode() { return $this->http_status; } 
-    /** 
-     * @ignore 
-     */ 
-    function lastAPICall() { return $this->last_api_call; } 
-
-    /** 
-     * construct WeiboOAuth object 继承类必须实现以下的构造函数
-	 
-     */ 
-    /*function __construct($consumer_key, $consumer_secret, $oauth_token = NULL, $oauth_token_secret = NULL) { 
-        $this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1(); 
-        $this->consumer = new OAuthConsumer($consumer_key, $consumer_secret); 
-        if (!empty($oauth_token) && !empty($oauth_token_secret)) { 
-            $this->token = new OAuthConsumer($oauth_token, $oauth_token_secret); 
-        } else { 
-            $this->token = NULL; 
-        } 
-    } */
-
-
-    /** 
-     * Get a request_token from Weibo 
-     * 
-     * @return array a key/value array containing oauth_token and oauth_token_secret 
-     */ 
-    function getRequestToken($oauth_callback = NULL) { 
-        $parameters = array(); 
-        if (!empty($oauth_callback)) { 
-            $parameters['oauth_callback'] = $oauth_callback; 
-        }  
-
-        $request = $this->oAuthRequest($this->requestTokenURL(), 'GET', $parameters); 
-        $token = OAuthUtil::parse_parameters($request); 
-        $this->token = new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']); 
-        return $token; 
-    } 
-
-    /** 
-     * Get the authorize URL 
-     * 
-     * @return string 
-     */ 
-    function getAuthorizeURL($token, $sign_in_with_Weibo = TRUE , $url) { 
-        if (is_array($token)) { 
-            $token = $token['oauth_token']; 
-        } 
-        if (empty($sign_in_with_Weibo)) { 
-            return $this->authorizeURL() . "?oauth_token={$token}&oauth_callback=" . urlencode($url); 
-        } else { 
-            return $this->authenticateURL() . "?oauth_token={$token}&oauth_callback=". urlencode($url); 
-        } 
-    } 
-
-    /** 
-     * Exchange the request token and secret for an access token and 
-     * secret, to sign API calls. 
-     * 
-     * @return array array("oauth_token" => the access token, 
-     *                "oauth_token_secret" => the access secret) 
-     */ 
-    function getAccessToken($oauth_verifier = FALSE, $oauth_token = false) { 
-        $parameters = array(); 
-        if (!empty($oauth_verifier)) { 
-            $parameters['oauth_verifier'] = $oauth_verifier; 
-        } 
-
-
-        $request = $this->oAuthRequest($this->accessTokenURL(), 'GET', $parameters); 
-        $token = OAuthUtil::parse_parameters($request); 
-        $this->token = new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']); 
-        return $token; 
-    } 
-
-    /** 
-     * GET wrappwer for oAuthRequest. 
-     * 
-     * @return mixed 
-     */ 
-    function get($url, $parameters = array()) { 
-        $response = $this->oAuthRequest($url, 'GET', $parameters); 
-        if ($this->format === 'json' && $this->decode_json) { 
-            return json_decode($response, true); 
-        } 
-        return $response; 
-    } 
-
-    /** 
-     * POST wreapper for oAuthRequest. 
-     * 
-     * @return mixed 
-     */ 
-    function post($url, $parameters = array() , $multi = false) { 
-        
-        $response = $this->oAuthRequest($url, 'POST', $parameters , $multi ); 
-        if ($this->format === 'json' && $this->decode_json) { 
-            return json_decode($response, true); 
-        } 
-        return $response; 
-    } 
-
-    /** 
-     * DELTE wrapper for oAuthReqeust. 
-     * 
-     * @return mixed 
-     */ 
-    function delete($url, $parameters = array()) { 
-        $response = $this->oAuthRequest($url, 'DELETE', $parameters); 
-        if ($this->format === 'json' && $this->decode_json) { 
-            return json_decode($response, true); 
-        } 
-        return $response; 
-    } 
-
-    /** 
-     * Format and sign an OAuth / API request 
-     * 
-     * @return string 
-     */ 
-    function oAuthRequest($url, $method, $parameters , $multi = false) { 
-
-        if (strrpos($url, 'http://') !== 0 && strrpos($url, 'http://') !== 0) { 
-            $url = "{$this->host}{$url}.{$this->format}"; 
-        } 
-
-        // echo $url ; 
-        $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters); 
-        $request->sign_request($this->sha1_method, $this->consumer, $this->token); 
-        switch ($method) { 
-        case 'GET': 
-            //echo $request->to_url(); 
-            return $this->http($request->to_url(), 'GET'); 
-        default: 
-            return $this->http($request->get_normalized_http_url(), $method, $request->to_postdata($multi) , $multi ); 
-        } 
-    } 
-
-	/**
-	 * Make an HTTP request
-	 *
-	 * @return string API results
-	 */
-	function http($url, $method, $postfields = NULL , $multi = false) {
-		$this->http_info = array();
-		$ci = curl_init();
-		/* Curl settings */
-		curl_setopt($ci, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
-		curl_setopt($ci, CURLOPT_USERAGENT, $this->useragent);
-		curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, $this->connecttimeout);
-		curl_setopt($ci, CURLOPT_TIMEOUT, $this->timeout);
-		curl_setopt($ci, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ci, CURLOPT_ENCODING, "");
-		curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, $this->ssl_verifypeer);
-		curl_setopt($ci, CURLOPT_HEADERFUNCTION, array($this, 'getHeader'));
-		curl_setopt($ci, CURLOPT_HEADER, FALSE);
-
-		switch ($method) {
-		case 'POST':
-			curl_setopt($ci, CURLOPT_POST, TRUE);
-			if (!empty($postfields)) {
-				curl_setopt($ci, CURLOPT_POSTFIELDS, $postfields);
-				//echo "=====post data======\r\n";
-				//echo $postfields;
-			}
-			break;
-		case 'DELETE':
-			curl_setopt($ci, CURLOPT_CUSTOMREQUEST, 'DELETE');
-			if (!empty($postfields)) {
-				$url = "{$url}?{$postfields}";
-			}
-		}
-
-		$header_array2=array();
-		if( $multi )
-			$header_array2 = array("Content-Type: multipart/form-data; boundary=" . OAuthUtil::$boundary , "SaeRemoteIP: " . $_SERVER['REMOTE_ADDR'] , "Expect: ");
-
-		if ( defined( 'SAE_FETCHURL_SERVICE_ADDRESS' ) ) {
-
-			$header_array = array();
-
-			$header_array["FetchUrl"] = $url;
-			$header_array['TimeStamp'] = date('Y-m-d H:i:s');
-			$header_array['AccessKey'] = SAE_ACCESSKEY;
-
-			$content="FetchUrl";
-
-			$content.=$header_array["FetchUrl"];
-
-			$content.="TimeStamp";
-
-			$content.=$header_array['TimeStamp'];
-
-			$content.="AccessKey";
-
-			$content.=$header_array['AccessKey'];
-
-			$header_array['Signature'] = base64_encode(hash_hmac('sha256',$content, SAE_SECRETKEY ,true));
-
-			curl_setopt($ci, CURLOPT_URL, SAE_FETCHURL_SERVICE_ADDRESS );
-
-			//print_r( $header_array );
-			foreach($header_array as $k => $v)
-				array_push($header_array2,$k.': '.$v);
-		} else {
-			curl_setopt($ci, CURLOPT_URL, $url );
-		}
-
-		curl_setopt($ci, CURLOPT_HTTPHEADER, $header_array2 );
-		curl_setopt($ci, CURLINFO_HEADER_OUT, TRUE );
-
-		//echo $url."<hr/>";
-
-		//curl_setopt($ci, CURLOPT_URL, $url);
-
-		$response = curl_exec($ci);
-		$this->http_code = curl_getinfo($ci, CURLINFO_HTTP_CODE);
-		$this->http_info = array_merge($this->http_info, curl_getinfo($ci));
-		$this->url = $url;
-
-		//echo '=====info====='."\r\n";
-		//print_r( curl_getinfo($ci) );
-
-		//echo '=====$response====='."\r\n";
-		//print_r( $response );
-
-		curl_close ($ci);
-		return $response;
-	}
-
-    /** 
-     * Get the header info to store. 
-     * 
-     * @return int 
-     */ 
-    function getHeader($ch, $header) { 
-        $i = strpos($header, ':'); 
-        if (!empty($i)) { 
-            $key = str_replace('-', '_', strtolower(substr($header, 0, $i))); 
-            $value = trim(substr($header, $i + 2)); 
-            $this->http_header[$key] = $value; 
-        } 
-        return strlen($header); 
-    } 
-} 
-
+?>

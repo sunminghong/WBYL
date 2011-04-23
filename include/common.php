@@ -24,8 +24,7 @@ header('Content-Type: text/html; charset='.DEFAULT_CHARTSET);
 
 ///include ROOT.'./include/db_mysql.class.php';
 
-//初始化模版对象
-
+$accounts=envhelper::readAccounts();
 
 $uid=0;
 $username='';
@@ -47,6 +46,7 @@ $yymmdd=date("ymd");
 //$view->assign('charset', DEFAULT_CHARTSET);
 
 function LetGo(){
+	global $accounts;
 	$app=empty($_GET['app'])?'home':$_GET['app'];
 	$act=empty($_GET['act'])?'home':$_GET['act'];
 	$op=empty($_GET['op'])?'index':$_GET['op'];
@@ -62,8 +62,6 @@ function LetGo(){
 	//$cont->assign('username',$username);
 	//$cont->assign('nickname',$nickname);
 
-	$accounts=envhelper::readToken();
-	//print_r($accounts);
 	$cont->assign("accounts",$accounts);
 	$cont->$op();	
 }

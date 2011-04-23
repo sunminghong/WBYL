@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我在暗恋你</title>
+<link rel="shortcut icon" href="http://mat1.gtimg.com/www/mb/favicon.ico"/> 
+<link href="image/public.css" rel="stylesheet" type="text/css" />
+<link href="image/secretlove/css.css" rel="stylesheet" type="text/css" />
+<script src="image/jquery.min.js"></script>
+<script src="image/public.js"></script>
+<script src="image/secretlove/js.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="image/secretlove/pngfix.js"></script>
+<style type="text/css">.pngfix{behavior: url("image/secretlove/iepngfix.htc");}</style>
+<![endif]-->
+</head>
+<body>
+<div class="task" style="display:none"></div>
+
+<div id="logo" class="pngfix"></div>
+<div id="content" class="tips-box" style="height:355px; overflow:hidden">
+
+	<div class="ok pngfix">
+    	<div class="okname"></div>
+    	<div class="checkbox">
+        	<input name="okzb" id="okzb" type="checkbox" value="1" checked="checked" />转播到我的微博 <br/>
+            <input name="okst" id="okst" type="checkbox" value="1" checked="checked" />收听官方微博 <br/>
+        </div>
+        <img src="image/secretlove/sure.gif" id="oksure" />
+    </div>
+    
+	<div class="info tips-box">
+   	  <img class="myhead" src="<?php echo $myinfo['data']['head']?>/100" />
+	  <div class="intr">
+        <p class="p"><a target="_blank" href="http://t.qq.com/<?php echo $myinfo['data']['name']?>"><?php echo $myinfo['data']['nick']?>(@<?php echo $myinfo['data']['name']?>)</a>，如果你暗恋某个人，可以在这里悄悄告诉我，如果你暗恋的人正好暗恋你，系统就会发私信告诉你们俩啦~</p>
+        <p class="p" style="margin-top:10px;">发布暗恋信息是不会公开的，请放心使用，祝有缘人幸福！</p>
+        </div>
+  </div>    
+    <div class="inputdiv clear pngfix">
+        <input name="toname" type="text" class="input first tips-box" id="toname" value="直接输入好友的账号或点选好友" maxlength="50"/> <a href="###" id="cfbut"><img id="submit" src="image/secretlove/cf.jpg" /></a>        
+      <div class="button"><a href="javascript:;" id="submita" onclick="submit()">发布暗恋信息</a></div>
+    </div>    
+	<div class="zhuanbo">
+    	<textarea name="zhuanbocontent" id="zhuanbocontent">/害羞 嘿，我在暗恋你，会不会刚好你也恋着我？#我在暗恋你# 你们也来试试吧？<?php echo str_replace('index.php','',$indexUrl).'?fn=secretlove'?></textarea>
+        <div id="txWB_W1"></div> <a href="javascript:;" onclick="post()"><img src="image/secretlove/b32.png" id="zhuanbobtn" /></a>
+    </div>
+</div>
+<script type="text/javascript">var tencent_wb_name = "bystory";var tencent_wb_sign = "72579d0b273955134abca40950299f1491ac8d8a";var tencent_wb_style = "2";</script><script type="text/javascript" src="http://v.t.qq.com/follow/widget.js" charset="utf-8"/></script>
+
+<div style="display:none"><script src="http://s20.cnzz.com/stat.php?id=3027510&web_id=3027510" language="JavaScript"></script></div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <?php
-include_once("redChess_chess_Abstract_class.php");
+include_once("redchess_chess_abstract_class.php");
 class redChess_chess_tsina extends redChess_chess_Abstract{
 	
 	function __construct($uid,$lfromuid){
