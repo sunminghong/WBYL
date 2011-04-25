@@ -7,9 +7,11 @@ class account extends ctl_base
 		$this->display("home_index");
 	}
 
+	
+
 	function tologin(){		
 		$lfrom=rq("lfrom","tsina");
-		$callbackurl=URLBASE.'?act=account&op=callback&lfrom=tsina';
+		$callbackurl=URLBASE.'?act=account&op=callback&lfrom=tsina&fromurl='.urlencode($_SERVER["HTTP_REFERER"]);
 		
 		$api="openapi_".$lfrom;
 		importlib($api);
@@ -20,6 +22,7 @@ class account extends ctl_base
 	
 	function callback(){
 		$lfrom=rq("lfrom","tsina");
+		$tourl=rq("fromurl","");
 		
 		$api="openapi_".$lfrom;
 		importlib($api);
@@ -33,20 +36,46 @@ class account extends ctl_base
 		}else{
 			$ppt=new ppt();
 			$uid=$ppt->login($uidarr);
-					
-			$userinfo=array(
+
+			/*$userinfo=array(
 				"lfrom"=>$lfrom,
 				"lfromuid"=>$uidarr['lfromuid'],
 				"name"=>$uidarr["name"],
 				"uid"=>$uid
-			);
-			envhelper::saveAccounts(envhelper::packKUID($lfrom,$userinfo['lfromuid']),$userinfo);			
-			
-			$tourl="?app=home&act=my";
+			);*/
+
+			$uidarr['uid']=$uid;
+			envhelper::saveAccounts(envhelper::packKUID($lfrom,$uidarr['lfromuid']),$uidarr);			
+			if(!$tourl)
+			$tourl="?act=my";
 			header("Location: $tourl");
 		}
 	}
+
+	function logout(){
+		
+		$account=getAccount();
+		if(is_array($account) && isset($account["lfrom"]) && isset($account['lfromuid']))
+		{
+			$lfrom=$account["lfrom"];
+			$kuid=envhelper::packKUID($lfrom,$account['lfromuid']);
+			
+			$api="openapi_".$lfrom;
+			importlib($api);
+			$api=new $api(); 
+
+			$client=$api->getClient($kuid);	
+			$client->end_session();
+		}
+		
+		envhelper::clearAccounts();
 	
+		$tourl=$_SERVER["HTTP_REFERER"];
+		if(!$tourl)
+			$tourl="index.php";
+		
+		header("Location: $tourl");
+	}
 }	
 
 ?>

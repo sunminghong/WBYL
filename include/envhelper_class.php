@@ -17,7 +17,10 @@ class envhelper{
 		else
 			return $uid;
 	}
-		
+	
+	static public function clearAccounts(){
+		ssetcookie('sess',"");
+	}
 	static public function saveAccounts($uid,$userinfo){
 		$json=sreadcookie('sess');
 		if(!$json) $session=array();
@@ -57,4 +60,24 @@ class envhelper{
 		return $session[$uid];
 	}
 
+	//读取推荐数据
+	static public function readRet(){
+		$retuid=rq("retuid","0");
+		if($retuid!=0)
+			ssetcookie('retuid',$retuid,3600*24*3);
+		else
+			sreadcookie('retuid');
+
+		$retapp=rq("retapp","");
+		if($retapp!="")
+			ssetcookie('retapp',$retapp,3600*24*3);
+		else
+			sreadcookie('retapp');
+
+		$ret=array(
+			'retuid'=>$retuid,
+			'retapp'=>$retapp
+			);
+		return $ret;
+	}
 }

@@ -1,0 +1,136 @@
+
+body
+{
+	background-color:#ceeff6;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+img {border:none;}
+
+.mainFrame
+{
+	width:800px;
+	margin:0px auto 20px auto;
+}
+
+.logo
+{
+	width:320px;
+	margin:10px 0px 0px 50px;
+}
+
+.login
+{
+	float:right;
+	width:300px;
+	margin:45px 0px 0px 0px;
+}
+
+.userProfile
+{
+	float:right;
+	width:400px;
+	margin:45px 0px 0px 0px;
+	color:#696a62;
+}
+
+.userProfile-image
+{
+	float:right;
+}
+
+.userProfile-image img
+{
+	border:1px solid #ffffff;
+}
+
+.userProfile-info
+{
+	float:right;
+	margin:0px 0px 0px 10px;
+}
+
+.contentFrame
+{
+	border:1px solid #72cade;
+	padding:30px;
+	margin:10px 0px 0px 0px;
+	/*background-color:#FFF;*/
+}
+
+.welcomeDiv1
+{
+	margin:10px 0px 0px 0px;
+}
+
+.welcomeDiv2
+{
+	margin:10px 0px 30px 0px;
+}
+
+.welcomeDiv2 a,.welcomeDiv2 a:visited
+{
+	color:#1c94c4;text-decoration:none;
+}
+
+.welcomeDiv2 a:hover
+{
+	color:#1c94c4;text-decoration:underline;/*696a62*/
+}
+
+.tabs-div1
+{
+	margin:10px 0px 0px 170px;
+}
+
+.tabs-div2
+{
+	margin:0px 0px 0px 195px; display:none;
+}
+
+.tabs-div3
+{
+	margin:10px 0px 0px 55px; display:none;
+}
+
+.tabs-div4
+{
+	margin:15px 0px 0px 290px;
+}
+
+.tabs-text1
+{
+	width:80px; text-align:center;
+}
+
+.tabs-text2
+{
+	width:20px; text-align:center;
+}
+
+.div_login{
+	text-align:center;
+	margin:30px 0px 0px 0px;
+}
+.bottom
+{
+	text-align:center;
+	margin:30px 0px 0px 0px;
+	font-size:12px;
+	color:#8f9f9e;
+}
+
+.bottom div
+{
+	margin:5px 0px 0px 0px;
+}
+
+.bottom a,.bottom a:visited
+{
+	color:#2870a2;text-decoration:none;
+}
+
+.bottom a:hover
+{
+	color:#2870a2;text-decoration:underline;
+}

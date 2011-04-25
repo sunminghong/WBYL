@@ -1,0 +1,322 @@
+{template header}
+
+<style type="text/css">
+
+BODY {FONT-FAMILY: "宋体"; FONT-SIZE: 9pt; color: #0076ae; background:url({$templatepath}/iq_images/bg1.jpg) top center repeat-y;}
+td {font-family: "宋体"; font-size: 9pt; color: #0076ae;}
+a:link {color:#000066;text-decoration: none}
+a:visited {color:#000066;text-decoration: none}
+a:hover {color:#0066ff;text-decoration: underline;}
+P {FONT-FAMILY: "宋体"; FONT-SIZE: 9pt; color: #0076ae;}
+
+</style>
+</head>
+
+<body text="#0076AE">
+
+<script language="JavaScript">     
+function calculate(){     
+var storea=0;
+if(K.q1[1].checked){storea+=1;}     
+if(K.q2[2].checked){storea+=1;}     
+if(K.q3[4].checked){storea+=1;}     
+if(K.q4[1].checked){storea+=1;}     
+if(K.q5[2].checked){storea+=1;}     
+if(K.T6.value=="26"){storea+=2;}     
+if(K.q7[0].checked){storea+=1;}     
+if(K.q8[0].checked){storea+=1;}     
+if(K.q9[2].checked){storea+=1;}     
+if(K.q10[2].checked){storea+=1;}     
+if(K.T11.value=="9"){storea+=1;}     
+if(K.q12[3].checked){storea+=1;}     
+if(K.q13[2].checked){storea+=1;}     
+if(K.T14.value=="6"){storea+=1;}     
+if(K.q15[2].checked){storea+=1;}     
+if(K.q16[2].checked){storea+=1;}     
+if(K.T17.value=="36"){storea+=1;}     
+if(K.q18[1].checked){storea+=1;}     
+if(K.q19[0].checked){storea+=1;}     
+if(K.T20.value=="美国"){storea+=2;}     
+if(K.q21[3].checked){storea+=2;}     
+if(K.T22.value=="64"){storea+=2;}     
+if(K.T23.value=="科学"){storea+=2;}     
+if(K.T24.value=="式"){storea+=1;}     
+if(K.T25.value=="X"||K.T25.value=="x"){storea+=1;}     
+if(K.T26.value=="75"){storea+=1;}     
+if(K.q27[4].checked){storea+=1;}     
+if(K.T28.value=="奠"){storea+=1;}     
+if(K.T29.value=="颠"){storea+=1;}     
+if(K.T30.value=="5"){storea+=1;}     
+if(K.T31.value=="36"){storea+=2;}     
+if(K.q32[2].checked){storea+=2;}     
+if(K.T33.value=="O"||K.T33.value=="o"){storea+=1;}     
+var iqvalue=0;     
+if(storea=="1"){iqvalue=20;}     
+if(storea=="2"){iqvalue=30;}     
+if(storea=="3"){iqvalue=40;}     
+if(storea=="4"){iqvalue=50;}     
+if(storea=="5"){iqvalue=60;}     
+if(storea=="6"){iqvalue=65;}     
+if(storea=="7"){iqvalue=65;}     
+if(storea=="8"){iqvalue=67;}     
+if(storea=="9"){iqvalue=67;}     
+if(storea=="10"){iqvalue=68;}     
+if(storea=="11"){iqvalue=70;}     
+if(storea=="12"){iqvalue=72;}     
+if(storea=="13"){iqvalue=74;}     
+if(storea=="14"){iqvalue=75;}     
+if(storea=="15"){iqvalue=80;}     
+if(storea=="16"){iqvalue=83;}     
+if(storea=="17"){iqvalue=85;}     
+if(storea=="18"){iqvalue=88;}     
+if(storea=="19"){iqvalue=89;}     
+if(storea=="20"){iqvalue=90;}     
+if(storea=="21"){iqvalue=93;}     
+if(storea=="22"){iqvalue=95;}     
+if(storea=="23"){iqvalue=100;}     
+if(storea=="24"){iqvalue=105;}     
+if(storea=="25"){iqvalue=108;}     
+if(storea=="26"){iqvalue=110;}     
+if(storea=="27"){iqvalue=111;}     
+if(storea=="28"){iqvalue=114;}     
+if(storea=="29"){iqvalue=115;}     
+if(storea=="30"){iqvalue=120;}     
+if(storea=="31"){iqvalue=122;}     
+if(storea=="32"){iqvalue=125;}     
+if(storea=="33"){iqvalue=127;}     
+if(storea=="34"){iqvalue=128;}     
+if(storea=="35"){iqvalue=130;}     
+if(storea=="36"){iqvalue=135;}     
+if(storea=="37"){iqvalue=140;}     
+if(storea=="38"){iqvalue=143;}     
+if(storea=="39"){iqvalue=145;}     
+if(storea=="40"){iqvalue=150;}     
+var i=document.clock.face.value;     
+return confirm("谢谢你参加智商测试!\n\n"+     
+"你的智商为:"+iqvalue+"\n\n"+     
+"您所用的时间：" +i+"\n"+     
+"===================================\n70-    --弱智\n"+     
+"70-89  --智力低下\n"+     
+"90-99  --智力中等\n"+     
+"100-109--智力中上\n"+     
+"110-119--智力优秀\n"+     
+"120-129--智力非常优秀\n"+     
+"130-139--智力非常非常优秀\n"+     
+"140+   --天才");     
+return flash     
+}     
+     
+var timerID = null;     
+var timerRunning=false;     
+startday=new Date();     
+clockStart=startday.getTime();     
+     
+function initStopwatch() {     
+var myTime = new Date();     
+return((myTime.getTime() - clockStart)/1000)}     
+     
+function stopclock (){     
+if(timerRunning)     
+clearTimeout(timerID);     
+timerRunning = false;     
+}     
+     
+function showtime () {     
+var tSecs = Math.round(initStopwatch());     
+var iSecs = tSecs % 60;     
+var iMins = Math.round((tSecs-30)/60);     
+var sSecs ="" + ((iSecs > 9) ? iSecs :"0" + iSecs);     
+var sMins ="" + ((iMins > 9) ? iMins :"0" + iMins);     
+document.clock.face.value = sMins+":"+sSecs;     
+timerID = setTimeout("showtime()",1000);     
+timerRunning = true;     
+}     
+     
+function startclock () {     
+// Make sure the clock is stopped     
+stopclock();     
+startday = new Date();     
+clockStart = startday.getTime();     
+showtime();     
+}     
+//end hide-->     
+</script>
+<center>
+<p style="line-height: 100%; margin-top: 9; margin-bottom: 13"><br>
+</p>
+<table style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" width="750" border="0" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" bgcolor="#FFFFFF">
+	<tr>
+		<td height="10" bgcolor="#C9E99B"><center><br>
+		<form name="clock" onsubmit="0">
+			<p><b><font color="#000000">这是国内较权威的IQ测试，欢迎参加，请在30分钟内完成（33题）：</font></b><font color="#000000"><input name="face" size="5" value=" ">
+			<input name="B1" onclick="startclock()" type="button" value="重新计时"></font></p>
+		</form>
+		</center>
+		<div>
+		</div>
+		</form>
+		<div align="center">
+			<center>
+			<table border="0" cellpadding="0" cellspacing="0" width="580">
+				<tr>
+					<td width="560">
+					<form id="K">
+						<p><font color="#000000">1.选出不同类的一项:<small><input name="q1" type="radio" value="V1"></small>A.蛇 
+						<small><input name="q1" type="radio" value="V2"></small>B.大树 
+						<small><input name="q1" type="radio" value="V3"></small>C.老虎</font></p>
+						<p><font color="#000000">2.在下列分数中,选出不同类的一项:<small><input name="q2" type="radio" value="V1">
+						</small>A.3/5 <small>
+						<input name="q2" type="radio" value="V2"> </small>B.3/7<small>
+						<input name="q2" type="radio" value="V3"> </small>C.3/9</font></p>
+						<p><font color="#000000">3.男孩对男子,正如女孩对______.</font></p>
+						<p><font color="#000000"><small>
+						<input name="q3" type="radio" value="V1"></small>A.青年<small>　 
+						<input name="q3" type="radio" value="V2"></small>B.孩子<small>　　<input name="q3" type="radio" value="V3"></small>C.夫人　<small><input name="q3" type="radio" value="V4"></small>D.姑娘<small>　<input name="q3" type="radio" value="V5"></small>E.妇女</font></p>
+						<p><font color="#000000">4.如果笔相对于写字,那么书相对于______.</font></p>
+						<p><font color="#000000"><small>
+						<input name="q4" type="radio" value="V1"></small>A.娱乐　<small><input name="q4" type="radio" value="V2"></small>B.阅读 
+						　<small><input name="q4" type="radio" value="V3"></small>C.学文化 
+						　<small><input name="q4" type="radio" value="V4"></small>D.解除疲劳</font></p>
+						<p><font color="#000000">5. 马之于马厩,正如人之于______.</font></p>
+						<p><font color="#000000">
+						<input name="q5" type="radio" value="V1">A.牛棚 
+						<input name="q5" type="radio" value="V2">B.马车 
+						<input name="q5" type="radio" value="V3">C.房屋 
+						<input name="q5" type="radio" value="V4">D.农场 
+						<input name="q5" type="radio" value="V5">E.楼房</font></p>
+						<p><font color="#000000">6. &quot;2 8 14 20 ___&quot; 请写出 &quot;___&quot;处的数字<input name="T6" size="4"></font></p>
+						<p><font color="#000000">7. 如果下列四个词可以组成一个正确的句子,就选是,否则选否.</font></p>
+						<p><font color="#000000">　 生活 水里 鱼 在　 
+						<input name="q7" type="radio" value="V1">A 是　<input name="q7" type="radio" value="V2">否</font></p>
+						<p><font color="#000000">8. 如果下列六个词可以组成一个正确的句子,就选正确,否则选错误</font></p>
+						<p><font color="#000000">　 球棒 的 用来 是 棒球 打　<input name="q8" type="radio" value="V1">A 
+						是　<input name="q8" type="radio" value="V2">否</font></p>
+						<p><font color="#000000">9. 动物学家与社会学家对应,正如动物与_____相对</font></p>
+						<p><font color="#000000">
+						<input name="q9" type="radio" value="V1">A.人类　<input name="q9" type="radio" value="V2">B.问题 
+						<input name="q9" type="radio" value="V3">C.社会 
+						<input name="q9" type="radio" value="V4">D.社会学</font></p>
+						<p><font color="#000000">10.如果所有的妇女都有大衣,那么漂亮的妇女会有:</font></p>
+						<p><font color="#000000">
+						<input name="q10" type="radio" value="V1">A.给多的大衣 
+						<input name="q10" type="radio" value="V2">B.时髦的大衣 
+						<input name="q10" type="radio" value="V3">C.大衣 
+						<input name="q10" type="radio" value="V4">D.昂贵的大衣</font></p>
+						<p><font color="#000000">11. &quot;1 3 2 4 6 5 7 ___&quot; 请写出&quot;____&quot;处的数字<input name="T11" size="4"></font></p>
+						<p><font color="#000000">12.南之于西北,正如西之于： 
+						<input name="q12" type="radio" value="V1"> A.西北 
+						<input name="q12" type="radio" value="V2">B.东北 
+						<input name="q12" type="radio" value="V3">C.西南 
+						<input name="q12" type="radio" value="V4">D.东南</font></p>
+						<p><font color="#000000">13.找出不同类的一项:<input name="q13" type="radio" value="V1">A.铁锅 
+						<input name="q13" type="radio" value="V2">B.小勺 
+						<input name="q13" type="radio" value="V3">C.米饭 
+						<input name="q13" type="radio" value="V4">D.碟子</font></p>
+						<p><font color="#000000">14. &quot;9 7 8 6 7 5 ___&quot; 请写出&quot;___&quot;处的数字<input name="T14" size="4"></font></p>
+						<p><font color="#000000">15.找出不同类的一项:<input name="q15" type="radio" value="V1">A写字台 
+						<input name="q15" type="radio" value="V2">B.沙发 
+						<input name="q15" type="radio" value="V3">C.电视 
+						<input name="q15" type="radio" value="V4">D.桌布</font></p>
+						<p><font color="#000000">16.右面的图中紧接的图形应是下面哪个:<img border="0" height="50" src="{$templatepath}/iq_images/Iq16a-1.gif" width="150"></font></p>
+						<div align="left">
+							<table border="0" cellpadding="0" cellspacing="0" width="202">
+								<tr>
+									<td colspan="4" width="202">
+									<font color="#000000">
+									<img border="0" height="50" src="{$templatepath}/iq_images/iq16b-1.gif" width="200"></font></td>
+								</tr>
+								<tr>
+									<td width="50"><font color="#000000">
+									<input name="q16" type="radio" value="V1">A</font></td>
+									<td width="79"><font color="#000000">
+									<input name="q16" type="radio" value="V2">B</font></td>
+									<td width="37"><font color="#000000">
+									<input name="q16" type="radio" value="V3">C</font></td>
+									<td width="36"><font color="#000000">
+									<input name="q16" type="radio" value="V4">D</font></td>
+								</tr>
+							</table>
+						</div>
+						<p><font color="#000000">17. 961 (25) 432</font></p>
+						<p><font color="#000000">　　　932 (___) 731 请写出&quot;___&quot;处的数字<input name="T17" size="4"></font></p>
+						<p><font color="#000000">18.选项A.B.C.D.中,哪项该填在 &quot;XOOOOXXOOOXXX&quot; 
+						后面</font></p>
+						<p><font color="#000000">
+						<input name="q18" type="radio" value="V1">A.XOO
+						<input name="q18" type="radio" value="V2">B.OOX
+						<input name="q18" type="radio" value="V3">C.XOX
+						<input name="q18" type="radio" value="V4">D.OXX</font></p>
+						<p><font color="#000000">19.望子成龙的家长往往____苗助长</font></p>
+						<p><font color="#000000">
+						<input name="q19" type="radio" value="V1">A.揠 
+						<input name="q19" type="radio" value="V2">B.堰 
+						<input name="q19" type="radio" value="V3">C.偃</font></p>
+						<p><font color="#000000">20.填上空缺的词</font></p>
+						<p><font color="#000000">金黄的头发 (黄山) 刀山火海</font></p>
+						<p><font color="#000000">赞美人生 (<input name="T20" size="4">) 
+						卫国战争</font></p>
+						<p><font color="#000000">21.选出不同类的一项:<input name="q21" type="radio" value="V1">A.地板 
+						<input name="q21" type="radio" value="V2">B.壁橱 
+						<input name="q21" type="radio" value="V3">C.窗户 
+						<input name="q21" type="radio" value="V4">D.窗帘</font></p>
+						<p><font color="#000000">22. &quot;1 8 27 ___&quot; 请写出&quot;___&quot;处的数字<input name="T22" size="4"></font></p>
+						<p><font color="#000000">23.填上空缺的词</font></p>
+						<p><font color="#000000">罄竹难书(书法)无法无天</font></p>
+						<p><font color="#000000">作奸犯科(<input name="T23" size="4">)教学相长</font></p>
+						<p><font color="#000000">24.在括号内填上一个字,使其与括号前的字组成一个词,同时又与括号后的字也能组成一个词:</font></p>
+						<p><font color="#000000">款(<input name="T24" size="4">)样</font></p>
+						<p><font color="#000000">25.填入空缺的字母</font></p>
+						<p><font color="#000000">　　 B F K Q
+						<input name="T25" size="4"></font></p>
+						<p><font color="#000000">26.填入空缺的数字</font></p>
+						<p><font color="#000000">　　16 (96) 12　　　 10 (<input name="T26" size="4">) 
+						15</font></p>
+						<p><font color="#000000">27.找出不同类的一项:</font></p>
+						<p><font color="#000000">
+						<input name="q27" type="radio" value="V1">A.斑马 
+						<input name="q27" type="radio" value="V2">B.军马 
+						<input name="q27" type="radio" value="V3">C.赛马 
+						<input name="q27" type="radio" value="V4">D.骏马 
+						<input name="q27" type="radio" value="V5">E.驸马</font></p>
+						<p><font color="#000000">28.在括号内填上一个字,使其与括号前的字组成一个词,同时又与括号后的字也能组成一个词:</font></p>
+						<p><font color="#000000">祭(<input name="T28" size="4">)定</font></p>
+						<p><font color="#000000">29.在括号内填入一个字,使之既有前一个词的意思,又有后一个词的意思 
+						顶部(<input name="T29" size="8">)震荡</font></p>
+						<p><font color="#000000">30.填入空缺的数字 65 37 17 (<input name="T30" size="4">)</font></p>
+						<p><font color="#000000">31.填入空缺的数字 41 (28) 27 83(<input name="T31" size="4">) 
+						65</font></p>
+						<p><font color="#000000">32.在abcd四个图形中选出可以填入右边&quot;？&quot;处的一个<img border="0" height="50" src="{$templatepath}/iq_images/iq32a-1.gif" width="200"></font></p>
+						<div align="left">
+							<table border="0" cellpadding="0" cellspacing="0">
+								<tr>
+									<td><font color="#000000">
+									<input name="q32" type="radio" value="V1"></font></td>
+									<td><font color="#000000">
+									<input name="q32" type="radio" value="V2"></font></td>
+									<td><font color="#000000">
+									<input name="q32" type="radio" value="V3"></font></td>
+									<td><font color="#000000">
+									<input name="q32" type="radio" value="V4"></font></td>
+								</tr>
+								<tr>
+									<td colspan="4"><font color="#000000">
+									<img border="0" height="50" src="{$templatepath}/iq_images/iq32b-1.gif" width="200"></font></td>
+								</tr>
+							</table>
+						</div>
+						<p><font color="#000000">33.填上空缺的字母</font></p>
+						<p><font color="#000000">　　C F I　 　　D H L　　 　 E J (<input name="T33" size="2">)</font></p>
+						<div align="center">
+							<p>
+							<input name="B1" onclick="calculate()" type="button" value="查看我的得分（IQ值）"></p>
+						</div>
+					</form>
+					</td>
+				</tr>
+			</table>
+			</center></div>
+		</td>
+	</tr>
+</table>
+
+{template footer}

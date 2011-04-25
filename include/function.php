@@ -105,10 +105,57 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 //cookie设置
 function ssetcookie($var, $value, $life=0) {
 	setcookie(CookiePre.$var, $value, $life?(time()+$life):0, "/",CookieDomain);
+	//SESS::set($var,$valus);
 }
 function sreadcookie($key){
 	return $_COOKIE[CookiePre.$key];
+	//return SESS::get($key);
 }
+
+
+##游戏SESSIOON类
+class SESS{
+	public static $init = 0;
+	public static $preKey = CookiePre;
+	
+	#初始化session
+	public function initSession(){
+		if(self::$init==1) return;
+		global $_CONFIG; #加载配置文件，将session保存到memecahe
+		header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');  
+		ini_set("session.save_handler","files");
+		//session_save_path( "session/");
+		ini_set('session.gc_maxlifetime',600); 	
+		session_start();
+		self::$init = 1;
+	}
+	
+	#读取session
+	public function get($key){
+		self::initSession();
+		return $_SESSION[self::$preKey.$key];
+	}
+	
+	#设置session
+	public function set($key,$val){
+		self::initSession();
+		$_SESSION[self::$preKey.$key] = $val;
+	}
+	
+	#删除指定session
+	public function del($key){
+		self::initSession();
+		unset($_SESSION[self::$preKey.$key]);
+	}
+	
+	#删除所有session
+	public function delall($key){
+		self::initSession();
+		session_destroy();
+	}
+		
+}
+
 //获取在线IP
 function getonlineip() {
 		if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {

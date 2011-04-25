@@ -4,12 +4,15 @@ define('ISSAE',false);  //是否为sae平台
 $apiConfig=array(
 	"tsina"=>array(
 		"name"=>'新浪微博',
+		"domain_format" => 'http://weibo.com/{domain}',
 		"access_key" =>'4106323544',
 		"screct_key"=>'fdea0fd0626378d951a366e00c5444d7'
 	)
 );
 
-
+	$app_dbpre_ppt="ppt.ppt_";			//定义各个应用的数据表的前缀，可以带数据库名，方便增加应用
+	$app_dbpre_redchess="redchess.red_";
+	$app_dbpre_iq="ppt.iq_";
 if(!ISSAE){
 	$DBCONFIG=array(
 		array("dbhost"=>"localhost",
@@ -24,6 +27,7 @@ if(!ISSAE){
 	define("DEFAULT_DB","ppt");			//默认的数据库
 	$app_dbpre_ppt="ppt.ppt_";			//定义各个应用的数据表的前缀，可以带数据库名，方便增加应用
 	$app_dbpre_redchess="redchess.red_";
+	$app_dbpre_iq="ppt.iq_";
 }
 
 else{
@@ -40,6 +44,7 @@ else{
 
 	$app_dbpre_ppt=SMH_DBNAME . ".ppt_";
 	$app_dbpre_redchess=SMH_DBNAME . ".red_";
+	$app_dbpre_iq=SMH_DBNAME . ".iq_";
 	
 	define('SMH_KEY', '9edcl1jnwma724VL0zCIcR7YSBdo7lv+FjPf55E');
 	define('SMH_API', 'http://5d13.sinaapp.com/uc');

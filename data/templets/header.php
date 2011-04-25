@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title><?=$title?></title>
 <script language="javascript" src="<?=$templatepath?>/js/jquery.min.js"></script>
 <style>
 body{font:12px;}
@@ -39,7 +39,8 @@ li{list-style-type:none; margin:2px;}
 .d_message .d_retime{float:left;}
 .d_message .d_btn{float:right;}
 </style>
-</head>
+<!--</head>
 
 <body id="d_body">
 <a name="d_top"></a><a href="?c=redchess">红棋</a>
+-->

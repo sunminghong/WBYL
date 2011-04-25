@@ -1,0 +1,186 @@
+
+body
+{
+margin:0px;padding:0px;
+	background-color:#ceeff6;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+#K{text-align:left;}
+
+img {border:none;}
+
+.mainFrame
+{
+	width:800px;
+	margin:0px auto 20px auto;
+}
+
+.logo
+{
+	width:320px;
+	margin:10px 0px 0px 50px;
+}
+
+.login
+{
+	float:right;
+	width:350px;
+	margin:25px 0px 0px 0px;
+}
+#face{font-size:36px;font-weight:bold;margin:auto auto auto 10px;}
+
+.userProfile
+{
+	float:right;
+	width:400px;
+	margin:45px 0px 0px 0px;
+	color:#696a62;
+}
+
+.userProfile-image
+{
+	float:right;
+}
+
+.userProfile-image img
+{
+	border:1px solid #ffffff;
+}
+
+.userProfile-info
+{
+	float:right;
+	margin:0px 0px 0px 10px;
+}
+
+.contentFrame
+{
+	border:1px solid #72cade;
+	padding:30px;
+	margin:10px 0px 0px 0px;
+	background-color:#FFF;
+}
+
+.welcomeDiv1
+{
+	margin:10px 0px 0px 0px;text-align:left;
+}
+
+.welcomeDiv2
+{
+	margin:10px 0px 30px 0px;
+}
+
+.welcomeDiv2 a,.welcomeDiv2 a:visited
+{
+	color:#1c94c4;text-decoration:none;
+}
+
+.welcomeDiv2 a:hover
+{
+	color:#1c94c4;text-decoration:underline;/*696a62*/
+}
+
+.tabs-div1
+{
+	margin:10px 0px 0px 170px;
+}
+
+.tabs-div2
+{
+	margin:0px 0px 0px 195px; display:none;
+}
+
+.tabs-div3
+{
+	margin:10px 0px 0px 55px; display:none;
+}
+
+.tabs-div4
+{
+	margin:15px 0px 0px 290px;
+}
+
+.tabs-text1
+{
+	width:80px; text-align:center;
+}
+
+.tabs-text2
+{
+	width:20px; text-align:center;
+}
+
+.div_login{
+	text-align:center;
+	margin:30px 0px 0px 0px;
+}
+.bottom
+{
+	text-align:center;
+	margin:30px 0px 0px 0px;
+	font-size:12px;
+	color:#8f9f9e;
+}
+
+.bottom div
+{
+	margin:5px 0px 0px 0px;
+}
+
+.bottom a,.bottom a:visited
+{
+	color:#2870a2;text-decoration:none;
+}
+
+.bottom a:hover
+{
+	color:#2870a2;text-decoration:underline;
+}
+
+
+
+button {
+background: url("input-button.png") repeat-x scroll left top #EEEDE9;
+border: 1px solid #CECABC;
+color: #000;font-size:18px;font-weight:bold;
+padding: 7px 2px;
+padding: 7px 2px!important;
+outline: none;
+}
+
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
+padding: 1px 6px;
+}
+
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
+-webkit-box-align: center;
+text-align: center;
+cursor: default;
+color: buttontext;
+padding: 2px 6px 3px;
+border: 2px outset buttonface;
+background-color: buttonface;
+box-sizing: border-box;
+}
+
+input, textarea, keygen, select, button, isindex, datagrid {
+margin: 0em;
+font: -webkit-small-control;
+color: initial;
+letter-spacing: normal;
+word-spacing: normal;
+line-height: normal;
+text-transform: none;
+text-indent: 0px;
+text-shadow: none;
+display: inline-block;
+text-align: -webkit-auto;
+}
+
+button {
+-webkit-appearance: button;
+}
+
+#topnav{ background:#33100A;color:#fff;height:30px;text-align:right;margin:0px;}

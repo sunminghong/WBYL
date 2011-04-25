@@ -1,0 +1,30 @@
+drop table ppt_login;
+CREATE TABLE `ppt_login` (
+  `uid` int(11) NOT NULL AUTO_INCREMENT,
+  `lfromuid` int(11) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`uid`),
+  KEY `lfromuid` (`lfromuid`),
+  KEY `lfrom` (`lfrom`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table ppt_user;
+create Table `ppt_user`(
+  `uid` int(11) NOT NULL ,
+  `lfromuid` int(11) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `name` varchar(20) NOT NULL,
+
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `tk` varchar(32) NOT NULL,
+  `sk` varchar(32) NOT NULL,
+  `logins` int(11) NOT NULL,
+  `regtime` int(11) NOT NULL,
+  `logintime` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  PRIMARY KEY (`uid`),
+	KEY `logins`(`logins`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

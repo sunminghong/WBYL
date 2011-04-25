@@ -11,6 +11,7 @@ abstract class openapiAbstract{
 	}
 	public function readToken($lfromuid){
 		$json=sreadcookie('api_'.envhelper::packKUID($this->lfrom,$lfromuid));//str_replace("\\","",);
+		echo "json=".$json;exit;
 		if (!$json)
 			return null;
 

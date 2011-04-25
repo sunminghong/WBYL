@@ -1,5 +1,0 @@
-{template header}
-{template accoutlist}
-<div class="cl"> &nbsp; </div>
-
-{template footer}

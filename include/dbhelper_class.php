@@ -3,8 +3,8 @@ class dbhelper {
 	static function tname($app,$tname){
 		if($GLOBALS["app_dbpre_".$app])
 			return $GLOBALS["app_dbpre_".$app].$tname;
-		else
-			die('表名前缀不符合要求！');	
+		else{echo 'sss'.$app.$tname.'sss';
+			die('表名前缀不符合要求！');	}
 	}
 	
 	public static $conns=array();
@@ -82,16 +82,16 @@ class dbhelper {
 	
 	//事务执行SQL语句
 	static function exesqls($sql,$count=false){
-		connstart();
+		$conn=self::getConnM();
 		$sqlArr = split (';;;', $sql);
-		mysql_query('BEGIN',self::getConnM());
+		mysql_query('BEGIN',$conn);
 		$errnum = 0;
 		$exesqlCount = array();
 		foreach ($sqlArr as $Sqltxt) {
 			if($Sqltxt!=''){
 				$Sqltxt = trim($Sqltxt);
-				$res = mysql_query($Sqltxt,self::getConnM());
-				if(mysql_error(self::getConnM())){
+				$res = mysql_query($Sqltxt,$conn);
+				if(mysql_error($conn)){
 					$errnum++;
 				}else{
 					if($count){
