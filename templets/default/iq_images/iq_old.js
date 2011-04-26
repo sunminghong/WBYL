@@ -20,16 +20,16 @@ if(K.q16[2].checked){storea+=1;}
 if(K.T17.value=="36"){storea+=1;}     
 if(K.q18[1].checked){storea+=1;}     
 if(K.q19[0].checked){storea+=1;}     
-if(K.T20.value=="美国"){storea+=2;}     
+if(K.T20.value=="缇庡浗"){storea+=2;}     
 if(K.q21[3].checked){storea+=2;}     
 if(K.T22.value=="64"){storea+=2;}     
-if(K.T23.value=="科学"){storea+=2;}     
-if(K.T24.value=="式"){storea+=1;}     
+if(K.T23.value=="绉戝"){storea+=2;}     
+if(K.T24.value=="寮?){storea+=1;}     
 if(K.T25.value=="X"||K.T25.value=="x"){storea+=1;}     
 if(K.T26.value=="75"){storea+=1;}     
 if(K.q27[4].checked){storea+=1;}     
-if(K.T28.value=="奠"){storea+=1;}     
-if(K.T29.value=="颠"){storea+=1;}     
+if(K.T28.value=="濂?){storea+=1;}     
+if(K.T29.value=="棰?){storea+=1;}     
 if(K.T30.value=="5"){storea+=1;}     
 if(K.T31.value=="36"){storea+=2;}     
 if(K.q32[2].checked){storea+=2;}     
@@ -76,17 +76,17 @@ if(storea=="38"){iqvalue=143;}
 if(storea=="39"){iqvalue=145;}     
 if(storea=="40"){iqvalue=150;}     
 var i=$("face").innerHTML;     
-return confirm("谢谢你参加智商测试!\n\n"+     
-"你的智商为:"+iqvalue+"\n\n"+     
-"您所用的时间：" +i+"\n"+     
-"===================================\n70-    --弱智\n"+     
-"70-89  --智力低下\n"+     
-"90-99  --智力中等\n"+     
-"100-109--智力中上\n"+     
-"110-119--智力优秀\n"+     
-"120-129--智力非常优秀\n"+     
-"130-139--智力非常非常优秀\n"+     
-"140+   --天才");     
+return confirm("璋㈣阿浣犲弬鍔犳櫤鍟嗘祴璇?\n\n"+     
+"浣犵殑鏅哄晢涓?"+iqvalue+"\n\n"+     
+"鎮ㄦ墍鐢ㄧ殑鏃堕棿锛? +i+"\n"+     
+"===================================\n70-    --寮辨櫤\n"+     
+"70-89  --鏅哄姏浣庝笅\n"+     
+"90-99  --鏅哄姏涓瓑\n"+     
+"100-109--鏅哄姏涓笂\n"+     
+"110-119--鏅哄姏浼樼\n"+     
+"120-129--鏅哄姏闈炲父浼樼\n"+     
+"130-139--鏅哄姏闈炲父闈炲父浼樼\n"+     
+"140+   --澶╂墠");     
 return flash     
 }     
      

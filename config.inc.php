@@ -1,6 +1,5 @@
 <?php
-define('ISSAE',false);  //是否为sae平台
-
+define('ISSAE',true);  //是否为sae平台
 $apiConfig=array(
 	"tsina"=>array(
 		"name"=>'新浪微博',
@@ -31,8 +30,18 @@ if(!ISSAE){
 }
 
 else{
-	define('DEFAULT_DB', 'app_'.$_SERVER['HTTP_APPNAME']);
+define('DEFAULT_DB',SAE_MYSQL_DB);
+	$DBCONFIG=array(
+		array("dbhost"=>SAE_MYSQL_HOST_M.":".SAE_MYSQL_PORT,
+			"dbuser"=>SAE_MYSQL_USER,
+			"dbpwd"=>SAE_MYSQL_PASS),		//此为该组数据服务器的主服务器（Master/Slave 结构里的Master）
 
+		array("dbhost"=>SAE_MYSQL_HOST_S.":".SAE_MYSQL_PORT,
+			"dbuser"=>SAE_MYSQL_USER,
+			"dbpwd"=>SAE_MYSQL_PASS)		//此为slave服务器，可以有多个进行读负载均衡
+	);
+
+/*	define('DEFAULT_DB', 'app_'.$_SERVER['HTTP_APPNAME']);
 	$DBCONFIG=array(
 	array("dbhost"=> 'm'.$_SERVER['HTTP_MYSQLPORT'].'.mysql.sae.sina.com.cn:'.$_SERVER['HTTP_MYSQLPORT'],
 		"dbuser"=>SAE_ACCESSKEY,
@@ -40,17 +49,12 @@ else{
 	array("dbhost"=> 'm'.$_SERVER['HTTP_MYSQLPORT'].'.mysql.sae.sina.com.cn:'.$_SERVER['HTTP_MYSQLPORT'],
 		"dbuser"=>SAE_ACCESSKEY,
 		"dbpwd"=>SAE_SECRETKEY)		//此为slave服务器，可以有多个进行读负载均衡
-	);
+	);*/
 
-	$app_dbpre_ppt=SMH_DBNAME . ".ppt_";
-	$app_dbpre_redchess=SMH_DBNAME . ".red_";
-	$app_dbpre_iq=SMH_DBNAME . ".iq_";
-	
-	define('SMH_KEY', '9edcl1jnwma724VL0zCIcR7YSBdo7lv+FjPf55E');
-	define('SMH_API', 'http://5d13.sinaapp.com/uc');
-	define('SMH_IP', '');
-	define('SMH_APPID', '3');
-	define('SMH_PPP', '20');
+	$app_dbpre_ppt=DEFAULT_DB . ".ppt_";
+	$app_dbpre_redchess=DEFAULT_DB . ".red_";
+	$app_dbpre_iq=DEFAULT_DB . ".iq_";
+
 }
 
 

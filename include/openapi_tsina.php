@@ -63,7 +63,7 @@ class openapi_tsina extends openapiAbstract{
 		if(!is_array($token)) $token=$this->readToken($token);
 		$uidarr=$this->getClient($token)->getUserInfo();
 		$lfromuid=$uidarr["id"];
-		
+		$uidarr["kuid"]=envhelper::packKUID($this->lfrom,$lfromuid);
 		$uidarr["lfromuid"]=$lfromuid;
 		$uidarr['lfrom']=$this->lfrom;
 		$uidarr['name']=$uidarr['screen_name'];

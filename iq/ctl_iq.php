@@ -35,7 +35,6 @@ class iq extends ctl_base
 	}
 	
 	function cacl(){
-
 		if(!getAccount()){
 			echo "-1";
 			return;
@@ -84,7 +83,6 @@ class iq extends ctl_base
 		else if($storea=="39"){$iqvalue=145;}     
 		else if($storea=="40"){$iqvalue=150;}     
 		
-//testCount=testCount+1,
 		$this->saveIq($iqvalue);
 		echo $iqvalue;exit;
 

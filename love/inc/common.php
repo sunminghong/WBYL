@@ -15,7 +15,7 @@ if(empty($magic_quote))
 	$_COOKIE = sqlEncode($_COOKIE);
 }
 
-//SQL编码
+//SQL缂栫爜
 function sqlEncode($string) {
 	if(is_array($string)) {
 		foreach($string as $key => $val) {
@@ -27,7 +27,7 @@ function sqlEncode($string) {
 	return $string;
 }
 
-//去掉SQL编码
+//鍘绘帀SQL缂栫爜
 function sqlDecode($string) {
 	if(is_array($string)) {
 		foreach($string as $key => $val) {
@@ -39,7 +39,7 @@ function sqlDecode($string) {
 	return $string;
 }
 
-//取消HTML代码
+//鍙栨秷HTML浠ｇ爜
 function htmlEncode($string) {
 	if(is_array($string)) {
 		foreach($string as $key => $val) {
@@ -52,7 +52,7 @@ function htmlEncode($string) {
 	return $string;
 }
 
-//获取文件内容
+//鑾峰彇鏂囦欢鍐呭
 function getFile($filename){
 	$content = '';
 	if(function_exists('file_get_contents')) {
@@ -66,7 +66,7 @@ function getFile($filename){
 	return $content;
 }
 
-//写入文件
+//鍐欏叆鏂囦欢
 function setFile($filename, $writetext, $openmod='w') {
 	if(@$fp = fopen($filename, $openmod)) {
 		flock($fp, 2);
@@ -78,13 +78,13 @@ function setFile($filename, $writetext, $openmod='w') {
 	}
 }
 
-//字符串解密加密
+//瀛楃涓茶В瀵嗗姞瀵?
 function aen($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 	$ckey_length = 4;
-	// 随机密钥长度 取值 0-32;
-	// 加入随机密钥，可以令密文无任何规律，即便是原文和密钥完全相同，加密结果也会每次不同，增大破解难度。
-	// 取值越大，密文变动规律越大，密文变化 = 16 的 $ckey_length 次方
-	// 当此值为 0 时，则不产生随机密钥
+	// 闅忔満瀵嗛挜闀垮害 鍙栧€?0-32;
+	// 鍔犲叆闅忔満瀵嗛挜锛屽彲浠ヤ护瀵嗘枃鏃犱换浣曡寰嬶紝鍗充究鏄師鏂囧拰瀵嗛挜瀹屽叏鐩稿悓锛屽姞瀵嗙粨鏋滀篃浼氭瘡娆′笉鍚岋紝澧炲ぇ鐮磋В闅惧害銆?
+	// 鍙栧€艰秺澶э紝瀵嗘枃鍙樺姩瑙勫緥瓒婂ぇ锛屽瘑鏂囧彉鍖?= 16 鐨?$ckey_length 娆℃柟
+	// 褰撴鍊间负 0 鏃讹紝鍒欎笉浜х敓闅忔満瀵嗛挜
 	$key = md5($key ? $key : 'IAmCiNiao!!');
 	$keya = md5(substr($key, 0, 16));
 	$keyb = md5(substr($key, 16, 16));
@@ -131,17 +131,17 @@ function aen($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 	}
 }
 
-//抓取数据方法封装
+//鎶撳彇鏁版嵁鏂规硶灏佽
 /*
-$url : 抓取的url路径
-$poststr ： POST的数据，默认为空
-$con ： 更多设置，array(CURLOPT_COOKIE=>'cookname=cookval&cn2=cv2')
+$url : 鎶撳彇鐨剈rl璺緞
+$poststr 锛?POST鐨勬暟鎹紝榛樿涓虹┖
+$con 锛?鏇村璁剧疆锛宎rray(CURLOPT_COOKIE=>'cookname=cookval&cn2=cv2')
 */
 function getHttpPage($url,$poststr='',$con=''){
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 5); //超时时间（秒）
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5); //瓒呮椂鏃堕棿锛堢锛?
 	if(!isn($poststr)){
 		curl_setopt($ch, CURLOPT_POST, 1); 
 		curl_setopt($ch, CURLOPT_POSTFIELDS,$poststr); 	
@@ -156,17 +156,17 @@ function getHttpPage($url,$poststr='',$con=''){
 	return $html;
 }
 
-//检查邮箱是否有效
+//妫€鏌ラ偖绠辨槸鍚︽湁鏁?
 function isEmail($email) {
 	return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
 }
 
-//当前时间
+//褰撳墠鏃堕棿
 function now(){
 	return date("Y-m-d H:i:s");	
 }
 
-//时间相加
+//鏃堕棿鐩稿姞
 function dateAdd($unit = "d",$int,$date) {
 	$date_time_array = getdate(strtotime($date));
     $hours = $date_time_array["hours"];
@@ -201,7 +201,7 @@ function dateAdd($unit = "d",$int,$date) {
     return date("Y-m-d H:i:s",$timestamp);
 }
 
-//取时间差
+//鍙栨椂闂村樊
 function dateDiff($unit="",$date1 , $date2){
 	switch ($unit){
     case "s": $div = 1 ;
@@ -227,7 +227,7 @@ function dateDiff($unit="",$date1 , $date2){
     }
 }
 
-//取字符串左右
+//鍙栧瓧绗︿覆宸﹀彸
 //left('abcde',-1) = abcd
 function left($str,$len){
 	if((int)$len>0){
@@ -244,8 +244,8 @@ function right($str,$len){
 	}
 }
 
-//字符串查找
-//未找到返回 -1 （被查找的字符串，要查找的，从前还是后：默认前）
+//瀛楃涓叉煡鎵?
+//鏈壘鍒拌繑鍥?-1 锛堣鏌ユ壘鐨勫瓧绗︿覆锛岃鏌ユ壘鐨勶紝浠庡墠杩樻槸鍚庯細榛樿鍓嶏級
 function indexOf($str,$find,$rev=0){
 	if($rev==0){
 		$res=stripos($str,$find);	
@@ -259,7 +259,7 @@ function indexOf($str,$find,$rev=0){
 	}
 }
 
-//判断是否为空值
+//鍒ゆ柇鏄惁涓虹┖鍊?
 function isn($str){
 	if(is_array($str)){
 		return 0;
@@ -271,7 +271,7 @@ function isn($str){
 	}
 }
 
-//获取客户端IP
+//鑾峰彇瀹㈡埛绔疘P
 function getip(){
 	if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
 		$onlineip = getenv('HTTP_CLIENT_IP');
@@ -284,21 +284,21 @@ function getip(){
 	}
 	return $onlineip;
 }
-//是否数字简写
+//鏄惁鏁板瓧绠€鍐?
 function isNum($str){
     $isnum = 0;
     if(is_numeric($str)) $isnum = 1;
 	return $isnum;
 }
 
-//替代die函数
+//鏇夸唬die鍑芥暟
 function we($str){
 	DB::closeall();
 	echo $str;
 	exit;
 }
 
-//Request方法简写
+//Request鏂规硶绠€鍐?
 function rq($name){
 	return $_GET[$name];	
 }
@@ -319,25 +319,25 @@ function _r($name){
 	return sqlDecode(r($name));	
 }
 
-##SQL语句类
+##SQL璇彞绫?
 class DB{
 	public static $conns = array();
 	/*
-	取得数据库连接资源
-	从serverconfig中载入$_CONFIG['db']配置项
+	鍙栧緱鏁版嵁搴撹繛鎺ヨ祫婧?
+	浠巗erverconfig涓浇鍏?_CONFIG['db']閰嶇疆椤?
 	*/
 	public function getconnG(){
 		global $_CONFIG;
 		return self::conndb($_CONFIG['db']);	
 	}	
 	/*
-	连接数据库，配置文件格式
+	杩炴帴鏁版嵁搴擄紝閰嶇疆鏂囦欢鏍煎紡
 	array(
-		'ip'=>'localhost', #数据库服务器IP
-		'username'=>'root', #用户名
-		'pwd'=>'root', #密码
-		'database'=>'game3', #数据库名
-		'charset'=>'utf8', #默认编码
+		'ip'=>'localhost', #鏁版嵁搴撴湇鍔″櫒IP
+		'username'=>'root', #鐢ㄦ埛鍚?
+		'pwd'=>'root', #瀵嗙爜
+		'database'=>'game3', #鏁版嵁搴撳悕
+		'charset'=>'utf8', #榛樿缂栫爜
 	)
 	*/
 	public function conndb($dbconf){
@@ -347,15 +347,15 @@ class DB{
 		}
 		
 		$conn = @mysql_connect($dbconf['ip'], $dbconf['username'], $dbconf['pwd']);
-		if(!$conn)self::error("数据库服务器连接超时");	
+		if(!$conn)self::error("鏁版嵁搴撴湇鍔″櫒杩炴帴瓒呮椂");	
 		$db = @mysql_select_db($dbconf['database'],$conn);
-		if(!$db)self::error("{$dbconf['database']}读取错误");
+		if(!$db)self::error("{$dbconf['database']}璇诲彇閿欒");
 		mysql_query("SET NAMES '".$dbconf['charset']."'",$conn);
 		self::$conns[$key]=$conn;
 		return $conn;
 	}	
 	
-	/*关闭数据库*/
+	/*鍏抽棴鏁版嵁搴?/
 	public function closeall(){
 		foreach(self::$conns as $key=>$val){
 			@mysql_close($val);
@@ -364,9 +364,9 @@ class DB{
 		}
 	}
 	
-	/*返回数据库记录集*/
+	/*杩斿洖鏁版嵁搴撹褰曢泦*/
 	public function openrs($sql){
-		if($sql=='') self::error('OPENRS时SQL语句必须存在');
+		if($sql=='') self::error('OPENRS鏃禨QL璇彞蹇呴』瀛樺湪');
 		$conn = self::getconnG();
 		$res = @mysql_query($sql,$conn);
 		if(mysql_error($conn)) self::error();
@@ -375,18 +375,18 @@ class DB{
 	}
 	
 	/*
-	事务方式执行SQL语句
-	多条SQL语句以 ; 号切分，语句中不得含有;号
+	浜嬪姟鏂瑰紡鎵цSQL璇彞
+	澶氭潯SQL璇彞浠?; 鍙峰垏鍒嗭紝璇彞涓笉寰楀惈鏈?鍙?
 	*/
 	public function exesql($sql,$count=false){
-		if($sql=='') self::error('EXESQL时SQL语句必须存在');
+		if($sql=='') self::error('EXESQL鏃禨QL璇彞蹇呴』瀛樺湪');
 
 		global $exesqlCount;
 		$errnum = 0; $errorTxt = '';
 		$exesqlCount = array();
 		$sqlArr = split (';',$sql);
 		$conn = self::getconnG();
-		mysql_query('BEGIN',$conn); #开启事务
+		mysql_query('BEGIN',$conn); #寮€鍚簨鍔?
 		
 		foreach ($sqlArr as $sqltxt) {
 			$sqltxt = trim($sqltxt);
@@ -394,11 +394,11 @@ class DB{
 			$res = mysql_query($sqltxt,$conn);
 
 			if(mysql_error($conn)){
-				$errnum++; #SQL语句有误
+				$errnum++; #SQL璇彞鏈夎
 				$errorTxt .= mysql_error($conn) . "\r\n";
 			}else{
 				if(!$count) continue;
-				#根据SQL语句，增加记录值
+				#鏍规嵁SQL璇彞锛屽鍔犺褰曞€?
 				if(strtoupper(left($sqltxt,6))=="SELECT"){
 					array_push($exesqlCount,mysql_num_rows($res));
 				}else if(strtoupper(left($sqltxt,6))=="INSERT"){
@@ -409,7 +409,7 @@ class DB{
 			}
 		}
 		if($errnum>0){
-			#回滚数据
+			#鍥炴粴鏁版嵁
 			mysql_query("ROLLBACK",$conn);
 			self::error($errorTxt);
 			return false;
@@ -420,7 +420,7 @@ class DB{
 		unset($sqlArr,$conn,$res,$errorTxt,$errnum);
 	}
 	
-	/*记录集转数组*/
+	/*璁板綍闆嗚浆鏁扮粍*/
 	public function getrow($rs,$fmttype=1){
 		$conf=array(MYSQL_NUM,MYSQL_ASSOC,MYSQL_BOTH);
 		$res = mysql_fetch_array($rs,$conf[$fmttype]);	
@@ -429,7 +429,7 @@ class DB{
 		unset($res,$conf);
 	}
 	
-	/*取sql语句第一行第一列的值*/
+	/*鍙杝ql璇彞绗竴琛岀涓€鍒楃殑鍊?/
 	public function sqlval($sql){
 		$res = self::getrow(self::openrs($sql),0);
 		if(!is_array($res)){
@@ -441,8 +441,8 @@ class DB{
 	}
 	
 	/*
-	取SQL语句结果数组
-	indexkey为结果数组的key用数据库的哪个列
+	鍙朣QL璇彞缁撴灉鏁扮粍
+	indexkey涓虹粨鏋滄暟缁勭殑key鐢ㄦ暟鎹簱鐨勫摢涓垪
 	*/
 	public function sqlgetall($sql,$indexkey=''){
 		$res = array();
@@ -460,8 +460,8 @@ class DB{
 	}
 		
 	/*
-    处理所有出错信息
-    $errMsg自定义的出错信息
+    澶勭悊鎵€鏈夊嚭閿欎俊鎭?
+    $errMsg鑷畾涔夌殑鍑洪敊淇℃伅
 	*/
 	public function error($errMsg=''){
 		if ($errMsg == "") {
@@ -484,11 +484,11 @@ class DB{
 		exit();
 	}	
 	/*
-	更新SQL语句
-	$tablename 表名
-	$param 更新数据，字符串或array
-	$where 更新条件
-	返回SQL语句
+	鏇存柊SQL璇彞
+	$tablename 琛ㄥ悕
+	$param 鏇存柊鏁版嵁锛屽瓧绗︿覆鎴朼rray
+	$where 鏇存柊鏉′欢
+	杩斿洖SQL璇彞
 	*/
 	public function update($tablename,$param,$where=''){
 		if(is_array($param)){
@@ -502,14 +502,14 @@ class DB{
 		return 'UPDATE `'.strtoupper(trim($tablename)) .'` SET '. $param . ($where ? ' WHERE ' . $where : '');
 	}
 	/*
-	插入SQL语句
-	$tablename 表名
-	$param 插入数据array
-	返回SQL语句
+	鎻掑叆SQL璇彞
+	$tablename 琛ㄥ悕
+	$param 鎻掑叆鏁版嵁array
+	杩斿洖SQL璇彞
 	*/
 	public function insert($tablename,$param){
 		if(!is_array($param)){
-			self::error("INSERT语句错误：{$param} 类型不符");	
+			self::error("INSERT璇彞閿欒锛歿$param} 绫诲瀷涓嶇");	
 		}
 		$paramArr=array();
 		foreach($param as $key => $val){
@@ -520,27 +520,27 @@ class DB{
 		return 'INSERT INTO `'.strtoupper(trim($tablename)) .'` SET '. $param;
 	}
 	/*
-	删除SQL语句
-	$tablename 表名
-	$where 删除条件
-	返回SQL语句
+	鍒犻櫎SQL璇彞
+	$tablename 琛ㄥ悕
+	$where 鍒犻櫎鏉′欢
+	杩斿洖SQL璇彞
 	*/
 	public function delete($tablename,$where=''){
 		if (!$where) {
-            self::error("删除函数必须指定条件");
+            self::error("鍒犻櫎鍑芥暟蹇呴』鎸囧畾鏉′欢");
             return 0;
         }
         return 'DELETE FROM `' . $tablename . '` WHERE ' . $where;
 	}
 	
 	/*
-	查询SQL语句
-	$fields 字段
-	$tablename 表名
-	$where 条件
-	$orderby 排序
-	$limit 记录条数
-	返回SQL语句
+	鏌ヨSQL璇彞
+	$fields 瀛楁
+	$tablename 琛ㄥ悕
+	$where 鏉′欢
+	$orderby 鎺掑簭
+	$limit 璁板綍鏉℃暟
+	杩斿洖SQL璇彞
 	*/
 	public function select($fields,$tablename,$where='',$orderby='',$limit=''){
 		$sql = 'SELECT ' . $fields . ' FROM `' . $tablename .'`' . ($where ? ' WHERE ' . $where : '') . ($orderby ? ' ORDER BY ' . $orderby . ' ':'') . ($limit ? ' limit ' . $limit : '');
@@ -550,17 +550,17 @@ class DB{
 }
 
 
-##MEMCACHE类
+##MEMCACHE绫?
 class CACHE{
 	public static $conns = array();
 	
-	#根据配置文件，取连接资源
+	#鏍规嵁閰嶇疆鏂囦欢锛屽彇杩炴帴璧勬簮
 	function getconnG(){
 		global $_CONFIG;
 		return self::connCache($_CONFIG['memcache']);	
 	}
 	
-	#连接到memcache
+	#杩炴帴鍒癿emcache
 	public function connCache($dbconf){
 		$key = $dbconf['ip'] .'.'. $dbconf['port']; 
 		
@@ -572,36 +572,36 @@ class CACHE{
 		return $conn;
 	}	
 	
-	#设置缓存内容
+	#璁剧疆缂撳瓨鍐呭
 	public function set($key,$val,$timeout=0){
-		return memcache_set(self::getconnG(),$key,$val,0,$timeout);#timeout秒后超时
+		return memcache_set(self::getconnG(),$key,$val,0,$timeout);#timeout绉掑悗瓒呮椂
 	}
 	
-	#读取缓存内容
+	#璇诲彇缂撳瓨鍐呭
 	public function get($key){
 		return memcache_get(self::getconnG(),$key);
 	}
 	
-	#删除指定key缓存
+	#鍒犻櫎鎸囧畾key缂撳瓨
 	public function del($key,$delay=0){	
-		return memcache_delete(self::getconnG(),$key,$delay); #delay秒后删除
+		return memcache_delete(self::getconnG(),$key,$delay); #delay绉掑悗鍒犻櫎
 	}
 	
-	#删除所有缓存
+	#鍒犻櫎鎵€鏈夌紦瀛?
 	public function delall(){	
 		memcache_flush(self::getconnG());
 	}
 }
 
-##游戏SESSIOON类
+##娓告垙SESSIOON绫?
 class SESS{
 	public static $init = 0;
 	public static $preKey = 'CiNiAoSeSs';
 	
-	#初始化session
+	#鍒濆鍖杝ession
 	public function initSession(){
 		if(self::$init==1) return;
-		global $_CONFIG; #加载配置文件，将session保存到memecahe
+		global $_CONFIG; #鍔犺浇閰嶇疆鏂囦欢锛屽皢session淇濆瓨鍒癿emecahe
 		header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');  
 		ini_set("session.save_handler","files");
 		session_save_path( "session/");
@@ -610,25 +610,25 @@ class SESS{
 		self::$init = 1;
 	}
 	
-	#读取session
+	#璇诲彇session
 	public function get($key){
 		self::initSession();
 		return $_SESSION[self::$preKey.$key];
 	}
 	
-	#设置session
+	#璁剧疆session
 	public function set($key,$val){
 		self::initSession();
 		$_SESSION[self::$preKey.$key] = $val;
 	}
 	
-	#删除指定session
+	#鍒犻櫎鎸囧畾session
 	public function del($key){
 		self::initSession();
 		unset($_SESSION[self::$preKey.$key]);
 	}
 	
-	#删除所有session
+	#鍒犻櫎鎵€鏈塻ession
 	public function delall($key){
 		self::initSession();
 		session_destroy();

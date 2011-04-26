@@ -1,4 +1,4 @@
-//字符串扩展
+//瀛楃涓叉墿灞?
 String.prototype.left = function(num){
 	var str = this.substr(0,num);
 	return str
@@ -37,7 +37,7 @@ function stopBubble(e){
 	}
 } 
 
-//打开好友列表，类型，高度，宽度，top，left
+//鎵撳紑濂藉弸鍒楄〃锛岀被鍨嬶紝楂樺害锛屽搴︼紝top锛宭eft
 function getFans(type,width,height,top,left){
 	var divo = $('#fansDiv');
 	if(divo.length==0){
@@ -84,11 +84,11 @@ function setfans(t){
 
 function fanspage(n){
 	if(startIndex==0 && n<0){
-		alert('已到达最前页');
+		alert('宸插埌杈炬渶鍓嶉〉');
 		return;	
 	}
 	if(hasnext==1 && n>0){
-		alert('已到达最后页');
+		alert('宸插埌杈炬渶鍚庨〉');
 		return;		
 	}
 	startIndex+=n;

@@ -9,8 +9,8 @@ session_start();
 if(isset($_POST['content']))
 {
 		$c = new MBApiClient( MB_AKEY , MB_SKEY , $_SESSION['last_key']['oauth_token'] , $_SESSION['last_key']['oauth_token_secret']  );	
-		//发消息
-		//	*@content: 微博内容
+		//鍙戞秷鎭?
+		//	*@content: 寰崥鍐呭
 		$p =array(
 			'c' => $_POST['content'],
 			'ip' => $_SERVER['REMOTE_ADDR'], 
@@ -28,14 +28,14 @@ if(isset($_POST['content']))
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title>鏃犳爣棰樻枃妗?/title>
 </head>
 
 <body>
 <form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  内容：<input type="text" name="content" id="content" />
-  图片：<input type="file" name="pic" id="pic" />
-  <input type="submit" name="button" id="button" value="提交" />
+  鍐呭锛?input type="text" name="content" id="content" />
+  鍥剧墖锛?input type="file" name="pic" id="pic" />
+  <input type="submit" name="button" id="button" value="鎻愪氦" />
 </form>
 </body>
 </html>

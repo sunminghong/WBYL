@@ -4,7 +4,7 @@ window.onload = function() {
         for (c = 0; c < a.length; c++) b(c, a[c])
     };
 	
-	//定义 了$方法并反回了一个有诸多函数的对象，包括：show,css,hide,addClass,width(),height(),attr,click,val,each,html(里面的script块可以执行),bind,append,empty,removeClass,remove
+	//瀹氫箟 浜?鏂规硶骞跺弽鍥炰簡涓€涓湁璇稿鍑芥暟鐨勫璞★紝鍖呮嫭锛歴how,css,hide,addClass,width(),height(),attr,click,val,each,html(閲岄潰鐨剆cript鍧楀彲浠ユ墽琛?,bind,append,empty,removeClass,remove
     window.$ = function(a) {
         var b, c = typeof a;
         if (c == "string") b = document.querySelectorAll(a);
@@ -145,7 +145,7 @@ window.onload = function() {
         return b
     };
 
-	//如果是android系统，则将android客户端下载的广告条显示出来
+	//濡傛灉鏄痑ndroid绯荤粺锛屽垯灏哸ndroid瀹㈡埛绔笅杞界殑骞垮憡鏉℃樉绀哄嚭鏉?
     navigator.userAgent.indexOf("Android") != -1 && $("#install-android-entry").show();
 
 
@@ -164,7 +164,7 @@ window.onload = function() {
         a.css("left", (document.body.clientWidth - a.width()) / 2 + "px");
         a.css("top", scrollY + 100 + "px")
     },
-			//ajax对象
+			//ajax瀵硅薄
     G = function(a) {
         var b = {
             type: "GET",
@@ -287,7 +287,7 @@ window.onload = function() {
 //    },
 //    H = function(a) {
 //        if (a.coords) {
-//            s.enableHighAccuracy && $("#location-bar").text("已找到您的位置");
+//            s.enableHighAccuracy && $("#location-bar").text("宸叉壘鍒版偍鐨勪綅缃?);
 //            jiepang.latlng = a.coords.latitude + "," + a.coords.longitude + "," + (a.coords.accuracy ? a.coords.accuracy / 3 : 100);
 //            jiepang.lat = a.coords.latitude;
 //            jiepang.lon = a.coords.longitude;
@@ -312,7 +312,7 @@ window.onload = function() {
 //            s.timeout = 3E4;
 //            y();
 //            w()
-//        } else $("#location-bar").text("无法找到您的位置，请退出后重试")
+//        } else $("#location-bar").text("鏃犳硶鎵惧埌鎮ㄧ殑浣嶇疆锛岃閫€鍑哄悗閲嶈瘯")
 //    },
 //    y = function() {
 //        if (v && t) {
@@ -330,7 +330,7 @@ window.onload = function() {
 //        C = setTimeout(y, 6E4);
 //        w()
 //    };
-	////////////////////////////////////////////////////////////Chrome  地理位置定位////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////Chrome  鍦扮悊浣嶇疆瀹氫綅////////////////////////////////////////////////////////////
 
     var z = null,
     x = {};
@@ -367,12 +367,12 @@ window.onload = function() {
                     alert(f)
                 },
                 authfail: function(h) {
-//                    if (h == 26) if (a == "action.php?a=login") alert("用户名或密码错误。");
+//                    if (h == 26) if (a == "action.php?a=login") alert("鐢ㄦ埛鍚嶆垨瀵嗙爜閿欒銆?);
 //                    else {
-//                        alert("用户名或密码错误，请重新登录");
+//                        alert("鐢ㄦ埛鍚嶆垨瀵嗙爜閿欒锛岃閲嶆柊鐧诲綍");
 //                        logout()
 //                    } else {
-//                      h == 22 ? alert("此 Email 还未激活，请使用用户名登录。") : alert("请重新登录");
+//                      h == 22 ? alert("姝?Email 杩樻湭婵€娲伙紝璇蜂娇鐢ㄧ敤鎴峰悕鐧诲綍銆?) : alert("璇烽噸鏂扮櫥褰?);
 //                      logout()
 //                    }
                 }
@@ -465,7 +465,7 @@ window.onload = function() {
         b = new Date;
         a.setTime(a.getTime() + 288E5);
         b.setTime(b.getTime() + 288E5);
-        var c = [[1, "秒"], [60, "分钟"], [3600, "小时"]],
+        var c = [[1, "绉?], [60, "鍒嗛挓"], [3600, "灏忔椂"]],
         d,
         e = (b.getTime() - a.getTime()) / 1E3;
         e = e > 0 ? e: 1;
@@ -475,9 +475,9 @@ window.onload = function() {
             break
         }
         if (h != "") {
-            if (e >= 3600) h = "约 " + h;
-            h += "前"
-        } else h = a.getUTCFullYear() == b.getUTCFullYear() && a.getUTCMonth() == b.getUTCMonth() && a.getUTCDate() == b.getUTCDate() ? "今天 " + a.getUTCHours() + ":" + (a.getUTCMinutes() < 10 ? "0" + a.getUTCMinutes() : a.getUTCMinutes()) : a.getUTCMonth() + 1 + "月" + a.getUTCDate() + "日 " + a.getUTCHours() + ":" + (a.getUTCMinutes() < 10 ? "0" + a.getUTCMinutes() : a.getUTCMinutes());
+            if (e >= 3600) h = "绾?" + h;
+            h += "鍓?
+        } else h = a.getUTCFullYear() == b.getUTCFullYear() && a.getUTCMonth() == b.getUTCMonth() && a.getUTCDate() == b.getUTCDate() ? "浠婂ぉ " + a.getUTCHours() + ":" + (a.getUTCMinutes() < 10 ? "0" + a.getUTCMinutes() : a.getUTCMinutes()) : a.getUTCMonth() + 1 + "鏈? + a.getUTCDate() + "鏃?" + a.getUTCHours() + ":" + (a.getUTCMinutes() < 10 ? "0" + a.getUTCMinutes() : a.getUTCMinutes());
         return h
     };
 };

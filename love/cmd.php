@@ -3,7 +3,7 @@ require_once(ROOT."./inc/sdk/api_client.php");
 $skey = SESS::get('last_key');
 
 $c = new MBApiClient( MB_AKEY , MB_SKEY , $skey['oauth_token'] , $skey['oauth_token_secret']  );
-//时间线
+//鏃堕棿绾?
 $p =array(
 	'f' => 0,
 	't' => 0,		
@@ -11,7 +11,7 @@ $p =array(
 );
 //var_dump($c->getTimeline($p));
 
-//拉取username的信息
+//鎷夊彇username鐨勪俊鎭?
 $p =array(
 	'f' => 0,
 	't' => 0,		
@@ -20,14 +20,14 @@ $p =array(
 );
 print_r($c->getTimeline($p));
 
-//拉取广播大厅消息
+//鎷夊彇骞挎挱澶у巺娑堟伅
 $p =array(
 	'p' => 0,
 	'n' => 5		
 );
 //var_dump($c->getPublic($p));
 
-//拉取关于我的消息
+//鎷夊彇鍏充簬鎴戠殑娑堟伅
 $p =array(
 	'f' => 0,
 	'n' => 5,		
@@ -37,29 +37,29 @@ $p =array(
 );
 //var_dump($c->getMyTweet($p));
 //
-//单条消息
+//鍗曟潯娑堟伅
 $p =array(
 	'id' => 26016073563599 
 );
 //var_dump($c->getOne($p));
 //
-//发消息
-//	*@content: 微博内容
+//鍙戞秷鎭?
+//	*@content: 寰崥鍐呭
 $p =array(
-	'c' => '火车侠',
+	'c' => '鐏溅渚?,
 	'ip' => $_SERVER['REMOTE_ADDR'], 
 	'j' => '',
 	'w' => ''
 );
 //var_dump($c->postOne($p));
 //
-//	*@content: 微博内容
+//	*@content: 寰崥鍐呭
 $p =array(
 	'id' => 14511064212422
 );
 //var_dump($c->delOne($p));
 $p =array(
-	'c' => '转播火车侠',
+	'c' => '杞挱鐏溅渚?,
 	'ip' => $_SERVER['REMOTE_ADDR'], 
 	'j' => '',
 	'w' => '',
@@ -69,7 +69,7 @@ $p =array(
 //var_dump($c->postOne($p));
 
 $p =array(
-	'c' => '转播火车侠',
+	'c' => '杞挱鐏溅渚?,
 	'ip' => $_SERVER['REMOTE_ADDR'], 
 	'j' => '',
 	'w' => '',
@@ -148,7 +148,7 @@ $p =array(
 );
 //print_r($c->getFav($p));
 $p =array(
-	'list' => '四川洪灾,微博简易食谱'
+	'list' => '鍥涘窛娲伨,寰崥绠€鏄撻璋?
 );
 //print_r($c->getTopicId($p));
 //

@@ -1,48 +1,49 @@
 
-function checkChecked(name,num){
+function chC(name,num){
+	var rel=false;
 	$('input:radio[name='+name+']').each(function(i,n){
-		//if(num==i)
-			alert(this.checked);
+		if(num==i)
+			rel=this.checked;
 	});
+	return rel;
 }
 
 function calculate(){     
 var storea=0;
-checkChecked("q1",1);
 
-if(K.q1[1].checked){storea+=1;}     
-if(K.q2[2].checked){storea+=1;}     
-if(K.q3[4].checked){storea+=1;}     
-if(K.q4[1].checked){storea+=1;}     
-if(K.q5[2].checked){storea+=1;}     
-if(K.T6.value=="26"){storea+=2;}     
-if(K.q7[0].checked){storea+=1;}     
-if(K.q8[0].checked){storea+=1;}     
-if(K.q9[2].checked){storea+=1;}     
-if(K.q10[2].checked){storea+=1;}     
-if(K.T11.value=="9"){storea+=1;}     
-if(K.q12[3].checked){storea+=1;}     
-if(K.q13[2].checked){storea+=1;}     
-if(K.T14.value=="6"){storea+=1;}     
-if(K.q15[2].checked){storea+=1;}     
-if(K.q16[2].checked){storea+=1;}     
-if(K.T17.value=="36"){storea+=1;}     
-if(K.q18[1].checked){storea+=1;}     
-if(K.q19[0].checked){storea+=1;}     
-if(K.T20.value=="美国"){storea+=2;}     
-if(K.q21[3].checked){storea+=2;}     
-if(K.T22.value=="64"){storea+=2;}     
-if(K.T23.value=="科学"){storea+=2;}     
-if(K.T24.value=="式"){storea+=1;}     
-if(K.T25.value=="X"||K.T25.value=="x"){storea+=1;}     
-if(K.T26.value=="75"){storea+=1;}     
-if(K.q27[4].checked){storea+=1;}     
-if(K.T28.value=="奠"){storea+=1;}     
-if(K.T29.value=="颠"){storea+=1;}     
-if(K.T30.value=="5"){storea+=1;}     
-if(K.T31.value=="36"){storea+=2;}     
-if(K.q32[2].checked){storea+=2;}     
-if(K.T33.value=="O"||K.T33.value=="o"){storea+=1;}     
+if(chC('q1','1')){storea+=1;}     
+if(chC('q2','2')){storea+=1;}     
+if(chC('q3','4')){storea+=1;}     
+if(chC('q4','1')){storea+=1;}     
+if(chC('q5','2')){storea+=1;}     
+if($("input[name=T6]").val()=="26"){storea+=2;}     
+if(chC('q7','0')){storea+=1;}     
+if(chC('q8','0')){storea+=1;}     
+if(chC('q9','2')){storea+=1;}     
+if(chC('q10','2')){storea+=1;}     
+if($("input[name=T11]").val()=="9"){storea+=1;}     
+if(chC('q12','3')){storea+=1;}     
+if(chC('q13','2')){storea+=1;}     
+if($("input[name=T14]").val()=="6"){storea+=1;}     
+if(chC('q15','2')){storea+=1;}     
+if(chC('q16','2')){storea+=1;}     
+if($("input[name=T17]").val()=="36"){storea+=1;}     
+if(chC('q18','1')){storea+=1;}     
+if(chC('q19','0')){storea+=1;}     
+if($("input[name=T20]").val()=="美国"){storea+=2;}     
+if(chC('q21','3')){storea+=2;}     
+if($("input[name=T22]").val()=="64"){storea+=2;}     
+if($("input[name=T23]").val()=="科学"){storea+=2;}     
+if($("input[name=T24]").val()=="式"){storea+=1;}     
+if($("input[name=T25]").val()=="X"||$("input[name=T25]").val()=="x"){storea+=1;}     
+if($("input[name=T26]").val()=="75"){storea+=1;}     
+if(chC('q27','4')){storea+=1;}     
+if($("input[name=T28]").val()=="奠"){storea+=1;}     
+if($("input[name=T29]").val()=="颠"){storea+=1;}     
+if($("input[name=T30]").val()=="5"){storea+=1;}     
+if($("input[name=T31]").val()=="36"){storea+=2;}     
+if(chC('q32','2')){storea+=2;}     
+if($("input[name=T33]").val()=="O"||$("input[name=T33]").val()=="o"){storea+=1;}     
     if(timerID)clearTimeout(timerID);
 	var i=$("#face").html();
 	$.get("?app=iq&op=cacl&usetime="+initStopwatch()+"&storea="+storea+"&t="+Math.random(),function(res){

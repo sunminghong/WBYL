@@ -1,18 +1,18 @@
 <?php
 $_CONFIG = array(
-	#数据库相关
+	#鏁版嵁搴撶浉鍏?
 	'db' =>array(
-		'ip'=>'localhost', #数据库服务器IP
-		'username'=>'root', #用户名
-		'pwd'=>'root', #密码
-		'database'=>'tqq', #数据库名
-		'charset'=>'utf8', #默认编码
+		'ip'=>'localhost', #鏁版嵁搴撴湇鍔″櫒IP
+		'username'=>'root', #鐢ㄦ埛鍚?
+		'pwd'=>'root', #瀵嗙爜
+		'database'=>'tqq', #鏁版嵁搴撳悕
+		'charset'=>'utf8', #榛樿缂栫爜
 	),
 	
-	#MemCache相关
+	#MemCache鐩稿叧
 	'memcache' => array(
-		'ip'=>'10.0.3.100',#服务器IP
-		'port' => '11211', #端口
+		'ip'=>'10.0.3.100',#鏈嶅姟鍣↖P
+		'port' => '11211', #绔彛
 	),
 );
 ?>

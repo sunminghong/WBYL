@@ -2,7 +2,7 @@
 
 class home extends ctl_base
 {
-	function index(){ // ÕâÀïÊÇÊ×Ò³		
+	function index(){ // è¿™é‡Œæ˜¯é¦–é¡µ		
 		$this->display("home_index.htm");
 	}
 }	

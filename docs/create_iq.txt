@@ -1,35 +1,63 @@
-drop table iq_iq;
-create Table `iq_iq` (
-  `uid` int(11) NOT NULL ,
-  `iq` int(11) NOT NULL,
-  `testCount` int(11) NOT NULL COMMENT '测试次数',
-  `fromuid` varchar(10) NOT NULL COMMENT '是由哪个用户引来的',
+CREATE TABLE `iq_iq` (
+ `uid` int(11) NOT NULL,
+ `iq` int(11) NOT NULL,
+ `testCount` int(11) NOT NULL COMMENT '???????',
+ `retuid` int(11) NOT NULL DEFAULT '0' COMMENT '??????????????????',
+ `followers` int(11) NOT NULL,
+ `followings` int(11) NOT NULL,
+ `tweets` int(11) NOT NULL,
+ `regtime` int(11) NOT NULL,
+ `lasttime` int(11) NOT NULL,
+ PRIMARY KEY (`uid`),
+ KEY `iq` (`iq`),
+ KEY `testCount` (`testCount`),
+ KEY `followers` (`followers`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
-  `followers` int(11) NOT NULL,
-  `followings` int(11) NOT NULL,
-  `tweets` int(11) NOT NULL,
-  `regtime` int(11) NOT NULL,
-  `lasttime` int(11) NOT NULL,
-  PRIMARY KEY (`uid`),
-	KEY `iq`(`iq`),
-	KEY `testCount`(`testCount`),
-	KEY `followers`(`followers`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-drop table iq_log;
-create Table `iq_log`(
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) NOT NULL ,
-  `iq` int(11) NOT NULL,
-  `fromuid` varchar(10) NOT NULL COMMENT '是由哪个用户引来的',
+CREATE TABLE `iq_log` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `uid` int(11) NOT NULL,
+ `iq` int(11) NOT NULL,
+ `followers` int(11) NOT NULL,
+ `followings` int(11) NOT NULL,
+ `tweets` int(11) NOT NULL,
+ `lasttime` int(11) NOT NULL,
+ `retuid` int(11) NOT NULL COMMENT '????????????????',
+ PRIMARY KEY (`id`),
+ KEY `uid` (`uid`),
+ KEY `iq` (`iq`),
+ KEY `followers` (`followers`)
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8
 
-  `followers` int(11) NOT NULL,
-  `followings` int(11) NOT NULL,
-  `tweets` int(11) NOT NULL,
-  `regtime` int(11) NOT NULL,
- 
-  PRIMARY KEY (`id`),
-	KEY `uid`(`uid`),
-	KEY `iq`(`iq`),
-	KEY `followers`(`followers`)
+CREATE TABLE `ppt_login` (
+ `uid` int(11) NOT NULL AUTO_INCREMENT,
+ `lfromuid` int(11) NOT NULL,
+ `lfrom` varchar(10) NOT NULL,
+ `name` varchar(20) NOT NULL,
+ PRIMARY KEY (`uid`),
+ KEY `lfromuid` (`lfromuid`),
+ KEY `lfrom` (`lfrom`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8
+
+CREATE TABLE `ppt_user` (
+ `uid` int(11) NOT NULL,
+ `lfromuid` int(11) NOT NULL,
+ `lfrom` varchar(10) NOT NULL,
+ `name` varchar(20) NOT NULL,
+ `screen_name` varchar(30) NOT NULL,
+ `domain` varchar(100) NOT NULL,
+ `followers` int(11) NOT NULL,
+ `followings` int(11) NOT NULL,
+ `tweets` int(11) NOT NULL,
+ `tk` varchar(32) NOT NULL,
+ `sk` varchar(32) NOT NULL,
+ `logins` int(11) NOT NULL,
+ `regtime` int(11) NOT NULL,
+ `logintime` int(11) NOT NULL,
+ `lasttime` int(11) NOT NULL,
+ `retuid` int(11) NOT NULL DEFAULT '0' COMMENT '??????????????????',
+ `retapp` varchar(8) NOT NULL DEFAULT '' COMMENT '??????????',
+ PRIMARY KEY (`uid`),
+ KEY `logins` (`logins`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

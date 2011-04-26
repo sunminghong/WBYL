@@ -5,7 +5,7 @@ if(!defined('APPIN')) {
 
 require_once(ROOT."./inc/sdk/api_client.php");
 $skey = SESS::get('last_key');
-//读取列表
+//璇诲彇鍒楄〃
 function load(){
 	$type = rq('t');
 	$start = rq('s');
@@ -53,13 +53,13 @@ if(!empty($act)){
 </head>
 <body>
 <div id="fans_menu">
-	<a href="javascript:;" class="fmenuon" id="a0" onclick="setfans(0);">我的听众</a>
-    <a href="javascript:;" onclick="setfans(1);" id="a1">我的偶像</a>
+	<a href="javascript:;" class="fmenuon" id="a0" onclick="setfans(0);">鎴戠殑鍚紬</a>
+    <a href="javascript:;" onclick="setfans(1);" id="a1">鎴戠殑鍋跺儚</a>
 </div>
 <div id="fans_list"> <div class="fans_loading">loading ...</div></div>
 <div id="fans_page">
-	<a href="javascript:;" class="p" onclick="fanspage(-30)"> << 上一页</a>
-    <a href="javascript:;" class="n" onclick="fanspage(30)">下一页 >> </a>
+	<a href="javascript:;" class="p" onclick="fanspage(-30)"> << 涓婁竴椤?/a>
+    <a href="javascript:;" class="n" onclick="fanspage(30)">涓嬩竴椤?>> </a>
 </div>
 <script>
 if('<?php echo rq('t')?>'!=''){

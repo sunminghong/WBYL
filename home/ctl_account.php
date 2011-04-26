@@ -7,8 +7,6 @@ class account extends ctl_base
 		$this->display("home_index");
 	}
 
-	
-
 	function tologin(){		
 		$lfrom=rq("lfrom","tsina");
 		$callbackurl=URLBASE.'?act=account&op=callback&lfrom=tsina&fromurl='.urlencode($_SERVER["HTTP_REFERER"]);
@@ -27,7 +25,6 @@ class account extends ctl_base
 		$api="openapi_".$lfrom;
 		importlib($api);
 		$api=new $api();	
-
 
 		$uidarr=$api->callback();
 		if(!$uidarr){ //登录失败

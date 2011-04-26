@@ -1,6 +1,6 @@
 <?php
 /**
- * oauth相关类
+ * oauth鐩稿叧绫?
  * @param 
  * @return
  * @author tuguska
@@ -46,7 +46,7 @@ class OAuthToken {
     } 
 }
 
-//oauth签名方法
+//oauth绛惧悕鏂规硶
 class OAuthSignatureMethod { 
     public function check_signature(&$request, $consumer, $token, $signature) { 
         $built = $this->build_signature($request, $consumer, $token); 

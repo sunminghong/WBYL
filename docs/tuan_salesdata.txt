@@ -18,7 +18,7 @@ create table tuan_salesdata(
 	vendor_name varchar(25) default '',
 	vendor_website_url varchar(255) default '',
 	 
-	status int comment '是否有效，即过期否',
+	status int comment '?????效?????????',
 	start_date datetime,
 	end_date datetime,
 

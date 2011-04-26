@@ -174,18 +174,18 @@ class SaeMemcacheWrapper1 // implements WrapperInterface
     {
 
 
-        //echo "»Øµ÷mkdir\n";
+        //echo "å›è°ƒmkdir\n";
         $path  = rtrim( $path  , '/' );
 
         $this->stat = $this->get_file_info( $path );
         $this->stat['ctime'] = $this->stat[10] = time();
         $this->stat['mode'] = $this->stat[2] = $this->dir_mode;
 
-        //echo "Éú³ÉĞÂµÄstatÊı¾İ" . print_r( $this->stat , 1 );
+        //echo "ç”Ÿæˆæ–°çš„statæ•°æ®" . print_r( $this->stat , 1 );
 
         memcache_set( $this->mc() , $path.'.meta' ,  serialize($this->stat)  );
 
-        //echo "Ğ´ÈëMC. key= " . $path.'.meta ' .  memcache_get( $this->mc , $path.'.meta'  );
+        //echo "å†™å…¥MC. key= " . $path.'.meta ' .  memcache_get( $this->mc , $path.'.meta'  );
         memcache_close( $this->mc );
 
 
@@ -241,9 +241,9 @@ class SaeMemcacheWrapper1 // implements WrapperInterface
     public function is_file_info_exists( $path )
     {
         //print_r("path:{$path}\n");
-        //echo "»ñÈ¡MCÊı¾İ key= " .  $path.'.meta' ;
+        //echo "è·å–MCæ•°æ® key= " .  $path.'.meta' ;
         $d = memcache_get( $this->mc() , $path . '.meta' );
-        //echo "\n·µ»ØÊı¾İÎª" . $d . "\n";
+        //echo "\nè¿”å›æ•°æ®ä¸º" . $d . "\n";
         return $d;
     }
 

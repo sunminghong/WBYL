@@ -1,15 +1,15 @@
 <?php
 /*
-功能：上传文件
-返回：array(true|false,msg); false时，返回失败原因，true时，返回文件名
+鍔熻兘锛氫笂浼犳枃浠?
+杩斿洖锛歛rray(true|false,msg); false鏃讹紝杩斿洖澶辫触鍘熷洜锛宼rue鏃讹紝杩斿洖鏂囦欢鍚?
 
 demo:
 
-inputName：Form表单中file控件名
-savePath：保存的目录
-maxSize：允许上传的文件大小 单位KB
-allowType：允许上传的文件后缀名数组
-up('file1','') 控件名，新文件名（可选，不填则表示使用原文件名）
+inputName锛欶orm琛ㄥ崟涓璮ile鎺т欢鍚?
+savePath锛氫繚瀛樼殑鐩綍
+maxSize锛氬厑璁镐笂浼犵殑鏂囦欢澶у皬 鍗曚綅KB
+allowType锛氬厑璁镐笂浼犵殑鏂囦欢鍚庣紑鍚嶆暟缁?
+up('file1','') 鎺т欢鍚嶏紝鏂版枃浠跺悕锛堝彲閫夛紝涓嶅～鍒欒〃绀轰娇鐢ㄥ師鏂囦欢鍚嶏級
 
 $upload = new UPLOAD(ROOT.'upload',200,array('gif','jpg','png','bmp','lua'));
 print_r($upload->up('file1'));
@@ -24,30 +24,30 @@ class UPLOAD{
 	
 	function up($inputName,$saveName=''){
 		if($_FILES[$inputName]['tmp_name']=='' || $_FILES[$inputName]['name']=='' || $_FILES[$inputName]['size']==0){
-			return array(false,'上传数据读取错误');
+			return array(false,'涓婁紶鏁版嵁璇诲彇閿欒');
 		}
 		
 		$fileNameArray=explode('.',$_FILES[$inputName]['name']);   
 		$fileType=strtolower($fileNameArray[count($fileNameArray)-1]);
 		
 		if(!in_array($fileType,$this->allowType)){
-			return array(false,'上传文件类型错误，仅允许上传后缀名为'.implode(' .',$this->allowType).'的文件');  
+			return array(false,'涓婁紶鏂囦欢绫诲瀷閿欒锛屼粎鍏佽涓婁紶鍚庣紑鍚嶄负'.implode(' .',$this->allowType).'鐨勬枃浠?);  
 		}
 		
 		if($_FILES[$inputName]['size']>$this->maxSize*1024){ 
-			return array(false,'上传文件限制在'. $this->maxSize .'KB以内'); 
+			return array(false,'涓婁紶鏂囦欢闄愬埗鍦?. $this->maxSize .'KB浠ュ唴'); 
 		}
 		
 		if(!file_exists($this->savePath)){   
 			if(!mkdir($this->savePath,0777)){
-				return array(false,'创建上传文件保存文件目录失败');
+				return array(false,'鍒涘缓涓婁紶鏂囦欢淇濆瓨鏂囦欢鐩綍澶辫触');
 			}   
 		}
 		
 		$save_name=$saveName&&$saveName!=''?$saveName.'.'.$fileType:$_FILES[$inputName]['name'];
 		
 		if(!move_uploaded_file($_FILES[$inputName]['tmp_name'],$this->savePath.DIRECTORY_SEPARATOR.$save_name)){
-			return array(false,'文件上传过程中发生错误');
+			return array(false,'鏂囦欢涓婁紶杩囩▼涓彂鐢熼敊璇?);
 		}
 		
 		switch($_FILES[$formname]['error']){   
@@ -55,19 +55,19 @@ class UPLOAD{
 				return array(true,$save_name);   
 				break;   
 			case 1:
-				return array(false,'上传的文件超过了upload_max_filesize选项限制的值'); 
+				return array(false,'涓婁紶鐨勬枃浠惰秴杩囦簡upload_max_filesize閫夐」闄愬埗鐨勫€?); 
 				break;   
 			case 2:
-				return array(false,'上传文件的大小超过了HTML表单中MAX_FILE_SIZE选项指定的值');  
+				return array(false,'涓婁紶鏂囦欢鐨勫ぇ灏忚秴杩囦簡HTML琛ㄥ崟涓璏AX_FILE_SIZE閫夐」鎸囧畾鐨勫€?);  
 				break;   
 			case 3:
-				return array(false,'文件只有部分被上传'); 
+				return array(false,'鏂囦欢鍙湁閮ㄥ垎琚笂浼?); 
 				break;   
 			case 4:
-				return array(false,'没有文件被上传'); 
+				return array(false,'娌℃湁鏂囦欢琚笂浼?); 
 				break;   
 			default:   
-				return array(false,'未知错误'); 
+				return array(false,'鏈煡閿欒'); 
 				break;   
 		}
 	}

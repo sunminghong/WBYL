@@ -1,7 +1,7 @@
 <?php
 
 function importlib($libname){
-	include_once(ROOT.'/include/'.$libname.".php");
+	include_once(ROOT.'include/'.$libname.".php");
 }
 
 

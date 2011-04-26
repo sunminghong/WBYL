@@ -8,8 +8,8 @@ require_once(ROOT."./inc/sdk/config.php");
 require_once(ROOT."./inc/sdk/oauth.php");
 require_once(ROOT."./inc/sdk/opent.php");
 
-//统一入口模式
-//使用?app=folder.file模式指定文件
+//缁熶竴鍏ュ彛妯″紡
+//浣跨敤?app=folder.file妯″紡鎸囧畾鏂囦欢
 $indexUrl = $myurl = "http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 $getApp = rq('app');
 if(strlen($getApp)==0){
@@ -17,7 +17,7 @@ if(strlen($getApp)==0){
 	if($fn=='')$fn='secretlove';
 	$myurl = $indexUrl.'?app=callback&fn='.$fn;
 	$o = new MBOpenTOAuth( MB_AKEY , MB_SKEY  );
-	$keys = $o->getRequestToken($myurl);//这里填上你的回调URL
+	$keys = $o->getRequestToken($myurl);//杩欓噷濉笂浣犵殑鍥炶皟URL
 	$aurl = $o->getAuthorizeURL( $keys['oauth_token'] ,false,'');
 	SESS::set('keys',$keys);
 	echo "<script language='javascript'>"; 

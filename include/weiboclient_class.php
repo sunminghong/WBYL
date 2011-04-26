@@ -86,6 +86,7 @@ abstract class WeiboClient
 			$this->id_format($max_id);
 			$params['max_id'] = $max_id;
 		}
+		
 		return $this->request_with_pager($this->host.'statuses/home_timeline.json', $page, $count, $params );
 	}
 

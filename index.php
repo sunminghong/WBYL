@@ -1,5 +1,4 @@
 <?php
-
 if(!isset($_GET["app"]) && !isset($_GET["act"])){
 	//$defapp="iq";
 			$tourl="?app=iq";

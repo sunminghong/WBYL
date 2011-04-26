@@ -14,20 +14,20 @@ function sendMail($email){
 		$mail->Username   = "upfiles"; #SMTP account username
 		$mail->Password   = "87256939";#SMTP account password
 		
-		$mail->AddReplyTo('upfiles@163.com', '刺鸟ReplyTo');		
-		$mail->SetFrom('upfiles@163.com', '刺鸟SetFrom');
+		$mail->AddReplyTo('upfiles@163.com', '鍒洪笩ReplyTo');		
+		$mail->SetFrom('upfiles@163.com', '鍒洪笩SetFrom');
 
-		$mail->AddAddress($email, '刺鸟QQ');
+		$mail->AddAddress($email, '鍒洪笩QQ');
 		$body="asdasdasdasdasdasdasdasdasdsdfsfsdfsdf";		
-		$mail->Subject = '测试邮件';
+		$mail->Subject = '娴嬭瘯閭欢';
 		$mail->AltBody = 'text/html';
 		$mail->MsgHTML($body);
 		$mail->Send();
-		echo "发送成功";
+		echo "鍙戦€佹垚鍔?;
 	} catch (phpmailerException $e) {
-		echo "发送失败";
+		echo "鍙戦€佸け璐?;
 	} catch (Exception $e) {
-		echo "发送失败";
+		echo "鍙戦€佸け璐?;
 	}
 }
 sendMail('3431771@qq.com');

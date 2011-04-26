@@ -9,7 +9,14 @@ class my extends ctl_base {
 		$this->display("home_my_index");
 	}
 		
-	public function home_timeline(){//echo '[{"created_at":"Fri Apr 22 18:02:44 +0800 2011","id":9506123246,"text":"[\u592a\u5f00\u5fc3] \u53c8\u662f\u4e00\u4e2a\u5468\u672b","source":"<a href=\"http:\/\/weibo.com\" rel=\"nofollow\">\u65b0\u6d6a\u5fae\u535a<\/a>","favorited":false,"truncated":false,"in_reply_to_status_id":"","in_reply_to_user_id":"","in_reply_to_screen_name":"","geo":null,"mid":"5598346264670904802","user":{"id":2100628797,"screen_name":"zhuangxinli","name":"zhuangxinli","province":"37","city":"11","location":"\u5c71\u4e1c \u65e5\u7167","description":"","url":"","profile_image_url":"http:\/\/tp2.sinaimg.cn\/2100628797\/50\/5598433443\/1","domain":"","gender":"m","followers_count":0,"friends_count":31,"statuses_count":0,"favourites_count":0,"created_at":"Fri Apr 22 00:00:00 +0800 2011","following":false,"allow_all_act_msg":false,"geo_enabled":true,"verified":false},"annotations":[{"cartoon":false}]}]';exit;
+	public function home_timeline(){
+/*$aa=Array
+        (
+            [created_at] => Tue Apr 26 12:03:12 +0800 2011
+            [id] => 9661134511
+            [text] => 腾讯起诉360不正当竞争案刚刚宣判：1.360停止发行360隐私保护器；2.360删除涉案侵权内容的宣传；3.在360网站的首页及法制日报上公开发表声明，消除不利影响；4.360赔偿损失40万元；5.驳回其他诉讼请求。
+            [source] => "<a href="http://weibo.com" rel="nofollow">新浪微博</a>" );*/
+
 		$kuids=rq("kuid","");
 		if (!$kuids) return "";
 
@@ -25,10 +32,9 @@ class my extends ctl_base {
 			$api=new $api(); 
 
 			$client=$api->getClient($kuid);	
-			///print_r($api->getUserInfo($kuid));
+			//print_r($api->getUserInfo($kuid));
 			$ms  = $client->home_timeline(); // done	
-						
-		}
+		}		
 		echo json_encode($ms);
 		exit;
 	}
@@ -58,5 +64,23 @@ class my extends ctl_base {
 		exit;
 	}
 
+	public function follow() {
+		$uid=rq("fuid",false);
+		if(!$uid) return;
+		
+		$isFollow=rq("follow",1);
+		$account=getAccount();
+
+		$api="openapi_tsina";
+			importlib($api);
+			$api=new $api(); 
+
+			$client=$api->getClient($account['kuid']);	
+		if($isFollow)
+			$ms  = $client->follow($uid); // done	
+		else
+			$ms  = $client->unfollow($uid); // done
+		echo "1";exit;
+	}
 }
 ?>

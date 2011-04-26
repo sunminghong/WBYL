@@ -188,7 +188,7 @@ class template {
 			} else {
 				$urlret = '';
 			}
-			$url .= (strpos($url, '?') ? ($wml ? '&amp;' : '&') : '?').'sid='.$sid.$urlret;
+			//$url .= (strpos($url, '?')>-1 ? ($wml ? '&amp;' : '&') : '?').'sid='.$sid.$urlret;
 		}
 		return $tag.$url;
 	}

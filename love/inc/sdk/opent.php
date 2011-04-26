@@ -1,6 +1,6 @@
 <?php
 /**
- * 开放平台鉴权类
+ * 寮€鏀惧钩鍙伴壌鏉冪被
  * @param 
  * @return
  * @author tuguska
@@ -36,8 +36,8 @@ class MBOpenTOAuth {
 	}
 
     /** 
-     * oauth授权之后的回调页面 
-	 * 返回包含 oauth_token 和oauth_token_secret的key/value数组
+     * oauth鎺堟潈涔嬪悗鐨勫洖璋冮〉闈?
+	 * 杩斿洖鍖呭惈 oauth_token 鍜宱auth_token_secret鐨刱ey/value鏁扮粍
      */ 
     function getRequestToken($oauth_callback = NULL) { 
         $parameters = array(); 
@@ -52,7 +52,7 @@ class MBOpenTOAuth {
     } 
 
     /** 
-     * 获取授权url
+     * 鑾峰彇鎺堟潈url
      * @return string 
      */ 
     function getAuthorizeURL($token, $signInWithWeibo = TRUE , $url='') { 
@@ -67,7 +67,7 @@ class MBOpenTOAuth {
 	} 	
 
     /** 
-	* 交换授权
+	* 浜ゆ崲鎺堟潈
 	* Exchange the request token and secret for an access token and 
      * secret, to sign API calls. 
      * 
@@ -90,46 +90,46 @@ class MBOpenTOAuth {
 		$jsonArr = json_decode($response, $assoc);
 		if(!is_array($jsonArr))
 		{
-			throw new Exception('格式错误!');
+			throw new Exception('鏍煎紡閿欒!');
 		}
 		$ret = $jsonArr["ret"];
 		$msg = $jsonArr["msg"];
 		/**
-		 *Ret=0 成功返回
-		 *Ret=1 参数错误
-		 *Ret=2 频率受限
-		 *Ret=3 鉴权失败
-		 *Ret=4 服务器内部错误
+		 *Ret=0 鎴愬姛杩斿洖
+		 *Ret=1 鍙傛暟閿欒
+		 *Ret=2 棰戠巼鍙楅檺
+		 *Ret=3 閴存潈澶辫触
+		 *Ret=4 鏈嶅姟鍣ㄥ唴閮ㄩ敊璇?
 		 */
 		switch ($ret) {
 			case 0:
 				return $jsonArr;;
 				break;
 			case 1:
-				throw new Exception('参数错误!');
+				throw new Exception('鍙傛暟閿欒!');
 				break;
 			case 2:
-				throw new Exception('频率受限!');
+				throw new Exception('棰戠巼鍙楅檺!');
 				break;
 			case 3:
-				throw new Exception('鉴权失败!');
+				throw new Exception('閴存潈澶辫触!');
 				break;
 			default:
 				$errcode = $jsonArr["errcode"];
-				if(isset($errcode))			//统一提示发表失败
+				if(isset($errcode))			//缁熶竴鎻愮ず鍙戣〃澶辫触
 				{
-					throw new Exception("发表失败");
+					throw new Exception("鍙戣〃澶辫触");
 					break;
 					//require_once MB_COMM_DIR.'/api_errcode.class.php';
 					//$msg = ApiErrCode::getMsg($errcode);
 				}
-				throw new Exception('服务器内部错误!');
+				throw new Exception('鏈嶅姟鍣ㄥ唴閮ㄩ敊璇?');
 				break;
 		}
 	}
 	
     /** 
-     * 重新封装的get请求. 
+     * 閲嶆柊灏佽鐨刧et璇锋眰. 
      * @return mixed 
      */ 
     function get($url, $parameters) { 
@@ -141,7 +141,7 @@ class MBOpenTOAuth {
 	}
 
 	 /** 
-     * 重新封装的post请求. 
+     * 閲嶆柊灏佽鐨刾ost璇锋眰. 
      * @return mixed 
      */ 
     function post($url, $parameters = array() , $multi = false) { 
@@ -165,7 +165,7 @@ class MBOpenTOAuth {
     } 
 
     /** 
-     * 发送请求的具体类
+     * 鍙戦€佽姹傜殑鍏蜂綋绫?
      * @return string 
      */ 
     function oAuthRequest($url, $method, $parameters , $multi = false) { 
@@ -184,7 +184,7 @@ class MBOpenTOAuth {
 
 	function http($url, $method, $postfields = NULL , $multi = false){
 		//$https = 0;
-		//判断是否是https请求
+		//鍒ゆ柇鏄惁鏄痟ttps璇锋眰
 		if(strrpos($url, 'https://')===0){
 			$port = 443;
 			$version = '1.1';
@@ -216,7 +216,7 @@ class MBOpenTOAuth {
 		$fp = fsockopen($host,$port,$errno,$errstr,30);
 
 		if(!$fp){
-			$error = '建立sock连接失败';
+			$error = '寤虹珛sock杩炴帴澶辫触';
 			throw new Exception($error);
 		}else{
 			fwrite ($fp, $header);  
@@ -234,7 +234,7 @@ class MBOpenTOAuth {
 				$response = split("\r\n\r\n",$ret);
 				$returnInfo = $response[1];
 			}
-			//转成utf-8编码
+			//杞垚utf-8缂栫爜
 			return iconv("utf-8","utf-8//ignore",$returnInfo);
 		}
 		
@@ -242,7 +242,7 @@ class MBOpenTOAuth {
  
 
 	/*
-	使用curl库的请求函数,可以根据实际情况使用
+	浣跨敤curl搴撶殑璇锋眰鍑芥暟,鍙互鏍规嵁瀹為檯鎯呭喌浣跨敤
 	function http($url, $method, $postfields = NULL , $multi = false){
         $this->http_info = array(); 
         $ci = curl_init(); 

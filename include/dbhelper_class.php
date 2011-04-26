@@ -42,11 +42,11 @@ class dbhelper {
 	 * @access private
 	 */	
 	static private function getConn($serv){
-		$key=$serv['db']."_".$serv['dbuser']."_".$serv['dbpwd'];
+		$key=$serv['dbhost']."_".$serv['dbuser']."_".$serv['dbpwd'];
 		if(in_array($key,array_keys(self::$conns)))
 			return self::$conns[$key];
-			
-		$conn=mysql_connect($serv['db'],$serv['dbuser'],$serv['dbpwd']);
+
+		$conn=mysql_connect($serv['dbhost'],$serv['dbuser'],$serv['dbpwd']);
 		if($conn){
 			mysql_select_db(DEFAULT_DB,$conn);
 			mysql_query("SET NAMES '".DEFAULT_CHARTSET."'",$conn);
@@ -83,7 +83,7 @@ class dbhelper {
 	//事务执行SQL语句
 	static function exesqls($sql,$count=false){
 		$conn=self::getConnM();
-		$sqlArr = split (';;;', $sql);
+		$sqlArr = explode (';;;', $sql);
 		mysql_query('BEGIN',$conn);
 		$errnum = 0;
 		$exesqlCount = array();
@@ -122,7 +122,7 @@ class dbhelper {
 	 */	
 	static function getrs($sql){
 		$conn=null;
-		if(eregi("replace|insert|update|delete",$sql)){
+		if(preg_match("/replace|insert|update|delete/i",$sql)){
 			$conn=self::getConnM();
 		}else {
 			$conn=self::getConnS();

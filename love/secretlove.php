@@ -8,7 +8,7 @@ $skey = SESS::get('last_key');
 $myinfo = userinfo();
 
 
-//获取当前用户的信息
+//鑾峰彇褰撳墠鐢ㄦ埛鐨勪俊鎭?
 function userinfo(){
 	global $skey;
 	$cache = SESS::get('myuserinfo');
@@ -22,13 +22,13 @@ function userinfo(){
 	}
 }
 
-//根据fromuid和touid，获取数据库记录
+//鏍规嵁fromuid鍜宼ouid锛岃幏鍙栨暟鎹簱璁板綍
 function getdb($fromuid,$touid,$ok){
 	$sql = "select * from secretlove where fromuid='{$fromuid}' and touid='{$touid}' and ok={$ok} limit 1";
 	return DB::sqlgetall($sql);
 }
 
-//提交暗恋对象
+//鎻愪氦鏆楁亱瀵硅薄
 function submit(){
 	global $myinfo;
 	$toname = rq('touid');
@@ -37,17 +37,17 @@ function submit(){
 	
 	if($toname=='')exit;
 	if($toname==$fromuid){
-		we('alert("你敢再自恋点么？")');	
+		we('alert("浣犳暍鍐嶈嚜鎭嬬偣涔堬紵")');	
 	}
 	
 	$db = getdb($fromuid,$toname,1);
 	if(count($db)>0){
-		we('alert("你们已经互为暗恋对象的呀 还需要再表白一次吗？")');		
+		we('alert("浣犱滑宸茬粡浜掍负鏆楁亱瀵硅薄鐨勫憖 杩橀渶瑕佸啀琛ㄧ櫧涓€娆″悧锛?)');		
 	}
 	
 	$db = getdb($fromuid,$toname,0);
 	if(count($db)>0){
-		we('alert("发布成功 点击【转播到腾讯微博】让Ta也来试试吧~~")');		
+		we('alert("鍙戝竷鎴愬姛 鐐瑰嚮銆愯浆鎾埌鑵捐寰崥銆戣Ta涔熸潵璇曡瘯鍚~")');		
 	}
 
 	$db = getdb($toname,$fromuid,0);
@@ -56,20 +56,20 @@ function submit(){
 		$sql = DB::update('secretlove',array('ok'=>1,'oktime'=>now()),'id='.$db[0]['id']);
 		DB::openrs($sql);		
 		
-		//发私信
+		//鍙戠淇?
 		//global $skey;
 		//$c = new MBApiClient( MB_AKEY , MB_SKEY , $skey['oauth_token'] , $skey['oauth_token_secret']  );
 		/******************
-		*发私信
-		*@c: 微博内容
-		*@ip: 用户IP(以分析用户所在地)
-		*@j: 经度（可以填空）
-		*@w: 纬度（可以填空）
-		*@n: 接收方微博帐号
+		*鍙戠淇?
+		*@c: 寰崥鍐呭
+		*@ip: 鐢ㄦ埛IP(浠ュ垎鏋愮敤鎴锋墍鍦ㄥ湴)
+		*@j: 缁忓害锛堝彲浠ュ～绌猴級
+		*@w: 绾害锛堝彲浠ュ～绌猴級
+		*@n: 鎺ユ敹鏂瑰井鍗氬笎鍙?
 		**********************/
-		//$p = array('c'=>'#我在暗恋你#送囍：天啦！你和'.$db[0]['fromnick'].'(@'. $db[0]['fromuid'] .')居然是互相暗恋的对象，快联系Ta吧！祝有缘人幸福。','ip'=>getip(),'j'=>'','w'=>'','n'=>$fromuid);
+		//$p = array('c'=>'#鎴戝湪鏆楁亱浣?閫佸泹锛氬ぉ鍟︼紒浣犲拰'.$db[0]['fromnick'].'(@'. $db[0]['fromuid'] .')灞呯劧鏄簰鐩告殫鎭嬬殑瀵硅薄锛屽揩鑱旂郴Ta鍚э紒绁濇湁缂樹汉骞哥銆?,'ip'=>getip(),'j'=>'','w'=>'','n'=>$fromuid);
 		//$c->postOneMail($p);	
-		//$p = array('c'=>'#我在暗恋你#送囍：天啦！你和'.$fromnick.'(@'. $fromuid .')居然是互相暗恋的对象，快联系Ta吧！祝有缘人幸福。','ip'=>getip(),'j'=>'','w'=>'','n'=>$toname);
+		//$p = array('c'=>'#鎴戝湪鏆楁亱浣?閫佸泹锛氬ぉ鍟︼紒浣犲拰'.$fromnick.'(@'. $fromuid .')灞呯劧鏄簰鐩告殫鎭嬬殑瀵硅薄锛屽揩鑱旂郴Ta鍚э紒绁濇湁缂樹汉骞哥銆?,'ip'=>getip(),'j'=>'','w'=>'','n'=>$toname);
 		//$c->postOneMail($p);		
 		echo 'peiduiover("'. $db[0]['fromuid'] .'","'. $db[0]['fromnick'] .'");';		
 		exit;
@@ -77,23 +77,23 @@ function submit(){
 	
 	$sql = DB::insert('secretlove',array('fromuid'=>$fromuid,'fromnick'=>$fromnick,'touid'=>$toname,'ok'=>0,'ctime'=>now()));
 	DB::openrs($sql);
-	we('alert("发布成功 点击【转播到腾讯微博】让Ta也来试试吧~");');
+	we('alert("鍙戝竷鎴愬姛 鐐瑰嚮銆愯浆鎾埌鑵捐寰崥銆戣Ta涔熸潵璇曡瘯鍚");');
 }
 
 function post(){
 	global $skey,$indexUrl;
 	$c = new MBApiClient( MB_AKEY , MB_SKEY , $skey['oauth_token'] , $skey['oauth_token_secret']  );
 	/*
-	*@c: 微博内容
-	*@ip: 用户IP(以分析用户所在地)
-	*@j: 经度（可以填空）
-	*@w: 纬度（可以填空）
-	*@p: 图片
-	*@r: 父id
-	*@type: 1 发表 2 转播 3 回复 4 点评
+	*@c: 寰崥鍐呭
+	*@ip: 鐢ㄦ埛IP(浠ュ垎鏋愮敤鎴锋墍鍦ㄥ湴)
+	*@j: 缁忓害锛堝彲浠ュ～绌猴級
+	*@w: 绾害锛堝彲浠ュ～绌猴級
+	*@p: 鍥剧墖
+	*@r: 鐖秈d
+	*@type: 1 鍙戣〃 2 杞挱 3 鍥炲 4 鐐硅瘎
 	**********************/
 	$p = array(
-		'c'=>'/害羞 嘿，我在暗恋你，会不会刚好你也恋着我？你们也来试试吧？#我在暗恋你# 点击进入：'.str_replace('index.php','',$indexUrl).'?fn=secretlove',
+		'c'=>'/瀹崇緸 鍢匡紝鎴戝湪鏆楁亱浣狅紝浼氫笉浼氬垰濂戒綘涔熸亱鐫€鎴戯紵浣犱滑涔熸潵璇曡瘯鍚э紵#鎴戝湪鏆楁亱浣? 鐐瑰嚮杩涘叆锛?.str_replace('index.php','',$indexUrl).'?fn=secretlove',
 		'ip'=>getip(),
 		'j'=>'',
 		'w'=>'',
@@ -102,7 +102,7 @@ function post(){
 	);
 	$res = $c->postOne($p);
 	//print_r($res);
-	we('alert("转播成功");');
+	we('alert("杞挱鎴愬姛");');
 }
 
 function over(){
@@ -115,7 +115,7 @@ function over(){
 		
 	if($zb==1){
 		$p = array(
-			'c'=>'/爱心 天啦！我和@'. $to .'居然是互相暗恋的对象！你们也来试试吧~ #我在暗恋你# 点击进入：'.str_replace('index.php','',$indexUrl).'?fn=secretlove',
+			'c'=>'/鐖卞績 澶╁暒锛佹垜鍜孈'. $to .'灞呯劧鏄簰鐩告殫鎭嬬殑瀵硅薄锛佷綘浠篃鏉ヨ瘯璇曞惂~ #鎴戝湪鏆楁亱浣? 鐐瑰嚮杩涘叆锛?.str_replace('index.php','',$indexUrl).'?fn=secretlove',
 			'ip'=>getip(),
 			'j'=>'',
 			'w'=>'',
@@ -145,7 +145,7 @@ if(!empty($act)){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>我在暗恋你</title>
+<title>鎴戝湪鏆楁亱浣?/title>
 <link rel="shortcut icon" href="http://mat1.gtimg.com/www/mb/favicon.ico"/> 
 <link href="image/public.css" rel="stylesheet" type="text/css" />
 <link href="image/secretlove/css.css" rel="stylesheet" type="text/css" />
@@ -166,8 +166,8 @@ if(!empty($act)){
 	<div class="ok pngfix">
     	<div class="okname"></div>
     	<div class="checkbox">
-        	<input name="okzb" id="okzb" type="checkbox" value="1" checked="checked" />转播到我的微博 <br/>
-            <input name="okst" id="okst" type="checkbox" value="1" checked="checked" />收听官方微博 <br/>
+        	<input name="okzb" id="okzb" type="checkbox" value="1" checked="checked" />杞挱鍒版垜鐨勫井鍗?<br/>
+            <input name="okst" id="okst" type="checkbox" value="1" checked="checked" />鏀跺惉瀹樻柟寰崥 <br/>
         </div>
         <img src="image/secretlove/sure.gif" id="oksure" />
     </div>
@@ -175,16 +175,16 @@ if(!empty($act)){
 	<div class="info tips-box">
    	  <img class="myhead" src="<?php echo $myinfo['data']['head']?>/100" />
 	  <div class="intr">
-        <p class="p"><a target="_blank" href="http://t.qq.com/<?php echo $myinfo['data']['name']?>"><?php echo $myinfo['data']['nick']?>(@<?php echo $myinfo['data']['name']?>)</a>，如果你暗恋某个人，可以在这里悄悄告诉我，如果你暗恋的人正好暗恋你，系统就会发私信告诉你们俩啦~</p>
-        <p class="p" style="margin-top:10px;">发布暗恋信息是不会公开的，请放心使用，祝有缘人幸福！</p>
+        <p class="p"><a target="_blank" href="http://t.qq.com/<?php echo $myinfo['data']['name']?>"><?php echo $myinfo['data']['nick']?>(@<?php echo $myinfo['data']['name']?>)</a>锛屽鏋滀綘鏆楁亱鏌愪釜浜猴紝鍙互鍦ㄨ繖閲屾倓鎮勫憡璇夋垜锛屽鏋滀綘鏆楁亱鐨勪汉姝ｅソ鏆楁亱浣狅紝绯荤粺灏变細鍙戠淇″憡璇変綘浠咯鍟</p>
+        <p class="p" style="margin-top:10px;">鍙戝竷鏆楁亱淇℃伅鏄笉浼氬叕寮€鐨勶紝璇锋斁蹇冧娇鐢紝绁濇湁缂樹汉骞哥锛?/p>
         </div>
   </div>    
     <div class="inputdiv clear pngfix">
-        <input name="toname" type="text" class="input first tips-box" id="toname" value="直接输入好友的账号或点选好友" maxlength="50"/> <a href="###" id="cfbut"><img id="submit" src="image/secretlove/cf.jpg" /></a>        
-      <div class="button"><a href="javascript:;" id="submita" onclick="submit()">发布暗恋信息</a></div>
+        <input name="toname" type="text" class="input first tips-box" id="toname" value="鐩存帴杈撳叆濂藉弸鐨勮处鍙锋垨鐐归€夊ソ鍙? maxlength="50"/> <a href="###" id="cfbut"><img id="submit" src="image/secretlove/cf.jpg" /></a>        
+      <div class="button"><a href="javascript:;" id="submita" onclick="submit()">鍙戝竷鏆楁亱淇℃伅</a></div>
     </div>    
 	<div class="zhuanbo">
-    	<textarea name="zhuanbocontent" id="zhuanbocontent">/害羞 嘿，我在暗恋你，会不会刚好你也恋着我？#我在暗恋你# 你们也来试试吧？<?php echo str_replace('index.php','',$indexUrl).'?fn=secretlove'?></textarea>
+    	<textarea name="zhuanbocontent" id="zhuanbocontent">/瀹崇緸 鍢匡紝鎴戝湪鏆楁亱浣狅紝浼氫笉浼氬垰濂戒綘涔熸亱鐫€鎴戯紵#鎴戝湪鏆楁亱浣? 浣犱滑涔熸潵璇曡瘯鍚э紵<?php echo str_replace('index.php','',$indexUrl).'?fn=secretlove'?></textarea>
         <div id="txWB_W1"></div> <a href="javascript:;" onclick="post()"><img src="image/secretlove/b32.png" id="zhuanbobtn" /></a>
     </div>
 </div>
