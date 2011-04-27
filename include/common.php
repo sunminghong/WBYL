@@ -20,13 +20,13 @@ importlib("dbhelper_class");
 importlib("ppt_class");
 importlib("ctl_base_class");
 
-header('Content-Type: text/html; charset='.DEFAULT_CHARTSET);
+header('Content-Type: text/html; charset=utf-8');//.DEFAULT_CHARTSET);
 
 ///include ROOT.'./include/db_mysql.class.php';
 
 $account=false;
 $accounts=envhelper::readAccounts();
-
+$ret=envhelper::readRet();
 if(is_array($accounts)){
 	foreach($accounts as $acc){
 		$account=$acc;

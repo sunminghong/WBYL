@@ -1,4 +1,4 @@
-var inputval = '鐩存帴杈撳叆濂藉弸鐨勮处鍙锋垨鐐归€夊ソ鍙?;
+var inputval = '直接输入好友的账号或点选好友';
 
 $(document).ready(function(){
 	$('#toname').focus(function(){
@@ -35,7 +35,7 @@ var peiDui='';
 function submit(){
 	var toval = $('#toname').val().trim();
 	if(inputval==toval || toval.length==0){
-		alert('璇峰厛杈撳叆鎴栫偣鍑汇€愰€夊ソ鍙嬨€戦€夋嫨浣犳殫鎭嬬殑瀵硅薄鍛€');
+		alert('请先输入或点击【选好友】选择你暗恋的对象呀');
 		return;
 	}
 	var url = myurl()+"&act=submit&touid="+encodeURIComponent(toval);
@@ -44,7 +44,7 @@ function submit(){
 		$('#content').animate({ 
 			height:520
 		  },1000);
-		$('#submita').html('鍙戝竷鎴愬姛');
+		$('#submita').html('发布成功');
 	});
 }
 

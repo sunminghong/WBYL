@@ -25,7 +25,7 @@ class ppt{
 			$sql="insert into ".dbhelper::tname("ppt",'login')." set lfrom='".$uidarr['lfrom']."',lfromuid=$lfromuid,name='". addslashes($uidarr['name'])."'";	
 			$uid=dbhelper::execute($sql,1);
 
-			$sql="insert into ".dbhelper::tname("ppt",'user')." set uid=$uid,lfrom='".$uidarr['lfrom']."',lfromuid=$lfromuid,logins=1,regtime=$timestamp,".$sqlu.",retuid=".intval($ret['uid']).",retapp='".addslashes($ret['retapp'])."'";
+			$sql="insert into ".dbhelper::tname("ppt",'user')." set uid=$uid,lfrom='".$uidarr['lfrom']."',lfromuid=$lfromuid,logins=1,regtime=$timestamp,".$sqlu.",retuid=".intval($ret['retuid']).",retapp='".addslashes($ret['retapp'])."'";
 		}
 //echo $sql;exit;
 		dbhelper::execute($sql);

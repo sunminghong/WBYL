@@ -1,8 +1,9 @@
 CREATE TABLE `iq_iq` (
  `uid` int(11) NOT NULL,
  `iq` int(11) NOT NULL,
- `testCount` int(11) NOT NULL COMMENT '???????',
- `retuid` int(11) NOT NULL DEFAULT '0' COMMENT '??????????????????',
+ `useTime` int(11) NOT NULL defautl (0),
+ `testCount` int(11) NOT NULL COMMENT '测试次数',
+ `retuid` int(11) NOT NULL DEFAULT '0' COMMENT '从哪个用户带过来的',
  `followers` int(11) NOT NULL,
  `followings` int(11) NOT NULL,
  `tweets` int(11) NOT NULL,
@@ -11,24 +12,27 @@ CREATE TABLE `iq_iq` (
  PRIMARY KEY (`uid`),
  KEY `iq` (`iq`),
  KEY `testCount` (`testCount`),
- KEY `followers` (`followers`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+ KEY `followers` (`followers`),
+ KEY `useTime`(`useTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `iq_log` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `uid` int(11) NOT NULL,
  `iq` int(11) NOT NULL,
+ `useTime` int(11) NOT NULL defautl (0),
  `followers` int(11) NOT NULL,
  `followings` int(11) NOT NULL,
  `tweets` int(11) NOT NULL,
  `lasttime` int(11) NOT NULL,
- `retuid` int(11) NOT NULL COMMENT '????????????????',
+ `retuid` int(11) NOT NULL COMMENT '从哪个用户带过来的',
  PRIMARY KEY (`id`),
  KEY `uid` (`uid`),
  KEY `iq` (`iq`),
- KEY `followers` (`followers`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8
+ KEY `followers` (`followers`),
+ KEY `useTime`(`useTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `ppt_login` (
  `uid` int(11) NOT NULL AUTO_INCREMENT,
@@ -38,7 +42,7 @@ CREATE TABLE `ppt_login` (
  PRIMARY KEY (`uid`),
  KEY `lfromuid` (`lfromuid`),
  KEY `lfrom` (`lfrom`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `ppt_user` (
  `uid` int(11) NOT NULL,
@@ -60,4 +64,4 @@ CREATE TABLE `ppt_user` (
  `retapp` varchar(8) NOT NULL DEFAULT '' COMMENT '??????????',
  PRIMARY KEY (`uid`),
  KEY `logins` (`logins`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

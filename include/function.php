@@ -202,6 +202,71 @@ function rf($k,$default=''){
 		return $default;	
 }
 
+//时间处理方法
+function now(){
+	return date("Y-m-d H:i:s");	
+}
+
+function dateAdd($unit = "d",$int,$date) {
+	$date_time_array = getdate(strtotime($date));
+    $hours = $date_time_array["hours"];
+    $minutes = $date_time_array["minutes"];
+    $seconds = $date_time_array["seconds"];
+    $month = $date_time_array["mon"];
+    $day = $date_time_array["mday"] ;
+    $year = $date_time_array["year"] ;
+    switch ($unit) {
+    	case "yyyy": $year +=$int;
+   			break;
+    	case "q": $month +=($int*3);
+   			break;
+    	case "m": $month +=$int;
+			break;
+    	case "y": $day+=$int;
+			break;
+    	case "d": $day+=$int;
+			break;
+    	case "w": $day+=$int;
+			break;
+    	case "ww": $day+=($int*7);
+			break;
+    	case "h": $hours+=$int;
+			break;
+    	case "n": $minutes+=$int;
+			break;
+    	case "s": $seconds+=$int;
+			break;
+    }
+    $timestamp = mktime($hours ,$minutes, $seconds,$month ,$day, $year);
+    return date("Y-m-d H:i:s",$timestamp);
+}
+
+function dateDiff($unit="",$date1 , $date2){
+	switch ($unit){
+    case "s": $div = 1 ;
+		break;
+	case "i": $div = 60;
+		break;
+	case "h": $div = 3600;
+		break;
+	case "d": $div = 86400;
+		break;
+	case "m": $div= 2592000;
+		break;
+	case "y": $div = 946080000;
+		break;
+	default: $div = 86400;
+	}
+    $time1 = strtotime($date1);
+    $time2 = strtotime($date2);
+    if($time1 && $time2){
+    	return bcdiv(($time2-$time1),$div);
+    }else{
+		return false;
+    }
+}
+
+
 function getEl($xmlobj,$name){
 	$el=$xmlobj->xpath($name);
 	if($el)

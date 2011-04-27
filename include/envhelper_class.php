@@ -66,13 +66,13 @@ class envhelper{
 		if($retuid!=0)
 			ssetcookie('retuid',$retuid,3600*24*3);
 		else
-			sreadcookie('retuid');
+			$retuid=sreadcookie('retuid');
 
 		$retapp=rq("retapp","");
 		if($retapp!="")
 			ssetcookie('retapp',$retapp,3600*24*3);
 		else
-			sreadcookie('retapp');
+			$retapp=sreadcookie('retapp');
 
 		$ret=array(
 			'retuid'=>$retuid,

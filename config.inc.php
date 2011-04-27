@@ -10,7 +10,6 @@ $apiConfig=array(
 );
 
 	$app_dbpre_ppt="ppt.ppt_";			//定义各个应用的数据表的前缀，可以带数据库名，方便增加应用
-	$app_dbpre_redchess="redchess.red_";
 	$app_dbpre_iq="ppt.iq_";
 if(!ISSAE){
 	$DBCONFIG=array(
