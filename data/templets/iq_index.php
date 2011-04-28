@@ -1,12 +1,12 @@
 <? if(!defined('ROOT')) exit('Access Denied');?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>微博IQ测试</title>
 	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/iq_images/iq.css" />
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
-<script>var op="<?=$op?>"; </script>
+<script>var op="<?=$op?>"; var wbisload=false;</script>
 <script type="text/javascript" src="<?=$templatepath?>/iq_images/iq.js"></script>
 </head>
 <body>
@@ -20,11 +20,11 @@
 			<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
 			<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！<br/>
 				<!--<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/login.png" alt="用微博帐号登录" /></a><br />-->
-				<a id="div_follow" href="javascript:follow(0);"><img src="<?=$templatepath?>/iq_images/followiq.png" alt="关注官方微博"></a>
+				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/followiq.png" alt="关注官方微博" wb_screen_name="wb_screen_name"></a>
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="微博IQ测试" /></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="微博IQ测试"/></a>
 			</div>
 		</div>
 		<div class="contentFrame">
@@ -55,7 +55,7 @@
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="微博IQ测试" /></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="微博IQ测试" /></a>
 			</div>
 		</div>
 				<div class="contentFrame">
@@ -93,7 +93,7 @@
 
 		<div class="ui-widget">			
 			<div class="login">
-				微博IQ测试须在30分钟内完成（33题）：<br/>
+				<font color="#ff3333"><?=$account['screen_name']?></font>, 微博IQ测试须在30分钟内完成（33题）<br/><br/>
 			<!--<input name="B1" onclick="startclock()" type="button" value="开始计时">--><span id="face">00:00</span>
 			</div>
 			
@@ -302,12 +302,12 @@
 	</tr>
 </table>
 			</div>
-</div>
-<? } ?>
 
+<? } ?>
+</div>
 		<div class="bottom">
 			<span>Copy &copy; 2011 微博IQ测试 版权所有 - Developed By 
-				<a href="http://t.sina.com.cn/5d13" target="_blank">5d13</a>
+				<a href="http://weibo.com/5d13" target="_blank">5d13</a>
 			</span>
 			<div>
 				<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=对@孙铭鸿 (官方微博)说:" target="_blank">意见反馈</a>
@@ -318,4 +318,30 @@
 	    </div>
 
 </body>
+
+<script type="text/javascript" src="http://js.wcdn.cn/t3/platform/js/api/wb.js"></script> 
+<script type="text/javascript"> 
+if(location.href.indexOf('5d13.sinaapp.com')!=-1)
+WB.core.load(['connect', 'client', 'widget.base', 'widget.atWhere'], function() {
+	var cfg = {
+		key: '4106323544',
+		xdpath: 'http://5d13.sinaapp.com/_rights/xd.html'
+	};
+	WB.connect.init(cfg);
+	WB.client.init(cfg);
+ 
+	var EE = function(s){
+		return document.getElementById(s);		
+	};
+	//WB.widget.atWhere.searchAndAt(EE("msg_list"));
+	
+	WB.widget.atWhere.blogAt(EE("logo"));
+	WB.widget.atWhere.blogAt(EE("div_follow"));
+
+	//WB.widget.atWhere.blogAt(<?=$EE?>("msg_list"), "a");
+	
+	wbisload=true;
+});
+</script> 
+
 </html>

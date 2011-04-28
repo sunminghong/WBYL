@@ -1,3 +1,6 @@
+var EE = function(s){
+	return document.getElementById(s);		
+};
 
 function chC(name,num){
 	var rel=false;
@@ -126,11 +129,11 @@ function refreshMsg(){
 				ph.push('<span class="msg_block"><span class="testtime">'+msg.testtime+'</span> ');
 				if(msg.iq*1==-1){
 					ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('@'+msg.name+'正在进行 微博IQ测试 ，~_~!" target="_blank" title="点击对他说话">'+msg.name+'</a>开始测试。');
+					ph.push('@'+msg.name+' 正在进行 微博IQ测试 ，为他加油~_~!" target="_blank" title="点击对他说话" wb_screen_name="'+msg.name+'">@'+msg.name+' </a>开始测试。');
 				}
 				else{
 					ph.push('恭喜 <a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('微博IQ测试 时看到了@'+msg.name+' 的惊人IQ分值 '+msg.iq+' 分，我崇拜死了！" target="_blank" title="点击对他说话">'+msg.name+'</a>完成测试，IQ值：<b>'+msg.iq+'</b>!');
+					ph.push('微博IQ测试 时看到了@'+msg.name+' 的惊人IQ分值 '+msg.iq+' 分，我崇拜死了！" target="_blank" title="点击对他说话" wb_screen_name="'+msg.name+'">@'+msg.name+' </a>完成测试，IQ值：<b>'+msg.iq+'</b>!');
 				}
 				ph.push('</span>');
 			}
@@ -139,6 +142,7 @@ function refreshMsg(){
 				function(){$(this).addClass("msgHigh");},
 				function(){$(this).removeClass("msgHigh");}
 			);
+			if(wbisload)	WB.widget.atWhere.blogAt(EE("msg_list"), "a");
 		});
 }
 $(document).ready(function(){
