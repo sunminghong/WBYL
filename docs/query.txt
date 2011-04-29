@@ -1,0 +1,23 @@
+
+select (select count(*) from iq_iq) as iq,(select count(*) from iq_log) as log,(select count(*) from ppt_login) as co
+
+SELECT retuid,count(*) FROM `iq_iq` group by retuid order by count(*) desc
+
+SELECT uid FROM `iq_iq` order by iq desc  limit 0,10
+
+SELECT * FROM `iq_log` where uid in (SELECT uid FROM `iq_iq` order by iq desc  limit 0,10) order by uid desc
+
+
+SELECT * FROM `iq_log` where uid in (select uid from (SELECT uid FROM `iq_iq` order by iq desc limit 0,10) as a) order by uid desc
+
+
+最大的IQ  SELECT max(iq) FROM `iq_iq` where iq>-1
+
+
+81	99	435   12:14:14
+87	108	441	12:14:36
+89	110	441	12:14:54
+123	155	466	12:22:59
+
+
+log usetime=0  record count =1523

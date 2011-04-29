@@ -33,9 +33,59 @@ class iq extends ctl_base
 		$this->saveIq(-1,0);
 
 		$this->set("op","ican");
-		$this->display("iq_index");		
+		$this->display("iq_ican");		
 	}
 	
+
+	//读取统计数据
+	function stats(){	
+		$account=getAccount();
+		if(!$account){
+			$this->set("op","login");
+			$this->display("iq_index");
+			return;
+		}
+
+		$iqScore=$this->readIqScore($account["uid"],true);
+		$this->assign("iqScore",$iqScore);
+		$this->set("op","stats");
+
+		//print_r($iqCount);
+		$this->set("iqCount",$this->iqCount());
+		$this->set('toplist',$this->toplist());
+		$this->display("iq_index");
+	}
+
+	private function iqCount(){		
+		$iqCount=array();
+
+		//读取总数据
+		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") .") as iq,(select count(*) from ". dbhelper::tname("iq","log") .") as log,(select count(*) from ". dbhelper::tname("ppt","login") .") as co";
+		$rs=dbhelper::getrs($sql);
+		if($row=$rs->next()){
+			$iqCount["iqs"]=$row['iq'];
+			$iqCount['logs']=$row['log'];
+			$iqCount['totalUser']=$row['co'];
+
+		}else{	
+			$iqCount["iqs"]=0;
+			$iqCount['logs']=0;
+			$iqCount['totalUser']=0;
+		}
+
+		//读取排名第一
+		$testlist=array();
+		$sql="select l.uid,l.name,testCount,iq,useTime from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq.iq>0 order by iq.iq desc,useTime,testCount limit 0,1";
+		$rs=dbhelper::getrs($sql);
+		if($row=$rs->next()){
+			$iqCount["maxIq"]=$row['iq'];
+			$iqCount['maxName']=$row['name'];
+			$iqCount['maxTestCount']=$row['testCount'];
+			$iqCount['maxUseTime']=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
+		}
+		return $iqCount;
+	}
+
 	function cacl(){
 		if(!getAccount()){
 			echo "-1";
@@ -95,13 +145,32 @@ class iq extends ctl_base
 
 		echo $iqvalue;exit;
 	}
+		
+	public function sendStats(){
+		$account=getAccount();
+		
+		$iqCount=$this->iqCount();
+		$msg="#看看你有多聪明#数据统计：总登录人数 ".$iqCount['totalUser']."，成功测试人数 ".$iqCount[iqs]."人， 有效测试 ".$iqCount[logs]. "次。目前@".$iqCount[maxName]. " 以 ". $iqCount[maxIq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ " .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
+		$this->_sendStatus($msg);
 
+		echo "1";exit;
+	}
+	
 	public function sendstatus(){
 		$account=getAccount();
 		
 		$score=$this->readIqScore($account['uid'],true);
-		$msg="刚刚上进行了#微博IQ测试#，我的IQ是".$score['iq']."分，排行第".$score['top'].",打败了全国 ".$score["win"]. "% 的博友! 早点去可以排个好名次吧！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
-		
+		if($score['lostname'])
+			$msg="刚刚进行了#看看你有多聪明#，我得了".$score['iq']."分，排行第".$score['top'].",打败了".$score['lostname']
+		."我现在充满信心，哈哈哈！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
+		else
+			$msg="刚刚进行了#看看你有多聪明#，我得了".$score['iq']."分，排行第".$score['top'].",打败了全国 ".$score["win"]. "% 的博友! 你认为你比我聪明吗！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
+		$this->_sendStatus($msg);
+
+		echo "1";exit;
+	}
+	private function _sendStatus($msg){
+		$account=getAccount();				
 		$api="openapi_".$account['lfrom'];
 			importlib($api);
 			$api=new $api(); 
@@ -111,9 +180,10 @@ class iq extends ctl_base
 			$ms  = $client->update( $msg );
 
 		echo "1";exit;
+
 	}
 	
-	public function toplist(){
+	private function toplist(){
 		$top=10;
 		$testlist=array();
 		$sql="select l.uid,l.name,testCount,iq,useTime from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 order by iq desc,useTime,testCount desc limit 0,$top";
@@ -122,7 +192,8 @@ class iq extends ctl_base
 			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
 			$testlist[]=$row;
 		}
-		echo json_encode($testlist);
+//		echo json_encode($testlist);
+		return $testlist;
 	}
 	public function testlist(){
 		$top=rq("mo",0);
@@ -167,15 +238,28 @@ class iq extends ctl_base
 			$iqScore['useTime']=100000;
 		}
 		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq']." or ( iq=". $iqScore['iq'] ." and useTime<".$iqScore['useTime'] ."))+1 as top ,";
-		$sql.="(select count(*) from ". dbhelper::tname("iq","iq") .")+1 as total ";
+		$sql.="(select count(*) from ". dbhelper::tname("iq","iq") .") as total ";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$iqScore["top"]=$row['top'];
-			$iqScore['win']=(1- $row['top']/$row['total'])*100;
+			if(intval($row['total'])==0)
+				$iqScore['win']=100;
+			else
+				$iqScore['win']=(1- $row['top']/$row['total'])*100;
+
 		}else{
 			$iqScore["top"]=1;
 			$iqScore['win']=100;
 		}
+
+		$sql="select l.screen_name from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid where iq.iq<" . $iqScore['iq']."  order by rand() limit 0,3";
+		$rs=dbhelper::getrs($sql);
+		$sss="";
+		while($row=$rs->next()){
+			$sss.="@".$row['screen_name']." ，";
+		}
+
+		$iqScore['lostname']=$sss;
 		$json=serialize($iqScore);
 
 		$json= authcode($json, 'ENCODE', $key = 'abC!@#$%^');
@@ -187,7 +271,7 @@ class iq extends ctl_base
 		$account=getAccount();
 				
 		$ret=envhelper::readRet();
-		$sqlu="lasttime=$timestamp,followers=".$account['followers'].",followings=".$account['followings'].",tweets=".$account['tweets'].",retuid=".$ret['retuid'];
+		$sqlu="lasttime=$timestamp,followers=".$account['followers'].",followings=".$account['followings'].",tweets=".$account['tweets'].",retuid='".$ret['retuid'] ."'";
 		$lasttime=0;
 		$sql="select testCount,iq,lasttime,useTime from ". dbhelper::tname("iq","iq") ." where uid=" . $account["uid"];
 		$rs=dbhelper::getrs($sql);
@@ -203,7 +287,7 @@ class iq extends ctl_base
 				$sql="update ". dbhelper::tname("iq","iq") ." set testCount=$testCount,iq=". $iqvalue. ",useTime=".$useTime.",$sqlu where uid=" .$account["uid"];
 			
 			if($iqvalue > -1 )
-				$sql .=";;;update ". dbhelper::tname("iq","log") ." set iq=". $iqvalue. ",$sqlu,uid=" . $account['uid']. " where uid=".$account['uid']." and lasttime=".$row['lasttime'];
+				$sql .=";;;update ". dbhelper::tname("iq","log") ." set iq=". $iqvalue. ",useTime=".$useTime.",$sqlu,uid=" . $account['uid']. " where uid=".$account['uid']." and lasttime=".$row['lasttime'];
 			else
 				$sql .=";;;insert into ". dbhelper::tname("iq","log") ." set iq=". $iqvalue. ",$sqlu,uid=" . $account['uid'];
 			
@@ -216,5 +300,6 @@ class iq extends ctl_base
 		dbhelper::exesqls($sql);		
 	}
 }	
+
 
 ?>

@@ -1,5 +1,5 @@
 <?php
-define('ISSAE',false);  //是否为sae平台
+define('ISSAE',true);  //是否为sae平台
 $apiConfig=array(
 	"tsina"=>array(
 		"name"=>'新浪微博',

@@ -1,0 +1,1 @@
+select (select count(*) from iq_iq) as iq,(select count(*) frm iq_log) as log,(select count(*) from ppt_login) as co

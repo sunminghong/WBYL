@@ -20,17 +20,17 @@
 			<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
 			<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！<br/>
 				<!--<a href="?act=account&op=tologin" border="0"><img src="{$templatepath}/images/login.png" alt="用微博帐号登录" /></a><br />-->
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/followiq.png" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="{$templatepath}/iq_images/btn_stats.png" alt="关注官方微博" ></a>
+				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/followiq.png" alt="关注官方微博" wb_screen_name="wb_screen_name"></a>
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明"/></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="微博IQ测试"/></a>
 			</div>
 		</div>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
-					<strong>欢迎使用看看你有多聪明</strong>
+					<strong>欢迎使用微博IQ测试</strong>
 				</div>
 				<div class="welcomeDiv1" id="msg_list">
 
@@ -51,11 +51,11 @@
 <!--{else}-->
 <!--{/if}-->
 <br/><br/>
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/followiq.png" alt="关注官方微博"></a> <a href="?app=iq&op=stats"><img src="{$templatepath}/iq_images/btn_stats.png" alt="关注官方微博" ></a>
+				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/followiq.png" alt="关注官方微博"></a>
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="微博IQ测试" /></a>
 			</div>
 		</div>
 				<div class="contentFrame">
@@ -90,7 +90,8 @@
 		</div>
 
 <!--{elseif $op=="stats"}-->
-		<div class="ui-widget">			
+		<div class="ui-widget">
+			
 			<div class="login">
 			<!--{if is_array($account) }-->
 <font color="#ff3333">{$account[screen_name]}</font>, 你一共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 全国排名第<b> {$iqScore[top]} </b>, 打败了全国 <b>{$iqScore[win]}%</b> 的人!加油！！！<a href="?act=account&op=logout">退出</a> 
@@ -101,47 +102,44 @@
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="微博IQ测试" /></a>
 			</div>
 		</div>
+				<div class="contentFrame">
+			<div class="ui-widget" style="text-align:center; color:#696a62;">
+				<div class="welcomeDiv1" id="msg_list">
 
+				</div>
+			</div>
+		</div>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
-					<strong>《看看你有多聪明》数据统计</strong>
-				</div>
-				<div class="welcomeDiv1" id="stats_1">
-					《看看你有多聪明》数据统计：总登录人数 <b>{$iqCount[totalUser]}</b>，成功测试人数 <b>{$iqCount[iqs]}</b>人， 有效测试  <b>{$iqCount[logs]}</b>次。目前@{$iqCount[maxName]} 以  <b>{$iqCount[maxIq]}</b>分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超越 TA！ 
+					<strong>微博IQ测试约需25分钟，你准备好了吗？</strong>
 				</div>
 				<div class="welcomeDiv1">
-					<a href="javascript:void();" onclick="javascript:sendStats();">这么NB!发到微博里瞻仰一下！</a>
-				</div>				
-			</div>
-		</div>
-		<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<div>
-					<strong>《看看你有多聪明》天才榜：</strong>
-				</div
-				<div class="welcomeDiv1" id="top_list">
-					<!--{loop $toplist $top}-->
-						<p>@{$top[name]}，IQ测试<b>{$top[iq]}</b>分，共测试{$top[testCount]}次。</p>
-					<!--{/loop}-->
+					1。吃喝拉撒搞定了吗？（根据本站统计，人在三分饥的时候思维状态最佳）
+				</div>
+				<div class="welcomeDiv1">
+					2。身边没有阿猫阿狗吧？如果有，请给足粮食，让它安静点！
+				</div>
+				<div class="welcomeDiv1">
+					3。如果你测试结果不理想，请不要气馁，可以过一段时间再来一次（测试间隔最好在一个月以上）！
+				</div>
+				<div class="welcomeDiv1">
+					4。如果结果显示你是天才，请不要窃喜，因为前面已有爱因思坦，后面也会有更聪明的人！
 				</div>
 			</div>
 		</div>
 		<div class="div_login">
-		<!--{if $iqScore[iq]>0}-->
-			<button onclick="location.href='?app=iq'">我 再 去 试 试！</button>
-		<!--{else}-->
-			<button onclick="location.href='?app=iq'">我 去 试 试！</button>
-		<!--{/if}-->
+		
+			<button onclick="location.href='?app=iq&op=ican'">我 准 备 好 了</button>
 		</div>
 
 <!--{/if}-->
 </div>
 		<div class="bottom" id="footer1">
-			<span>Copy &copy; 2011 看看你有多聪明 版权所有 - Developed By @孙铭鸿
+			<span>Copy &copy; 2011 微博IQ测试 版权所有 - Developed By @孙铭鸿
 				<a href="http://weibo.com/5d13" target="_blank">5d13</a>
 			</span>
 			<div><a href="http://www.265g.com" target="_blank">找网页游戏，就上265G！</a>
@@ -165,10 +163,7 @@ WB.core.load(['connect', 'client', 'widget.base', 'widget.atWhere'], function() 
 	WB.client.init(cfg);
  
 	WB.widget.atWhere.searchAndAt(EE("footer1"));
-	if(op=='stats'){
-		WB.widget.atWhere.searchAndAt(EE("stats_1"));
-		WB.widget.atWhere.searchAndAt(EE("top_list"));
-	}
+	
 	WB.widget.atWhere.blogAt(EE("logo"));
 	if( op!='ican')
 	WB.widget.atWhere.blogAt(EE("div_follow"));

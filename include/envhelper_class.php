@@ -22,7 +22,7 @@ class envhelper{
 		ssetcookie('sess',"");
 	}
 	static public function saveAccounts($uid,$userinfo){
-		$json=sreadcookie('sess');
+		$json=false;//sreadcookie('sess');
 		if(!$json) $session=array();
 		else{
 			$json= authcode($json, 'DECODE', $key = 'abC!@#$%^');

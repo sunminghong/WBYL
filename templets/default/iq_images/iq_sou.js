@@ -106,12 +106,13 @@ function follow(){
 	var url='?act=my&op=follow&fuid=1747738583';
 	$.get(url,function(res){
 		$("#div_follow").hide();
+		alert('谢谢你的关注，我们会定期在官网公告“聪明行情”！');
 	});
 }
 
 function sendmsg(){
 	$.get("?app=iq&op=sendstatus&t="+Math.random(),function(res){
-		alert("已经发送到你微博！IQ是随着你的经历、学识的增长而进步的，我们也将收集更科学的题目，常回来看看!");
+		alert("已经发送到你微博！点击“关注我”就可以随时掌握博友的聪明行情!");
 		
 	});
 }
@@ -129,11 +130,11 @@ function refreshMsg(){
 				ph.push('<span class="msg_block"><span class="testtime">'+msg.testtime+'</span> ');
 				if(msg.iq*1==-1){
 					ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('@'+msg.name+' 正在进行 微博IQ测试 ，为他加油~_~!" target="_blank" title="点击对他说话" wb_screen_name="'+msg.name+'">@'+msg.name+' </a>开始测试。');
+					ph.push('@'+msg.name+' 正在进行 微博IQ测试 ，为他加油~_~!" target="_blank" title1="点击对他说话" wb_screen_name="'+msg.name+'">@'+msg.name+' </a>开始测试。');
 				}
 				else{
 					ph.push('恭喜 <a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('微博IQ测试 时看到了@'+msg.name+' 的惊人IQ分值 '+msg.iq+' 分，我崇拜死了！" target="_blank" title="点击对他说话" wb_screen_name="'+msg.name+'">@'+msg.name+' </a>完成测试，IQ值：<b>'+msg.iq+'</b>!');
+					ph.push('微博IQ测试 时看到了@'+msg.name+' 的惊人IQ分值 '+msg.iq+' 分，我崇拜死了！" target="_blank" title1="点击对他说话" wb_screen_name="'+msg.name+'">@'+msg.name+' </a>完成测试，IQ值：<b>'+msg.iq+'</b>!');
 				}
 				ph.push('</span>');
 			}
