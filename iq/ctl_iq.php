@@ -4,7 +4,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 class iq extends ctl_base
 {
 	function index(){ // 这里是首页
-		$account=getAccount();
+		$account=getAccount();		
 		if(!$account){
 			$this->set("op","login");
 			$this->display("iq_index");
@@ -173,11 +173,8 @@ class iq extends ctl_base
 		$account=getAccount();				
 		$api="openapi_".$account['lfrom'];
 			importlib($api);
-			$api=new $api(); 
-
-			$client=$api->getClient($account['kuid']);	
-
-			$ms  = $client->update( $msg );
+			$api=new $api($account['kuid']); 
+			$ret=$api->update( $msg );
 
 		echo "1";exit;
 

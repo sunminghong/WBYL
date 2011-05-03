@@ -33,6 +33,10 @@ if(is_array($accounts)){
 		break;
 	}
 }
+if(!is_array($account))
+	$lfrom='tsina';
+else
+	$lfrom=$account['lfrom'];
 //echo "accounts=";print_r($accounts);exit;
 
 //时间
@@ -63,8 +67,9 @@ function LetGo(){
 	//$cont->assign('uid', $uid);
 	//$cont->assign('username',$username);
 	//$cont->assign('nickname',$nickname);
-	$cont->assign("accounts",$accounts);
+	//$cont->assign("accounts",$accounts);
 
+	$cont->set("lfrom",$lfrom);
 	$cont->assign("account",$account);
 	$cont->$op();	
 }

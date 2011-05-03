@@ -1,40 +1,58 @@
 <?php
 if(!defined('ISWBYL')) exit('Access Denied');
+
+define( "MB_RETURN_FORMAT" , 'json' );
+define( "MB_API_HOST" , 'open.t.qq.com' );
+
 include_once('openapi_abstract_class.php');
-include_once('tsinaclient_class.php');
-class openapi_tsina extends openapiAbstract{
+require_once('opent.php');
+include_once('tqqclient_class.php');
+
+class openapi_tqq extends openapiAbstract{
 
 	private $oClient=null;
 	private $akey;
 	private $skey;
 	
-	function __construct($tokenOrlfromuid=""){
+	function __construct(){
 		$this->akey=$GLOBALS['apiConfig'][$this->lfrom]["access_key"];
 		$this->skey=$GLOBALS['apiConfig'][$this->lfrom]["screct_key"];
 		
-		$this->name="新浪微博";
-		$this->lfrom="tsina";  //必须与类名相同，即openapi_(tsina)
-
-		$this->tokenOrlfromuid=$tokenOrlfromuid;
+		$this->name="腾讯微博";
+		$this->lfrom="tqq";  //必须与类名相同，即openapi_(tsina)
 	}
 		
-	public function getLoginUrl($callbackurl){
-		$o = new TSinaOAuth( $this->akey , $this->skey);
+	public function getLoginUrl($callbackurl){		
+		//$o = new MBOpenTOAuth( MB_AKEY , MB_SKEY  );
+		//$keys = $o->getRequestToken('http://h.t.net/sdk/callback.php');//这里填上你的回调URL
+		//$aurl = $o->getAuthorizeURL( $keys['oauth_token'] ,false,'');
+		//$_SESSION['keys'] = $keys;
+
+		$o = new MBOpenTOAuth( $this->akey , $this->skey);
 		
-		$keys = $o->getRequestToken();
-		$aurl = $o->getAuthorizeURL( $keys['oauth_token'] ,false , $callbackurl);
+		$keys = $o->getRequestToken($callbackurl);
+		$aurl = $o->getAuthorizeURL( $keys['oauth_token'] ,false ,'');
 		
 		$this->saveToken(0,array('uid'=>0,'tk'=>$keys['oauth_token'],'sk'=>$keys['oauth_token_secret']));
 		return $aurl;
 	}
 		
 	public function callback(){	
+	/*
+@require_once('config.php');
+@require_once('oauth.php');
+@require_once('opent.php');
+
+$o = new MBOpenTOAuth( MB_AKEY , MB_SKEY , $_SESSION['keys']['oauth_token'] , $_SESSION['keys']['oauth_token_secret']  );
+$last_key = $o->getAccessToken(  $_REQUEST['oauth_verifier'] ) ;//获取ACCESSTOKEN
+$_SESSION['last_key'] = $last_key;
+	*/
 		$t=$this->readToken(0);
 
 		if (!is_array($t))
 			return false;
-				
-		$o = new TSinaOAuth( $this->akey , $this->skey , $t['tk'] , $t['sk']  );		
+
+		$o = new MBOpenTOAuth( $this->akey , $this->skey , $t['tk'] , $t['sk']  );		
 		$last_key = $o->getAccessToken(  $_REQUEST['oauth_verifier'] ) ;
 		
 		//print_r($last_key);exit;
@@ -43,6 +61,7 @@ class openapi_tsina extends openapiAbstract{
 				"tk"=>$last_key['oauth_token'],
 				"sk"=>$last_key['oauth_token_secret']
 			);
+			
 			$this->tokenOrlfromuid=$t;
 			$uidarr=$this->getUserInfo();
 			$uidarr['tk']=$t['tk'];
@@ -62,33 +81,33 @@ class openapi_tsina extends openapiAbstract{
 	}
 	
 	public function getUserInfo(){
-		$oarr=$this->getClient()->getUserInfo();
-
+		$oarr0=$this->getClient()->getUserInfo();		
+		$oarr=$oarr0['Data'];
 		$uidarr=array();
-		$uidarr['screen_name']=$oarr['screen_name'];
-		$uidarr['name']=$oarr['name'];
-		$uidarr['location']=$oarr['location'];
-		$uidarr['description']=$oarr['description'];
-		$uidarr['url']=$oarr['url'];
-		$uidarr["avatar"]=$oarr["profile_image_url"];
-		$uidarr['domain']=$oarr['domain'];
-		$uidarr['sex']=$oarr['gender']=="m"?1:2;
-		$uidarr['followers']=$oarr['followers_count'];
-		$uidarr['tweets']=$oarr['statuses_count'];
-		$uidarr['followings']=$oarr['friends_count'];
-		
-		$uidarr['verified']=$oarr['verified'];
-		$uidarr['verifyinfo']=$oarr[''];
+		$uidarr['screen_name']=$oarr['Nick'];
+		$uidarr['name']=$oarr['Name'];
+		$uidarr['location']=$oarr['Location'];
+		$uidarr['description']=$oarr['Introduction'];
+		$uidarr['url']=$oarr[''];
+		$uidarr['avatar']=$oarr['Head'];
+		$uidarr['domain']=$oarr[''];
+		$uidarr['gender']=$oarr['Sex']==1?'m':'f';
+		$uidarr['followers']=$oarr['Fansnum'];
+		$uidarr['followings']=$oarr['Idolnum'];
+		$uidarr['tweets']=$oarr['Tweetnum'];
 
-		$lfromuid=$oarr["id"];
+		$uidarr['verified']=$oarr['isVip'];
+		$uidarr['verifyinfo']=$oarr['Verifyinfo'];
+
+		$lfromuid=$oarr["Uid"];
 		$uidarr["kuid"]=envhelper::packKUID($this->lfrom,$lfromuid);
 		$uidarr["lfromuid"]=$lfromuid;
 		$uidarr['lfrom']=$this->lfrom;
 		$uidarr['name']=$uidarr['screen_name'];
-//print_r($uidarr);exit;
-		return $uidarr;
-	}	
 
+		return $uidarr;
+	}
+	
 	public function update( $status, $reply_id = NULL, $lat = NULL, $long = NULL, $annotations = NULL ){
 		return $this->getClient()->update($status, $reply_id, $lat, $long, $annotations);
 	}
@@ -152,7 +171,7 @@ class openapi_tsina extends openapiAbstract{
 		if (!is_array($token)) {
 			echo '没有赋令牌数据！';exit;
 		}
-		$this->oClient=$c = new TSinaClient( $this->akey , $this->skey , $token['tk'] , $token['sk']);
+		$this->oClient=$c = new tqqClient( $this->akey , $this->skey , $token['tk'] , $token['sk']);
 		return $c;
 	}	
 }

@@ -42,7 +42,7 @@ class account extends ctl_base
 			);*/
 
 			$uidarr['uid']=$uid;
-			envhelper::saveAccounts(envhelper::packKUID($lfrom,$uidarr['lfromuid']),$uidarr);			
+			envhelper::saveAccounts(envhelper::packKUID($lfrom,$uidarr['lfromuid']),$uidarr);	//	 print_r($uidarr);exit;	
 			if(!$tourl)
 			$tourl="?act=my";
 			header("Location: $tourl");
@@ -59,10 +59,9 @@ class account extends ctl_base
 			
 			$api="openapi_".$lfrom;
 			importlib($api);
-			$api=new $api(); 
+			$api=new $api($kuid); 
 
-			$client=$api->getClient($kuid);	
-			$client->end_session();
+			$api->end_session();
 		}
 		
 		envhelper::clearAccounts();

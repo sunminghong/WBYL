@@ -8,7 +8,7 @@
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false;</script>
-<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js"></script>
+<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.2"></script>
 </head>
 <body>
 
@@ -25,13 +25,13 @@
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="微博IQ测试"/></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明"/></a>
 			</div>
 		</div>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
-					<strong>欢迎使用微博IQ测试</strong>
+					<strong>欢迎使用看看你有多聪明</strong>
 				</div>
 				<div class="welcomeDiv1" id="msg_list">
 
@@ -39,7 +39,8 @@
 			</div>
 		</div>
 		<div class="div_login">
-			<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a>
+			<a href="?act=account&op=tologin" border="0"><img height="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
+			<a href="?act=account&op=tologin&lfrom=tqq" border="0"><img height="24" src="<?=$templatepath?>/images/t-qq.png" alt="用腾讯微博登录" /></a>
 		</div>
 
 <? } elseif($op=="ready") { ?>
@@ -56,7 +57,7 @@
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="微博IQ测试" /></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
 				<div class="contentFrame">
@@ -102,7 +103,7 @@
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="微博IQ测试" /></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
 
@@ -142,7 +143,7 @@
 <? } ?>
 </div>
 		<div class="bottom" id="footer1">
-			<span>Copy &copy; 2011 微博IQ测试 版权所有 - Developed By @孙铭鸿
+			<span>Copy &copy; 2011 看看你有多聪明 版权所有 - Developed By @孙铭鸿
 				<a href="http://weibo.com/5d13" target="_blank">5d13</a>
 			</span>
 			<div><a href="http://www.265g.com" target="_blank">找网页游戏，就上265G！</a>

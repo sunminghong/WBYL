@@ -1,31 +1,30 @@
-<? if(!defined('ROOT')) exit('Access Denied');?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>看看你有多聪明！ -  微博IQ测试 </title>
-	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/iq_images/iq.css" />
+	<link type="text/css" rel="stylesheet" href="{$templatepath}/iq_images/iq.css" />
 	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> 
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
-<script>var op="<?=$op?>"; var wbisload=false;</script>
-<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.2"></script>
+<script>var op="{$op}"; var wbisload=false;</script>
+<script type="text/javascript" src="{$templatepath}/iq_images/iq_min.js?v=1.2"></script>
 </head>
 <body>
 
 	<div class="mainFrame">
 		
-		<? if($op=="login") { ?>
+		<!--{if $op=="login"}-->
 		<div class="ui-widget">
 			
 			<div class="login">
 			<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
 			<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！<br/>
-				<!--<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/login.png" alt="用微博帐号登录" /></a><br />-->
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/followiq.png" alt="关注官方微博" wb_screen_name="wb_screen_name"></a>
+				<!--<a href="?act=account&op=tologin" border="0"><img src="{$templatepath}/images/login.png" alt="用微博帐号登录" /></a><br />-->
+				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/followiq.png" alt="关注官方微博" wb_screen_name="wb_screen_name"></a>
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明"/></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明"/></a>
 			</div>
 		</div>
 		<div class="contentFrame">
@@ -39,24 +38,24 @@
 			</div>
 		</div>
 		<div class="div_login">
-			<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a>
+			<a href="?act=account&op=tologin" border="0"><img src="{$templatepath}/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a>
 		</div>
 
-<? } elseif($op=="ready") { ?>
+<!--{elseif $op=="ready"}-->
 
 		<div class="ui-widget">
 			
 			<div class="login">
-			<? if(is_array($account) ) { ?>
-<font color="#ff3333"><?=$account['screen_name']?></font>, 你一共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 全国排名第<b> <?=$iqScore['top']?> </b>, 打败了全国 <b><?=$iqScore['win']?>%</b> 的人!加油！！！<a href="?act=account&op=logout">退出</a> 
-<? } else { ?>
-<? } ?>
+			<!--{if is_array($account) }-->
+<font color="#ff3333">{$account[screen_name]}</font>, 你一共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 全国排名第<b> {$iqScore[top]} </b>, 打败了全国 <b>{$iqScore[win]}%</b> 的人!加油！！！<a href="?act=account&op=logout">退出</a> 
+<!--{else}-->
+<!--{/if}-->
 <br/><br/>
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/followiq.png" alt="关注官方微博"></a>
+				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/followiq.png" alt="关注官方微博"></a>
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
 				<div class="contentFrame">
@@ -90,16 +89,16 @@
 			<button onclick="location.href='?app=iq&op=ican'">我 准 备 好 了</button>
 		</div>
 
-<? } elseif($op=="ican") { ?>
+<!--{elseif $op=="ican"}-->
 
 		<div class="ui-widget">			
 			<div class="login">
-				<font color="#ff3333"><?=$account['screen_name']?></font>, 微博IQ测试须在30分钟内完成（33题）<br/><br/>
+				<font color="#ff3333">{$account[screen_name]}</font>, 微博IQ测试须在30分钟内完成（33题）<br/><br/>
 			<!--<input name="B1" onclick="startclock()" type="button" value="开始计时">--><span id="face">00:00</span>
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>		
 		<div class="contentFrame" style="clear:both;text-align:center; ">
@@ -202,13 +201,13 @@
 						<input name="q15" type="radio" value="V2">B.沙发 
 						<input name="q15" type="radio" value="V3">C.电视 
 						<input name="q15" type="radio" value="V4">D.桌布</font></p>
-						<p><font color="#000000">16.右面的图中紧接的图形应是下面哪个:<img border="0" height="50" src="<?=$templatepath?>/iq_images/Iq16a-1.gif" width="150"></font></p>
+						<p><font color="#000000">16.右面的图中紧接的图形应是下面哪个:<img border="0" height="50" src="{$templatepath}/iq_images/Iq16a-1.gif" width="150"></font></p>
 						<div align="left">
 							<table border="0" cellpadding="0" cellspacing="0" width="202">
 								<tr>
 									<td colspan="4" width="202">
 									<font color="#000000">
-									<img border="0" height="50" src="<?=$templatepath?>/iq_images/iq16b-1.gif" width="200"></font></td>
+									<img border="0" height="50" src="{$templatepath}/iq_images/iq16b-1.gif" width="200"></font></td>
 								</tr>
 								<tr>
 									<td width="50"><font color="#000000">
@@ -270,7 +269,7 @@
 						<p><font color="#000000">30.填入空缺的数字 65 37 17 (<input name="T30" size="4">)</font></p>
 						<p><font color="#000000">31.填入空缺的数字 41 (28) 27 83(<input name="T31" size="4">) 
 						65</font></p>
-						<p><font color="#000000">32.在abcd四个图形中选出可以填入右边&quot;？&quot;处的一个<img border="0" height="50" src="<?=$templatepath?>/iq_images/iq32a-1.gif" width="200"></font></p>
+						<p><font color="#000000">32.在abcd四个图形中选出可以填入右边&quot;？&quot;处的一个<img border="0" height="50" src="{$templatepath}/iq_images/iq32a-1.gif" width="200"></font></p>
 						<div align="left">
 							<table border="0" cellpadding="0" cellspacing="0">
 								<tr>
@@ -285,7 +284,7 @@
 								</tr>
 								<tr>
 									<td colspan="4"><font color="#000000">
-									<img border="0" height="50" src="<?=$templatepath?>/iq_images/iq32b-1.gif" width="200"></font></td>
+									<img border="0" height="50" src="{$templatepath}/iq_images/iq32b-1.gif" width="200"></font></td>
 								</tr>
 							</table>
 						</div>
@@ -305,7 +304,7 @@
 </table>
 			</div>
 
-<? } ?>
+<!--{/if}-->
 </div>
 		<div class="bottom" id="footer1">
 			<span>Copy &copy; 2011 看看你有多聪明 版权所有 - Developed By @孙铭鸿

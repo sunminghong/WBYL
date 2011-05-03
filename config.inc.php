@@ -1,11 +1,17 @@
 <?php
-define('ISSAE',true);  //是否为sae平台
+define('ISSAE',false);  //是否为sae平台
 $apiConfig=array(
 	"tsina"=>array(
 		"name"=>'新浪微博',
 		"domain_format" => 'http://weibo.com/{domain}',
 		"access_key" =>'4106323544',
 		"screct_key"=>'fdea0fd0626378d951a366e00c5444d7'
+	),
+	"tqq"=>array(
+		"name"=>'腾讯微博',
+		"domain_format" => 'http://t.qq.com/{domain}',
+		"access_key" =>'633e42f93e2f4a8a9981711ee890cf99',
+		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
 	)
 );
 

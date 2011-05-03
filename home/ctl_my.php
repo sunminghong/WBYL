@@ -29,11 +29,9 @@ class my extends ctl_base {
 
 			$api="openapi_".$lfrom;
 			importlib($api);
-			$api=new $api(); 
+			$api=new $api($kuid); 
 
-			$client=$api->getClient($kuid);	
-			//print_r($api->getUserInfo($kuid));
-			$ms  = $client->home_timeline(); // done	
+			$ret=$api->home_timeline(); // done	
 		}		
 		echo json_encode($ms);
 		exit;
@@ -53,11 +51,9 @@ class my extends ctl_base {
 
 			$api="openapi_".$lfrom;
 			importlib($api);
-			$api=new $api(); 
+			$api=new $api($kuid); 
 
-			$client=$api->getClient($kuid);	
-			///print_r($api->getUserInfo($kuid));
-			$ms  = $client->home_timeline(); // done	
+			$ret=$api->home_timeline(); // done	
 						
 		}
 		echo json_encode($ms);
@@ -73,13 +69,12 @@ class my extends ctl_base {
 
 		$api="openapi_tsina";
 			importlib($api);
-			$api=new $api(); 
+			$api=new $api($account['kuid']); 
 
-			$client=$api->getClient($account['kuid']);	
 		if($isFollow)
-			$ms  = $client->follow($uid); // done	
+			$ret=$api->follow($uid); // done	
 		else
-			$ms  = $client->unfollow($uid); // done
+			$ret= $api->unfollow($uid); // done
 		echo "1";exit;
 	}
 }
