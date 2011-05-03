@@ -5,6 +5,7 @@
  * @return
  * @author tuguska
  */
+require_once 'opent.php';
 
 class MBApiClient
 {
@@ -226,7 +227,6 @@ class MBApiClient
 				'name' => $p['n']
 			);
 		}
-
 	 	return $this->oauth->get($url,$params); 	
 	}
 

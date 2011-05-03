@@ -9,7 +9,7 @@ class account extends ctl_base
 
 	function tologin(){		
 		$lfrom=rq("lfrom","tsina");
-		$callbackurl=URLBASE.'?act=account&op=callback&lfrom=tsina&fromurl='.urlencode($_SERVER["HTTP_REFERER"]);
+		$callbackurl=URLBASE.'?act=account&op=callback&lfrom='.$lfrom.'&fromurl='.urlencode($_SERVER["HTTP_REFERER"]);
 		
 		$api="openapi_".$lfrom;
 		importlib($api);

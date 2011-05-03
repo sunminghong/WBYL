@@ -14,25 +14,20 @@ class openapi_tqq extends openapiAbstract{
 	private $akey;
 	private $skey;
 	
-	function __construct(){
-		$this->akey=$GLOBALS['apiConfig'][$this->lfrom]["access_key"];
-		$this->skey=$GLOBALS['apiConfig'][$this->lfrom]["screct_key"];
-		
+	function __construct($tokenOrlfromuid=""){
+		$this->tokenOrlfromuid=$tokenOrlfromuid;
 		$this->name="腾讯微博";
-		$this->lfrom="tqq";  //必须与类名相同，即openapi_(tsina)
+		$this->lfrom="tqq";
+		$this->akey=$GLOBALS['apiConfig'][$this->lfrom]["access_key"];
+		$this->skey=$GLOBALS['apiConfig'][$this->lfrom]["screct_key"];		
 	}
 		
 	public function getLoginUrl($callbackurl){		
-		//$o = new MBOpenTOAuth( MB_AKEY , MB_SKEY  );
-		//$keys = $o->getRequestToken('http://h.t.net/sdk/callback.php');//这里填上你的回调URL
-		//$aurl = $o->getAuthorizeURL( $keys['oauth_token'] ,false,'');
-		//$_SESSION['keys'] = $keys;
-
 		$o = new MBOpenTOAuth( $this->akey , $this->skey);
 		
 		$keys = $o->getRequestToken($callbackurl);
 		$aurl = $o->getAuthorizeURL( $keys['oauth_token'] ,false ,'');
-		
+
 		$this->saveToken(0,array('uid'=>0,'tk'=>$keys['oauth_token'],'sk'=>$keys['oauth_token_secret']));
 		return $aurl;
 	}
@@ -59,7 +54,8 @@ $_SESSION['last_key'] = $last_key;
 		if($last_key && $last_key['oauth_token']){
 			$t=array(
 				"tk"=>$last_key['oauth_token'],
-				"sk"=>$last_key['oauth_token_secret']
+				"sk"=>$last_key['oauth_token_secret'],
+				"name"=>$last_key['name']
 			);
 			
 			$this->tokenOrlfromuid=$t;
@@ -73,6 +69,7 @@ $_SESSION['last_key'] = $last_key;
 				"uid"=>$uidarr['uid'],
 				"name"=>$uidarr["name"]
 			);*/
+			//print_r($uidarr);exit;
 			$this->saveToken($uidarr['lfromuid'],$t);
 			return $uidarr;
 		}
@@ -81,25 +78,26 @@ $_SESSION['last_key'] = $last_key;
 	}
 	
 	public function getUserInfo(){
-		$oarr0=$this->getClient()->getUserInfo();		
-		$oarr=$oarr0['Data'];
+		$oarr0=$this->getClient()->getUserInfo();	
+		print_r($oarr0);
+		$oarr=$oarr0['data'];
 		$uidarr=array();
-		$uidarr['screen_name']=$oarr['Nick'];
-		$uidarr['name']=$oarr['Name'];
-		$uidarr['location']=$oarr['Location'];
-		$uidarr['description']=$oarr['Introduction'];
+		$uidarr['screen_name']=$oarr['nick'];
+		$uidarr['name']=$oarr['name'];
+		$uidarr['location']=$oarr['location'];
+		$uidarr['description']=$oarr['introduction'];
 		$uidarr['url']=$oarr[''];
-		$uidarr['avatar']=$oarr['Head'];
+		$uidarr['avatar']=$oarr['head'];
 		$uidarr['domain']=$oarr[''];
-		$uidarr['gender']=$oarr['Sex']==1?'m':'f';
-		$uidarr['followers']=$oarr['Fansnum'];
-		$uidarr['followings']=$oarr['Idolnum'];
-		$uidarr['tweets']=$oarr['Tweetnum'];
+		$uidarr['gender']=$oarr['sex'];
+		$uidarr['followers']=$oarr['fansnum'];
+		$uidarr['followings']=$oarr['idolnum'];
+		$uidarr['tweets']=$oarr['tweetnum'];
 
-		$uidarr['verified']=$oarr['isVip'];
-		$uidarr['verifyinfo']=$oarr['Verifyinfo'];
+		$uidarr['verified']=$oarr['isvip'];
+		$uidarr['verifyinfo']=$oarr['verifyinfo'];
 
-		$lfromuid=$oarr["Uid"];
+		$lfromuid=$oarr["name"];
 		$uidarr["kuid"]=envhelper::packKUID($this->lfrom,$lfromuid);
 		$uidarr["lfromuid"]=$lfromuid;
 		$uidarr['lfrom']=$this->lfrom;
@@ -109,7 +107,14 @@ $_SESSION['last_key'] = $last_key;
 	}
 	
 	public function update( $status, $reply_id = NULL, $lat = NULL, $long = NULL, $annotations = NULL ){
-		return $this->getClient()->update($status, $reply_id, $lat, $long, $annotations);
+		$p =array(
+			'c' =>$status,
+			'ip' => $_SERVER['REMOTE_ADDR'], 
+			'j' => '',
+			'w' => ''
+		);
+
+		return $this->getClient()->postOne($p);
 	}
 
 	public function upload( $status , $pic_path, $lat = NULL, $long = NULL ){
@@ -133,11 +138,21 @@ $_SESSION['last_key'] = $last_key;
 	}
 
 	public function follow( $uid_or_name ){
-		return $this->getClient()->follow( $uid_or_name );
+		$p =array(
+			'n' => $uid_or_name,
+			'type' => 2	
+		);
+		//print_r($c->setMyidol($p));
+		return $this->getClient()->setMyidol($p);
 	}
 
 	public function unfollow( $uid_or_name ){
-		return $this->getClient()->unfollow( $uid_or_name );
+		$p =array(
+			'n' => $uid_or_name,
+			'type' => 0	
+		);
+		//print_r($c->setMyidol($p));
+		return $this->getClient()->setMyidol($p);
 	}
 
 	public function hot_users( $category = "default" ){
@@ -171,7 +186,8 @@ $_SESSION['last_key'] = $last_key;
 		if (!is_array($token)) {
 			echo '没有赋令牌数据！';exit;
 		}
-		$this->oClient=$c = new tqqClient( $this->akey , $this->skey , $token['tk'] , $token['sk']);
+		//print_r($token);echo $this->akey;echo $this->skey;
+		$this->oClient=$c = new MBApiClient( $this->akey , $this->skey , $token['tk'] , $token['sk']);
 		return $c;
 	}	
 }

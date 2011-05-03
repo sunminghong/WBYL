@@ -5,8 +5,7 @@
  * @return
  * @author tuguska
  */
-require_once 'tqq\oauth.php';
-//include_once('oauth_class.php');
+require_once 'oauth.php';
 
 class MBOpenTOAuth {
 	public $host = 'http://open.t.qq.com/';
@@ -189,7 +188,7 @@ class MBOpenTOAuth {
 		if(strrpos($url, 'https://')===0){
 			$port = 443;
 			$version = '1.1';
-			$host = 'ssl://'.MB_API_HOST;
+			$host = 'ssl://'.MB_API_HOST;	
 			
 		}else{
 			$port = 80;	

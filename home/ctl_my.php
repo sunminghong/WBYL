@@ -65,9 +65,9 @@ class my extends ctl_base {
 		if(!$uid) return;
 		
 		$isFollow=rq("follow",1);
-		$account=getAccount();
-
-		$api="openapi_tsina";
+		
+		$account=getAccount();				
+		$api="openapi_".$account['lfrom'];
 			importlib($api);
 			$api=new $api($account['kuid']); 
 

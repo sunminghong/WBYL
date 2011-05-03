@@ -9,12 +9,12 @@ class openapi_tsina extends openapiAbstract{
 	private $skey;
 	
 	function __construct($tokenOrlfromuid=""){
-		$this->akey=$GLOBALS['apiConfig'][$this->lfrom]["access_key"];
-		$this->skey=$GLOBALS['apiConfig'][$this->lfrom]["screct_key"];
-		
 		$this->name="新浪微博";
 		$this->lfrom="tsina";  //必须与类名相同，即openapi_(tsina)
 
+		$this->akey=$GLOBALS['apiConfig'][$this->lfrom]["access_key"];
+		$this->skey=$GLOBALS['apiConfig'][$this->lfrom]["screct_key"];
+		
 		$this->tokenOrlfromuid=$tokenOrlfromuid;
 	}
 		

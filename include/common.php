@@ -8,7 +8,7 @@ define('DATADIR', ROOT.'data/');
 define('URLBASE',"http://".$_SERVER['HTTP_HOST'].WEBROOT); //.':'.$_SERVER['SERVER_PORT']
 
 
-//error_reporting (E_ALL & ~E_NOTICE & ~E_Warning);
+error_reporting (E_ALL & ~E_NOTICE);
 // 默认时区设置
 @date_default_timezone_set('PRC');
 
