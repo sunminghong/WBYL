@@ -8,15 +8,8 @@ class my extends ctl_base {
 
 		$this->display("home_my_index");
 	}
-		
+	/*
 	public function home_timeline(){
-/*$aa=Array
-        (
-            [created_at] => Tue Apr 26 12:03:12 +0800 2011
-            [id] => 9661134511
-            [text] => 腾讯起诉360不正当竞争案刚刚宣判：1.360停止发行360隐私保护器；2.360删除涉案侵权内容的宣传；3.在360网站的首页及法制日报上公开发表声明，消除不利影响；4.360赔偿损失40万元；5.驳回其他诉讼请求。
-            [source] => "<a href="http://weibo.com" rel="nofollow">新浪微博</a>" );*/
-
 		$kuids=rq("kuid","");
 		if (!$kuids) return "";
 
@@ -37,7 +30,7 @@ class my extends ctl_base {
 		exit;
 	}
 	
-	public function public_timeline(){
+public function public_timeline(){
 
 		$kuids=rq("kuid","");
 		if (!$kuids) return "";
@@ -58,24 +51,58 @@ class my extends ctl_base {
 		}
 		echo json_encode($ms);
 		exit;
-	}
+	}*/
 
 	public function follow() {
-		$uid=rq("fuid",false);
-		if(!$uid) return;
+		//$uid=rq("fuid","1747738583");
+		//if(!$uid) return;
 		
+		$api=$this->getApi();
+		$account=getAccount();
+
+		if($account['lfrom']=='tqq')
+			$uid="yihuiso";
+		else
+			$uid="1747738583";
+
 		$isFollow=rq("follow",1);
 		
-		$account=getAccount();				
-		$api="openapi_".$account['lfrom'];
-			importlib($api);
-			$api=new $api($account['kuid']); 
 
 		if($isFollow)
 			$ret=$api->follow($uid); // done	
 		else
 			$ret= $api->unfollow($uid); // done
 		echo "1";exit;
+	}
+
+	function syncfriends(){
+
+		$api=$this->getApi();
+		$account=getAccount();
+
+		importlib("ppt_class");
+		$ppt=new ppt();
+		if(!$ppt->snsNeedSync($account['uid'])) {
+			echo 0;exit;
+		}		
+		$list=$api->friends(-1,100,$account['lfromuid']);
+		$ppt-> syncSNS($list,0,$account['uid']);
+
+		$list=$api->followers(-1,100,$account['lfromuid']);
+		$ppt-> syncSNS($list,1,$account['uid']);
+		echo '1'; exit;
+	}
+	
+	function syncfollowers(){
+		$api=$this->getApi();
+		$account=getAccount();
+		
+		$list=$api->followers(-1,100,$account['lfromuid']);
+		importlib("ppt_class");
+		$ppt=new ppt();
+		$ppt-> syncSNS($list,1,$account['uid']);
+
+		echo 1;exit;
 	}
 }
 ?>

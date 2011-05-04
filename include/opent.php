@@ -146,7 +146,7 @@ class MBOpenTOAuth {
      * @return mixed 
      */ 
     function post($url, $parameters = array() , $multi = false) { 
-        $response = $this->oAuthRequest($url, 'POST', $parameters , $multi ); 
+        $response = $this->oAuthRequest($url, 'POST', $parameters , $multi ); //print_r($parameters); echo $url;echo $response;exit;
 		if (MB_RETURN_FORMAT === 'json') { 
             return $this->jsonDecode($response, true); 
         } 
@@ -172,7 +172,7 @@ class MBOpenTOAuth {
     function oAuthRequest($url, $method, $parameters , $multi = false) { 
         if (strrpos($url, 'http://') !== 0 && strrpos($url, 'https://') !== 0) { 
             $url = "{$this->host}{$url}.{$this->format}"; 
-		}
+		}print_r($this->token);echo $this->consumer;
         $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters); 
 		$request->sign_request($this->sha1_method, $this->consumer, $this->token);
         switch ($method) { 

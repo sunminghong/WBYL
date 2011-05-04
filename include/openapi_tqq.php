@@ -79,7 +79,7 @@ $_SESSION['last_key'] = $last_key;
 	
 	public function getUserInfo(){
 		$oarr0=$this->getClient()->getUserInfo();	
-		print_r($oarr0);
+		//print_r($oarr0);
 		$oarr=$oarr0['data'];
 		$uidarr=array();
 		$uidarr['screen_name']=$oarr['nick'];
@@ -89,7 +89,7 @@ $_SESSION['last_key'] = $last_key;
 		$uidarr['url']=$oarr[''];
 		$uidarr['avatar']=$oarr['head'];
 		$uidarr['domain']=$oarr[''];
-		$uidarr['gender']=$oarr['sex'];
+		$uidarr['sex']=$oarr['sex'];
 		$uidarr['followers']=$oarr['fansnum'];
 		$uidarr['followings']=$oarr['idolnum'];
 		$uidarr['tweets']=$oarr['tweetnum'];
@@ -164,7 +164,7 @@ $_SESSION['last_key'] = $last_key;
 	}
 
 	public function end_session(){
-		return $this->getClient()->end_session();
+		//return $this->getClient()->end_session();
 	}
 
 	public function update_profile_image($image_path){

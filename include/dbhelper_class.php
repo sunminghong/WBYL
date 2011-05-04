@@ -73,9 +73,9 @@ class dbhelper {
 				return $res;
 		}else {
 			$res=mysql_query($sql,self::getConnS());
-			if($newid)
-				return mysql_insert_id(self::getConnM());
-			else
+			//if($newid)
+			//	return mysql_insert_id(self::getConnM());
+			//else
 				return $res;
 		}
 	}

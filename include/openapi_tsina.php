@@ -63,7 +63,10 @@ class openapi_tsina extends openapiAbstract{
 	
 	public function getUserInfo(){
 		$oarr=$this->getClient()->getUserInfo();
+		return $this->convertUserInfo($oarr);
+	}
 
+	private function convertUserInfo($oarr) {
 		$uidarr=array();
 		$uidarr['screen_name']=$oarr['screen_name'];
 		$uidarr['name']=$oarr['name'];
@@ -71,7 +74,7 @@ class openapi_tsina extends openapiAbstract{
 		$uidarr['description']=$oarr['description'];
 		$uidarr['url']=$oarr['url'];
 		$uidarr["avatar"]=$oarr["profile_image_url"];
-		$uidarr['domain']=$oarr['domain'];
+		$uidarr['domain']=empty($oarr['domain'])?$oarr['id']:$oarr['domain'];
 		$uidarr['sex']=$oarr['gender']=="m"?1:2;
 		$uidarr['followers']=$oarr['followers_count'];
 		$uidarr['tweets']=$oarr['statuses_count'];
@@ -106,11 +109,27 @@ class openapi_tsina extends openapiAbstract{
 	}
 
 	public function friends( $cursor = NULL , $count = 20 , $uid_or_name = NULL ){
-		return $this->getClient()->friends( $cursor , $count , $uid_or_name );
+		$list=$this->getClient()->friends( $cursor , $count , $uid_or_name );
+		$list=$list['users'];
+		$arrs=array();
+		if(is_array($list)) {
+			foreach($list as $li){
+				$arrs[]=$this->convertUserInfo($li);
+			}
+		}
+		return $arrs;
 	}
 
 	public function followers( $cursor = NULL , $count = NULL , $uid_or_name = NULL ){
-		return $this->getClient()->followers( $cursor, $count, $uid_or_name);
+		$list=$this->getClient()->followers( $cursor, $count, $uid_or_name);
+		$list=$list['users'];
+		$arrs=array();
+		if(is_array($list)) {
+			foreach($list as $li){
+				$arrs[]=$this->convertUserInfo($li);
+			}
+		}
+		return $arrs;
 	}
 
 	public function follow( $uid_or_name ){

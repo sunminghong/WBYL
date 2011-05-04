@@ -15,37 +15,89 @@ class ppt{
 		$domain=$apiConfig[$uidarr["lfrom"]]["domain_format"];
 		$domain=str_replace("{domain}",$uidarr["domain"],$domain);
 
-		$sqlu="name='". addslashes($uidarr['name'])."',screen_name='". addslashes($uidarr['screen_name'])."',domain='".$domain."',lasttime=$timestamp,logintime=$timestamp,followers=".$uidarr['followers'].",followings=".$uidarr['followings'].",tweets=".$uidarr['tweets'].",tk='".$uidarr['tk']."',sk='".$uidarr['sk']."'";
+		$sqlu="sex='".$uidarr['sex']."',name='". addslashes($uidarr['name'])."',screen_name='". addslashes($uidarr['screen_name'])."',domain='".$domain."',lasttime=$timestamp,logintime=$timestamp,followers=".$uidarr['followers'].",followings=".$uidarr['followings'].",tweets=".$uidarr['tweets'].",tk='".$uidarr['tk']."',sk='".$uidarr['sk']."',location='" .$uidarr['location'] ."',verified='".$uidarr['verified'] . "'";
 
 		if($uid){
 			$sql="update ".dbhelper::tname("ppt",'user')." set logins=logins+1,".$sqlu." where uid=$uid";			
 		}
 		else{ //新用户则要添加相应的记录
 			$ret=envhelper::readRet();
-			$sql="insert into ".dbhelper::tname("ppt",'login')." set lfrom='".$uidarr['lfrom']."',lfromuid=$lfromuid,name='". addslashes($uidarr['name'])."'";	
+			$sql="insert into ".dbhelper::tname("ppt",'login')." set lfrom='".$uidarr['lfrom']."',lfromuid='$lfromuid',name='". addslashes($uidarr['name'])."'";	
 			$uid=dbhelper::execute($sql,1);
 
-			$sql="insert into ".dbhelper::tname("ppt",'user')." set uid=$uid,lfrom='".$uidarr['lfrom']."',lfromuid=$lfromuid,logins=1,regtime=$timestamp,".$sqlu.",retuid=".intval($ret['retuid']).",retapp='".addslashes($ret['retapp'])."'";
+			$sql="insert into ".dbhelper::tname("ppt",'user')." set uid=$uid,lfrom='".$uidarr['lfrom']."',lfromuid='$lfromuid',logins=1,regtime=$timestamp,".$sqlu.",retuid=".intval($ret['retuid']).",retapp='".addslashes($ret['retapp'])."'";
 		}
 //echo $sql;exit;
 		dbhelper::execute($sql);
-		//$uidarr=array('uid'=>$uid,'name'=>($name?$name:$uidarr['name']));
-		//$json=serialize($uidarr);//echo $json;exit;
-		//$json= authcode($json, 'ENCODE', $key = 'abC!@#$%^');
-		//ssetcookie("account",$json,3600*24*30);
-		//echo $uid.$sql;
-		//exit;
+
 		return $uid;
 	}
 	
-	/*function readUser(){
-		$json=sreadcookie('account');//str_replace("\\","",);
-		if (!$json)
-			return null;
+	//是否需要同步好友、粉丝信息
+	public function snsNeedSync($uid1){
+		$sql="select uid2 from ".dbhelper::tname("ppt",'userlib_sns')." where uid1=".$uid1." limit 0,1";
+		$rs=dbhelper::getrs($sql);
+		if($row=$rs->next()){
+			if(getTimestamp() % 5==0) {
+				return true;
+			}
+		}
+		else {
+			return true;
+		}
+	}
 
-		$json= authcode($json, 'DECODE', $key = 'abC!@#$%^');
-		$session=unserialize($json);
-		return $session;
-	}*/
+	public function syncSNS($list,$type,$uid1=0){
+		global $apiConfig;
+//print_r($list);
 
+		$sqlups="";
+		$sqlins="";
+		$sqlins2="";
+
+		foreach($list as $uidarr) {
+			$lfromuid=$uidarr['lfromuid'];
+
+			$timestamp=getTimestamp();
+			//如果已经有此帐号，则修改相应的值
+			$domain=$apiConfig[$uidarr["lfrom"]]["domain_format"];
+			$domain=str_replace("{domain}",$uidarr["domain"],$domain);
+
+			$sqlu="sex='".$uidarr['sex']."',name='". addslashes($uidarr['name'])."',screen_name='". addslashes($uidarr['screen_name'])."',domain='".$domain."',lasttime=$timestamp,followers='".$uidarr['followers']."',followings='".$uidarr['followings']."',tweets='".$uidarr['tweets']."',location='" .$uidarr['location'] ."',verified='".$uidarr['verified'] . "'";
+
+			$sql="select uid,name from ".dbhelper::tname("ppt",'login')." where lfromuid='".$lfromuid."' and lfrom='".$uidarr['lfrom']."'";
+			$rs=dbhelper::getrs($sql);
+			if($row=$rs->next()){
+				$uid=$row['uid'];
+				$name=$row['name'];	
+
+				$sqlups .="update ".dbhelper::tname("ppt",'user')." set ".$sqlu." where uid=$uid;;;";
+				
+				$sqlins .="insert into ".dbhelper::tname("ppt",'user_sns')." set uid1=".$uid1.", uid2=$uid,type=$type;;;";
+			}
+
+			$sql="select id from ".dbhelper::tname("ppt",'userlib')." where lfromuid='".$lfromuid."' and lfrom='".$uidarr['lfrom']."'";
+			$rs=dbhelper::getrs($sql);
+			if($row=$rs->next()){
+				$libid=$row['id'];
+				$sql ="update ".dbhelper::tname("ppt",'userlib')." set ".$sqlu." where id=$libid";
+				dbhelper::execute($sql);
+			}else{
+				$sql="insert into ".dbhelper::tname("ppt",'userlib')." set  lfromuid='".$lfromuid."' , lfrom='".$uidarr['lfrom']."',".$sqlu;
+				$libid=dbhelper::execute($sql,1);
+			}
+			$sqlins2 .="insert into ".dbhelper::tname("ppt",'userlib_sns')." set uid1=".$uid1.", uid2=$libid,type=$type;;;";
+		}
+		//echo 'sqlups='.$sqlups.'\n';
+		//echo 'sqlins='.$sqlins.'\n';
+		//echo 'sqlins2='.$sqlins2.'\n';
+
+		dbhelper::exesqls($sqlups);
+		
+		dbhelper::execute("delete from  ".dbhelper::tname("ppt",'user_sns')." where uid1=$uid1 and type=$type");
+		dbhelper::exesqls($sqlins);
+
+		dbhelper::execute("delete from  ".dbhelper::tname("ppt",'userlib_sns')." where uid1=$uid1 and type=$type");
+		dbhelper::exesqls($sqlins2);
+	}
 }

@@ -57,7 +57,7 @@ showtime();
 
 
 function follow(){
-	var url='?act=my&op=follow&fuid=1747738583';
+	var url='?act=my&op=follow';
 	$.get(url,function(res){
 		$("#div_follow").hide();
 		alert('谢谢你的关注，我们会定期在官网“聪明行情”！');
@@ -91,11 +91,11 @@ function refreshMsg(){
 				ph.push('<span class="msg_block"><span class="testtime">'+msg.testtime+'</span> ');
 				if(msg.iq*1==-1){
 					ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('@'+msg.name+' 正在玩微博游戏《看看你有多聪明》，为他加油~_~!" target="_blank" title1="点击对他说话" wb_screen_name="'+msg.name+'">@'+msg.name+' </a>开始测试。');
+					ph.push('@'+msg.name+' 正在玩微博游戏《看看你有多聪明》，为他加油~_~!" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>开始测试。');
 				}
 				else{
 					ph.push('恭喜 <a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' 的惊人IQ分值 '+msg.iq+' 分，我崇拜死了！" target="_blank" title1="点击对他说话" wb_screen_name="'+msg.name+'">@'+msg.name+' </a>完成测试，IQ值：<b>'+msg.iq+'</b>!');
+					ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' 的惊人IQ分值 '+msg.iq+' 分，我崇拜死了！" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>完成测试，IQ值：<b>'+msg.iq+'</b>!');
 				}
 				ph.push('</span>');
 			}
@@ -107,9 +107,15 @@ function refreshMsg(){
 			if(wbisload)	WB.widget.atWhere.blogAt(EE("msg_list"), "a");
 		});
 }
-$(document).ready(function(){
-	if(op=="ican") startclock();
 
+
+$(document).ready(function(){
+	if(op=="ican") {
+		startclock();
+	}
+	if(op=="ready"){
+		$.get("?act=my&op=syncfriends");
+	}
 	var msg_list=$("#msg_list");
 	if(msg_list.length>0){
 		refreshMsg();

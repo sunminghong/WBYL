@@ -151,7 +151,7 @@ class iq extends ctl_base
 		
 		$iqCount=$this->iqCount();
 		$msg="#看看你有多聪明#数据统计：总登录人数 ".$iqCount['totalUser']."，成功测试人数 ".$iqCount[iqs]."人， 有效测试 ".$iqCount[logs]. "次。目前@".$iqCount[maxName]. " 以 ". $iqCount[maxIq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ " .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
-		$this->_sendStatus($msg);
+		$this->getApi()->update($msg);
 
 		echo "1";exit;
 	}
@@ -165,25 +165,15 @@ class iq extends ctl_base
 		."我现在充满信心，哈哈哈！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
 		else
 			$msg="刚刚进行了#看看你有多聪明#，我得了".$score['iq']."分，排行第".$score['top'].",打败了全国 ".$score["win"]. "% 的博友! 你认为你比我聪明吗！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
-		$this->_sendStatus($msg);
+		$this->getApi()->update($msg);
 
 		echo "1";exit;
 	}
-	private function _sendStatus($msg){
-		$account=getAccount();				
-		$api="openapi_".$account['lfrom'];
-			importlib($api);
-			$api=new $api($account['kuid']); 
-			$ret=$api->update( $msg );
 
-		echo "1";exit;
-
-	}
-	
 	private function toplist(){
 		$top=10;
 		$testlist=array();
-		$sql="select l.uid,l.name,testCount,iq,useTime from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 order by iq desc,useTime,testCount desc limit 0,$top";
+		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 order by iq desc,useTime,testCount desc limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		while($row=$rs->next()){
 			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
@@ -200,7 +190,7 @@ class iq extends ctl_base
 			$top=30;
 
 		$testlist=array();
-		$sql="select l.uid,l.name,iq,lasttime from ". dbhelper::tname("iq","log") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid  order by id desc limit 0,$top";
+		$sql="select l.uid,l.name,iq,lasttime,l.lfrom from ". dbhelper::tname("iq","log") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid  order by id desc limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		while($row=$rs->next()){
 			$row['testtime']= date("m-d H:i:s",$row['lasttime']);

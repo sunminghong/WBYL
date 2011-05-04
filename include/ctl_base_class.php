@@ -13,6 +13,15 @@ class ctl_base extends template {
 	function set($k,$v){
 		$this->assign($k,$v);
 	}
+
+	function getApi(){
+		$account=getAccount();
+		$api="openapi_".$account['lfrom'];
+		importlib($api);
+		$api=new $api($account['kuid']); 
+		
+		return $api;
+	}
 }
 
 ?>

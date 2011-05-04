@@ -31,18 +31,12 @@ class account extends ctl_base
 			$tourl=WEBROOT."err_login.htm";
 			header("Location: $tourl");exit;
 		}else{
+			importlib("ppt_class");
 			$ppt=new ppt();
 			$uid=$ppt->login($uidarr);
-
-			/*$userinfo=array(
-				"lfrom"=>$lfrom,
-				"lfromuid"=>$uidarr['lfromuid'],
-				"name"=>$uidarr["name"],
-				"uid"=>$uid
-			);*/
-
 			$uidarr['uid']=$uid;
-			envhelper::saveAccounts(envhelper::packKUID($lfrom,$uidarr['lfromuid']),$uidarr);	//	 print_r($uidarr);exit;	
+			envhelper::saveAccounts(envhelper::packKUID($lfrom,$uidarr['lfromuid']),$uidarr);
+
 			if(!$tourl)
 			$tourl="?act=my";
 			header("Location: $tourl");
@@ -54,14 +48,7 @@ class account extends ctl_base
 		$account=getAccount();
 		if(is_array($account) && isset($account["lfrom"]) && isset($account['lfromuid']))
 		{
-			$lfrom=$account["lfrom"];
-			$kuid=envhelper::packKUID($lfrom,$account['lfromuid']);
-			
-			$api="openapi_".$lfrom;
-			importlib($api);
-			$api=new $api($kuid); 
-
-			$api->end_session();
+			$this->getApi()->end_session();
 		}
 		
 		envhelper::clearAccounts();
