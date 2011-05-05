@@ -14,83 +14,7 @@
 
 	<div class="mainFrame">
 		
-		<? if($op=="login") { ?>
-		<div class="ui-widget">
-			
-			<div class="login">
-			<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
-			<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！<br/>
-				<!--<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/login.png" alt="用微博帐号登录" /></a><br />-->
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/followiq.png" alt="关注官方微博" wb_screen_name="wb_screen_name"></a>
-			</div>
-			
-			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明"/></a>
-			</div>
-		</div>
-		<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<div>
-					<strong>欢迎使用看看你有多聪明</strong>
-				</div>
-				<div class="welcomeDiv1" id="msg_list">
-
-				</div>
-			</div>
-		</div>
-		<div class="div_login">
-			<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a>
-		</div>
-
-<? } elseif($op=="ready") { ?>
-
-		<div class="ui-widget">
-			
-			<div class="login">
-			<? if(is_array($account) ) { ?>
-<font color="#ff3333"><?=$account['screen_name']?></font>, 你一共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 全国排名第<b> <?=$iqScore['top']?> </b>, 打败了全国 <b><?=$iqScore['win']?>%</b> 的人!加油！！！<a href="?act=account&op=logout">退出</a> 
-<? } else { ?>
-<? } ?>
-<br/><br/>
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/followiq.png" alt="关注官方微博"></a>
-			</div>
-			
-			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
-			</div>
-		</div>
-				<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<div class="welcomeDiv1" id="msg_list">
-
-				</div>
-			</div>
-		</div>
-		<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<div>
-					<strong>微博IQ测试约需25分钟，你准备好了吗？</strong>
-				</div>
-				<div class="welcomeDiv1">
-					1。吃喝拉撒搞定了吗？（根据本站统计，人在三分饥的时候思维状态最佳）
-				</div>
-				<div class="welcomeDiv1">
-					2。身边没有阿猫阿狗吧？如果有，请给足粮食，让它安静点！
-				</div>
-				<div class="welcomeDiv1">
-					3。如果你测试结果不理想，请不要气馁，可以过一段时间再来一次（测试间隔最好在一个月以上）！
-				</div>
-				<div class="welcomeDiv1">
-					4。如果结果显示你是天才，请不要窃喜，因为前面已有爱因思坦，后面也会有更聪明的人！
-				</div>
-			</div>
-		</div>
-		<div class="div_login">
-		
-			<button onclick="location.href='?app=iq&op=ican'">我 准 备 好 了</button>
-		</div>
-
-<? } elseif($op=="ican") { ?>
+<? if($op=="ican") { ?>
 
 		<div class="ui-widget">			
 			<div class="login">
@@ -110,28 +34,20 @@
 您所用的时间：<span id="use_time"></span></strong></p>
 				</div>
 				<div class="welcomeDiv1" style="width:580px;margin-left:250px;">
-					70-89  --智力低下 <br/>
-				
-					90-99  --智力中等<br/>
-				
-					100-109--智力中上<br/>
-				
-					110-119--智力优秀<br/>
-				
-					120-129--智力非常优秀<br/>
-				
+					70-89  --智力低下 <br/>				
+					90-99  --智力中等<br/>				
+					100-109--智力中上<br/>				
+					110-119--智力优秀<br/>				
+					120-129--智力非常优秀<br/>				
 					130-139--智力非常非常优秀
 				</div>
-				<div class="welcomeDiv1" style="width:580px;margin-left:250px;font-weight:bold;">
-				每个人的IQ是随着你的经历、学识的增长而进步的,<br/>
-				我们也将收集更科学的题目，常回来看看!
-				</div>
+				<div class="welcomeDiv1" style="width:580px;margin-left:100px;font-weight:bold;" id="div_result"></div>
 			</div>
 			<div class="div_login" id="ui-widget-result-send" style="display:none;">
 			
-				<button onclick="sendmsg();">发到微博里留个纪念！</button> 
-				<button onclick="follow();" title="谢谢你的关注，我们会定期在官网公告“聪明行情”！">关注我掌握聪明行情</button> 
-				<button onclick="location.href='?app=iq&op=ican'">我 再 测 试 一 次</button>
+				<a href="javascript:void(0);"  onclick="sendmsg();"><img src="<?=$templatepath?>/iq_images/btn_tweet.gif" /></a> 
+				<a href="javascript:void(0);" onclick="follow();" title="谢谢你的关注，我们会定期在官网公告“聪明行情”！"><img src="<?=$templatepath?>/iq_images/btn_follow.gif" title="关注我"/></a> 
+				<a href="javascript:void(0);" onclick="location.href='?app=iq&op=ican'"><img src="<?=$templatepath?>/iq_images/btn_testagain.gif" alt="再测试一次"/></a>
 			</div>
 
 			<div class="ui-widget" style="text-align:center; color:#696a62;" id="ui-widget-content">
@@ -293,7 +209,7 @@
 						<p><font color="#000000">　　C F I　 　　D H L　　 　 E J (<input name="T33" size="2">)</font></p>
 						<div align="center">
 							<p>
-							<button name="B1" onclick="calculate();return false;" >查看我的得分（IQ值）</button></p>
+							<a href="javascript:void(0);" onclick="calculate();return false;" ><img src="<?=$templatepath?>/iq_images/btn_showscore.gif" alt="查看我的分数"/></a></p>
 						</div>
 					</form>
 					</td>
@@ -307,41 +223,4 @@
 
 <? } ?>
 </div>
-		<div class="bottom" id="footer1">
-			<span>Copy &copy; 2011 看看你有多聪明 版权所有 - Developed By @孙铭鸿
-				<a href="http://weibo.com/5d13" target="_blank">5d13</a>
-			</span>
-			<div><a href="http://www.265g.com" target="_blank">找网页游戏，就上265G！</a>
-				<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=对@孙铭鸿 (官方微博)说:" target="_blank">意见反馈</a>
-			</div>
-			<div>
-	   			<a href="http://sae.sina.com.cn" target="_blank"><img src="http://static.sae.sina.com.cn/image/poweredby/poweredby.png" title="Powered by Sina App Engine" /></a>
-	   		</div>
-	    </div>
-
-<script type="text/javascript" src="http://js.wcdn.cn/t3/platform/js/api/wb.js"></script> 
-<script type="text/javascript"> 
-
-if(location.href.indexOf('5d13.sinaapp.com')!=-1)
-WB.core.load(['connect', 'client', 'widget.base', 'widget.atWhere'], function() {
-	var cfg = {
-		key: '4106323544',
-		xdpath: 'http://5d13.sinaapp.com/_rights/xd.html'
-	};
-	WB.connect.init(cfg);
-	WB.client.init(cfg);
- 
-	WB.widget.atWhere.searchAndAt(EE("footer1"));
-	
-	WB.widget.atWhere.blogAt(EE("logo"));
-	if( op!='ican')
-	WB.widget.atWhere.blogAt(EE("div_follow"));
- 
-	//WB.widget.atWhere.blogAt(("msg_list"), "a");
-	
-	wbisload=true;
-});
-</script> 
-<div style="display:none;"><script src="http://s20.cnzz.com/stat.php?id=3050823&web_id=3050823" language="JavaScript"></script></div>
-</body>
-</html>
+<? include $this->gettpl('iq_footer');?>

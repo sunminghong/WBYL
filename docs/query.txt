@@ -30,3 +30,8 @@ select (select count(*) from iq_iq) as iqs,
 (select count(*) from ppt_user_sns) as snses,
 (select count(*) from ppt_userlib_sns) as lib_snses
 
+
+
+select l.screen_name from iq_iq iq  inner join ppt_user l on iq.uid=l.uid  inner join ppt_user_sns sns on sns.uid2=l.uid and type=0 where sns.uid1=17 and iq.iq<110 order by rand() limit 0,30
+
+select l.screen_name FROM ppt.ppt_userlib l  inner join ppt.ppt_userlib_sns sns on sns.uid2=l.id and type=0 where sns.uid1=17 order by rand() limit 0,6

@@ -10,7 +10,7 @@ class iq extends ctl_base
 			$this->display("iq_index");
 			return;
 		}
-		$iqScore=$this->readIqScore($account["uid"],true);
+		$iqScore=$this->readIqScore($account["uid"],false);
 		$this->assign("iqScore",$iqScore);
 		$this->set("op","ready");
 		$this->display("iq_index");
@@ -46,17 +46,17 @@ class iq extends ctl_base
 			return;
 		}
 
-		$iqScore=$this->readIqScore($account["uid"],true);
+		$iqScore=$this->readIqScore($account["uid"],false);
 		$this->assign("iqScore",$iqScore);
 		$this->set("op","stats");
-
+		$this->set('myfriendslist',$this->friendstoplist($account["uid"]));
 		//print_r($iqCount);
 		$this->set("iqCount",$this->iqCount());
 		$this->set('toplist',$this->toplist());
 		$this->display("iq_index");
 	}
 
-	private function iqCount(){		
+	private function iqCount(){
 		$iqCount=array();
 
 		//读取总数据
@@ -87,7 +87,8 @@ class iq extends ctl_base
 	}
 
 	function cacl(){
-		if(!getAccount()){
+		$account=getAccount();
+		if(!$account){
 			echo "-1";
 			return;
 		}
@@ -137,13 +138,10 @@ class iq extends ctl_base
 		
 		$this->saveIq($iqvalue,$useTime);
 		
-		$score=array(
-				"iq"=>$iqvalue,
-				"top"=> $usetime,
-				"lastnum" =>$lastnum
-		);
-
-		echo $iqvalue;exit;
+		$score=$this->readIqScore($account["uid"],true);
+		$score['nowiq']=$iqvalue;
+		echo json_encode($score);
+		exit;
 	}
 		
 	public function sendStats(){
@@ -159,24 +157,51 @@ class iq extends ctl_base
 	public function sendstatus(){
 		$account=getAccount();
 		
-		$score=$this->readIqScore($account['uid'],true);
+		$score=$this->readIqScore($account['uid'],false); //得了".$score['iq']."分，
+	
 		if($score['lostname'])
-			$msg="刚刚进行了#看看你有多聪明#，我得了".$score['iq']."分，排行第".$score['top'].",打败了".$score['lostname']
-		."我现在充满信心，哈哈哈！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
+			$msg="刚刚玩#看看你有多聪明#，我的".$score['chs']."，全国排名第".$score['top']."，打败了".$score['lostname']."哈哈！";
 		else
-			$msg="刚刚进行了#看看你有多聪明#，我得了".$score['iq']."分，排行第".$score['top'].",打败了全国 ".$score["win"]. "% 的博友! 你认为你比我聪明吗！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
-		$this->getApi()->update($msg);
+			$msg="刚刚玩#看看你有多聪明#，我的".$score['chs']."，全国排名第".$score['top']."，打败了全国 ".$score["win"]. "% 的博友! ";
 
+		if($score['retname'])
+			$msg.= $score['retname']	. "你们也来试试！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
+		else
+			$msg.= "你们也来试试吧！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
+
+		$this->getApi()->update($msg);
 		echo "1";exit;
+	}
+
+	private function friendstoplist($uid){
+		$top=10;
+		$testlist=array();
+		$sql="select l.uid,l.name,iq.testCount,iq.iq,iq.useTime,l.lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and sns.type=0 where sns.uid1=".$uid." order by iq desc,testCount limit 0,10";
+
+		$rs=dbhelper::getrs($sql);
+		$i=0;
+		while($row=$rs->next()){
+			$i++;
+			$row["i"]=$i;
+			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
+			$row["ch"]=$this->iqtoch($row["iq"]);
+			$testlist[]=$row;
+		}
+//		echo json_encode($testlist);
+		return $testlist;	
 	}
 
 	private function toplist(){
 		$top=10;
 		$testlist=array();
-		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 order by iq desc,useTime,testCount desc limit 0,$top";
+		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 order by iq desc,testCount  limit 0,$top";
 		$rs=dbhelper::getrs($sql);
+		$i=0;
 		while($row=$rs->next()){
+			$i++;
+			$row["i"]=$i;
 			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
+			$row["ch"]=$this->iqtoch($row["iq"]);
 			$testlist[]=$row;
 		}
 //		echo json_encode($testlist);
@@ -192,8 +217,12 @@ class iq extends ctl_base
 		$testlist=array();
 		$sql="select l.uid,l.name,iq,lasttime,l.lfrom from ". dbhelper::tname("iq","log") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid  order by id desc limit 0,$top";
 		$rs=dbhelper::getrs($sql);
+		$i=0;
 		while($row=$rs->next()){
+			$i++;
+			$row["i"]=$i;
 			$row['testtime']= date("m-d H:i:s",$row['lasttime']);
+			$row["ch"]=$this->iqtoch($row["iq"]);
 			$testlist[]=$row;			
 		}
 		echo json_encode($testlist);
@@ -224,6 +253,10 @@ class iq extends ctl_base
 			$iqScore['testCount']=0;
 			$iqScore['useTime']=100000;
 		}
+
+		$iqv=$iqScore['iq']*1; 		
+		$iqScore['chs']=$this->iqtoch($iqv);
+
 		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq']." or ( iq=". $iqScore['iq'] ." and useTime<".$iqScore['useTime'] ."))+1 as top ,";
 		$sql.="(select count(*) from ". dbhelper::tname("iq","iq") .") as total ";
 		$rs=dbhelper::getrs($sql);
@@ -238,21 +271,53 @@ class iq extends ctl_base
 			$iqScore["top"]=1;
 			$iqScore['win']=100;
 		}
-
-		$sql="select l.screen_name from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid where iq.iq<" . $iqScore['iq']."  order by rand() limit 0,3";
+		
+		//获取打败的好友的名单
+		$sql="select l.screen_name from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=1 where sns.uid1=".$uid." and iq.iq<".$iqScore['iq']." order by rand() limit 0,3";
 		$rs=dbhelper::getrs($sql);
 		$sss="";
 		while($row=$rs->next()){
 			$sss.="@".$row['screen_name']." ，";
 		}
-
 		$iqScore['lostname']=$sss;
+		//获取邀请人名单
+		$sql="select l.screen_name from ".dbhelper::tname("ppt","userlib")." l  inner join ".dbhelper::tname("ppt","userlib_sns")." sns on sns.uid2=l.id and type=1 where sns.uid1=".$uid." order by rand() limit 0,6";
+		$rs=dbhelper::getrs($sql);
+		$sss2="";$ii=0;
+		while($row=$rs->next()){
+			if($ii<3 && !strpos($sss,$row['screen_name'])){
+				$sss2.="@".$row['screen_name']." ，";
+				$ii++;
+			}
+		}
+
+		$iqScore['retname']=$sss2;
 		$json=serialize($iqScore);
 
 		$json= authcode($json, 'ENCODE', $key = 'abC!@#$%^');
 		ssetcookie('iq_score', $json,3600*24*100);
 		return $iqScore;
 	}
+
+	private function iqtoch($iqv){
+		$iqv=$iqv*1;
+		if($iqv<90)
+			$chs="智力低下";
+		elseif($iqv<100)
+			$chs="智力中等";
+		elseif($iqv<=110)
+			$chs="智力中上";
+		elseif($iqv<120)
+			$chs="智力优秀";
+		elseif($iqv<130)
+			$chs="智力非常优秀";
+		elseif($iqv<140)
+			$chs="智力是天才级";
+		else
+			$chs="智力是惊世天才级";
+		return $chs;
+	}
+
 	private function saveIq($iqvalue,$useTime){
 		global $timestamp;
 		$account=getAccount();

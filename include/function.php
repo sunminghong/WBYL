@@ -104,28 +104,28 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 
 //cookie设置
 function ssetcookie($var, $value, $life=0) {
-	setcookie(CookiePre.$var, $value, $life?(time()+$life):0, "/",CookieDomain);
-	//SESS::set($var,$valus);
+	//setcookie(CookiePre.$var, $value, $life?(time()+$life):0, "/",CookieDomain);
+	SESS::set($var,$value);
 }
 function sreadcookie($key){
-	return $_COOKIE[CookiePre.$key];
-	//return SESS::get($key);
+	//return $_COOKIE[CookiePre.$key];
+	return SESS::get($key);
 }
 
 
 ##游戏SESSIOON类
 class SESS{
 	public static $init = 0;
-	public static $preKey = CookiePre;
+	public static $preKey = 'CookiePre';
 	
 	#初始化session
 	public function initSession(){
 		if(self::$init==1) return;
-		global $_CONFIG; #加载配置文件，将session保存到memecahe
+		/*global $_CONFIG; #加载配置文件，将session保存到memecahe
 		header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');  
 		ini_set("session.save_handler","files");
-		//session_save_path( "session/");
-		ini_set('session.gc_maxlifetime',600); 	
+		////session_save_path( "session/");
+		ini_set('session.gc_maxlifetime',600); 	*/
 		session_start();
 		self::$init = 1;
 	}

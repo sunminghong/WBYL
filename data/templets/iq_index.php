@@ -21,7 +21,7 @@
 			<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
 			<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！<br/>
 				<!--<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/login.png" alt="用微博帐号登录" /></a><br />-->
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/followiq.png" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.png" alt="关注官方微博" ></a>
+				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="关注官方微博" ></a>
 			</div>
 			
 			<div class="logo">
@@ -39,8 +39,8 @@
 			</div>
 		</div>
 		<div class="div_login">
-			<a href="?act=account&op=tologin" border="0"><img height="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
-			<a href="?act=account&op=tologin&lfrom=tqq" border="0"><img height="24" src="<?=$templatepath?>/images/t-qq.png" alt="用腾讯微博登录" /></a>
+			<a href="?act=account&op=tologin" border="0"><img height1="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
+			<!--<a href="?act=account&op=tologin&lfrom=tqq" border="0"><img height="24" src="<?=$templatepath?>/images/t-qq.png" alt="用腾讯微博登录" /></a>-->
 		</div>
 
 <? } elseif($op=="ready") { ?>
@@ -49,11 +49,11 @@
 			
 			<div class="login">
 			<? if(is_array($account) ) { ?>
-<font color="#ff3333"><?=$account['screen_name']?></font>, 你一共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 全国排名第<b> <?=$iqScore['top']?> </b>, 打败了全国 <b><?=$iqScore['win']?>%</b> 的人!加油！！！<a href="?act=account&op=logout">退出</a> 
+<font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
 <? } else { ?>
 <? } ?>
-<br/><br/>
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/followiq.png" alt="关注官方微博"></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.png" alt="关注官方微博" ></a>
+<br /><br/>
+				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="关注官方微博" ></a>
 			</div>
 			
 			<div class="logo">
@@ -88,20 +88,18 @@
 		</div>
 		<div class="div_login">
 		
-			<button onclick="location.href='?app=iq&op=ican'">我 准 备 好 了</button>
+			<a href="?app=iq&op=ican"><img src="<?=$templatepath?>/iq_images/btn_ready.gif" alt="我准备好了，开始" /></a>
 		</div>
 
 <? } elseif($op=="stats") { ?>
 		<div class="ui-widget">			
 			<div class="login">
 			<? if(is_array($account) ) { ?>
-<font color="#ff3333"><?=$account['screen_name']?></font>, 你一共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 全国排名第<b> <?=$iqScore['top']?> </b>, 打败了全国 <b><?=$iqScore['win']?>%</b> 的人!加油！！！<a href="?act=account&op=logout">退出</a> 
+<font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　　　<a href="?act=account&op=logout">退出</a>
 <? } else { ?>
 <? } ?>
-<br/><br/>
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/followiq.png" alt="关注官方微博"></a>
-			</div>
-			
+		
+			</div>			
 			<div class="logo">
 				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
@@ -115,71 +113,44 @@
 				<div class="welcomeDiv1" id="stats_1">
 					《看看你有多聪明》数据统计：总登录人数 <b><?=$iqCount['totalUser']?></b>，成功测试人数 <b><?=$iqCount['iqs']?></b>人， 有效测试  <b><?=$iqCount['logs']?></b>次。目前@<?=$iqCount['maxName']?> 以  <b><?=$iqCount['maxIq']?></b>分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超越 TA！ 
 				</div>
-				<div class="welcomeDiv1">
-					<a href="javascript:void();" onclick="javascript:sendStats();">这么NB!发到微博里瞻仰一下！</a>
+				<div class="welcomeDiv1" style="text-align:center;">
+					<a href="javascript:void();" onclick="javascript:sendStats();"><img src="<?=$templatepath?>/iq_images/btn_tweettop.gif" alt="发到微博瞻仰一下"/></a>
+					<a id="div_follow" href="javascript:void(0)" onclick="follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a>
 				</div>				
 			</div>
 		</div>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
-					<strong>《看看你有多聪明》天才榜：</strong>
-				</div
-				<div class="welcomeDiv1" id="top_list">
-					<? foreach((array)$toplist as $top) {?>
-						<p>@<?=$top['name']?>，IQ测试<b><?=$top['iq']?></b>分，共测试<?=$top['testCount']?>次。</p>
+					<strong>《看看你有多聪明》好友天才榜：</strong>
+				</div>
+				<div class="welcomeDiv1" id="top_list1" style="text-align:left;">				
+					<? foreach((array)$myfriendslist as $top) {?>
+						<p>第<b><?=$top['i']?></b>名，@<?=$top['name']?>， <b><?=$top['ch']?></b>，共测试<b><?=$top['testCount']?></b>次。</p>
 					<? } ?>
+				</div>
+			</div>
+		</div>
+		<div class="contentFrame">
+			<div class="ui-widget" style="text-align:center; color:#696a62;">
+				<div>
+					<strong>《看看你有多聪明》全国天才榜：</strong>
+				</div>
+				<div class="welcomeDiv1" id="top_list2" style="text-align:left;">				
+					<? foreach((array)$toplist as $top) {?>
+						<p>第<b><?=$top['i']?></b>名，@<?=$top['name']?>， <b><?=$top['ch']?></b>，共测试<b><?=$top['testCount']?></b>次。</p>
+					<? } ?>				
 				</div>
 			</div>
 		</div>
 		<div class="div_login">
 		<? if($iqScore['iq']>0) { ?>
-			<button onclick="location.href='?app=iq'">我 再 去 试 试！</button>
+			<a href="javascript:void(0);" onclick="location.href='?app=iq'"><img src="<?=$templatepath?>/iq_images/btn_testagain.gif" alt="再测试一次"/></a>
 		<? } else { ?>
-			<button onclick="location.href='?app=iq'">我 去 试 试！</button>
+			<a href="javascript:void(0);" onclick="location.href='?app=iq'"><img src="<?=$templatepath?>/iq_images/btn_testagain.gif" alt="再测试一次"/></a>
 		<? } ?>
 		</div>
 
 <? } ?>
 </div>
-		<div class="bottom" id="footer1">
-			<span>Copy &copy; 2011 看看你有多聪明 版权所有 - Developed By @孙铭鸿
-				<a href="http://weibo.com/5d13" target="_blank">5d13</a>
-			</span>
-			<div><a href="http://www.265g.com" target="_blank">找网页游戏，就上265G！</a>
-				<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=对@孙铭鸿 (官方微博)说:" target="_blank">意见反馈</a>
-			</div>
-			<div>
-	   			<a href="http://sae.sina.com.cn" target="_blank"><img src="http://static.sae.sina.com.cn/image/poweredby/poweredby.png" title="Powered by Sina App Engine" /></a>
-	   		</div>
-	    </div>
-
-<script type="text/javascript" src="http://js.wcdn.cn/t3/platform/js/api/wb.js"></script> 
-<script type="text/javascript"> 
-
-if(location.href.indexOf('5d13.sinaapp.com')!=-1)
-WB.core.load(['connect', 'client', 'widget.base', 'widget.atWhere'], function() {
-	var cfg = {
-		key: '4106323544',
-		xdpath: 'http://5d13.sinaapp.com/_rights/xd.html'
-	};
-	WB.connect.init(cfg);
-	WB.client.init(cfg);
- 
-	WB.widget.atWhere.searchAndAt(EE("footer1"));
-	if(op=='stats'){
-		WB.widget.atWhere.searchAndAt(EE("stats_1"));
-		WB.widget.atWhere.searchAndAt(EE("top_list"));
-	}
-	WB.widget.atWhere.blogAt(EE("logo"));
-	if( op!='ican')
-	WB.widget.atWhere.blogAt(EE("div_follow"));
- 
-	//WB.widget.atWhere.blogAt(("msg_list"), "a");
-	
-	wbisload=true;
-});
-</script> 
-<div style="display:none;"><script src="http://s20.cnzz.com/stat.php?id=3050823&web_id=3050823" language="JavaScript"></script></div>
-</body>
-</html>
+<? include $this->gettpl('iq_footer');?>

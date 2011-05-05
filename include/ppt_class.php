@@ -47,8 +47,15 @@ class ppt{
 		}
 	}
 
-	public function syncSNS($list,$type,$uid1=0){
+	public function syncSNS($api,$type,$uid1=0,$count=100,$cursor=-1,$lfromuid=NULL){
 		global $apiConfig;
+
+		if($type==1)
+			$f_list=$api->followers($cursor,50);//,$lfromuid);
+		else
+			$f_list=$api->friends($cursor,50);//,$lfromuid);
+
+		$list=$f_list["users"];
 //print_r($list);
 
 		$sqlups="";
@@ -94,10 +101,19 @@ class ppt{
 
 		dbhelper::exesqls($sqlups);
 		
-		dbhelper::execute("delete from  ".dbhelper::tname("ppt",'user_sns')." where uid1=$uid1 and type=$type");
+		if($cursor==-1) dbhelper::execute("delete from  ".dbhelper::tname("ppt",'user_sns')." where uid1=$uid1 and type=$type");
 		dbhelper::exesqls($sqlins);
 
-		dbhelper::execute("delete from  ".dbhelper::tname("ppt",'userlib_sns')." where uid1=$uid1 and type=$type");
+		if($cursor==-1) dbhelper::execute("delete from  ".dbhelper::tname("ppt",'userlib_sns')." where uid1=$uid1 and type=$type");
 		dbhelper::exesqls($sqlins2);
+
+		if ($f_list["next_cursor"]){
+			$cursor=$f_list["next_cursor"]*1;
+			if($cursor!=0 && $cursor<$count){
+				//)会循环调用本方法
+				$this->syncSNS($api,$type,$uid1,$count,$cursor,$lfromuid);
+			}
+		}
+		
 	}
 }

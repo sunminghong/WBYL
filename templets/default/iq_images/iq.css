@@ -12,6 +12,7 @@ img {border:none;}
 
 .mainFrame
 {
+clear:both;
 	width:800px;
 	margin:0px auto 20px auto;
 }

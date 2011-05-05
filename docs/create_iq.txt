@@ -1,67 +1,116 @@
 CREATE TABLE `iq_iq` (
- `uid` int(11) NOT NULL,
- `iq` int(11) NOT NULL,
- `useTime` int(11) NOT NULL defautl (0),
- `testCount` int(11) NOT NULL COMMENT '≤‚ ‘¥Œ ˝',
- `retuid` int(11) NOT NULL DEFAULT '0' COMMENT '¥”ƒƒ∏ˆ”√ªß¥¯π˝¿¥µƒ',
- `followers` int(11) NOT NULL,
- `followings` int(11) NOT NULL,
- `tweets` int(11) NOT NULL,
- `regtime` int(11) NOT NULL,
- `lasttime` int(11) NOT NULL,
- PRIMARY KEY (`uid`),
- KEY `iq` (`iq`),
- KEY `testCount` (`testCount`),
- KEY `followers` (`followers`),
- KEY `useTime`(`useTime`)
+  `uid` int(11) NOT NULL,
+  `iq` int(11) NOT NULL,
+  `useTime` int(11) NOT NULL default '0',
+  `testCount` int(11) NOT NULL COMMENT 'ÊµãËØïÊ¨°Êï∞',
+  `retuid` int(11) NOT NULL default '0' COMMENT '‰ªéÂì™‰∏™Áî®Êà∑Â∏¶ËøáÊù•ÁöÑ',
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `regtime` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  PRIMARY KEY  (`uid`),
+  KEY `iq` (`iq`),
+  KEY `testCount` (`testCount`),
+  KEY `followers` (`followers`),
+  KEY `useTime` (`useTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 CREATE TABLE `iq_log` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `uid` int(11) NOT NULL,
- `iq` int(11) NOT NULL,
- `useTime` int(11) NOT NULL defautl (0),
- `followers` int(11) NOT NULL,
- `followings` int(11) NOT NULL,
- `tweets` int(11) NOT NULL,
- `lasttime` int(11) NOT NULL,
- `retuid` int(11) NOT NULL COMMENT '¥”ƒƒ∏ˆ”√ªß¥¯π˝¿¥µƒ',
- PRIMARY KEY (`id`),
- KEY `uid` (`uid`),
- KEY `iq` (`iq`),
- KEY `followers` (`followers`),
- KEY `useTime`(`useTime`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL auto_increment,
+  `uid` int(11) NOT NULL,
+  `iq` int(11) NOT NULL,
+  `useTime` int(11) NOT NULL default '0',
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `retuid` int(11) NOT NULL COMMENT '‰ªéÂì™‰∏™Áî®Êà∑Â∏¶ËøáÊù•ÁöÑ',
+  PRIMARY KEY  (`id`),
+  KEY `uid` (`uid`),
+  KEY `iq` (`iq`),
+  KEY `followers` (`followers`),
+  KEY `useTime` (`useTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=18487 DEFAULT CHARSET=utf8
 
 CREATE TABLE `ppt_login` (
- `uid` int(11) NOT NULL AUTO_INCREMENT,
- `lfromuid` int(11) NOT NULL,
- `lfrom` varchar(10) NOT NULL,
- `name` varchar(20) NOT NULL,
- PRIMARY KEY (`uid`),
- KEY `lfromuid` (`lfromuid`),
- KEY `lfrom` (`lfrom`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+  `uid` int(11) NOT NULL auto_increment,
+  `lfromuid` varchar(30) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY  (`uid`),
+  KEY `lfromuid` (`lfromuid`),
+  KEY `lfrom` (`lfrom`)
+) ENGINE=InnoDB AUTO_INCREMENT=13196 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `ppt_user` (
- `uid` int(11) NOT NULL,
- `lfromuid` int(11) NOT NULL,
- `lfrom` varchar(10) NOT NULL,
- `name` varchar(20) NOT NULL,
- `screen_name` varchar(30) NOT NULL,
- `domain` varchar(100) NOT NULL,
- `followers` int(11) NOT NULL,
- `followings` int(11) NOT NULL,
- `tweets` int(11) NOT NULL,
- `tk` varchar(32) NOT NULL,
- `sk` varchar(32) NOT NULL,
- `logins` int(11) NOT NULL,
- `regtime` int(11) NOT NULL,
- `logintime` int(11) NOT NULL,
- `lasttime` int(11) NOT NULL,
- `retuid` int(11) NOT NULL DEFAULT '0' COMMENT '??????????????????',
- `retapp` varchar(8) NOT NULL DEFAULT '' COMMENT '??????????',
- PRIMARY KEY (`uid`),
- KEY `logins` (`logins`)
+  `uid` int(11) NOT NULL,
+  `lfromuid` varchar(30) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `sex` tinyint(4) NOT NULL default '1',
+  `name` varchar(30) NOT NULL,
+  `screen_name` varchar(30) NOT NULL,
+  `domain` varchar(100) NOT NULL,
+  `location` varchar(30) NOT NULL default '',
+  `verified` tinyint(4) NOT NULL default '0',
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `tk` varchar(32) NOT NULL,
+  `sk` varchar(32) NOT NULL,
+  `logins` int(11) NOT NULL,
+  `regtime` int(11) NOT NULL,
+  `logintime` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `retuid` int(11) NOT NULL default '0' COMMENT '‰ªéÂì™‰∏™Áî®Êà∑Â∏¶ËøáÊù•ÁöÑ',
+  `retapp` varchar(8) NOT NULL default '' COMMENT '‰ªéÂì™‰∏™Â∫îÁî®Â∏¶ËøáÊù•ÁöÑ',
+  PRIMARY KEY  (`uid`),
+  KEY `logins` (`logins`),
+  KEY `isvip` (`verified`),
+  KEY `location` (`location`),
+  KEY `sex` (`sex`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ppt_userlib` (
+  `id` int(11) NOT NULL auto_increment,
+  `lfromuid` varchar(30) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `sex` tinyint(4) NOT NULL default '1',
+  `name` varchar(20) NOT NULL,
+  `screen_name` varchar(30) NOT NULL,
+  `domain` varchar(100) NOT NULL,
+  `location` varchar(30) NOT NULL default '',
+  `verified` tinyint(4) NOT NULL default '0',
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `lfromuid` (`lfromuid`),
+  KEY `lfrom` (`lfrom`),
+  KEY `followers` (`followers`),
+  KEY `isvip` (`verified`)
+) ENGINE=InnoDB AUTO_INCREMENT=2460 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ppt_user_sns` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid1` int(11) NOT NULL,
+  `uid2` int(30) NOT NULL,
+  `type` tinyint(4) NOT NULL default '1' COMMENT '1‰∏∫followers,0‰∏∫friends(followings)',
+  PRIMARY KEY  (`id`),
+  KEY `uid1` (`uid1`),
+  KEY `uid2` (`uid2`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=4885 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ppt_userlib_sns` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid1` int(11) NOT NULL,
+  `uid2` int(30) NOT NULL COMMENT 'ËøôÊòØuserlibË°®ÈáåÁöÑID',
+  `type` tinyint(4) NOT NULL default '1' COMMENT '1‰∏∫followers,0‰∏∫friends(followings)',
+  PRIMARY KEY  (`id`),
+  KEY `uid1` (`uid1`),
+  KEY `uid2` (`uid2`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=13618 DEFAULT CHARSET=utf8;

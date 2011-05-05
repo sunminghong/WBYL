@@ -39,6 +39,8 @@ else
 	$lfrom=$account['lfrom'];
 //echo "accounts=";print_r($accounts);exit;
 
+
+
 //时间
 $mtime = explode(' ', microtime());
 $timestamp = $mtime[1];

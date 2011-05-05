@@ -21,10 +21,10 @@ abstract class openapiAbstract{
 		return $session;
 	}
 	
-	abstract public abstract public function getLoginUrl($callbackurl);
-	abstract public abstract public function callback();
+	abstract public function getLoginUrl($callbackurl);
+	abstract public function callback();
 
-	abstract public abstract public function getUserInfo();
+	abstract public function getUserInfo();
 
 		/**
 	 * 发表微博

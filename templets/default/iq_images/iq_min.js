@@ -11,8 +11,21 @@ function chC(name,num){
 	return rel;
 }
 
+function showresult(usetime,res){
+	eval("var score="+res);
 
-eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[78a-hj-np-r]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('k calculate(){e 7=0;8(a(\'q1\',\'1\')){7+=1}8(a(\'q2\',\'2\')){7+=1}8(a(\'q3\',\'4\')){7+=1}8(a(\'q4\',\'1\')){7+=1}8(a(\'q5\',\'2\')){7+=1}8($("b[c=T6]").d()=="26"){7+=2}8(a(\'q7\',\'0\')){7+=1}8(a(\'q8\',\'0\')){7+=1}8(a(\'q9\',\'2\')){7+=1}8(a(\'q10\',\'2\')){7+=1}8($("b[c=T11]").d()=="9"){7+=1}8(a(\'q12\',\'3\')){7+=1}8(a(\'q13\',\'2\')){7+=1}8($("b[c=T14]").d()=="6"){7+=1}8(a(\'q15\',\'2\')){7+=1}8(a(\'q16\',\'2\')){7+=1}8($("b[c=T17]").d()=="l"){7+=1}8(a(\'q18\',\'1\')){7+=1}8(a(\'q19\',\'0\')){7+=1}8($("b[c=T20]").d()=="美国"){7+=2}8(a(\'q21\',\'3\')){7+=2}8($("b[c=T22]").d()=="64"){7+=2}8($("b[c=T23]").d()=="科学"){7+=2}8($("b[c=T24]").d()=="式"){7+=1}8($("b[c=m]").d()=="X"||$("b[c=m]").d()=="x"){7+=1}8($("b[c=T26]").d()=="75"){7+=1}8(a(\'q27\',\'4\')){7+=1}8($("b[c=T28]").d()=="奠"){7+=1}8($("b[c=T29]").d()=="颠"){7+=1}8($("b[c=T30]").d()=="5"){7+=1}8($("b[c=T31]").d()=="l"){7+=2}8(a(\'q32\',\'2\')){7+=2}8($("b[c=n]").d()=="O"||$("b[c=n]").d()=="o"){7+=1}8(p)clearTimeout(p);e i=$("#face").f();$.get("?app=iq&op=cacl&usetime="+initStopwatch()+"&7="+7+"&t="+Math.random(),k(g){e iqvalue=parseInt(g);$("#iq_val").f(g);$("#use_time").f(i);$("#h-j-q").r();$("#h-j-q-send").r();$("#h-j-content").hide()})}',[],28,'|||||||storea|if||chC|input|name|val|var|html|res|ui||widget|function|36|T25|T33||timerID|result|show'.split('|'),0,{}))
+		$("#iq_val").html(score.nowiq);
+
+		$("#use_time").html(usetime);
+		$("#ui-widget-result").show();
+		$("#ui-widget-result-send").show();
+		$("#ui-widget-content").hide();
+		
+		var msg='你共测试'+score.testCount+' 次， 最高IQ值是 '+score.iq+' , 排名第<b> '+score.top+' </b>, 打败了 <b>'+score.win+'%</b> 的人'+(score.lostname?'(包括'+score.lostname+'~_~）':'')+'，加油！！！';
+		$("#div_result").html(msg);
+		
+}
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[78a-hj-l]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('e calculate(){f 7=0;8(a(\'q1\',\'1\')){7+=1}8(a(\'q2\',\'2\')){7+=1}8(a(\'q3\',\'4\')){7+=1}8(a(\'q4\',\'1\')){7+=1}8(a(\'q5\',\'2\')){7+=1}8($("b[c=T6]").d()=="26"){7+=2}8(a(\'q7\',\'0\')){7+=1}8(a(\'q8\',\'0\')){7+=1}8(a(\'q9\',\'2\')){7+=1}8(a(\'q10\',\'2\')){7+=1}8($("b[c=T11]").d()=="9"){7+=1}8(a(\'q12\',\'3\')){7+=1}8(a(\'q13\',\'2\')){7+=1}8($("b[c=T14]").d()=="6"){7+=1}8(a(\'q15\',\'2\')){7+=1}8(a(\'q16\',\'2\')){7+=1}8($("b[c=T17]").d()=="g"){7+=1}8(a(\'q18\',\'1\')){7+=1}8(a(\'q19\',\'0\')){7+=1}8($("b[c=T20]").d()=="美国"){7+=2}8(a(\'q21\',\'3\')){7+=2}8($("b[c=T22]").d()=="64"){7+=2}8($("b[c=T23]").d()=="科学"){7+=2}8($("b[c=T24]").d()=="式"){7+=1}8($("b[c=h]").d()=="X"||$("b[c=h]").d()=="x"){7+=1}8($("b[c=T26]").d()=="75"){7+=1}8(a(\'q27\',\'4\')){7+=1}8($("b[c=T28]").d()=="奠"){7+=1}8($("b[c=T29]").d()=="颠"){7+=1}8($("b[c=T30]").d()=="5"){7+=1}8($("b[c=T31]").d()=="g"){7+=2}8(a(\'q32\',\'2\')){7+=2}8($("b[c=j]").d()=="O"||$("b[c=j]").d()=="o"){7+=1}8(k)clearTimeout(k);f i=$("#face").html();$.get("?app=iq&op=cacl&usetime="+initStopwatch()+"&7="+7+"&t="+Math.random(),e(l){showresult(i,l)})}',[],22,'|||||||storea|if||chC|input|name|val|function|var|36|T25||T33|timerID|res'.split('|'),0,{}))
 
 
 var timerID = null;     
@@ -66,7 +79,7 @@ function follow(){
 
 function sendStats(){
 	$.get("?app=iq&op=sendstats&t="+Math.random(),function(res){
-		alert("已经发送到你微博可以随时去瞻仰 TA 了！点击“关注我”就可以随时掌握博友的聪明行情!");
+		alert("已经发送到你微博可以随时去瞻仰 TA 了！“关注我”就可以随时掌握博友的聪明行情!");
 		
 	});
 }
@@ -95,7 +108,7 @@ function refreshMsg(){
 				}
 				else{
 					ph.push('恭喜 <a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' 的惊人IQ分值 '+msg.iq+' 分，我崇拜死了！" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>完成测试，IQ值：<b>'+msg.iq+'</b>!');
+					ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' 的 '+msg.ch+'，我都不敢测试了！" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>完成测试，<b> '+msg.ch+'</b>!');
 				}
 				ph.push('</span>');
 			}

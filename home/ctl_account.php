@@ -35,6 +35,7 @@ class account extends ctl_base
 			$ppt=new ppt();
 			$uid=$ppt->login($uidarr);
 			$uidarr['uid']=$uid;
+
 			envhelper::saveAccounts(envhelper::packKUID($lfrom,$uidarr['lfromuid']),$uidarr);
 
 			if(!$tourl)

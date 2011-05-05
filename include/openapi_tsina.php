@@ -109,27 +109,29 @@ class openapi_tsina extends openapiAbstract{
 	}
 
 	public function friends( $cursor = NULL , $count = 20 , $uid_or_name = NULL ){
-		$list=$this->getClient()->friends( $cursor , $count , $uid_or_name );
-		$list=$list['users'];
+		$f_list=$this->getClient()->friends( $cursor , $count , $uid_or_name );
+		$list=$f_list['users'];
 		$arrs=array();
 		if(is_array($list)) {
 			foreach($list as $li){
 				$arrs[]=$this->convertUserInfo($li);
 			}
 		}
-		return $arrs;
+		//echo $f_list["next_cursor"] ;
+		return array("next_cursor"=>$f_list["next_cursor"] ,"users"=>$arrs);
 	}
 
 	public function followers( $cursor = NULL , $count = NULL , $uid_or_name = NULL ){
-		$list=$this->getClient()->followers( $cursor, $count, $uid_or_name);
-		$list=$list['users'];
+		$f_list=$this->getClient()->followers( $cursor, $count, $uid_or_name);
+		$list=$f_list['users'];
 		$arrs=array();
 		if(is_array($list)) {
 			foreach($list as $li){
 				$arrs[]=$this->convertUserInfo($li);
 			}
 		}
-		return $arrs;
+		//echo $f_list["next_cursor"] ;
+		return array("next_cursor"=>$f_list["next_cursor"],"users"=>$arrs);
 	}
 
 	public function follow( $uid_or_name ){

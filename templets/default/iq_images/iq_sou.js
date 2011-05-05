@@ -50,13 +50,18 @@ if($("input[name=T33]").val()=="O"||$("input[name=T33]").val()=="o"){storea+=1;}
     if(timerID)clearTimeout(timerID);
 	var i=$("#face").html();
 	$.get("?app=iq&op=cacl&usetime="+initStopwatch()+"&storea="+storea+"&t="+Math.random(),function(res){
-		var iqvalue=parseInt(res);
-		
-		$("#iq_val").html(res);
+		eval("var score="+res);
+		alert(score);
+		$("#iq_val").html(score.nowiq);
+
 		$("#use_time").html(i);
 		$("#ui-widget-result").show();
 		$("#ui-widget-result-send").show();
 		$("#ui-widget-content").hide();
+
+		
+		var msg='你共测试'+score.testCount+' 次， 最高IQ值是 '+score.iq+' , 排名第<b> '+score.top+' </b>, 打败了 <b>'+score.win+'%</b> 的人(包括'+score.lostname+'~_~）加油！！！';
+		$("#div_result").html(msg);
 		
 	});
 }     
