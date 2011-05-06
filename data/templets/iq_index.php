@@ -6,8 +6,9 @@
 	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/iq_images/iq.css" />
 	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> 
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
-<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
-<script>var op="<?=$op?>"; var wbisload=false; </script>
+<!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';</script>
 <script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.2"></script>
 </head>
 <body>
@@ -47,8 +48,9 @@
 
 		<div class="ui-widget">
 			
-			<div class="login">
+			<div class="login">			
 			<? if(is_array($account) ) { ?>
+			<img class="zhengshuico" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
 <font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
 <? } else { ?>
 <? } ?>
@@ -94,31 +96,17 @@
 <? } elseif($op=="stats") { ?>
 		<div class="ui-widget">			
 			<div class="login">
-			<? if(is_array($account) ) { ?>
-<font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　　　<a href="?act=account&op=logout">退出</a>
-<? } else { ?>
-<? } ?>
-		
+<b>数据统计</b>：总登录人数 <b><?=$iqCount['totalUser']?></b>，成功测试人数 <b><?=$iqCount['iqs']?></b>人， 有效测试  <b><?=$iqCount['logs']?></b>次。目前@<?=$iqCount['maxName']?> 以  <b><?=$iqCount['maxIq']?></b>分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超越 TA！ 
+<br/><br/>
+		<a href="javascript:void();" onclick="javascript:sendStats();"><img src="<?=$templatepath?>/iq_images/btn_tweettop.gif" alt="发到微博瞻仰一下"/></a>
+					<a id="div_follow" href="javascript:void(0)" onclick="follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a>
 			</div>			
 			<div class="logo">
 				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
 
-		<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<div>
-					<strong>《看看你有多聪明》数据统计</strong>
-				</div>
-				<div class="welcomeDiv1" id="stats_1">
-					《看看你有多聪明》数据统计：总登录人数 <b><?=$iqCount['totalUser']?></b>，成功测试人数 <b><?=$iqCount['iqs']?></b>人， 有效测试  <b><?=$iqCount['logs']?></b>次。目前@<?=$iqCount['maxName']?> 以  <b><?=$iqCount['maxIq']?></b>分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超越 TA！ 
-				</div>
-				<div class="welcomeDiv1" style="text-align:center;">
-					<a href="javascript:void();" onclick="javascript:sendStats();"><img src="<?=$templatepath?>/iq_images/btn_tweettop.gif" alt="发到微博瞻仰一下"/></a>
-					<a id="div_follow" href="javascript:void(0)" onclick="follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a>
-				</div>				
-			</div>
-		</div>
+		<? if($myfriendslist) { ?>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
@@ -126,11 +114,16 @@
 				</div>
 				<div class="welcomeDiv1" id="top_list1" style="text-align:left;">				
 					<? foreach((array)$myfriendslist as $top) {?>
-						<p>第<b><?=$top['i']?></b>名，@<?=$top['name']?>， <b><?=$top['ch']?></b>，共测试<b><?=$top['testCount']?></b>次。</p>
+						<div style="clear:both;">
+						<div style="line-height:45px;height:45px;float:left;">第<b><?=$top['i']?></b>名，@<?=$top['name']?>，最高IQ<b><?=$top['iq']?></b>，共测试<b><?=$top['testCount']?></b>次</div>
+						<img style="float:left;margin-left:15px;" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$top['iqlv']?>.png"/>
+						</div>
 					<? } ?>
+					<div  style="clear:both;font-size:0;height:0;"></div>
 				</div>
 			</div>
 		</div>
+		<? } ?>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
@@ -138,8 +131,12 @@
 				</div>
 				<div class="welcomeDiv1" id="top_list2" style="text-align:left;">				
 					<? foreach((array)$toplist as $top) {?>
-						<p>第<b><?=$top['i']?></b>名，@<?=$top['name']?>， <b><?=$top['ch']?></b>，共测试<b><?=$top['testCount']?></b>次。</p>
-					<? } ?>				
+						<div style="clear:both;">
+						<div style="line-height:45px;height:45px;float:left;">第<b><?=$top['i']?></b>名，@<?=$top['name']?>，最高IQ<b><?=$top['iq']?></b>，共测试<b><?=$top['testCount']?></b>次</div>
+						<img style="float:left;margin-left:15px;" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$top['iqlv']?>.png"/>
+						</div>
+					<? } ?>
+					<div  style="clear:both;font-size:0;height:0;"></div>			
 				</div>
 			</div>
 		</div>

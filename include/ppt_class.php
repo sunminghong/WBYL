@@ -41,6 +41,7 @@ class ppt{
 			if(getTimestamp() % 5==0) {
 				return true;
 			}
+			return false;
 		}
 		else {
 			return true;

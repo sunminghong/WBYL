@@ -20,13 +20,13 @@ clear:both;
 .logo
 {
 	width:320px;
-	margin:10px 0px 0px 50px;
+	margin:10px 0px 0px 10px;
 }
 
 .login
 {
 	float:right;
-	width:400px;
+	width:460px;
 	margin:10px 0px 0px 0px;
 	font-family:"微软雅黑";
 	font-size:14px;
@@ -60,6 +60,7 @@ clear:both;
 
 .contentFrame
 {
+clear:both;
 	border:1px solid #72cade;
 	padding:30px;
 	margin:10px 0px 0px 0px;
@@ -197,3 +198,4 @@ button {
 .msgHigh{
 	background:#f88;
 }
+.zhengshuico {border:0px solid #333; width:45px; height:45px; float:left;margin-right:5px;}

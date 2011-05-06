@@ -1,0 +1,107 @@
+<?php
+/*
+imageWaterText($backImage,$text,$color='#000000',$posX,$posY,$fontSize,$fontFile,$newName='')
+在images上增加text水印
+
+$backImage 要处理的图片，只支持gif，jpg，png格式
+$test 水印文字内容
+$color 水印文字颜色
+$posX,$posY 水印文字坐标
+$fontSize 水印文字大小
+$fontFile 水印文字字体
+
+$newName 可选，生成新图片的名字，为空则覆盖原图片
+=====================================================================================================
+imageWaterPic($backImage,$waterPic,$posX,$posY,$newName='')
+在image上增加图片水印
+
+$backImage 要处理的图片
+$waterPic 水印文件
+$posX,$posY 水印坐标
+$newName 可选，生成新图片的名字，为空则覆盖原图片
+*/
+function imageWaterText(){
+	$backImage = ROOT.'./image/yanyu/imagebg.png';
+	
+	#读取背景图片 
+	if(!empty($backImage) && file_exists($backImage)){ 
+		$ground_info = getimagesize($backImage); 
+			
+		switch($ground_info[2])//取得背景图片的格式 
+		{ 
+			case 1:$ground_im = imagecreatefromgif($backImage);break; 
+			case 2:$ground_im = imagecreatefromjpeg($backImage);break; 
+			case 3:$ground_im = imagecreatefrompng($backImage);break; 
+			default:die('需要增加水印的图片格式不支持'); 
+		} 
+	}else{ 
+		die("需要加水印的图片不存在"); 
+	}
+	
+	imagealphablending($ground_im, true);
+	
+	$color = '#e0134e';
+	$R = hexdec(substr($color,1,2)); 
+	$G = hexdec(substr($color,3,2)); 
+	$B = hexdec(substr($color,5)); 
+	
+	//合成名字
+	$fontFile = ROOT .'.//image//yanyu//heiti.ttf';
+	global $myname,$attrArr,$myuid;
+	imagettftext($ground_im,16,0,50,73,imagecolorallocate($ground_im,$R,$G,$B),$fontFile,$myname);
+	
+	//合成属性
+	$fontFile = ROOT .'.//image//yanyu//haibaoti.ttf';
+	imagettftext($ground_im,16,0,192,110,imagecolorallocate($ground_im,$R,$G,$B),$fontFile,$attrArr[rand(0,4)]);
+	imagettftext($ground_im,16,0,192,142,imagecolorallocate($ground_im,$R,$G,$B),$fontFile,$attrArr[rand(0,4)]);
+	
+	
+	$color = '#ffffff';
+	$R = hexdec(substr($color,1,2)); 
+	$G = hexdec(substr($color,3,2)); 
+	$B = hexdec(substr($color,5)); 
+	global $place,$myhead;
+
+	imagettftext($ground_im,25,0,120-strlen($place)/3*15,250,imagecolorallocate($ground_im,$R,$G,$B),$fontFile,$place);
+	$ground_im = imageWaterPic($ground_im,$myhead,15,50);	
+	
+	$newName = ROOT.'./image/yanyu/tmp/'. $myuid .'.png';
+	$saveName = (empty($newName)?$backImage:$newName);
+	
+	switch($ground_info[2])//取得背景图片的格式 
+	{ 
+		case 1:imagegif($ground_im,$saveName);break; 
+		case 2:imagejpeg($ground_im,$saveName);break; 
+		case 3:imagepng($ground_im,$saveName);break; 
+		default:die('生成图片失败'); 
+	} 
+	//释放内存
+	unset($ground_info); 
+	imagedestroy($ground_im);
+}
+
+function imageWaterPic($ground_im,$waterPic,$posX,$posY){	
+	#读取水印文件
+	global $myuid;
+	$head = ROOT.'./image/yanyu/tmp/'. $myuid .'_head.gif';
+	file_put_contents($head, gethttppage($waterPic) );
+	$waterPic = $head;
+	
+	if(file_exists($waterPic)){ 
+		$water_info = getimagesize($waterPic); 
+		$water_w = $water_info[0];//取得水印图片的宽 
+		$water_h = $water_info[1];//取得水印图片的高 
+	
+		switch($water_info[2])//取得水印图片的格式 
+		{ 
+			case 1:$water_im = imagecreatefromgif($waterPic);break; 
+			case 2:$water_im = imagecreatefromjpeg($waterPic);break; 
+			case 3:$water_im = imagecreatefrompng($waterPic);break; 
+			default:die('水印文件格式错误'); 
+		} 
+	} 
+	imagecopy($ground_im, $water_im, $posX, $posY, 0, 0, $water_w,$water_h);#拷贝水印到目标文件
+	@unlink($head);
+	return $ground_im;
+}
+?>

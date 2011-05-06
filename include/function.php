@@ -266,6 +266,27 @@ function dateDiff($unit="",$date1 , $date2){
     }
 }
 
+//取字符串左右
+//left('abcde',-1) = abcd
+//取字符串左右
+//left('abcde',-1) = abcd
+function left($str,$len){
+	if((int)$len>0){
+		return mb_substr($str,0,$len,'utf8');	
+	}else{
+		return mb_substr($str,0,strlen($str)+$len,'utf8');		
+	}
+}
+function right($str,$len){
+	if($len>0){
+		return mb_substr($str,strlen($str)-$len,strlen($str),'utf8');
+	}else{
+		return mb_substr($str,abs($len),strlen($str),'utf8');	
+	}
+}
+function len($str){
+	return mb_strlen($str,'utf8');	
+}
 
 function getEl($xmlobj,$name){
 	$el=$xmlobj->xpath($name);

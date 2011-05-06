@@ -12,8 +12,8 @@ error_reporting (E_ALL & ~E_NOTICE);
 // 默认时区设置
 @date_default_timezone_set('PRC');
 
-include ROOT.'./config.inc.php';
-include_once(ROOT.'/include/function.php');
+include ROOT.'config.inc.php';
+include_once(ROOT.'include/function.php');
 
 importlib("envhelper_class");
 importlib("dbhelper_class");
@@ -38,7 +38,6 @@ if(!is_array($account))
 else
 	$lfrom=$account['lfrom'];
 //echo "accounts=";print_r($accounts);exit;
-
 
 
 //时间

@@ -108,7 +108,7 @@ function refreshMsg(){
 				}
 				else{
 					ph.push('恭喜 <a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' 的 '+msg.ch+'，我都不敢测试了！" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>完成测试，<b> '+msg.ch+'</b>!');
+					ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' IQ 为'+msg.iq+'分，经鉴定为 '+msg.ch+'，我都不敢测试了！" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>完成测试， IQ 为<b>'+msg.iq+'</b>分，经鉴定为 <b> '+msg.ch+'</b>!');
 				}
 				ph.push('</span>');
 			}
@@ -126,12 +126,15 @@ $(document).ready(function(){
 	if(op=="ican") {
 		startclock();
 	}
-	if(op=="ready"){
-		$.get("?act=my&op=syncfriends");
-	}
 	var msg_list=$("#msg_list");
 	if(msg_list.length>0){
 		refreshMsg();
-		setInterval(refreshMsg,10000);
+	}
+	if(op=="ready"){
+		$.get("?act=my&op=syncfriends",function(){
+			if(msg_list.length>0) setInterval(refreshMsg,10000);			
+		});
+	}else{
+		if(msg_list.length>0) setInterval(refreshMsg,10000);		
 	}
 });
