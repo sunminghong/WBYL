@@ -50,7 +50,7 @@
 			
 			<div class="login">			
 			<? if(is_array($account) ) { ?>
-			<img class="zhengshuico" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
+			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
 <font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
 <? } else { ?>
 <? } ?>
@@ -96,16 +96,27 @@
 <? } elseif($op=="stats") { ?>
 		<div class="ui-widget">			
 			<div class="login">
-<b>数据统计</b>：总登录人数 <b><?=$iqCount['totalUser']?></b>，成功测试人数 <b><?=$iqCount['iqs']?></b>人， 有效测试  <b><?=$iqCount['logs']?></b>次。目前@<?=$iqCount['maxName']?> 以  <b><?=$iqCount['maxIq']?></b>分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超越 TA！ 
-<br/><br/>
-		<a href="javascript:void();" onclick="javascript:sendStats();"><img src="<?=$templatepath?>/iq_images/btn_tweettop.gif" alt="发到微博瞻仰一下"/></a>
-					<a id="div_follow" href="javascript:void(0)" onclick="follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a>
+			<? if(is_array($account) ) { ?>
+			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
+<font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
+<? } else { ?>
+<? } ?>
+
 			</div>			
 			<div class="logo">
 				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
-
+<div class="contentFrame">
+			<div class="ui-widget" style="text-align:center; color:#696a62;">
+				<div class="welcomeDiv1" id="top_list1" style="text-align:left;">				
+					<b>数据统计</b>：总登录人数 <b><?=$iqCount['totalUser']?></b>，成功测试人数 <b><?=$iqCount['iqs']?></b>人， 有效测试  <b><?=$iqCount['logs']?></b>次。目前@<?=$iqCount['maxName']?> 以  <b><?=$iqCount['maxIq']?></b>分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超越 TA！ 
+<br/><br/>
+		<a href="javascript:void();" onclick="javascript:sendStats();"><img src="<?=$templatepath?>/iq_images/btn_tweettop.gif" alt="发到微博瞻仰一下"/></a>
+					<a id="div_follow" href="javascript:void(0)" onclick="follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a>
+				</div>
+			</div>
+		</div>
 		<? if($myfriendslist) { ?>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
@@ -116,7 +127,7 @@
 					<? foreach((array)$myfriendslist as $top) {?>
 						<div style="clear:both;">
 						<div style="line-height:45px;height:45px;float:left;">第<b><?=$top['i']?></b>名，@<?=$top['name']?>，最高IQ<b><?=$top['iq']?></b>，共测试<b><?=$top['testCount']?></b>次</div>
-						<img style="float:left;margin-left:15px;" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$top['iqlv']?>.png"/>
+						<img style="float:left;margin-left:15px;" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$top['iqlv']?>.png" class="icoview" params="iq:<?=$top['iqlv']?>:<?=$top['uid']?>"/>
 						</div>
 					<? } ?>
 					<div  style="clear:both;font-size:0;height:0;"></div>
@@ -133,7 +144,7 @@
 					<? foreach((array)$toplist as $top) {?>
 						<div style="clear:both;">
 						<div style="line-height:45px;height:45px;float:left;">第<b><?=$top['i']?></b>名，@<?=$top['name']?>，最高IQ<b><?=$top['iq']?></b>，共测试<b><?=$top['testCount']?></b>次</div>
-						<img style="float:left;margin-left:15px;" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$top['iqlv']?>.png"/>
+						<img style="float:left;margin-left:15px;" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$top['iqlv']?>.png" class="icoview" params="iq:<?=$top['iqlv']?>:<?=$top['uid']?>"/>
 						</div>
 					<? } ?>
 					<div  style="clear:both;font-size:0;height:0;"></div>			

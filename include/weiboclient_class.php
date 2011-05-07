@@ -182,6 +182,24 @@ abstract class WeiboClient
 	}
 
 	/**
+	 * 上传图片，返回pcid，缩略图，原图
+	 *
+	 * @param string $pic 上传的图片路径
+	 * @return array
+	 */
+	 function uploadPic($pic)
+	 {
+		$url = $this->host.'statuses/upload_pic.'.$this->format;
+
+		$params = array();
+		$params['pic'] = '@'.$pic;
+
+		$response = $this->oAuthRequest($url, 'post', $params, true);
+
+		return $response;
+	 }
+
+	/**
 	 * 根据ID获取单条微博信息内容
 	 * 获取单条ID的微博信息，作者信息将同时返回。
 	 * 

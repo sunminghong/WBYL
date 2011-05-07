@@ -28,10 +28,29 @@ select (select count(*) from iq_iq) as iqs,
 (select count(*) from ppt_user) as users,
 (select count(*) from ppt_userlib) as libs,
 (select count(*) from ppt_user_sns) as snses,
-(select count(*) from ppt_userlib_sns) as lib_snses
+(select count(*) from ppt_userlib_sns) as lib_snses,
+(select count(*) from ppt_zhengshu) as zhengshu,
+(SELECT SUM( posts )  FROM  `ppt_user` WHERE posts >0) as posts
 
-
+SELECT user.name, user.followers,iq.iq 
+FROM ppt_user user left join iq_iq iq on user.uid=iq.uid
+ORDER BY followers DESC 
+LIMIT 0 , 30
 
 select l.screen_name from iq_iq iq  inner join ppt_user l on iq.uid=l.uid  inner join ppt_user_sns sns on sns.uid2=l.uid and type=0 where sns.uid1=17 and iq.iq<110 order by rand() limit 0,30
 
 select l.screen_name FROM ppt.ppt_userlib l  inner join ppt.ppt_userlib_sns sns on sns.uid2=l.id and type=0 where sns.uid1=17 order by rand() limit 0,6
+
+
+SELECT l.name, l.followers, a . * 
+FROM (
+
+SELECT uid2, COUNT( * ) 
+FROM  `ppt_userlib_sns` 
+WHERE uid1 =17 or uid2=3460
+GROUP BY uid2
+ORDER BY COUNT( * ) DESC 
+LIMIT 0 , 10
+) AS a
+INNER JOIN ppt_userlib l ON a.uid2 = l.id
+LIMIT 0 , 30

@@ -21,7 +21,7 @@ function showresult(usetime,res){
 		$("#ui-widget-result-send").show();
 		$("#ui-widget-content").hide();
 		
-		var msg='你共测试'+score.testCount+' 次， 最高IQ值是 '+score.iq+' , 排名第<b> '+score.top+' </b>, 打败了 <b>'+score.win+'%</b> 的人'+(score.lostname?'(包括'+score.lostname+'~_~）':'')+'，加油！！！';
+		var msg='你共测试'+score.testCount+' 次， 最高IQ值是 '+score.iq+' , 排名第<b> '+score.top+' </b>, 打败了 <b>'+score.win+'%</b> 的人'+(score.lostname?'(包括'+score.lostname+'~_~）':'')+'，加油！！！你获得证书：<img src="'+urlbase+'images/zhengshu_iq_ico_'+score.iqlv+'.png" />';
 		$("#div_result").html(msg);
 		
 }
@@ -90,6 +90,13 @@ function sendmsg(){
 		
 	});
 }
+function sendmsg2(uid,lv){
+	$.get("?app=iq&op=sendstatus2&uid="+uid+"&lv="+lv+"&t="+Math.random(),function(res){
+		alert("已经发送到你微博！");
+		
+	});	
+}
+
 function refreshMsg(){
 	var msg_list=$("#msg_list");
 	var url="?app=iq&op=testlist&t="+Math.random();
@@ -121,7 +128,10 @@ function refreshMsg(){
 		});
 }
 
-
+function closeView(){
+	$("#zhengshupreview").hide();
+	//$(document).unbind("click");
+}
 $(document).ready(function(){
 	if(op=="ican") {
 		startclock();
@@ -137,4 +147,44 @@ $(document).ready(function(){
 	}else{
 		if(msg_list.length>0) setInterval(refreshMsg,10000);		
 	}
-});
+	
+	var odivView=$("#zhengshupreview");
+	var ww=$(window).width();
+	var hh=$(window).height();
+
+	$('.icoview').attr('alt','点击显示证书').css("cursor","pointer").click(function(event){			
+			var pic=$(this).attr('zsurl');
+			if(pic) {
+				$('#zhengshuPic').attr('src',pic);
+				$('#btn_send_2').unbind("click").click(function(){
+					sendmsg();closeView();
+				});
+				odivView.show();
+				var le=(ww-odivView.width()) /2;
+				var to=(hh-odivView.height()) /2 + $(document).scrollTop();
+
+				odivView.css({left:le,top:to});
+
+				event.stopPropagation();
+				return;
+			}
+			return;
+			var pa=$(this).attr('params').split(':');
+			var url="?act=zs&op=geturl&type="+pa[0]+"&lv="+pa[1]+"&uid="+pa[2]+"&t="+Math.random();
+			$.get(url,function(pic){
+				if(url) {
+					$('#zhengshuPic').attr('src',pic);
+					$('#btn_send_2').unbind("click").click(function(){
+						sendmsg2(pa[2]);closeView();
+					});
+					odivView.show();
+					var le=(ww-odivView.width()) /2;
+					var to=(hh-odivView.height()) /2  + $(document).scrollTop();
+					odivView.css({left:le,top:to});	
+				}
+			})
+			event.stopPropagation();
+
+	});
+
+}).click(function(){closeView();});

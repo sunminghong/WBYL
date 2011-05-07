@@ -15,7 +15,7 @@ class ppt{
 		$domain=$apiConfig[$uidarr["lfrom"]]["domain_format"];
 		$domain=str_replace("{domain}",$uidarr["domain"],$domain);
 
-		$sqlu="sex='".$uidarr['sex']."',name='". addslashes($uidarr['name'])."',screen_name='". addslashes($uidarr['screen_name'])."',domain='".$domain."',lasttime=$timestamp,logintime=$timestamp,followers=".$uidarr['followers'].",followings=".$uidarr['followings'].",tweets=".$uidarr['tweets'].",tk='".$uidarr['tk']."',sk='".$uidarr['sk']."',location='" .$uidarr['location'] ."',verified='".$uidarr['verified'] . "'";
+		$sqlu="sex='".$uidarr['sex']."',name='". addslashes($uidarr['name'])."',screen_name='". addslashes($uidarr['screen_name'])."',domain='".$domain."',lasttime=$timestamp,logintime=$timestamp,followers=".$uidarr['followers'].",followings=".$uidarr['followings'].",tweets=".$uidarr['tweets'].",tk='".$uidarr['tk']."',sk='".$uidarr['sk']."',location='" .$uidarr['location'] ."',verified='".$uidarr['verified'] . "',avatar='".$uidarr['avatar']."'";
 
 		if($uid){
 			$sql="update ".dbhelper::tname("ppt",'user')." set logins=logins+1,".$sqlu." where uid=$uid";			
@@ -51,7 +51,7 @@ class ppt{
 	public function syncSNS($api,$type,$uid1=0,$count=100,$cursor=-1,$lfromuid=NULL){
 		global $apiConfig;
 
-		if($type==1)
+		if($type==2)
 			$f_list=$api->followers($cursor,50);//,$lfromuid);
 		else
 			$f_list=$api->friends($cursor,50);//,$lfromuid);
@@ -71,7 +71,7 @@ class ppt{
 			$domain=$apiConfig[$uidarr["lfrom"]]["domain_format"];
 			$domain=str_replace("{domain}",$uidarr["domain"],$domain);
 
-			$sqlu="sex='".$uidarr['sex']."',name='". addslashes($uidarr['name'])."',screen_name='". addslashes($uidarr['screen_name'])."',domain='".$domain."',lasttime=$timestamp,followers='".$uidarr['followers']."',followings='".$uidarr['followings']."',tweets='".$uidarr['tweets']."',location='" .$uidarr['location'] ."',verified='".$uidarr['verified'] . "'";
+			$sqlu="sex='".$uidarr['sex']."',name='". addslashes($uidarr['name'])."',screen_name='". addslashes($uidarr['screen_name'])."',domain='".$domain."',lasttime=$timestamp,followers='".$uidarr['followers']."',followings='".$uidarr['followings']."',tweets='".$uidarr['tweets']."',location='" .$uidarr['location'] ."',verified='".$uidarr['verified'] . "',avatar='".$uidarr['avatar']."'";
 
 			$sql="select uid,name from ".dbhelper::tname("ppt",'login')." where lfromuid='".$lfromuid."' and lfrom='".$uidarr['lfrom']."'";
 			$rs=dbhelper::getrs($sql);

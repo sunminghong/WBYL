@@ -17,6 +17,7 @@ $apiConfig=array(
 
 	$app_dbpre_ppt="ppt.ppt_";			//定义各个应用的数据表的前缀，可以带数据库名，方便增加应用
 	$app_dbpre_iq="ppt.iq_";
+	$app_dbpre_log="ppt.log_";
 if(!ISSAE){
 	$DBCONFIG=array(
 		array("dbhost"=>"localhost",
@@ -30,8 +31,8 @@ if(!ISSAE){
 
 	define("DEFAULT_DB","ppt");			//默认的数据库
 	$app_dbpre_ppt="ppt.ppt_";			//定义各个应用的数据表的前缀，可以带数据库名，方便增加应用
-	$app_dbpre_redchess="redchess.red_";
 	$app_dbpre_iq="ppt.iq_";
+	$app_dbpre_log="ppt.log_";
 }
 
 else{
@@ -58,7 +59,8 @@ define('DEFAULT_DB',SAE_MYSQL_DB);
 
 	$app_dbpre_ppt=DEFAULT_DB . ".ppt_";
 	$app_dbpre_redchess=DEFAULT_DB . ".red_";
-	$app_dbpre_iq=DEFAULT_DB . ".iq_";
+	$app_dbpre_iq=DEFAULT_DB . ".iq_";	
+	$app_dbpre_log=DEFAULT_DB .".log_";
 
 }
 

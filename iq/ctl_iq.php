@@ -44,8 +44,8 @@ class iq extends ctl_base
 			//$this->set("op","login");
 			//$this->display("iq_index");
 			//return;
-			//$iqScore=$this->readIqScore($account["uid"],false);
-			//$this->assign("iqScore",$iqScore);
+			$iqScore=$this->readIqScore($account["uid"],false);
+			$this->assign("iqScore",$iqScore);
 			$this->set('myfriendslist',$this->friendstoplist($account["uid"]));
 		}
 
@@ -60,7 +60,8 @@ class iq extends ctl_base
 		$iqCount=array();
 
 		//读取总数据
-		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") .") as iq,(select count(*) from ". dbhelper::tname("iq","log") .") as log,(select count(*) from ". dbhelper::tname("ppt","login") .") as co";
+		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") .") as iq,(select count(*) from ". 
+			dbhelper::tname("iq","log") .") as log,(select count(*) from ". dbhelper::tname("ppt","login") .") as co";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$iqCount["iqs"]=$row['iq'];
@@ -75,7 +76,8 @@ class iq extends ctl_base
 
 		//读取排名第一
 		$testlist=array();
-		$sql="select l.uid,l.name,testCount,iq,useTime from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq.iq>0 order by iq.iq desc,useTime,testCount limit 0,1";
+		$sql="select l.uid,l.name,testCount,iq,useTime from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login").
+			" l on iq.uid=l.uid where iq.iq>0 order by iq.iq desc,testCount ,lasttime desc limit 0,1";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$iqCount["maxIq"]=$row['iq'];
@@ -147,7 +149,9 @@ class iq extends ctl_base
 		
 	public function sendStats(){
 		$account=getAccount();
-		
+		$sql="update ".dbhelper::tname("ppt","user")." set posts=posts+1 where uid='".$account['uid']."'";
+		dbhelper::execute($sql);
+
 		$iqCount=$this->iqCount();
 		$msg="#看看你有多聪明#数据统计：总登录人数 ".$iqCount['totalUser']."，成功测试人数 ".$iqCount[iqs]."人， 有效测试 ".$iqCount[logs]. "次。目前@".$iqCount[maxName]. " 以 ". $iqCount[maxIq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ " .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
 		$this->getApi()->update($msg);
@@ -157,29 +161,31 @@ class iq extends ctl_base
 	
 	public function sendstatus(){
 		$account=getAccount();
-		
+		$sql="update ".dbhelper::tname("ppt","user")." set posts=posts+1 where uid='".$account['uid']."'";
+		dbhelper::execute($sql);
+
 		$score=$this->readIqScore($account['uid'],false); //得了".$score['iq']."分，
 	
 		if($score['lostname'])
-			$msg="刚刚玩#看看你有多聪明#，我的".$score['chs']."，全国排名第".$score['top']."，打败了".$score['lostname']."哈哈！";
+			$msg="刚刚玩#看看你有多聪明#，我目前最高 IQ 得分".$score['iq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了".$score['lostname']."哈哈！";
 		else
-			$msg="刚刚玩#看看你有多聪明#，我的".$score['chs']."，全国排名第".$score['top']."，打败了全国 ".$score["win"]. "% 的博友! ";
+			$msg="刚刚玩#看看你有多聪明#，我目前最高 IQ 得分".$score['iq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了全国 ".$score["win"]. "% 的博友! ";
 
 		if($score['retname'])
 			$msg.= $score['retname']	. "你们也来试试！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
 		else
 			$msg.= "你们也来试试吧！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
 
-echo ($score['zsurl']);
-exit;
-		$this->getApi()->update($msg,$score['zsurl']);
+		//echo ($score['zsurl']);exit;
+		$this->getApi()->upload($msg,$score['zsurl']);
 		echo "1";exit;
 	}
 
 	private function friendstoplist($uid){
 		$top=10;
 		$testlist=array();
-		$sql="select l.uid,l.name,iq.testCount,iq.iq,iq.useTime,l.lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and sns.type=0 where sns.uid1=".$uid." order by iq desc,testCount limit 0,10";
+		$sql="select l.uid,l.name,iq.testCount,iq.iq,iq.useTime,l.lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid   inner join ".
+			dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and sns.type=1 where sns.uid1=".$uid." order by iq desc,testCount limit 0,10";
 
 		$rs=dbhelper::getrs($sql);
 		$i=0;
@@ -199,7 +205,8 @@ exit;
 	private function toplist(){
 		$top=10;
 		$testlist=array();
-		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 order by iq desc,testCount  limit 0,$top";
+		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".
+			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 order by iq desc,testCount  limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){
@@ -268,7 +275,8 @@ exit;
 		$iqScore['chs']=$this->iqtoch($iqv,&$iqlv);
 		$iqScore['iqlv']=$iqlv;
 
-		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq']." or ( iq=". $iqScore['iq'] ." and useTime<".$iqScore['useTime'] ."))+1 as top ,";
+		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq'].") + (select count(*) from ". 
+			dbhelper::tname("iq","iq") ." where iq=". $iqScore['iq'] ." and testCount<".$iqScore['testCount'] .")  as top ,";
 		$sql.="(select count(*) from ". dbhelper::tname("iq","iq") .") as total ";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
@@ -304,7 +312,7 @@ exit;
 
 		$iqScore['retname']=$sss2;
 		
-		include_once(ROOT."home/zhengshu.php");
+		importlib("zhengshu");
 		$zs=zhengshu::makeIQ(getAccount(),$iqScore);
 		$iqScore=array_merge($iqScore,$zs);
 
