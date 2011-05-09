@@ -9,7 +9,7 @@
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';</script>
-<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.2"></script>
+<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.4"></script>
 </head>
 <body>
 

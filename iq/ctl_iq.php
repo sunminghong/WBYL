@@ -149,6 +149,9 @@ class iq extends ctl_base
 		
 	public function sendStats(){
 		$account=getAccount();
+		if(!is_array($account)){
+			echo '-1';exit;
+		}
 		$sql="update ".dbhelper::tname("ppt","user")." set posts=posts+1 where uid='".$account['uid']."'";
 		dbhelper::execute($sql);
 
@@ -161,6 +164,9 @@ class iq extends ctl_base
 	
 	public function sendstatus(){
 		$account=getAccount();
+		if(!is_array($account)){
+			echo '-1';exit;
+		}
 		$sql="update ".dbhelper::tname("ppt","user")." set posts=posts+1 where uid='".$account['uid']."'";
 		dbhelper::execute($sql);
 
@@ -178,6 +184,33 @@ class iq extends ctl_base
 
 		//echo ($score['zsurl']);exit;
 		$this->getApi()->upload($msg,$score['zsurl']);
+		echo "1";exit;
+	}
+		
+	public function sendstatus2(){
+		$account=getAccount();
+		if(!is_array($account)){
+			echo '-1';exit;
+		}
+
+		$type=rf('type','iq');
+		$lv=rf('lv',0);
+		$uid=rf("uid",0);
+		$msg=rf("msg","");	
+		if(!$msg) {
+			echo "0";exit;
+		}
+
+		//echo $msg."&retuid=".$account['uid']."&retapp=" . type;
+		
+		importlib("zhengshu");
+		$fun='get'.$type;
+		$zs=zhengshu::$fun($uid,$lv);
+		if(is_array($zs)) {
+//			echo $zs['zsurl'];
+			print_r($this->getApi()->upload($msg,$zs['zsurl']));
+		}
+		
 		echo "1";exit;
 	}
 
@@ -221,6 +254,28 @@ class iq extends ctl_base
 //		echo json_encode($testlist);
 		return $testlist;
 	}
+
+sdfsdfsd
+	private function toplist(){
+		$top=10;
+		$testlist=array();
+		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".
+			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 and lasttime order by iq desc,testCount  limit 0,$top";
+		$rs=dbhelper::getrs($sql);
+		$i=0;
+		while($row=$rs->next()){
+			$i++;
+			$row["i"]=$i;
+			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
+			$iqlv=0;
+			$row["ch"]=$this->iqtoch($row["iq"],&$iqlv);
+			$row["iqlv"]=$iqlv;
+			$testlist[]=$row;
+		}
+//		echo json_encode($testlist);
+		return $testlist;
+	}
+
 	public function testlist(){
 		$top=rq("mo",0);
 		if($top==0) 

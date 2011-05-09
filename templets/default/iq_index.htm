@@ -7,8 +7,8 @@
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-<script>var op="{$op}"; var wbisload=false; var urlbase='{$urlbase}';</script>
-<script type="text/javascript" src="{$templatepath}/iq_images/iq_min.js?v=1.2"></script>
+<script>var op="{$op}"; var wbisload=false; var urlbase='{$urlbase}';<!--{if $account}-->var myuid='{$account[uid]}';<!--{else}-->var myuid='';<!--{/if}--></script>
+<script type="text/javascript" src="{$templatepath}/iq_images/iq_min.js?v=1.5"></script>
 </head>
 <body>
 
@@ -52,6 +52,7 @@
 			<img class="zhengshuico icoview" zsurl="{$iqScore[zsurl]}" src="{$urlbase}images/zhengshu_iq_ico_{$iqScore[iqlv]}.png"/>
 <font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}%</b> 的人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
 <!--{else}-->
+<a href="?act=account&op=tologin" border="0"><img height1="37" src="{$templatepath}/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
 <!--{/if}-->
 <br /><br/>
 				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a> <a href="?app=iq&op=stats"><img src="{$templatepath}/iq_images/btn_stats.gif" alt="关注官方微博" ></a>
@@ -97,8 +98,9 @@
 			<div class="login">
 			<!--{if is_array($account) }-->
 			<img class="zhengshuico icoview" zsurl="{$iqScore[zsurl]}" src="{$urlbase}images/zhengshu_iq_ico_{$iqScore[iqlv]}.png"/>
-<font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}%</b> 的人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
+<font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}%</b> 的人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　　　　　　<a href="?act=account&op=logout">退出</a>
 <!--{else}-->
+<a href="?act=account&op=tologin" border="0"><img height1="37" src="{$templatepath}/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
 <!--{/if}-->
 
 			</div>			

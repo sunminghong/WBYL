@@ -54,3 +54,10 @@ LIMIT 0 , 10
 ) AS a
 INNER JOIN ppt_userlib l ON a.uid2 = l.id
 LIMIT 0 , 30
+
+
+select SUBSTRING(location,0,LOCATE(' ',location))  from (
+SELECT location, COUNT( * ) as pe
+FROM  `ppt_user` 
+GROUP BY location
+) as a 

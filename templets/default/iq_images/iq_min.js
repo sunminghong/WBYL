@@ -79,6 +79,7 @@ function follow(){
 
 function sendStats(){
 	$.get("?app=iq&op=sendstats&t="+Math.random(),function(res){
+				if(res=="-1"){alert('请先登录！');return;}
 		alert("已经发送到你微博可以随时去瞻仰 TA 了！“关注我”就可以随时掌握博友的聪明行情!");
 		
 	});
@@ -86,12 +87,14 @@ function sendStats(){
 
 function sendmsg(){
 	$.get("?app=iq&op=sendstatus&t="+Math.random(),function(res){
+				if(res=="-1"){alert('请先登录！');return;}
 		alert("已经发送到你微博！点击“关注我”就可以随时掌握博友的聪明行情!");
 		
 	});
 }
-function sendmsg2(uid,lv){
-	$.get("?app=iq&op=sendstatus2&uid="+uid+"&lv="+lv+"&t="+Math.random(),function(res){
+function sendmsg2(type,uid,lv,msg){
+	$.post("?app=iq&op=sendstatus2",{uid:uid,lv:lv,type:type,msg:msg},function(res){
+		if(res=="-1"){alert('请先登录！');return;}
 		alert("已经发送到你微博！");
 		
 	});	
@@ -156,30 +159,36 @@ $(document).ready(function(){
 			var pic=$(this).attr('zsurl');
 			if(pic) {
 				$('#zhengshuPic').attr('src',pic);
+				odivView.show();
 				$('#btn_send_2').unbind("click").click(function(){
 					sendmsg();closeView();
 				});
-				odivView.show();
-				var le=(ww-odivView.width()) /2;
-				var to=(hh-odivView.height()) /2 + $(document).scrollTop();
+				var le=(ww-420) /2;
+				var to=(hh-580) /2 + $(document).scrollTop();
 
 				odivView.css({left:le,top:to});
 
 				event.stopPropagation();
 				return;
 			}
-			return;
+			//return;
+			var srcPic=$(this);
 			var pa=$(this).attr('params').split(':');
 			var url="?act=zs&op=geturl&type="+pa[0]+"&lv="+pa[1]+"&uid="+pa[2]+"&t="+Math.random();
 			$.get(url,function(pic){
 				if(url) {
 					$('#zhengshuPic').attr('src',pic);
-					$('#btn_send_2').unbind("click").click(function(){
-						sendmsg2(pa[2]);closeView();
-					});
 					odivView.show();
-					var le=(ww-odivView.width()) /2;
-					var to=(hh-odivView.height()) /2  + $(document).scrollTop();
+					$('#btn_send_2').unbind("click").click(function(){
+						if(!myuid) {
+							alert('请先登录！');return;
+						}
+						var msg='刚才在#看看你有多聪明#的排行榜里看到：“'+srcPic.parent().text()+'”，特发此微博表达我滔滔江水般的敬仰，呵呵！'+location.href;
+						//alert(msg);
+						sendmsg2(pa[0],pa[2],pa[1],msg);closeView();
+					});
+					var le=(ww-420) /2;
+					var to=(hh-580) /2  + $(document).scrollTop();
 					odivView.css({left:le,top:to});	
 				}
 			})

@@ -196,8 +196,8 @@ function rq($k,$default=''){
 
 
 function rf($k,$default=''){
-	if(isset($_GET[$k]))
-		return $_GET[$k];
+	if(isset($_POST[$k]))
+		return $_POST[$k];
 	else 
 		return $default;	
 }
