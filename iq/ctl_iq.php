@@ -77,7 +77,7 @@ class iq extends ctl_base
 		//读取排名第一
 		$testlist=array();
 		$sql="select l.uid,l.name,testCount,iq,useTime from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login").
-			" l on iq.uid=l.uid where iq.iq>0 order by iq.iq desc,testCount ,lasttime desc limit 0,1";
+			" l on iq.uid=l.uid where iq.iq>0  and (TO_DAYS(NOW()) - TO_DAYS(FROM_UNIXTIME(lasttime)) <= 0 ) order by iq.iq desc,testCount ,lasttime desc limit 0,1";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$iqCount["maxIq"]=$row['iq'];
@@ -239,7 +239,7 @@ class iq extends ctl_base
 		$top=10;
 		$testlist=array();
 		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".
-			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 order by iq desc,testCount  limit 0,$top";
+			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 AND  (TO_DAYS(NOW()) - TO_DAYS(FROM_UNIXTIME(lasttime)) <= 0 ) order by iq desc,testCount  limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){
@@ -255,12 +255,11 @@ class iq extends ctl_base
 		return $testlist;
 	}
 
-sdfsdfsd
-	private function toplist(){
+	private function toplist7(){
 		$top=10;
 		$testlist=array();
 		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".
-			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 and lasttime order by iq desc,testCount  limit 0,$top";
+			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 and (TO_DAYS(NOW()) - TO_DAYS(FROM_UNIXTIME(lasttime)) <= 7 ) order by iq desc,testCount  limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){

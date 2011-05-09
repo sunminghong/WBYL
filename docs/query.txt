@@ -56,8 +56,15 @@ INNER JOIN ppt_userlib l ON a.uid2 = l.id
 LIMIT 0 , 30
 
 
-select SUBSTRING(location,0,LOCATE(' ',location))  from (
-SELECT location, COUNT( * ) as pe
+
+select sh,sum(pe) persons from (
+SELECT SUBSTRING_INDEX(location,' ',1) as sh,pe
+FROM (
+
+SELECT location, COUNT( * ) AS pe
 FROM  `ppt_user` 
 GROUP BY location
-) as a 
+) AS a
+) as b
+group by sh
+order by persons desc

@@ -6,7 +6,7 @@ class tongji extends ctl_base
 	function tongjitask(){
 		if(rq("j",false)){
 			$logtime= date("20y-m-d H",gettimestamp());
-			$sql="delete from  ".dbhelper::tname("log","tongji") ." where lasttime<='{$logtime}:59:59' and lasttime>='{$logtime}:00:00';;;";echo $sql;
+			$sql="delete from  ".dbhelper::tname("log","tongji") ." where lasttime<='{$logtime}:59:59' and lasttime>='{$logtime}:00:00';;;";
 		$sql .="
 		insert into ".dbhelper::tname("log","tongji") ." (iqs,logs,logins,users,libs,snses,lib_snses,zhengshu,posts) 
 		select (select count(*) from iq_iq) as iqs,
