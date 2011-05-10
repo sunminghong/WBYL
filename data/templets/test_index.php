@@ -1,14 +1,15 @@
+<? if(!defined('ROOT')) exit('Access Denied');?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>看看你有多聪明！ -  微博IQ测试 </title>
-	<link type="text/css" rel="stylesheet" href="{$templatepath}/iq_images/iq.css" />
+	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/iq_images/iq.css" />
 	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> 
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-<script>var op="{$op}"; var wbisload=false; var urlbase='{$urlbase}';<!--{if $account}-->var myuid='{$account[uid]}';<!--{else}-->var myuid='';<!--{/if}--></script>
-<script type="text/javascript" src="{$templatepath}/test_images/test.js?v=1.0"></script>
+<script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var myuid='<?=$account['uid']?>';<? } else { ?>var myuid='';<? } ?></script>
+<script type="text/javascript" src="<?=$templatepath?>/test_images/test.js?v=1.0"></script>
 <style type="text/css">
 a{outline:none;}
 ul.test{ margin: 10px 0; line-height: 21px;}
@@ -33,12 +34,12 @@ dl dd a.sel,dl dd a.sel:visited,dl dd a.sel:hover{background:#ececec;}
 
 		<div class="ui-widget">			
 			<div class="login">
-				<font color="#ff3333">{$account[screen_name]}</font>, 微博IQ测试须在30分钟内完成（33题）<br/><br/>
+				<font color="#ff3333"><?=$account['screen_name']?></font>, 微博IQ测试须在30分钟内完成（33题）<br/><br/>
 			<!--<input name="B1" onclick="startclock()" type="button" value="开始计时">--><span id="face">00:00</span>
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>	
 		
@@ -48,7 +49,7 @@ dl dd a.sel,dl dd a.sel:visited,dl dd a.sel:hover{background:#ececec;}
 
 <form method="post" action="" class="c_form">
 
-<!--{if $op == '' || $op=='index'}-->
+<? if($op == '' || $op=='index') { ?>
 <table cellspacing="0" cellpadding="0" class="formtable">
 <caption id="test_cap">
 <h2>手 f1gh十压下 压下 </h2>
@@ -78,10 +79,10 @@ dl dd a.sel,dl dd a.sel:visited,dl dd a.sel:hover{background:#ececec;}
 <a hiddenFocus="true" href="javascript:void(0)" id="btn_down" class="btntest">下一题&raquo;</a>
 </td></tr></table>
 
-<!--{/if}-->
+<? } ?>
 
 
-<!--{if $op == 'showscore'}-->
+<? if($op == 'showscore') { ?>
 <table cellspacing="0" cellpadding="0" class="formtable">
 <caption>
 <h2>测试开始</h2>
@@ -109,8 +110,8 @@ dl dd a.sel,dl dd a.sel:visited,dl dd a.sel:hover{background:#ececec;}
   </ul></td>
   </tr>
 </table>
-<!--{/if}-->
+<? } ?>
 </form>
 </div></div>
 </div>
-<!--{template iq_footer}-->
+<? include $this->gettpl('iq_footer');?>

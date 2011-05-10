@@ -225,15 +225,16 @@ class dbhelper {
 			$values = array();
 			foreach ($data as $key => $value) {
 				$keys[] = '`' .$key . '`';
-				$values[] = '"' .mysql_escape_string($value) . '"';
+				$values[] = "'" .mysql_escape_string($value) . "'";
 			}
 			if (sizeof($keys) != sizeof($values)) {
 				return false;
 			}
 			$ignore = '';
 
-			$sql = 'INSERT  INTO ' . $table . '(' .implode(',', $keys). ') VALUES('. implode(',', $values) .')';	
+			$sql = 'INSERT  INTO ' . $table . '(' .implode(',', $keys). ') VALUES('. implode(',', $values) .')';			
 			return self::execute($sql,true);
+			return;
 		}
 
 		$values = array();

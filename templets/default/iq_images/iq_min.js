@@ -111,43 +111,89 @@ function sendmsg2(type,uid,lv,msg){
 		
 	});	
 }
+var mlist=[];
+var isinit=true;
+var lasttime=0;
+var maxid=1;
 
 function refreshMsg(){
 	var msg_list=$("#msg_list");
-	var url="?app=iq&op=testlist&t="+Math.random();
+
+	var url="?app=iq&op=testlist&last="+lasttime+"&t="+Math.random();
 	if(op=="login") url+="&mo=1"
 	$.get(url,function(res){
-			eval("var mlist="+res);
-			if(mlist.length == 0) return;
+			eval("mlist="+res);
+			if(mlist.length == 0) {
+				setTimeout(refreshMsg,10000);
+				return;
+			}
+			lasttime=mlist[0].lasttime;
+			
+			if(!isinit) {
+				 startani(mlist.length-1);
+				return;
+			}
 			
 			var ph=[];
-			for(var i=0;i<mlist.length;i++){
-				var msg=mlist[i];
-				ph.push('<div class="msg_block"><span class="testtime">'+msg.testtime+'</span> ');
-				if(msg.iq*1==-1){
-					ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('@'+msg.name+' 正在玩微博游戏《看看你有多聪明》，为他加油~_~!" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>开始测试。');
-				}
-				else{
-					ph.push('恭喜 <a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-					ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' IQ 为'+msg.iq+'分，经鉴定为 '+msg.ch+'，我都不敢测试了！" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>完成测试， IQ 为<b>'+msg.iq+'</b>分，经鉴定为 <b> '+msg.ch+'</b>!');
-				}
-				ph.push('</div>');
+			for(var i=mlist.length-1;i>=mlist.length-19;i--){
+				ph.unshift(addMsgLine(i));
 			}
 			msg_list.html(ph.join(''));
-			$("#msg_list .msg_block").hover(
-				function(){$(this).addClass("msgHigh");},
-				function(){$(this).removeClass("msgHigh");}
-			);
+			isinit=false;
+			
+			startani(5);
+
 			if(wbisload)	WB.widget.atWhere.blogAt(EE("msg_list"), "a");
 		});
 }
+function startani(idx){
+			setTimeout(function(){
+				aniAppend(idx);
+			},parseInt(3 * Math.random())*1000+1000);
+}
+function aniAppend(idx){
+	if(idx==-1){
+		refreshMsg();
+		return;
+	}
+	
+
+	$("#msg_list").prepend(addMsgLine(idx));
+
+	$("#msg_block_"+mlist[idx].id).animate({
+	   height: 25
+	 }, 500);
+	
+	startani(idx-1);
+}
+function addMsgLine(idx){
+	var msg=mlist[idx],ph=[];
+	ph.push('<div class="msg_block noid'+maxid+'" id="msg_block_'+msg.id+'"'+(isinit?'':' style="height:0;"')+'><span class="testtime">'+msg.testtime+'</span> ');
+	if(msg.iq*1==-1){
+		ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
+		ph.push('@'+msg.name+' 正在玩微博游戏《看看你有多聪明》，为他加油~_~!" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>开始测试。');
+	}
+	else{
+		ph.push('恭喜 <a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
+		ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' IQ 为'+msg.iq+'分，经鉴定为 '+msg.ch+'，我都不敢测试了！" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a>完成测试， IQ 为<b>'+msg.iq+'</b>分，经鉴定为 <b> '+msg.ch+'</b>!');
+	}
+	ph.push('</div>');
+	if(maxid>19)
+		$("#msg_list").find(".noid"+(maxid-19)).remove();
+	maxid++;
+	return ph.join('');
+}
+
 
 function closeView(){
 	$("#zhengshupreview").hide();
 	//$(document).unbind("click");
 }
 $(document).ready(function(){
+
+	$("#msg_list .msg_block").live("mouseover",	function(){$(this).addClass("msgHigh");});
+	$("#msg_list .msg_block").live("mouseout",	function(){$(this).removeClass("msgHigh");});
+
 	if(op=="ican") {
 		startclock();
 	}
@@ -157,10 +203,10 @@ $(document).ready(function(){
 	}
 	if(op=="ready"){
 		$.get("?act=my&op=syncfriends",function(){
-			if(msg_list.length>0) setInterval(refreshMsg,10000);			
+			//if(msg_list.length>0) setInterval(refreshMsg,10000);			
 		});
 	}else{
-		if(msg_list.length>0) setInterval(refreshMsg,10000);		
+		//if(msg_list.length>0) setInterval(refreshMsg,10000);		
 	}
 	
 	var odivView=$("#zhengshupreview");

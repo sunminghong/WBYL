@@ -308,13 +308,14 @@ class iq extends ctl_base
 
 	public function testlist(){
 		$top=rq("mo",0);
-		if($top==0) 
-			$top=10;
-		else 
-			$top=19;
+		$last=rq("last",0);
+		if($last==0)
+			$top=25;
+		else
+			$top=5;
 
 		$testlist=array();
-		$sql="select l.uid,l.name,iq,lasttime,l.lfrom from ". dbhelper::tname("iq","log") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid  order by id desc limit 0,$top";
+		$sql="select iq.id,l.uid,l.name,iq,lasttime,l.lfrom from ". dbhelper::tname("iq","log") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid  where iq.iq>0 and iq.lasttime>{$last} order by iq.lasttime desc limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){
