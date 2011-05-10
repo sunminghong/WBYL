@@ -13,26 +13,26 @@
  * @author Easy Chen, Elmer Zhang
  * @version 1.0
  */
-abstract class WeiboClient
+class WeiboClient
 {
 	public $host='';
 	public $oauth=null;
 
-	/**
-	 * 构造函数
-	 * 
-	 * @access public
-	 * @param mixed $akey 微博开放平台应用APP KEY
-	 * @param mixed $skey 微博开放平台应用APP SECRET
-	 * @param mixed $accecss_token OAuth认证返回的token
-	 * @param mixed $accecss_token_secret OAuth认证返回的token secret
-	 * @return void
-	 */
-//	function __construct( $akey , $skey , $accecss_token , $accecss_token_secret )
-//	{
-//		$this->oauth = new SaeTOAuth( $akey , $skey , $accecss_token , $accecss_token_secret );
-//	}
-
+    /** 
+     * 构造函数 
+     *  
+     * @access public 
+     * @param mixed $akey 微博开放平台应用APP KEY 
+     * @param mixed $skey 微博开放平台应用APP SECRET 
+     * @param mixed $accecss_token OAuth认证返回的token 
+     * @param mixed $accecss_token_secret OAuth认证返回的token secret 
+     * @return void 
+     */ 
+    function __construct( $akey , $skey , $accecss_token , $accecss_token_secret ) 
+    {
+        $this->host='http://api.t.sina.com.cn/';
+		$this->oauth = new oAuth( $akey , $skey , $accecss_token , $accecss_token_secret ); 
+    } 
 	/**
 	 * 获取最新的公共微博消息
 	 * 返回最新的20条公共微博。返回结果非完全实时，最长会缓存60秒

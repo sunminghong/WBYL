@@ -921,7 +921,7 @@ class OAuthUtil {
  * @author Easy Chen 
  * @version 1.0 
  */ 
-abstract class OAuth { 
+class OAuth { 
     /** 
      * Contains the last HTTP status code returned.  
      * 
@@ -1021,11 +1021,7 @@ abstract class OAuth {
      */ 
     function lastAPICall() { return $this->last_api_call; } 
 
-    /** 
-     * construct WeiboOAuth object 继承类必须实现以下的构造函数
-	 
-     */ 
-    /*function __construct($consumer_key, $consumer_secret, $oauth_token = NULL, $oauth_token_secret = NULL) { 
+	function __construct($consumer_key, $consumer_secret, $oauth_token = NULL, $oauth_token_secret = NULL) { 
         $this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1(); 
         $this->consumer = new OAuthConsumer($consumer_key, $consumer_secret); 
         if (!empty($oauth_token) && !empty($oauth_token_secret)) { 
@@ -1033,8 +1029,11 @@ abstract class OAuth {
         } else { 
             $this->token = NULL; 
         } 
-    } */
-
+		
+		$this->host="http://api.t.sina.com.cn/";
+		
+		//parent::__construct($consumer_key, $consumer_secret, $oauth_token, $oauth_token_secret);
+    } 
 
     /** 
      * Get a request_token from Weibo 

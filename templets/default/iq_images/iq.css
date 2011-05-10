@@ -193,9 +193,10 @@ button {
 #msg_list{
 }
 .msg_block {
-	padding-right:20px;
+	padding:1px 5px 1px 3px;line-height:25px; height:25px;
 }
+.testtime{ font-size:8pt; color:#999; font-family:tahoma;}
 .msgHigh{
-	background:#f88;
+	background:#ceeff6;
 }
 .zhengshuico {border:0px solid #333; width:45px; height:45px; float:left;margin-right:5px;}

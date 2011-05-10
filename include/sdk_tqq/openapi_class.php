@@ -4,11 +4,11 @@ if(!defined('ISWBYL')) exit('Access Denied');
 define( "MB_RETURN_FORMAT" , 'json' );
 define( "MB_API_HOST" , 'open.t.qq.com' );
 
-include_once('openapi_abstract_class.php');
+importlib('openapi_abstract_class');
 require_once('opent.php');
-include_once('tqqclient_class.php');
+include_once('MBApiClient_class.php');
 
-class openapi_tqq extends openapiAbstract{
+class openapi extends openapiAbstract{
 
 	private $oClient=null;
 	private $akey;
@@ -33,15 +33,7 @@ class openapi_tqq extends openapiAbstract{
 	}
 		
 	public function callback(){	
-	/*
-@require_once('config.php');
-@require_once('oauth.php');
-@require_once('opent.php');
 
-$o = new MBOpenTOAuth( MB_AKEY , MB_SKEY , $_SESSION['keys']['oauth_token'] , $_SESSION['keys']['oauth_token_secret']  );
-$last_key = $o->getAccessToken(  $_REQUEST['oauth_verifier'] ) ;//获取ACCESSTOKEN
-$_SESSION['last_key'] = $last_key;
-	*/
 		$t=$this->readToken(0);
 
 		if (!is_array($t))
@@ -62,20 +54,32 @@ $_SESSION['last_key'] = $last_key;
 			$uidarr=$this->getUserInfo();
 			$uidarr['tk']=$t['tk'];
 			$uidarr['sk']=$t['sk'];
-			
-			/*$userinfo=array(
-				"tk"=>$t['tk'],
-				"sk"=>$t['sk'],
-				"uid"=>$uidarr['uid'],
-				"name"=>$uidarr["name"]
-			);*/
-			//print_r($uidarr);exit;
+
 			$this->saveToken($uidarr['lfromuid'],$t);
 			return $uidarr;
 		}
 		else
 			return false;
 	}
+	
+	private function getClient(){
+		if ($this->oClient)	
+			return $this->oClient;
+
+		$token=$this->tokenOrlfromuid;
+		if(!$token) {
+			echo '没有令牌数据！';exit;
+		}
+
+		if(!is_array($token)) $token=$this->readToken($token);
+
+		if (!is_array($token)) {
+			echo '没有赋令牌数据！';exit;
+		}
+		//print_r($token);echo $this->akey;echo $this->skey;
+		$this->oClient=$c = new MBApiClient( $this->akey , $this->skey , $token['tk'] , $token['sk']);
+		return $c;
+	}	
 	
 	public function getUserInfo(){
 		$oarr0=$this->getClient()->getUserInfo();	
@@ -172,22 +176,4 @@ $_SESSION['last_key'] = $last_key;
 	}
 
 
-	private function getClient(){
-		if ($this->oClient)	
-			return $this->oClient;
-
-		$token=$this->tokenOrlfromuid;
-		if(!$token) {
-			echo '没有令牌数据！';exit;
-		}
-
-		if(!is_array($token)) $token=$this->readToken($token);
-
-		if (!is_array($token)) {
-			echo '没有赋令牌数据！';exit;
-		}
-		//print_r($token);echo $this->akey;echo $this->skey;
-		$this->oClient=$c = new MBApiClient( $this->akey , $this->skey , $token['tk'] , $token['sk']);
-		return $c;
-	}	
 }

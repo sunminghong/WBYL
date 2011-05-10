@@ -1,8 +1,11 @@
 <?php
 if(!defined('ISWBYL')) exit('Access Denied');
-include_once('openapi_abstract_class.php');
-include_once('tsinaclient_class.php');
-class openapi_tsina extends openapiAbstract{
+importlib('openapi_abstract_class');
+
+include_once('oauth_class.php');
+include_once('weiboclient_class.php');
+
+class openapi extends openapiAbstract{
 
 	private $oClient=null;
 	private $akey;
@@ -10,7 +13,7 @@ class openapi_tsina extends openapiAbstract{
 	
 	function __construct($tokenOrlfromuid=""){
 		$this->name="新浪微博";
-		$this->lfrom="tsina";  //必须与类名相同，即openapi_(tsina)
+		$this->lfrom="tsina";
 
 		$this->akey=$GLOBALS['apiConfig'][$this->lfrom]["access_key"];
 		$this->skey=$GLOBALS['apiConfig'][$this->lfrom]["screct_key"];
@@ -19,7 +22,7 @@ class openapi_tsina extends openapiAbstract{
 	}
 		
 	public function getLoginUrl($callbackurl){
-		$o = new TSinaOAuth( $this->akey , $this->skey);
+		$o = new OAuth( $this->akey , $this->skey);
 		
 		$keys = $o->getRequestToken();
 		$aurl = $o->getAuthorizeURL( $keys['oauth_token'] ,false , $callbackurl);
@@ -34,7 +37,7 @@ class openapi_tsina extends openapiAbstract{
 		if (!is_array($t))
 			return false;
 				
-		$o = new TSinaOAuth( $this->akey , $this->skey , $t['tk'] , $t['sk']  );		
+		$o = new OAuth( $this->akey , $this->skey , $t['tk'] , $t['sk']  );		
 		$last_key = $o->getAccessToken(  $_REQUEST['oauth_verifier'] ) ;
 		
 		//print_r($last_key);exit;
@@ -60,6 +63,25 @@ class openapi_tsina extends openapiAbstract{
 		else
 			return false;
 	}
+
+	
+	private function getClient(){
+		if ($this->oClient)	
+			return $this->oClient;
+
+		$token=$this->tokenOrlfromuid;
+		if(!$token) {
+			echo '没有令牌数据！';exit;
+		}
+
+		if(!is_array($token)) $token=$this->readToken($token);
+
+		if (!is_array($token)) {
+			echo '没有赋令牌数据！';exit;
+		}
+		$this->oClient=$c = new WeiboClient( $this->akey , $this->skey , $token['tk'] , $token['sk']);
+		return $c;
+	}	
 	
 	public function getUserInfo(){
 		$oarr=$this->getClient()->getUserInfo();
@@ -159,21 +181,4 @@ class openapi_tsina extends openapiAbstract{
 	}
 
 
-	private function getClient(){
-		if ($this->oClient)	
-			return $this->oClient;
-
-		$token=$this->tokenOrlfromuid;
-		if(!$token) {
-			echo '没有令牌数据！';exit;
-		}
-
-		if(!is_array($token)) $token=$this->readToken($token);
-
-		if (!is_array($token)) {
-			echo '没有赋令牌数据！';exit;
-		}
-		$this->oClient=$c = new TSinaClient( $this->akey , $this->skey , $token['tk'] , $token['sk']);
-		return $c;
-	}	
 }

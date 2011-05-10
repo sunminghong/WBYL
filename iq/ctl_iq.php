@@ -5,6 +5,17 @@ class iq extends ctl_base
 {
 	function index(){ // 这里是首页
 		$account=getAccount();		
+		if($account){
+			$iqScore=$this->readIqScore($account["uid"],false);
+			$this->assign("iqScore",$iqScore);
+		}
+		$this->set('mingrenlist',$this->mingrenlist());
+		$this->set("op","login");
+		$this->display("iq_index");
+	}
+
+	function ready(){ // 这里是首页
+		$account=getAccount();		
 		if(!$account){
 			$this->set("op","login");
 			$this->display("iq_index");
@@ -235,6 +246,26 @@ class iq extends ctl_base
 		return $testlist;	
 	}
 
+	private function mingrenlist(){
+		$top=10;
+		$testlist=array();
+		$sql="select l.uid,l.name,l.followers,testCount,iq,useTime,lfrom,l.avatar from ". dbhelper::tname("iq","iq") . " iq  inner join ".
+			dbhelper::tname("ppt","user")." l on iq.uid=l.uid where l.avatar<>'' order by l.followers desc  limit 0,$top";
+		$rs=dbhelper::getrs($sql);
+		$i=0;
+		while($row=$rs->next()){
+			$i++;
+			$row["i"]=$i;
+			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
+			$iqlv=0;
+			$row["ch"]=$this->iqtoch($row["iq"],&$iqlv);
+			$row["iqlv"]=$iqlv;
+			$testlist[]=$row;
+		}
+//		print_r($testlist);
+		return $testlist;
+	}
+
 	private function toplist(){
 		$top=10;
 		$testlist=array();
@@ -280,7 +311,7 @@ class iq extends ctl_base
 		if($top==0) 
 			$top=10;
 		else 
-			$top=30;
+			$top=19;
 
 		$testlist=array();
 		$sql="select l.uid,l.name,iq,lasttime,l.lfrom from ". dbhelper::tname("iq","log") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid  order by id desc limit 0,$top";

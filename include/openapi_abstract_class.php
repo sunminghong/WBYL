@@ -1,7 +1,7 @@
 <?php 
 abstract class openapiAbstract{
 	public $name="新浪微博";
-	public $lfrom="tsina";  //必须与类名相同，即openapi_(tsina)
+	public $lfrom="tsina";  
 	public $tokenOrlfromuid="";
 	
 	public function saveToken($lfromuid,$data){

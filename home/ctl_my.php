@@ -20,9 +20,9 @@ class my extends ctl_base {
 			$k=envhelper::parseKUID($kuid);
 			$lfrom=$k['lfrom'];
 
-			$api="openapi_".$lfrom;
+			$api="sdk_".$lfrom."\openapi_class";
 			importlib($api);
-			$api=new $api($kuid); 
+			$api=new openapi($kuid); 
 
 			$ret=$api->home_timeline(); // done	
 		}		
@@ -42,9 +42,9 @@ public function public_timeline(){
 			$k=envhelper::parseKUID($kuid);
 			$lfrom=$k['lfrom'];
 
-			$api="openapi_".$lfrom;
+			$api="sdk_".$lfrom."\openapi_class";
 			importlib($api);
-			$api=new $api($kuid); 
+			$api=new openapi($kuid); 
 
 			$ret=$api->home_timeline(); // done	
 						

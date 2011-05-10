@@ -5,8 +5,7 @@
  * @return
  * @author tuguska
  */
-require_once 'tqq\oauth.php';
-//include_once('oauth_class.php');
+require_once 'oauth.php';
 
 class MBOpenTOAuth {
 	public $host = 'http://open.t.qq.com/';

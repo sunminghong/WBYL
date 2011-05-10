@@ -11,9 +11,9 @@ class account extends ctl_base
 		$lfrom=rq("lfrom","tsina");
 		$callbackurl=URLBASE.'?act=account&op=callback&lfrom='.$lfrom.'&fromurl='.urlencode($_SERVER["HTTP_REFERER"]);
 		
-		$api="openapi_".$lfrom;
+		$api="sdk_".$lfrom."/openapi_class";
 		importlib($api);
-		$api=new $api();	
+		$api=new openapi();	
 		$tourl=$api->getLoginUrl($callbackurl);
 		header("Location: $tourl");
 	}
@@ -21,10 +21,10 @@ class account extends ctl_base
 	function callback(){
 		$lfrom=rq("lfrom","tsina");
 		$tourl=rq("fromurl","");
-		
-		$api="openapi_".$lfrom;
+
+		$api="sdk_".$lfrom."/openapi_class";		
 		importlib($api);
-		$api=new $api();	
+		$api=new openapi();	
 
 		$uidarr=$api->callback();
 		if(!$uidarr){ //登录失败

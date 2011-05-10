@@ -22,26 +22,43 @@
 			<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
 			<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！<br/>
 				<!--<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/login.png" alt="用微博帐号登录" /></a><br />-->
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="关注官方微博" ></a>
+				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
 			</div>
 			
 			<div class="logo">
 				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明"/></a>
 			</div>
 		</div>
-		<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<div>
-					<strong>欢迎使用看看你有多聪明</strong>
+		<div class="contentFrame" style="width:260px;float:right;padding:0px;">
+			<div class="ui-widget" style="text-align:center; color:#696a62;padding:0px;">
+				<div style="background:#ceeff6;line-height:27px;height:27px;">
+					<strong>名  人  榜</strong>
 				</div>
-				<div class="welcomeDiv1" id="msg_list">
+				<div class="welcomeDiv1" id="mingrenlist" style="font-size:12px;font-family:georgia;background1:#eee;">
+<? foreach((array)$mingrenlist as $top) {?>
+						<div style="height:45px; overflow:hidden; margin:5px 5px;">
+							<div style="width:155px;float:right;line-height:21px;">@<?=$top['name']?><br/>粉丝数<b><?=$top['followers']?></b></div>
+							<img style="height:45px;" src="<?=$top['avatar']?>"/><img style="height:45px;" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$top['iqlv']?>.png" class="icoview" params="iq:<?=$top['iqlv']?>:<?=$top['uid']?>" alt="点击查看证书"/>
+						</div>
+
+					<? } ?>
+				</div>
+			</div>
+		</div>
+		<div class="contentFrame" style="width:505px;float:left;clear:none;padding:10px;height:517px;overflow:hidden">
+			<div class="ui-widget" style="text-align:center; color:#696a62;">
+				<div class="welcomeDiv1" id="msg_list" style="font-size:12px;font-family:georgia;">
 
 				</div>
 			</div>
 		</div>
+<div style="clear:both;"></div>
 		<div class="div_login">
-			<a href="?act=account&op=tologin" border="0"><img height1="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
-			<!--<a href="?act=account&op=tologin&lfrom=tqq" border="0"><img height="24" src="<?=$templatepath?>/images/t-qq.png" alt="用腾讯微博登录" /></a>-->
+		<? if(is_array($account) ) { ?>
+			<a href="?app=iq&op=ready"><img src="<?=$templatepath?>/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
+
+			<? } else { ?>			<a href="?act=account&op=tologin" border="0"><img height1="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
+			<? } ?>
 		</div>
 
 <? } elseif($op=="ready") { ?>
@@ -56,20 +73,22 @@
 <a href="?act=account&op=tologin" border="0"><img height1="37" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
 <? } ?>
 <br /><br/>
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="关注官方微博" ></a>
+				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
 			</div>
 			
 			<div class="logo">
 				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
+		<br/>
+		<!--
 				<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div class="welcomeDiv1" id="msg_list">
 
 				</div>
 			</div>
-		</div>
+		</div>-->
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
@@ -116,6 +135,7 @@
 <br/><br/>
 		<a href="javascript:void();" onclick="javascript:sendStats();"><img src="<?=$templatepath?>/iq_images/btn_tweettop.gif" alt="发到微博瞻仰一下"/></a>
 					<a id="div_follow" href="javascript:void(0)" onclick="follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a>
+					<a href="?app=iq&op=ready"><img src="<?=$templatepath?>/iq_images/btn_testagain.gif" alt="再测试一次"/></a>
 				</div>
 			</div>
 		</div>
@@ -154,11 +174,7 @@
 			</div>
 		</div>
 		<div class="div_login">
-		<? if($iqScore['iq']>0) { ?>
-			<a href="javascript:void(0);" onclick="location.href='?app=iq'"><img src="<?=$templatepath?>/iq_images/btn_testagain.gif" alt="再测试一次"/></a>
-		<? } else { ?>
-			<a href="javascript:void(0);" onclick="location.href='?app=iq'"><img src="<?=$templatepath?>/iq_images/btn_testagain.gif" alt="再测试一次"/></a>
-		<? } ?>
+		<a href="?app=iq&op=ready"><img src="<?=$templatepath?>/iq_images/btn_testagain.gif" alt="再测试一次"/></a>
 		</div>
 
 <? } ?>

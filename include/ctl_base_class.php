@@ -1,7 +1,7 @@
 <?php
 if(ISSAE){
-	importlib("sae_template.class");
-	importlib("sae_memcache_wrapper1");
+	importlib("sae/sae_memcache_wrapper1");
+	importlib("sae/sae_template.class");
 }else{
 	importlib("template.class");
 }
@@ -16,9 +16,9 @@ class ctl_base extends template {
 
 	function getApi(){
 		$account=getAccount();
-		$api="openapi_".$account['lfrom'];
+		$api="sdk_".$account['lfrom']."\openapi_class";
 		importlib($api);
-		$api=new $api($account['kuid']); 
+		$api=new openapi($account['kuid']); 
 		
 		return $api;
 	}
