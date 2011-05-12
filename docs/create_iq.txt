@@ -114,3 +114,14 @@ CREATE TABLE `ppt_userlib_sns` (
   KEY `uid2` (`uid2`),
   KEY `type` (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13618 DEFAULT CHARSET=utf8;
+
+
+alter table data_tmb add qtype tinyint not null default '0',add KEY `qtype` (qtype)
+
+update data_tmb set qtype=0 where kind in ('旅游','法律','其它','金融','音乐','军事','动漫','地理','常识','体育');
+
+update data_tmb set qtype=1 where kind in ('艺术','文学','历史','哲学','政治');
+
+update data_tmb set qtype=2 where kind in ('物理','化学','电脑','科技','自然','天文');
+
+update data_tmb set tmnr='被称为闯王的是' where tmnr like '%认被称为闯王%'

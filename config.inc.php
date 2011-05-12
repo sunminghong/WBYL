@@ -15,9 +15,6 @@ $apiConfig=array(
 	)
 );
 
-	$app_dbpre_ppt="ppt.ppt_";			//定义各个应用的数据表的前缀，可以带数据库名，方便增加应用
-	$app_dbpre_iq="ppt.iq_";
-	$app_dbpre_log="ppt.log_";
 if(!ISSAE){
 	$DBCONFIG=array(
 		array("dbhost"=>"localhost",
@@ -29,10 +26,16 @@ if(!ISSAE){
 			"dbpwd"=>"root")		//此为slave服务器，可以有多个进行读负载均衡
 	);
 
+	$MEMCONFIG=array(
+		'ip'=>'10.0.0.5',
+		'port' => '11330',
+	);
+
 	define("DEFAULT_DB","ppt");			//默认的数据库
 	$app_dbpre_ppt="ppt.ppt_";			//定义各个应用的数据表的前缀，可以带数据库名，方便增加应用
 	$app_dbpre_iq="ppt.iq_";
 	$app_dbpre_log="ppt.log_";
+	$app_dbpre_daren="ppt.daren_";
 }
 
 else{
@@ -61,6 +64,7 @@ define('DEFAULT_DB',SAE_MYSQL_DB);
 	$app_dbpre_redchess=DEFAULT_DB . ".red_";
 	$app_dbpre_iq=DEFAULT_DB . ".iq_";	
 	$app_dbpre_log=DEFAULT_DB .".log_";
+	$app_dbpre_daren=DEFAULT_DB .".daren_";
 
 }
 

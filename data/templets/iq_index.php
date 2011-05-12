@@ -9,7 +9,7 @@
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var myuid='<?=$account['uid']?>';<? } else { ?>var myuid='';<? } ?></script>
-<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.61"></script>
+<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.62"></script>
 </head>
 <body>
 
@@ -63,8 +63,7 @@
 
 <? } elseif($op=="ready") { ?>
 
-		<div class="ui-widget">
-			
+		<div class="ui-widget">			
 			<div class="login">			
 			<? if(is_array($account) ) { ?>
 			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>

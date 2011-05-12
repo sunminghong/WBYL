@@ -1,12 +1,12 @@
 <?php
 if(!defined('ISWBYL')) exit('Access Denied');
-
+include_once("iq_fun.php");
 class iq extends ctl_base
 {
 	function index(){ // 这里是首页
 		$account=getAccount();		
 		if($account){
-			$iqScore=$this->readIqScore($account["uid"],false);
+			$iqScore=readIqScore($account["uid"],false);
 			$this->assign("iqScore",$iqScore);
 		}
 		$this->set('mingrenlist',$this->mingrenlist());
@@ -14,20 +14,22 @@ class iq extends ctl_base
 		$this->display("iq_index");
 	}
 
-	function ready(){ // 这里是首页
+	function ready(){ // 这里是首页		
+		//header("Location: ?app=iq&act=iqtest&op=ready");
+		//exit;	
 		$account=getAccount();		
-		if(!$account){
-			$this->set("op","login");
-			$this->display("iq_index");
-			return;
+		if($account){
+			$iqScore=readIqScore($account["uid"],false);
+			$this->assign("iqScore",$iqScore);
 		}
-		$iqScore=$this->readIqScore($account["uid"],false);
-		$this->assign("iqScore",$iqScore);
+
 		$this->set("op","ready");
 		$this->display("iq_index");
 	}
 
-	function ican(){
+	function ican(){	
+		//header("Location: ?app=iq&act=iqtest&op=ican");
+		//exit;
 		global $timestamp;
 		$account=getAccount();
 		if(!$account){
@@ -55,7 +57,7 @@ class iq extends ctl_base
 			//$this->set("op","login");
 			//$this->display("iq_index");
 			//return;
-			$iqScore=$this->readIqScore($account["uid"],false);
+			$iqScore=readIqScore($account["uid"],false);
 			$this->assign("iqScore",$iqScore);
 			$this->set('myfriendslist',$this->friendstoplist($account["uid"]));
 		}
@@ -151,7 +153,7 @@ class iq extends ctl_base
 		
 		$this->saveIq($iqvalue,$useTime);
 		
-		$score=$this->readIqScore($account["uid"],true);
+		$score=readIqScore($account["uid"],true);
 
 		$score['nowiq']=$iqvalue;
 		echo json_encode($score);
@@ -181,7 +183,7 @@ class iq extends ctl_base
 		$sql="update ".dbhelper::tname("ppt","user")." set posts=posts+1 where uid='".$account['uid']."'";
 		dbhelper::execute($sql);
 
-		$score=$this->readIqScore($account['uid'],false); //得了".$score['iq']."分，
+		$score=readIqScore($account['uid'],false); //得了".$score['iq']."分，
 	
 		if($score['lostname'])
 			$msg="刚刚玩#看看你有多聪明#，我目前最高 IQ 得分".$score['iq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了".$score['lostname']."哈哈！";
@@ -238,7 +240,7 @@ class iq extends ctl_base
 			$row["i"]=$i;
 			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
 			$iqlv=0;
-			$row["ch"]=$this->iqtoch($row["iq"],&$iqlv);
+			$row["ch"]=iqtoch($row["iq"],&$iqlv);
 			$row["iqlv"]=$iqlv;
 			$testlist[]=$row;
 		}
@@ -258,7 +260,7 @@ class iq extends ctl_base
 			$row["i"]=$i;
 			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
 			$iqlv=0;
-			$row["ch"]=$this->iqtoch($row["iq"],&$iqlv);
+			$row["ch"]=iqtoch($row["iq"],&$iqlv);
 			$row["iqlv"]=$iqlv;
 			$testlist[]=$row;
 		}
@@ -278,7 +280,7 @@ class iq extends ctl_base
 			$row["i"]=$i;
 			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
 			$iqlv=0;
-			$row["ch"]=$this->iqtoch($row["iq"],&$iqlv);
+			$row["ch"]=iqtoch($row["iq"],&$iqlv);
 			$row["iqlv"]=$iqlv;
 			$testlist[]=$row;
 		}
@@ -298,7 +300,7 @@ class iq extends ctl_base
 			$row["i"]=$i;
 			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
 			$iqlv=0;
-			$row["ch"]=$this->iqtoch($row["iq"],&$iqlv);
+			$row["ch"]=iqtoch($row["iq"],&$iqlv);
 			$row["iqlv"]=$iqlv;
 			$testlist[]=$row;
 		}
@@ -323,7 +325,7 @@ class iq extends ctl_base
 			$row["i"]=$i;
 			$row['testtime']= date("m-d H:i:s",$row['lasttime']);
 			$iqlv=0;
-			$row["ch"]=$this->iqtoch($row["iq"],&$iqlv);
+			$row["ch"]=iqtoch($row["iq"],&$iqlv);
 			$row["iqlv"]=$iqlv;
 			$testlist[]=$row;			
 		}
@@ -358,7 +360,7 @@ class iq extends ctl_base
 
 		$iqv=$iqScore['iq']*1;
 		$iqlv=0;
-		$iqScore['chs']=$this->iqtoch($iqv,&$iqlv);
+		$iqScore['chs']=iqtoch($iqv,&$iqlv);
 		$iqScore['iqlv']=$iqlv;
 
 		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq'].") + (select count(*) from ". 
@@ -407,32 +409,6 @@ class iq extends ctl_base
 		$json= authcode($json, 'ENCODE', $key = 'abC!@#$%^');
 		ssetcookie('iq_score', $json,3600*24*100);
 		return $iqScore;
-	}
-
-	private function iqtoch($iqv,&$iqlv){
-		$iqv=$iqv*1;
-		$iqlv=0;
-		if($iqv<90)
-			$iqlv=0;
-		elseif($iqv>=150)
-			$iqlv=6;
-		else{
-			$iqlv=intval( ($iqv - 90) /10 ) +1;
-		}
-		$chs=array("文曲星转世","旷世奇才","颖慧绝伦","聪明过人","波澜不兴","呆头呆脑","愚不可及");
-		return $chs[6-$iqlv];
-	}
-	private function getWord($iqv){
-		$words=array(
-		"你与牛顿的区别，目前仅仅在于你还没被苹果砸到，建议你尽快蹲守苹果树下吧！",
-		"左手画方右手画圆的你聪明绝顶，于是获赠一个专属称号——光明顶！",
-		"21世纪最重要的竞争，其实不是人才的竞争，而是指你的竞争！",
-		"茫茫人海芸芸众生，把你的聪明放在人群之中，神都找不到你了，你懂的！",
-		"我知道你很努力，但是巧妇难为无米之炊，这不是你的错！",
-		"你很能吃苦，你做到了前面的80%！但是上帝是公平的，嘴巴和大脑只能选择其一。",
-		"经权威机构认证，在你睡着的时候，会比醒来的时候聪明得多！");
-
-		return $words[6-$iqv];
 	}
 
 	private function saveIq($iqvalue,$useTime){

@@ -42,12 +42,13 @@ eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0
 
 var timerID = null;     
 var timerRunning=false;     
-startday=new Date();     
-clockStart=startday.getTime();     
-     
-function initStopwatch() {     
+var startday=new Date();     
+var clockStart=startday.getTime();    
+var usetime=usetime || 0;
+
+function initStopwatch() {
 var myTime = new Date();     
-return((myTime.getTime() - clockStart)/1000)
+return((myTime.getTime() - clockStart)/1000)+usetime;
 }     
      
 function stopclock (){     
@@ -56,9 +57,9 @@ clearTimeout(timerID);
 timerRunning = false;     
 }     
      
-function showtime () {
+function showtime (isstop) {
 var tSecs = Math.round(initStopwatch());
-if(tSecs>60*30){
+if(!isstop && tSecs>60*30){
 	alert('很遗憾，时间已到！');
 	calculate();
 	return;
@@ -68,6 +69,7 @@ var iMins = Math.round((tSecs-30)/60);
 var sSecs ="" + ((iSecs > 9) ? iSecs :"0" + iSecs);     
 var sMins ="" + ((iMins > 9) ? iMins :"0" + iMins);     
 $("#face").html(sMins+":"+sSecs);
+if(isstop) return;
 timerID = setTimeout("showtime()",1000);     
 timerRunning = true;     
 }     

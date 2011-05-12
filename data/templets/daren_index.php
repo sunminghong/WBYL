@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>看看你有多聪明！ -  微博IQ测试 </title>
-	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/test_images/test.css" />
+	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/iq_images/iq.css" />
 	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> 
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var myuid='<?=$account['uid']?>';<? } else { ?>var myuid='';<? } ?></script>
-<script type="text/javascript" src="<?=$templatepath?>/test_images/test.js?v=1.0"></script>
+<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.62"></script>
 </head>
 <body>
 
@@ -55,7 +55,7 @@
 <div style="clear:both;"></div>
 		<div class="div_login">
 		<? if(is_array($account) ) { ?>
-			<a href="?app=iq&op=ready"><img src="<?=$templatepath?>/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
+			<a href="?app=daren&op=ready&qtype=1"><img src="<?=$templatepath?>/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
 
 			<? } else { ?>			<a href="?act=account&op=tologin" border="0"><img height1="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
 			<? } ?>
@@ -63,63 +63,9 @@
 
 <? } elseif($op=="ready") { ?>
 
-		<div class="ui-widget">
-			
-			<div class="login">			
-			<? if(is_array($account) ) { ?>
-			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
-<font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
-<? } else { ?>
-<a href="?act=account&op=tologin" border="0"><img height1="37" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
-<? } ?>
-<br /><br/>
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
-			</div>
-			
-			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
-			</div>
-		</div>
-		<br/>
-		<!--
-				<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<div class="welcomeDiv1" id="msg_list">
-
-				</div>
-			</div>
-		</div>-->
-		<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<form method="post" action="" class="c_form">
-
-				<table cellspacing="0" cellpadding="0" class="formtable" id="test_tr1">
-				<caption>
-				<h2>IQ测试，智商测试</h2>
-				<p>通过国内公认的专业IQ评测系统，您可以更加客观全面的了解自己和身边朋友的智商水平，这是beta版</p>
-				</caption>
-				<tr>
-				<th style="width:12em;"><a href="?app=iq&act=test&op=ican"><img src="<?=$templatepath?>/iq_images/btn_ready.gif" alt="我准备好了，开始" /></a></th>
-				<td style="text-align:left;">
-				IQ测试共计33道测试题，为了方便你操作，所有题型都设计成了单选题。为了保证测试的准确性，请你注意以下方面：
-						<ul class="test">
-							<li>1。保持最佳思维状态（根据本站统计，人在三分饥的时候思维状态最佳）</li>
-							<li>2。身边没有阿猫阿狗吧？如果有，请给足粮食，让它安静点！</li>
-							<li>3。如果你测试结果不理想，请不要气馁，可以过一段时间再来一次（测试间隔最好在一个月以上）！</li>
-							<li>4。如果结果显示你是天才，请不要窃喜，因为前有爱因斯坦，后有更天才的天才！</li>
-						</ul>
-				</td>
-				</tr>
-				</table>
-
-
-				</form>
-
-			</div>
-		</div>
 
 <? } elseif($op=="stats") { ?>
-		<div class="ui-widget">			
+		<div class="ui-widget">
 			<div class="login">
 			<? if(is_array($account) ) { ?>
 			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
@@ -130,7 +76,7 @@
 
 			</div>			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+				<a href="?app=daren" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
 <div class="contentFrame">

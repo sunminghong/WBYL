@@ -113,6 +113,60 @@ function sreadcookie($key){
 }
 
 
+##MEMCACHE类
+class CACHE{
+	public static $conns = array();
+	
+	#根据配置文件，取连接资源
+	function getconnG(){
+		if(ISSAE) {
+			$mmc = memcache_init();
+			if($mmc==false)
+			{
+				echo "mc init failed\n";exit;
+			}
+			else
+			{
+				return $mmc;
+			}
+		}
+		global $MEMCONFIG;
+		return self::connCache($MEMCONFIG);	
+	}
+	
+	#连接到memcache
+	public function connCache($dbconf){
+		$key = $dbconf['ip'] .'.'. $dbconf['port']; 
+		
+		if(self::$conns[$key])
+			return self::$conns[$key];
+			
+		$conn = memcache_connect($dbconf['ip'], $dbconf['port']);
+		self::$conns[$key]=$conn;
+		return $conn;
+	}	
+	
+	#设置缓存内容
+	public function set($key,$val,$timeout=0){
+		return memcache_set(self::getconnG(),$key,$val,0,$timeout);#timeout秒后超时
+	}
+	
+	#读取缓存内容
+	public function get($key){
+		return memcache_get(self::getconnG(),$key);
+	}
+	
+	#删除指定key缓存
+	public function del($key,$delay=0){	
+		return memcache_delete(self::getconnG(),$key,$delay); #delay秒后删除
+	}
+	
+	#删除所有缓存
+	public function delall(){	
+		memcache_flush(self::getconnG());
+	}
+}
+
 ##游戏SESSIOON类
 class SESS{
 	public static $init = 0;
@@ -207,6 +261,7 @@ function now(){
 	return date("Y-m-d H:i:s");	
 }
 
+//
 function dateAdd($unit = "d",$int,$date) {
 	$date_time_array = getdate(strtotime($date));
     $hours = $date_time_array["hours"];
@@ -240,7 +295,7 @@ function dateAdd($unit = "d",$int,$date) {
     $timestamp = mktime($hours ,$minutes, $seconds,$month ,$day, $year);
     return date("Y-m-d H:i:s",$timestamp);
 }
-
+/*
 function dateDiff($unit="",$date1 , $date2){
 	switch ($unit){
     case "s": $div = 1 ;
@@ -257,14 +312,60 @@ function dateDiff($unit="",$date1 , $date2){
 		break;
 	default: $div = 86400;
 	}
-    $time1 = strtotime($date1);
-    $time2 = strtotime($date2);
+	if(!is_numeric($date1))
+		$time1 = strtotime($date1);
+	if(!is_numeric($date2))
+		$time2 = strtotime($date2);
+
     if($time1 && $time2){
-    	return bcdiv(($time2-$time1),$div);
+    	//return bcdiv(($time2-$time1),$div);
+		return bcdiv($time2,$div)- bcdiv($time1,$div);
     }else{
 		return false;
     }
+}*/
+
+//月不准确，有闰月的影响
+function dateDiff($unit="",$time1 , $time2){
+	if(!is_numeric($time1))
+		$time1 = strtotime($time1);
+	if(!is_numeric($time2))
+		$time2 = strtotime($time2);
+
+	switch ($unit){
+    case "s": 
+		return $time2-$time1;
+		break;
+	case "i":
+		$time1=strtotime(strftime('%Y-%m-%d %H:%M',$time1));
+		$time2=strtotime(strftime('%Y-%m-%d %H:%M',$time2));
+		return intval(($time2-$time1)/60);
+	case "h": 
+		$time1=strtotime(strftime('%Y-%m-%d %H',$time1));
+		$time2=strtotime(strftime('%Y-%m-%d %H',$time2));
+		return intval(($time2-$time1)/3600);
+	case "d": 
+		$time1=strtotime(strftime('%Y-%m-%d',$time1));
+		$time2=strtotime(strftime('%Y-%m-%d',$time2));
+		return intval(($time2-$time1)/86400);
+	case "m":
+		$time1=strtotime(strftime('%Y-%m',$time1));
+		$time2=strtotime(strftime('%Y-%m',$time2));
+		return intval(($time2-$time1)/2592000);
+	case "y": 
+		$time1=intval(strftime('%Y',$time1));
+		$time2=intval(strftime('%Y',$time2));
+		return intval($time2-$time1);
+	default: 
+		$time1=strtotime(strftime('%Y-%m-%d %H',$time1));
+		$time2=strtotime(strftime('%Y-%m-%d %H',$time2));
+		return intval(($time2-$time1)/86400);
+	}
+	
 }
+
+
+
 
 //取字符串左右
 //left('abcde',-1) = abcd

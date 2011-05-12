@@ -1,12 +1,13 @@
-function init(){
-	$("#test_tr1").hide();
-	$("#test_tr2").show();
-	next('init');
+//测试页逻辑
+
+function init() {
+	next('next');
 	$("#btn_b").show();
 }
+
 function subm(){
 	var an=getAn();
-	location.href='?app=iq&act=test&op=showscore&an='+an;
+	location.href='?app=iq&act=iqtest&op=showscore&an='+an;
 }
 
 function next(de){
@@ -14,8 +15,11 @@ function next(de){
 	$("#test_cap").html('开始测试');
 	//|idx_sel;
 	var an=getAn();
-	var url="?app=iq&act=test&op="+de+'&an='+an;
+	var url="?app=iq&act=iqtest&op="+de+'&an='+an;
 	$.get(url,function(res){
+		$("#test_tr1").hide();
+		$("#test_tr2").show();
+
 		eval("var json="+res);
 		var co=json[0].split("/")[0]*1;
 		var lidx=json[0].split("/")[1]*1;
@@ -37,7 +41,7 @@ function next(de){
 					$("#test_cap").html('<h2>题 型 三 &gt; 中华人民共和国</h2><p>sdf asdf asdf asdfasfsa</p>');
 					break;
 			}
-			sh.push('<dt idx="'+qu.idx+'"><span class="testlist">'+qu.idx+'/'+co+'</span>下列'+qu.q+'</dt>');
+			sh.push('<dt idx="'+qu.idx+'"><span class="testlist">'+qu.idx+'/'+co+'</span>　'+qu.q+'</dt>');
 
 			var ql=qu.a.length;
 			var sel=qu.a[0];
@@ -51,10 +55,11 @@ function next(de){
 		$("#test_main").html(sh.join(''));
 		
 		if(co<=lidx){
-			$("#btn_down").html("提交").click(function(){subm()});
+			$("#btn_down").html("确定完成测试&raquo;").click(function(){subm()});
 		}
 		else{
-			$("#btn_down").html("下一题").click(function(){next('next')});
+			$("#btn_up").show();
+			$("#btn_down").html("下一题&raquo;").click(function(){next('next')});
 		}
 		$("#btn_up").click(function(){next('up')});
 	});
@@ -77,3 +82,5 @@ $("#test_main dd a").live("click",function(){
 	$(this).parent().parent().find("a").removeClass("sel");
 	this.className="sel";
 });
+
+$(document).ready(function(){ init();});

@@ -1,0 +1,442 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=gbk" />
+<title>岳立 - 作乐·网球联盟 - dohappy.com</title>
+
+<style type="text/css">
+@import url(http://dohappy.com/template/default/common.css);
+	ul.atrp{ margin: 10px 0; line-height: 21px;}
+		ul.atrp li{color: #666; list-style: inside disc;}
+	a.atrp:link{margin-right:10px; padding: 8px 14px; background:#693; color:#FFF; text-decoration:none; font-size:14px; border: 1px solid; border-top-color: #98bc7a; border-right-color: #305810; border-bottom-color: #203A0A; border-left-color: #72a44a; line-height:29px;}
+	a.atrp:hover{margin-right:10px; padding: 8px 14px; background:#7bdb2e; color:#FFF; text-decoration:none; font-size:14px; border: 1px solid; border-top-color: #B3EA87; border-right-color: #4E8A1D; border-bottom-color: #345C13; border-left-color: #97E35A; line-height:29px;}
+	a.atrp:visited{margin-right:10px; padding: 8px 14px; background:#693; color:#FFF; text-decoration:none; font-size:14px; border: 1px solid; border-top-color: #98bc7a; border-right-color: #305810; border-bottom-color: #203A0A; border-left-color: #72a44a; line-height:29px;}
+	dl{ margin: 10px 0 20px 0; line-height:21px; width:680px; overflow:hidden;}
+		dl dt{ font-size:18px; color:#663; font-family: "微软雅黑", "黑体"; margin-bottom:20px;}
+		dl dd{ display:block; float:left; width:79px; border:#6FC solid 1px; background:#CFF; margin-right: 4px; padding:0.3em 0.5em; }
+		dl dd a{ color:#333;}
+		dl dd a:hover{ text-decoration:none;}
+	.atrplist{font-family: 'Book Antiqua'; font-style:italic; margin-right: 0.3em; font-size: 48px; line-height: 1em; color:#FC9;}
+	.radrank{ color:#960; font-weight: bold; margin-left: 0.5em;}
+</style>
+
+<link rel="alternate" type="application/rss+xml" href="rss.php?uid=1" title="岳立" />
+<link rel="edituri" type="application/rsd+xml" title="rsd" href="xmlrpc.php?rsd=1" />
+</head>
+<body>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div id="wrap">
+<div id="header">
+<div id="menubar">
+<h2><a href="index.php"><img src="http://dohappy.com/image/logo.gif" alt="作乐" /></a></h2>
+<ul id="menu">
+<li>
+<a href="space-home.html">首页</a>
+<a href="space-home-view-friend.html" class="edit">好友动态</a>
+</li>
+<li><a href="space.html">个人主页</a></li>
+<li><a href="space-friend.html">好友</a><a href="javascript:;" onclick="openSub(this,'friend',1);" class="drop">&nbsp;</a></li>
+<li><a href="network.html">随便看看</a><a href="space-rank.html" class="edit">排行榜</a></li>
+<li><a href="space-pm.html">私信</a><a href="javascript:;" onclick="openSub(this,'pm',1);" class="drop">&nbsp;</a></li>
+</ul>
+<div id="op">
+<a href="space.html">欢迎您，岳立</a><span class="pipe">|</span>
+<a href="cp.php?ac=task">有奖活动</a><span class="pipe">|</span>
+<a href="cp.php">设置</a><span class="pipe">|</span>
+<a href="cp.php?ac=privacy">隐私</a><span class="pipe">|</span>
+<a href="cp.php?ac=common&op=logout">退出</a>
+</div>
+</div>
+<div id="taskbar" class="s_clear">
+<div id="start">
+<div><span></span><a href="javascript:;" id="startmenu" onmouseover="calculagraph();" onmouseout="stopCalculagraph();" onclick="openSub(this,'app',1);">Start</a></div>
+</div>
+<ul id="quicklaunch">
+<li class="app-doing"><a href="cp.php?ac=doing" id="quicklaunch_doing" onclick="ajaxmenu(event, this.id, 99999)" title="写迷你博客"><img src="http://dohappy.com/image/app/doing.gif" alt="写迷你博客" /></a></li>
+<li class="app-blog"><a href="cp.php?ac=blog" title="撰写日志"><img src="http://dohappy.com/image/app/blog.gif" alt="撰写日志" /></a></li>
+<li class="app-photo"><a href="cp.php?ac=upload" title="上传图片"><img src="http://dohappy.com/image/app/album.gif" alt="上传图片" /></a></li>
+<li class="app-mtag"><a href="cp.php?ac=thread" title="发表话题"><img src="http://dohappy.com/image/app/mtag.gif" alt="发表话题" /></a></li>
+<li class="app-share"><a href="cp.php?ac=share" id="quicklaunch_share" onclick="ajaxmenu(event, this.id, 99999)" title="分享一下"><img src="http://dohappy.com/image/app/share.gif" alt="分享一下" /></a></li>
+</ul>
+<div id="taskbody">
+<a href="javascript:;" id="scrollright" onmouseover="taskScroll('');">&raquo;</a>
+<a href="javascript:;" id="scrollleft" onmouseover="taskScroll('right');">&laquo;</a>
+<div id="taskscroll">
+<ul id="task">
+<li  id="f61fe9f2f44e3d09" onmouseout="setLiMouseOut(this);" onmouseover="setLiMouseOver(this);""><a href="space-album.html" class="task" >相册</a><span class="close"><a href="javascript:;" onclick="window_colse('f61fe9f2f44e3d09', '');">关闭</a></span></li>
+<li  id="f8010edba4c972a7" onmouseout="setLiMouseOut(this);" onmouseover="setLiMouseOver(this);""><a href="app.php?id=1" class="task" >论坛</a><span class="close"><a href="javascript:;" onclick="window_colse('f8010edba4c972a7', '');">关闭</a></span></li>
+<li  id="d8a0f87ab012d7b3" onmouseout="setLiMouseOut(this);" onmouseover="setLiMouseOver(this);""><a href="space-share.html" class="task" >分享</a><span class="close"><a href="javascript:;" onclick="window_colse('d8a0f87ab012d7b3', '');">关闭</a></span></li>
+<li  id="6d6782d8c7881b05" onmouseout="setLiMouseOut(this);" onmouseover="setLiMouseOver(this);""><a href="space-blog.html" class="task" >日志</a><span class="close"><a href="javascript:;" onclick="window_colse('6d6782d8c7881b05', '');">关闭</a></span></li>
+<li  id="3076d5f8bf625a0b" onmouseout="setLiMouseOut(this);" onmouseover="setLiMouseOver(this);""><a href="space-thread.html" class="task" >群组</a><span class="close"><a href="javascript:;" onclick="window_colse('3076d5f8bf625a0b', '');">关闭</a></span></li>
+<li  id="bcc19959e658576a" onmouseout="setLiMouseOut(this);" onmouseover="setLiMouseOver(this);""><a href="space-doing.html" class="task" >迷你博客</a><span class="close"><a href="javascript:;" onclick="window_colse('bcc19959e658576a', '');">关闭</a></span></li>
+</ul>
+</div>
+</div>
+
+<div id="finger">
+<img src="http://dohappy.com/image/drag_target.gif" />
+</div>
+<div id="task-tab" class="task-tab"></div>
+</div>
+</div>
+
+<div id="submenu">
+<div id="subfriend" class="submenu">
+<ul>
+<li><a href="space-friend.html">好友列表</a></li>
+<li><a href="space-friend-view-visitor.html">我的访客</a></li>
+<li><a href="space-friend-view-trace.html">我的足迹</a></li>
+<li><a href="space-friend-view-online.html">在线用户</a></li>
+<li class="line"><a href="cp.php?ac=friend&op=find">寻找好友</a></li>
+<li><a href="cp.php?ac=invite">邀请好友</a></li>
+</ul>
+</div>
+<div id="subpm" class="submenu">
+<ul>
+<li><a href="space-pm.html">查看未读</a></li>
+<li><a href="space-pm-view-inbox.html">收件箱</a></li>
+<li><a href="space-pm-view-outbox.html">发件箱</a></li>
+<li><a href="space-notice.html">通知</a></li>
+<li class="line"><a href="cp.php?ac=pm">发送私信</a></li>
+</ul>
+</div>
+<div id="subapp" class="submenu">
+<ul class="app_list">
+<li class="app-doing"><a href="space-doing.html"><img src="http://dohappy.com/image/app/doing.gif" alt="迷你博客" />迷你博客</a></li>
+<li class="app-blog"><em><a href="cp.php?ac=blog">发表</a></em><a href="space-blog.html"><img src="http://dohappy.com/image/app/blog.gif" alt="日志" />日志</a></li>
+<li class="app-photo"><em><a href="cp.php?ac=upload">上传</a></em><a href="space-album.html"><img src="http://dohappy.com/image/app/album.gif" alt="相册" />相册</a></li>
+<li class="app-mtag"><em><a href="cp.php?ac=thread">发起</a></em><a href="space-thread.html"><img src="http://dohappy.com/image/app/mtag.gif" alt="群组" />群组</a></li>
+<li class="app-share"><a href="space-share.html"><img src="http://dohappy.com/image/app/share.gif" alt="分享" />分享</a></li>
+
+
+<li class="app-DISCUZ"><a href="app.php?id=1"><img src="http://dohappy.com/image/app/discuz.gif" alt="论坛" />论坛</a></li>
+
+</ul>
+<p id="app-expand"><span>关闭</span><a href="javascript:;" onclick="appExpand();" rel="menufocus">更多</a></p>
+</div>
+</div>
+
+<div id="content" class="s_clear">
+<table cellpadding="0" cellspacing="0" class="mainborder">
+<tr>
+<td class="transborder" width="8">&nbsp;</td>
+<td class="transborder">&nbsp;</td>
+<td class="transborder" width="8">&nbsp;</td>
+</tr>
+<tbody>
+<tr>
+<td class="transborder" width="8">&nbsp;</td>
+<td class="maintd">
+<div id="mainarea">
+
+<div class="c_header a_header">
+<a href="space-1.html"><img src="http://dohappy.com/uc/avatar.php?uid=1&size=small" alt="岳立" class="avatar" /></a>
+<h1>设置</h1>
+<a href="space-1.html" class="spacelink">我的主页</a>
+</div>
+
+<div class="tabs_header">
+<ul class="tabs">
+<li><a href="cp.php?ac=avatar">我的头像</a></li>
+<li><a href="cp.php?ac=profile">个人资料</a></li>
+<li class="active"><a href="cp.php?ac=atrp">水平自测</a></li>
+<li><a href="cp.php?ac=mtag">我的群组</a></li>
+<li><a href="cp.php?ac=theme">主页风格</a></li>
+<li><a href="cp.php?ac=sendmail">邮件通知</a></li><li><a href="cp.php?ac=credit">我的积分</a></li>
+<li><a href="cp.php?ac=space&view=password">修改密码</a></li>
+<li><a href="cp.php?ac=advance">高级管理</a></li>
+
+</ul>
+</div>
+
+<form method="post" action="cp.php?ac=profile&ref" class="c_form">
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<caption>
+<h2>水平级别测试</h2>
+<p>通过ATRP业余网球水平级别评测系统，您可以更加客观全面的了解自己和身边朋友的网球水平</p>
+<span style="display:block; width:680px; overflow:hidden; margin: 10px 0 0 0;">
+<img src="http://img2.pict.com/80/f5/b3/1616048/0/atrp.jpg">
+</span>
+</caption>
+<tr>
+<th style="width:12em;"><a href="#" class="atrp">开始ATRP测试</a></th>
+<td>
+ATRP试卷分为训练经历、基础技术环节和实战表现三个方面，共计20道测试题；为了对每一个参与评测业余网球爱好者进行全面的、准确的评估，并迅速计算得分，请注意以下方面：
+                <ul class="atrp">
+                    <li>每一题都是评测的重要因素，如有缺漏将不能获得评测结果；</li>
+                    <li>仔细阅读每道题的问题描述及对应的所有选项内容，然后客观准确的选择最适当的选项；</li>
+                    <li>每30天，您都可以依据当前的最新情况重新评测。最新的评测结果将取代原有评测结果；</li>
+                    <li>您可以配合本系统，快速的查找水平级别与您相仿、或者高于您水平级别的球友；</li>
+                    <li>您的评测结果，将出现在您的个人主页上；</li>
+                </ul>
+</td>
+</tr>
+</table>
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<caption>
+<h2>ATRP水平级别测试：第一部分 &gt; 训练经历。</h2>
+<p>通过了解您的年龄、场上活动时间、运动系统性和装备消耗等方面的问题，对您的网球水平进行评判；</p>
+<h2>ATRP水平级别测试：第二部分 &gt; 网球基础技术。</h2>
+<p>通过正、反手、上旋、截击等一系列网球基础技术环节的考察，评判您的网球基础技术水平；</p>
+<h2>ATRP水平级别测试：第三部分 &gt; 比赛与实战表现。</h2>
+<p>通过正式或者非正式的比赛、对练等实战表现得结果，对您的技术发挥、经验和稳定性等方面进行评判；</p>
+</caption>
+<tr>
+<td>
+	<dl>
+		<dt><span class="atrplist">1/20:</span>您目前多大年纪？</dt>
+		<dd><a href="#">不满12周岁</a></dd>
+		<dd><a href="#">12-17岁</a></dd>
+		<dd><a href="#">18-29岁</a></dd>
+		<dd><a href="#">30-40岁</a></dd>
+		<dd><a href="#">41-50岁</a></dd>
+		<dd><a href="#">51-65岁</a></dd>
+		<dd><a href="#">超过65岁</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">2/20:</span>上场频繁吗？</dt>
+		<dd><a href="#">刚刚开始接触网球，或者偶尔活动一下</a></dd>
+		<dd><a href="#">三天打鱼两天晒网，有时很频繁，有时数月不活动</a></dd>
+		<dd><a href="#">每月至少1~2次，坚持超过3个月了</a></dd>
+		<dd><a href="#">每周至少1次，坚持超过6个月了</a></dd>
+		<dd><a href="#">每周至少6小时，坚持1年以上</a></dd>
+		<dd><a href="#">每周至少8小时，坚持多年</a></dd>
+		<dd><a href="#">除特殊情况外每天上场，坚持多年</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">3/20:</span>网球线的消耗厉害吗？</dt>
+		<dd><a href="#">从来没有换过线</a></dd>
+		<dd><a href="#">从来打不断，感觉不对头时偶尔换线</a></dd>
+		<dd><a href="#">曾经打断过，一年能换3~4根线</a></dd>
+		<dd><a href="#">经常打断，一年至少换6次网球线，有时是因为球感</a></dd>
+		<dd><a href="#">一根线用不了几天，全是打断的</a></dd>
+		<dd><a href="#">几乎每次上场用新线，一场球有时能断1根以上</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">4/20:</span>网球消耗的厉害吗？</dt>
+		<dd><a href="#">新球使用后仅仅脏一点，基本无变化</a></dd>
+		<dd><a href="#">同时使用2~3个新球，一次能坚持3~4小时，下次也许还能用</a></dd>
+		<dd><a href="#">同时使用2~3个新球，一次顶多3小时，磨损比较明显</a></dd>
+		<dd><a href="#">新球只用1小时左右，磨损的就比较严重了</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">5/20:</span>第一发球</dt>
+		<dd><a href="#">从来没有发过球</a></dd>
+		<dd><a href="#">能用下手方式发球过网，但经常出界</a></dd>
+		<dd><a href="#">尝试上手发球，但经常下网或出界</a></dd>
+		<dd><a href="#">上手能打出一定速度的发球，失误率较高</a></dd>
+		<dd><a href="#">能够稳定的上手发球，略有速度</a></dd>
+		<dd><a href="#">高速的前提下开始寻求发球落点，准确度一般</a></dd>
+		<dd><a href="#">速度和落点俱佳，发球成为重要的得分手段</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">6/20:</span>第二发球</dt>
+		<dd><a href="#">从来没有发过球</a></dd>
+		<dd><a href="#">跟一发一样，没有变化</a></dd>
+		<dd><a href="#">尝试稳定的二发，常有双误；稳定性非常高，但仅仅是将球推过网</a></dd>
+		<dd><a href="#">二发趋于稳定，并尝试控制旋转和落点。双误开始减少</a></dd>
+		<dd><a href="#">比较准确的控制二发旋转和落点，双误很少</a></dd>
+		<dd><a href="#">能用二发遏制对手的直接进攻，基本无双误</a></dd>
+		<dd><a href="#">常常能通过二发直接得分，基本无双误</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">7/20:</span>接发球</dt>
+		<dd><a href="#">从来没有尝试过接发球</a></dd>
+		<dd><a href="#">尝试过接发球，信心不足，大多都失误了</a></dd>
+		<dd><a href="#">可以应付一般速度和落点的击球，失误率仍较高</a></dd>
+		<dd><a href="#">可以比较稳定的应付一发，尝试落点和速度的控制，失误率减少</a></dd>
+		<dd><a href="#">尝试在迎接二发和质量不高的一发时，直接进攻，偶有失误</a></dd>
+		<dd><a href="#">稳定接发球，并尝试落点、速度、旋转俱佳的的回击，不让对手取得明显优势</a></dd>
+		<dd><a href="#">有高质量接发回击，往往接发得分，自认为接发球是进攻手段</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">8/20:</span>正手击球</dt>
+		<dd><a href="#">偶尔能够过网</a></dd>
+		<dd><a href="#">能够稳定过网，但经常出界</a></dd>
+		<dd><a href="#">开始追求击球深度和落点，失误率较高</a></dd>
+		<dd><a href="#">能够通过高质量正手压制对手，失误率减少</a></dd>
+		<dd><a href="#">能够稳定的连续3拍，发力击出落点很深的正手球，线路偶有变化</a></dd>
+		<dd><a href="#">在稳定的基础上，寻求线路的变化调动和压制对手，经常得分</a></dd>
+		<dd><a href="#">对手回球过短或者有明显空档等机会出现时，我往往能够直接得分</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">9/20:</span>反手击球</dt>
+		<dd><a href="#">不会反手击球</a></dd>
+		<dd><a href="#">偶尔能够过网，但经常出界；切削反手相对稳定</a></dd>
+		<dd><a href="#">能比较稳定的将球回击到对方半场，在不受压力时偶有失误；反手以切削放手为主</a></dd>
+		<dd><a href="#">开始追求击球深度和落点，仍出现主动失误</a></dd>
+		<dd><a href="#">能通过反手的旋转和落点，进行稳定的防守并尝试进攻，失误减少</a></dd>
+		<dd><a href="#">对手无法在我的反手击球上取得明显优势，反手和正手质量相当</a></dd>
+		<dd><a href="#">对手回球过短或者有明显空档等机会出现时，我往往能够直接得分</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">10/20:</span>截击球</dt>
+		<dd><a href="#">从来没有打过截击球</a></dd>
+		<dd><a href="#">能够在球落地之前将其推过网，但经常失误</a></dd>
+		<dd><a href="#">截击稳定性提高，但速度、高度和落点质量不高</a></dd>
+		<dd><a href="#">能够在网前稳定的使用截击，在截击非进攻球时保证落点和高度</a></dd>
+		<dd><a href="#">能够在中场和网前稳定截击，并将对手压制于底线，偶有失误</a></dd>
+		<dd><a href="#">能够在对方进攻时，稳定发挥，并使用落点和速度俱佳的截击调动对手</a></dd>
+		<dd><a href="#">将截击作为重要进攻手段，双打时对手完全避开我的半场，单打时经常截击得分</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">11/20:</span>高压球</dt>
+		<dd><a href="#">从来没有打过高压球</a></dd>
+		<dd><a href="#">尝试过高压球，大多下网或出界</a></dd>
+		<dd><a href="#">能够稳定的击打落地高压球，但落点模糊，失误率减少</a></dd>
+		<dd><a href="#">能够击打直接高压球，失误较多；落地高压球能够稳定击打，能控制落点和深度</a></dd>
+		<dd><a href="#">能够在中、前场稳定的击打高压球，失误率少，能给对手造成较大威胁</a></dd>
+		<dd><a href="#">能够在底线附近击打高压球，中前场高压球基本上能够直接得分</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">12/20:</span>上旋及挑高球</dt>
+		<dd><a href="#">不知道怎样击出上旋球</a></dd>
+		<dd><a href="#">能够击出抛物线状的上旋球，但失误率较高</a></dd>
+		<dd><a href="#">尝试控制上旋球的速度和高度，失误率减少</a></dd>
+		<dd><a href="#">开始控制上旋球方向，自如选择落点但偶有失误；速度和高度控制更加稳定</a></dd>
+		<dd><a href="#">能够稳定击出有有深度和速度的上旋球，将对手压制于底线</a></dd>
+		<dd><a href="#">能够稳定击出高度更具威胁的上旋球，遏制对手底线的进攻，调整比赛节奏</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">13/20:</span>切削球</dt>
+		<dd><a href="#">不知道怎样击出切削球</a></dd>
+		<dd><a href="#">能够击出抛物线状的切削球，但失误率较高</a></dd>
+		<dd><a href="#">尝试控制切削球的落点和高度，失误率减少</a></dd>
+		<dd><a href="#">开始控制旋转和过网高度，对手无法在我的切削球上取得明显优势</a></dd>
+		<dd><a href="#">能够击出贴网高压球，下压有一定力量和旋转，偶有失误</a></dd>
+		<dd><a href="#">力量速度俱佳，落地有明显不规则弹跳；可在底线稳定放出近网小球</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">14/20:</span>发力技术</dt>
+		<dd><a href="#">无论怎么挥拍，都没有力量</a></dd>
+		<dd><a href="#">利用手臂发力，引拍至随挥尚不完整</a></dd>
+		<dd><a href="#">挥拍动作快速而完整，能通过加速挥拍增加击球力量</a></dd>
+		<dd><a href="#">开始体会转体增加发力，球速有明显提升，挥距更长动作更协调</a></dd>
+		<dd><a href="#">更多依赖腰、肩部发力击球，手臂感觉更加放松和舒展</a></dd>
+		<dd><a href="#">能够利用步伐和重心调整(例如前压和跳起)优化发力结构；原地发力击球速度佳</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">15/20:</span>步伐与场上移动</dt>
+		<dd><a href="#">基本上不跑动</a></dd>
+		<dd><a href="#">能在半场范围跑动，跑动后击球大多失误</a></dd>
+		<dd><a href="#">能够覆盖大半个场地，跑动后击球失误率减少</a></dd>
+		<dd><a href="#">在球速不太快时，步伐能够及时到位并保证稳定的击球</a></dd>
+		<dd><a href="#">左右和前后步伐移动都比较自如，能够处理高速球和近网短球</a></dd>
+		<dd><a href="#">总能在球落点之前，移动并调整站位；能够通过步伐创造进攻机会</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">16/20:</span>场上位置、落点和击球点的判断能力</dt>
+		<dd><a href="#">经常打不到球</a></dd>
+		<dd><a href="#">经常打到拍框，站位总觉得别扭</a></dd>
+		<dd><a href="#">球速不快时，能够及时的判断落点，调整步伐和站位</a></dd>
+		<dd><a href="#">能通过球的旋转和过网线路判断球的落点，失误率减少</a></dd>
+		<dd><a href="#">能通过对手击球方式和站位进行预判，提前移动步伐调整重心</a></dd>
+		<dd><a href="#">能预判对手的击打线路和落点，并推测对手下一步行动</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">17/20:</span>爆发力、耐力和体能</dt>
+		<dd><a href="#">底线对拉练习10分钟，必须要休息一下</a></dd>
+		<dd><a href="#">底线对拉练习20分钟以上，有明显疲劳感</a></dd>
+		<dd><a href="#">跑动中的底线对拉练习，可以持续30分钟</a></dd>
+		<dd><a href="#">业余单打比赛可以坚持40分钟或1盘，击球质量无明显下降，有疲劳感</a></dd>
+		<dd><a href="#">主动进攻和积极跑动防守的单打比赛中，击球质量无明显下降，坚持40分钟左右</a></dd>
+		<dd><a href="#">势均力敌的单打比赛中，可以坚持90分钟或2-3盘，有疲劳感</a></dd>
+		<dd><a href="#">势均力敌的单打比赛中，可以坚持90分钟以上，无明显疲劳感</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">18/20:</span>进攻与防守</dt>
+		<dd><a href="#">从来都不进攻，仅仅是被动的击回对手来球</a></dd>
+		<dd><a href="#">开始用发力和加速的方式进行进攻，进攻和防守失误率较高</a></dd>
+		<dd><a href="#">尝试利用速度和线路进攻，失误减少；防守时击球落点更深，偶有失误</a></dd>
+		<dd><a href="#">能根据对手站位选择旋转和线路进攻，防守主动失误率较少</a></dd>
+		<dd><a href="#">能根据对手弱点，展开自如的进攻；能通过稳定防守造成对手失误</a></dd>
+		<dd><a href="#">能展开多拍进攻，进攻位置大；防守时可稳定控制速度、旋转和落点</a></dd>
+		<dd><a href="#">主动进攻可经常直接得分；防守可直接转为反击，得分率高</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">19/20:</span>战术思路与贯彻</dt>
+		<dd><a href="#">没有战术，打到对方半场就行</a></dd>
+		<dd><a href="#">依靠稳定回击，等待对手失误</a></dd>
+		<dd><a href="#">依靠高质量回击，通过旋转和落点控制，造成对手失误</a></dd>
+		<dd><a href="#">进攻和防守相结合，对手送分多于主动得分</a></dd>
+		<dd><a href="#">形成一套符合自己技术特点的、攻守相结合的战术，并能在比赛中贯彻</a></dd>
+		<dd><a href="#">开始利用对手的技术、经验、心理上的弱点，创造机会主动得分</a></dd>
+		<dd><a href="#">通过分析对手战术调整自己的战术，开始在比赛中寻求战术的变化</a></dd>
+	</dl>
+	<dl>
+		<dt><span class="atrplist">20/20:</span>赛场成绩和经验</dt>
+		<dd><a href="#">从来不参加比赛，偶尔双打娱乐下</a></dd>
+		<dd><a href="#">在5人左右的圈子里，偶尔参加比赛，胜负各半</a></dd>
+		<dd><a href="#">常参加学校、部队、行业组织的比赛，胜负各半；在10人左右的圈子里胜多负少</a></dd>
+		<dd><a href="#">常参加省市一级的业余比赛，曾有过胜绩，总成绩不理想</a></dd>
+		<dd><a href="#">参加省市一级的业余比赛，胜多负少，有能力或曾经获得名次</a></dd>
+		<dd><a href="#">参加全国级别的业余比赛，胜负各半</a></dd>
+		<dd><a href="#">参加全国级别的业余比赛，曾经获得过前50位及以上的名次</a></dd>
+	</dl>
+</td>
+</tr>
+</table>
+<table width="100%" height="50px;"><tr><td>
+<a href="#" class="atrp">&laquo;上一步</a></td>
+<td align="right">
+<a href="#" class="atrp">下一步&raquo;</a>
+<a href="#" class="atrp">确定完成测试&raquo;</a></td></tr></table>
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<caption>
+<h2>ATRP水平级别测试：您的测试结果</h2>
+<p>恭喜！您的评测结果已经计算出来了。现在，可以根据提示，进一步使用ATRP提供的功能...</p>
+</caption>
+<tr>
+  <td>本次测试评级为：</td>
+  </tr>
+<tr>
+    <td>
+      <span style="display:block; margin:0 20px 0 0; color:#D90005; line-height: 1em; font-size:56px; font-family: Verdana; font-weight: bold; float:left;">3.9</span>
+      <ul>
+        <li>训练经历得分<span class="radrank">3.1</span></li>
+        <li>基础技术得分<span class="radrank">2.9</span></li>
+        <li>实战表现得分<span class="radrank">1.8</span></li>
+      </ul>
+    </td>
+    </tr>
+<tr>
+  <td>
+  接下来，您还可以：
+  <ul class="atrp">
+    <li><a href="#" target="_blank">看看哪些水平和我相当的朋友们&raquo;</a></li>
+    <li><a href="#" target="_blank">哪些人水平比我高&raquo;</a></li>
+  </ul></td>
+  </tr>
+</table>
+
+</form>
+<div class="f_status s_clear">
+<a href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP">TOP</a>
+</div>
+
+</div>
+</td>
+<td class="transborder" width="8">&nbsp;</td>
+</tr>
+</tbody>
+<tr>
+<td class="transborder" width="8">&nbsp;</td>
+<td class="transborder">&nbsp;</td>
+<td class="transborder" width="8">&nbsp;</td>
+</tr>
+</table>
+</div>
+
+<div id="footer" class="s_clear">
+<p id="footlink">作乐 - <a href="mailto:dohappy@21cn.com">联系我们</a> - <a  href="http://www.miibeian.gov.cn" target="_blank">ICP-06018480</a></p>
+<p id="sysinfo">Powered by <a  href="http://u.discuz.net" target="_blank">UCenter Home</a> <span title="20080806">1.5RC1</span>
+&copy; 2001-2008 <a  href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a>
+</p>
+</div>
+</div>
+</body>
+</html>

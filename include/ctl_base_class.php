@@ -10,6 +10,20 @@ class ctl_base extends template {
 	function init(){
 
 	}
+
+	function checkLogin($ifRedirect=true){
+		$account=getAccount();		
+		if(!$account){
+			if(!$ifRedirect) {
+				return false;
+			}
+			else {
+				header("Location: ?app=iq");
+				exit;
+			}
+		}
+		return $account;
+	}
 	function set($k,$v){
 		$this->assign($k,$v);
 	}

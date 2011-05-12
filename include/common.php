@@ -20,6 +20,10 @@ importlib("dbhelper_class");
 importlib("ppt_class");
 importlib("ctl_base_class");
 
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+header("Cache-Control: no-cache, must-revalidate");
+header("Pramga: no-cache");
 header('Content-Type: text/html; charset=utf-8');//.DEFAULT_CHARTSET);
 
 $account=false;
@@ -49,6 +53,17 @@ function getAccount(){
 	global $account;
 	return is_array($account)?$account:false;
 }
+
+function readqtype(){
+	$qtype=rq("qtype",0);
+	if($qtype!=0) {
+		ssetcookie("daren_qtype",$qtype);
+		return $qtype;
+	}
+	$qtype=intval("0".sreadcookie("daren_qtype",$qtype));
+	return $qtype;
+}
+
 function LetGo(){
 	global $account,$defapp,$accounts;
 	if(!$defapp)$defapp="home";
@@ -62,11 +77,8 @@ function LetGo(){
 	$cont->assign("app",$app);
 	$cont->assign("act",$act);
 	$cont->assign("op",$op);
-
-	//$cont->assign('uid', $uid);
-	//$cont->assign('username',$username);
-	//$cont->assign('nickname',$nickname);
-	//$cont->assign("accounts",$accounts);
+	
+	$cont->set('qtype',readqtype());
 
 	$cont->set("lfrom",$lfrom);
 	$cont->assign("account",$account);
