@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Q微博管理中心</title>
+<style type="text/css">
+body{margin:0;padding:0; overflow:hidden;}
+ul,ol,li{margin:0;padding:0;}
+.header{height:66px;background:url(/style/images/admin/logo.gif) 20px 12px no-repeat;position:relative;}
+.header h1{position:absolute;font-size:1px;left:-9999px;}
+.header div{position:absolute;bottom:5px;right:20px;font-size:12px;color:#3A3A3A;}
+.header div span{margin-left:10px;color:#3A8DC9;}
+.header div span a:link,.header div span a:visited{color:#3A8DC9; text-decoration:none;}
+.header div span a:hover,.header div span a:active{color:#3A8DC9; text-decoration:underline;}
+.header_bottom{height:7px; background:url(/style/images/admin/header_bottom.gif) repeat-x;font-size:1px;}
+.main{border-bottom:1px solid #D8E2E9;}
+.mainA{width:162px;float:left; background:#CDE1EC;}
+.mainA ul{margin:36px 0 0;}
+.mainA li{height:36px;line-height:36px;font-size:14px;font-weight:bold;}
+.mainA li.current{background-color:#fff;}
+.mainA li a:link,.mainA li a:visited{color:#3A8DC9;text-decoration:none;text-indent:45px;display:block;background:url(/style/images/admin/icon1.gif) 27px -22px no-repeat;width:100%;}
+.mainA li.current a{background-position:27px 13px;}
+.mainA li a:hover{background-color:#B4D5E7;}
+.mainA li.current a:hover{background-color:#fff;}
+.mainB{float:left;overflow:hidden;}
+.footer{height:56px;clear:both;border-top:1px solid #ECF1F4; text-align:center; line-height:56px;font-size:12px;color:#999;font-family:Arial;}
+</style>
+</head>
+<body scroll="no">
+<div class="header"><h1>Q微博管理中心</h1><div>欢迎你，潘多拉！<span><a href="menu/menuE1.php" target="win" id="changepassword">修改密码</a> | <a href="#">退出</a></span> </div></div>
+<div class="header_bottom"></div>
+<div class="main">
+<div class="mainA">
+<ul>
+<li class="current"><a href="menu/menuA1.php" target="win">推荐类管理</a></li>
+<li><a href="menu/menuB1.php" target="win">显示设置</a></li>
+<li><a href="menu/menuC1.php" target="win">屏蔽设置</a></li>
+<!--<li><a href="menu/menuD1.php" target="win">用户认证</a></li>-->
+<li><a href="menu/menuE1.php" target="win">系统帐号设置</a></li>
+</ul>
+</div>
+<div class="mainB"><iframe width="100%" height="100%" frameborder="0" src="menu/menuA1.php" id="win" name="win"></iframe></div>
+</div>
+<div class="footer">Copyright &copy; 1998-2010 Tencent. All Rights Reserved.</div>
+<script type="text/javascript" src="/js/third-party/jquery/jquery-1.4.4.min.js"></script>
+<script type="text/javascript">
+function init()
+{	
+var D=document.documentElement||document.body;
+var Ds={w:D.clientWidth,h:D.clientHeight};
+var h=Ds.h-131;var w=Ds.w-162;
+$(".main").height(h);
+$(".mainA").height(h);
+$(".mainB").height(h).width(w).find("iframe").width(w);
+}
+
+$(function(){
+	init();
+	$(window).resize(function(){
+	  init();
+	});
+	$(".mainA").find("li").find("a").click(function(){
+	$(this).parent().parent().find("li").removeClass("current");
+	$(this).parent().addClass("current");
+	})
+	$("#changepassword").click(function(){
+	$(".mainA").find("li").removeClass("current");
+	$(".mainA").find("a[href='menu/menuD1.php']").parent().addClass("current");
+	});
+});
+</script>
+</body>
+</html>

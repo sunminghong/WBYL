@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安装协议-安装向导</title>
+<link rel="stylesheet" type="text/css" href="css/install.css" />
+<script type="text/javascript" src="js/install.js"></script>
+<script type="text/javascript">
+window.onload=function(){
+var btn1=document.getElementById("agreeBtn");
+var btn1_label=document.getElementById("agreeBtnLabel");
+var btn2=document.getElementById("installBtn");
+isCheck(btn1);
+function isCheck(o)
+{if (o.checked==true)
+	{btn2.removeAttribute("disabled");}
+ else
+ 	{btn2.disabled="false";}
+}
+btn1.onclick=btn1_label.onclick=function()
+{if(this.id=="agreeBtnLabel")
+	{btn1.checked=!btn1.checked;}
+isCheck(btn1);
+}
+btn2.onclick=function(){
+cookie.set("step1",true);
+window.location.href="step1.php";
+}
+}
+</script>
+</head>
+<body>
+<div class="wrapper header"><h1>iWeibo管理中心</h1><span><a href="http://open.t.qq.com" target="_blank">腾讯微博开放平台</a> | <a href="http://open.t.qq.com/resource.php?i=2,0" target="_blank">帮助</a></span></div>
+<div class="wrapper main">
+<div class="mainA"></div>
+<div class="mainB">
+<iframe width="98%" height="500" frameborder="0" src="install.agreement.html" style="margin:20px 10px;" scroll="no"></iframe>
+</div>
+<div class="mainC"></div>
+</div>
+<p>
+<input type="checkbox"  id="agreeBtn"/><label  style="_ vertical-align:bottom;" id="agreeBtnLabel">我已阅读并接受以上协议</label>
+<br /><br />
+<input type="button" value="开始安装" disabled="disabled" class="button" id="installBtn"/>
+</p>
+<div class="wrapper footer">Copyright &copy; 1998-2011 Tencent. All Rights Reserved.</div>
+</body>
+</html>

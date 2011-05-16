@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安装完成-安装向导</title>
+<link rel="stylesheet" type="text/css" href="css/install.css" />
+<script type="text/javascript" src="js/install.js"></script>
+</head>
+<body>
+<div class="wrapper header"><h1>iWeibo管理中心</h1><span><a href="http://open.t.qq.com"  target="_blank">腾讯微博开放平台</a> | <a href="http://open.t.qq.com/resource.php?i=2,0" target="_blank">帮助</a></span></div>
+<div class="wrapper main">
+<div class="mainA"></div>
+<div class="mainB">
+<div class="step">
+<img src="../style/images/admin/0.gif" class="step4"/>
+</div>
+<!--安装成功-->
+<div class="complete" id="success">
+<div class="completeword"><img src="../style/images/admin/0.gif" class="ok"/>iWeibo安装成功，请执行以下后续操作。</div>
+<ul>
+<li><input type="checkbox" id="removeInstallA" checked/> <label>删除安装目录“<big title="删除此目录可防止别人重新安装您的iWeibo！">../install/</big>”。</label></li>
+</ul>
+<cite>点击以下按钮将会执行以上选中的操作并跳转链接。</cite>
+<div class="links"><a href="../admin/login.php" onclick="return gotoUrl(this);">进入管理中心</a> <a href="../index.php" onclick="return gotoUrl(this);">查看微博</a></div>
+</div>
+<!--安装失败-->
+<div class="complete" id="fail">
+<div class="completeword"><img src="../style/images/admin/0.gif" class="alert"/>您可能由于以下原因，导致iWeibo安装失败。</div>
+<ul>
+<li><span>错误原因：</span>系统配置写入失败</li>
+<li><span>错误原因：</span>数据库连接失败。</li>
+<li><span>错误原因：</span>安装日志写入失败。</li>
+<li><span>错误原因：</span>“../install/iWeibo.sql”不存在。</li>
+<li><span>错误原因：</span>存在同名数据库，创建数据库失败。<br/><br/><span>您可以选择以下方法继续操作：</span><br/><span style="font-size:12px;">1、手动备份已存在的数据库，删除后再重新安装<br/>2、修改系统配置，填写其它数据库名继续安装。</span><br/></li>
+<li><span>错误原因：</span>您提供的数据库用户名权限不足。</li>
+<li><span>错误原因：</span>您指定的数据库不存在。</li>
+</ul>
+<cite>您也可以通过查看安装日志文件“<a href="javascript:void(0);" onclick="showLog();">../install/install.txt</a>”查看错误原因。</cite>
+<div class="links"><a href="step3.html">修改系统配置</a> <a href="step0.html">重新安装</a></div>
+</div>
+<!--拒绝安装-->
+<div class="complete" id="refuse">
+<div class="completeword"><img src="../style/images/admin/0.gif" class="alert"/>您已经安装过iWeibo，如要重新安装，请执行以下操作。</div>
+<ul>
+<li>1. 手动删除文件“../config/user_config.php”。</li>
+<li>2. 清理网站缓存,点击下面的“重新安装”按钮。</li>
+</ul>
+<cite></cite>
+<div class="links"><!-- <a href="/">取消安装</a> --> <a href="./">重新安装</a></div>
+</div>
+<!---->
+</div>
+<div class="mainC"></div>
+</div>
+<div class="wrapper footer">Copyright &copy; 1998-2011 Tencent. All Rights Reserved.</div>
+<div class="modulebg" id="modulebg"><iframe frameborder="0" src="" style="width:100%;height:100%;filter:alpha(opacity=0);opacity:0;"></iframe></div>
+<div class="cwindow" id="cwindow"><div class="cwindow_inner"><h2 class="cwindowA"><strong>安装日志</strong><span title="关闭" class="closeBtn" onclick="hideLog()"></span></h2><div class="cwindowB" style="height: 320px; "><iframe src="" frameborder="0" width="100%" height="100%"></iframe></div></div></div>
+<script type="text/javascript">
+window.onload=function()
+{	var action="fail";
+	var o1=document.getElementById("success");
+	var o2=document.getElementById("fail");
+	var o3=document.getElementById("refuse");
+	var s=location.search;
+	if (s.length>0)
+	{
+		var paras=s.match(/action=(\w+)?[&]{0,1}/);
+		if (paras!=null&&paras[1])
+		{action=paras[1];}
+	}
+	if (action=="success")
+	{o1.style.display="block";}
+	else if(action=="fail")
+	{
+		var ret=s.match(/ret=(\d+)/);
+		if (ret!=null&&ret[1])
+		{var r=parseInt(ret[1],10);
+		var lis=o2.getElementsByTagName("li")
+		 for (var i=0;i<lis.length;i++)
+		 {lis[i].style.display="none";}
+		 if(r>=0)
+		 {
+		  if(o2.getElementsByTagName("li")[r])
+		 	 o2.getElementsByTagName("li")[r].style.display="block";
+		 }
+		 o2.style.display="block";
+		}
+	showLog();	
+	}
+	else if(action=="refuse")
+	{o3.style.display="block";}
+}
+
+function showLog()
+{var mb=document.getElementById("modulebg");
+ //mb.style.height=document.documentElement.clientHeight;
+ mb.style.display="block";
+ document.getElementById("cwindow").style.display="block";
+ var url="install.txt?t="+new Date().getTime();
+ document.getElementById("cwindow").getElementsByTagName("iframe")[0].src=url;
+}
+function hideLog()
+{document.getElementById("modulebg").style.display="none";
+ document.getElementById("cwindow").style.display="none";
+}
+
+function gotoUrl(o)
+{
+var a1=0;
+var o1=document.getElementById("removeInstallA");
+a1=(o1.checked?1:0);
+window.location.href="install.saveSiteInfo.php?action=removeInstallInfo&a="+a1+"&url="+encodeURI(o.href);
+return false;
+}
+</script>
+</body>
+</html>

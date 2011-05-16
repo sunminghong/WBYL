@@ -236,7 +236,7 @@ class iq extends ctl_base
 			echo "0";exit;
 		}
 
-		echo $msg."&retuid=".$account['uid']."&retapp=" . type; exit;
+		//echo $msg."&retuid=".$account['uid']."&retapp=" . type; exit;
 		
 		importlib("zhengshu");
 		$fun='get'.$type;

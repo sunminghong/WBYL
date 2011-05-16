@@ -15,17 +15,25 @@
 <script type="text/javascript" src="{$templatepath}/daren_images/daren.js?v=1.0"></script>
 <style>
 
+#test_main td {
+	padding: 2px 10px 2px 10px;
+}
 .answer-box {
-font-family: arial;
+	font-family: arial;
+	width: 212px;
+	height: 83px;
+	padding: 20px;
+	padding-right: 30px;
+	font-size: 16px;text-align: center;
+background: url('{$templatepath}/daren_images/answer-box.png');
+
+}
+.answer-box-green {font-family: arial;
 width: 212px;
 height: 83px;
 padding: 20px;
 padding-right: 30px;
-font-size: 16px;
-background: url('{$templatepath}/daren_images/answer-box.png');
-text-align: center;
-}
-.answer-box-green {
+font-size: 16px;text-align: center;
 	background: url('{$templatepath}/daren_images/answer-box-correct.png');
 }
 .answer-box-red {
@@ -93,27 +101,36 @@ cursor: pointer;
 				</table>
 
 <!--{elseif $op == 'ican'}-->
-<div id="face2"></div><div id="div_score">000</div>
+
 <table cellspacing="0" cellpadding="0" class="formtable" id="test_tr2">
-<caption id="test_cap"></caption>
-<tr><td style="height:300px;" valign="top" style="postion:relative; "><div id="test_main">
+<tr>
+<td style="height:300px;" valign="top" style="postion:relative; "><div id="test_main">
 		<table style="margin: 0 auto;height:200px;">
+		<caption id="test_cap" style="text-align:left;font-size: 24px;color: #0071BC;font-family:'微软雅黑','黑体';padding-right:30px;"><span class="testlist">1/15</span>　下列不属于中国五大河的是下列不属于中国五大河的是下列不属于中国五大河的是：</caption>
 								<tbody><tr>
-									<td style="padding: 2px 10px 2px 10px;"><div id="answer1" class="clickable answer-box" style="opacity: 1; ">three, 3</div></td>
-									<td style="padding: 2px 10px 2px 10px;"><div id="answer2" class="answer-box clickable" style="opacity: 1; " correct="true">I, me</div></td>
+									<td><div id="answer1" class="clickable answer-box" style="opacity: 1; ">A. 珠模压棋塔顶地苛大法师夺江</div></td>
+									<td><div id="answer2" class="answer-box clickable" style="opacity: 1; " correct="true">B. 人民共和国大在在在在在在在</div></td>
 								</tr>
 								<tr>
-									<td style="padding: 2px 10px 2px 10px;"><div id="answer3" class="answer-box clickable" style="opacity: 1; ">extremely, extraordinary, very</div></td>
-									<td style="padding: 2px 10px 2px 10px;"><div id="answer4" class="answer-box clickable" style="opacity: 1; ">how about</div></td>
+									<td><div id="answer3" class="answer-box clickable" style="opacity: 1; ">C. 珠江中华人民共和国大在在在在在在在</div></td>
+									<td><div id="answer4" class="answer-box clickable" style="opacity: 1; ">D. 珠江中华顶替枯在在在在</div></td>
 								</tr>
 								<tr>
-									<td style="padding: 2px 10px 2px 10px;"><div id="none-button" class="clickable answer-box" style="opacity: 1; ">None of these</div></td>
-									<td style="padding: 2px 10px 2px 10px;"><div class="clickable dont-know-button" style="text-align: center; border-top-color: rgb(194, 194, 194); border-right-color: rgb(194, 194, 194); border-bottom-color: rgb(194, 194, 194); border-left-color: rgb(194, 194, 194); color: rgb(194, 194, 194); "><img id="dont-know-choose-img" src="http://static.lingt.com/img/dont-know-button.png" style=""></div></td>
+									<td><div id="answer5" class="clickable answer-box" style="opacity: 1; ">E. 珠奇才顶替苛栽植模压 </div></td>
+									<td><div class="clickable dont-know-button" style="text-align: center; border-top-color: rgb(194, 194, 194); border-right-color: rgb(194, 194, 194); border-bottom-color: rgb(194, 194, 194); border-left-color: rgb(194, 194, 194); color: rgb(194, 194, 194); "><img id="dont-know-choose-img" src="http://static.lingt.com/img/dont-know-button.png" style=""></div></td>
 								</tr>
 							</tbody></table>
 
 
-</div><div id="div__clock" style="postion:absolute; right:30px;bottom:40px; width:160px;height:160px;"></div></td></tr>
+</div></td>
+<td style="width:160px;text-align:center;" valign="middle">
+<!--<div id="face2"></div>-->
+<div id="div_score" style="font-size:24px;margin:30px 2px;">总分：999</div>
+<div id="div_score" style="font-size:24px;margin:30px 2px;">总用时：12:01</div>
+<div>本题倒计时：</div>
+<div id="div__clock" style="background:url({$templatepath}/daren_images/clock_block.png?t=33ddd)  0 0 no-repeat; width:141px;height:141px;margin:5px"></div>
+</td>
+</tr>
 </table>
 
 <!--{/if}-->

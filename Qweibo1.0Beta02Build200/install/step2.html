@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>站点信息-安装向导</title>
+<link rel="stylesheet" type="text/css" href="css/install.css" />
+<script type="text/javascript" src="js/install.js"></script>
+</head>
+<body>
+<div class="wrapper header"><h1>iWeibo管理中心</h1><span><a href="http://open.t.qq.com" target="_blank">腾讯微博开放平台</a> | <a href="http://open.t.qq.com/resource.php?i=2,0" target="_blank">帮助</a></span></div>
+<div class="wrapper main">
+<div class="mainA"></div>
+<div class="mainB">
+<div class="step">
+<img src="../style/images/admin/0.gif" class="step2"/>
+</div>
+<h2 class="step2_title step2_title_1">网站信息</h2>
+<form id="form1" name="form1" class="form" method="post" action="install.saveSiteInfo.php?step=1">
+<ul>
+<li>
+<strong><b>*</b> 网站名称：</strong><input class="txt" type="text" name="site_name" value=""/>
+<cite></cite>
+</li>
+<li>
+<strong><b>*</b> 网站介绍：</strong><textarea class="txtarea " name="site_description" rows="8"></textarea><br /><strong></strong><cite></cite>
+</li>
+<li>
+<strong><b>*</b> APP KEY：</strong><input name="app_key" type="text" class="txt"/><a href="http://open.t.qq.com" target="_blank" id="checkApps">还没有申请？点击申请你的APPKEY</a>
+<br /><strong></strong><cite>请输入在腾讯微博开放平台申请的APPKEY，它将作为您网站的唯一标识，请保证正确。</cite>
+</li>
+<li>
+<strong><b>*</b> APP SECRET：</strong><input name="app_secret" type="text" class="txt"/>
+<br /><strong></strong><cite>请输入您的APP SECRET通讯密匙，它将作为网站与iWeibo服务的通讯凭证。</cite>
+</li>
+</ul>
+
+<div class="stepnav">
+<input type="button" name="prestep" value="上一页" class="button" onclick="window.location.href='step1.php';"/>
+<input type="submit" name="nextstep" value="下一步"  class="button" disabled="disabled"/>
+</div>
+</form>
+</div>
+<div class="mainC"></div>
+</div>
+<div class="wrapper footer">Copyright &copy; 1998-2011 Tencent. All Rights Reserved.</div>
+<script type="text/javascript">
+function showE(o,s)
+{var oc=o.parentNode.getElementsByTagName("cite")[0];
+	if (/<r>.*?<\/r>/gi.test(s))
+	{oc.innerHTML="<img src=\"/style/images/admin/0.gif\" class=\"no\"/> <font color=\"red\">"+s+"</font>";}
+	else
+	{oc.innerHTML=s;}
+}
+window.onload=function()
+{
+  var f=document.getElementById("form1");
+  var fs={"site_name":["网站名称",""],"site_description":["网站介绍",""],"app_key":["APP KEY",""],"app_secret":["APP SECRET",""]};
+  f["nextstep"].onclick=function()
+  {
+  cookie.set("step3",true);
+  cookie.set("site_name",f["site_name"].value);
+  cookie.set("site_description",f["site_description"].value);
+  cookie.set("app_key",f["app_key"].value);
+  cookie.set("app_secret",f["app_secret"].value);
+  window.location.href='step3.html';
+  }
+  
+  function checkNull()
+  {var result=true;
+	  for (var e in fs)
+	  {if(f[e].value==fs[e][1])
+	   {result=result&&false;}
+	   else
+	   {result=result&&true;}
+	  } 
+   if (arguments.length>0)
+   {var o=arguments[0];
+   if (f[o.name].value==fs[o.name][1])
+   	  {showE(o,"<r>请输入"+fs[o.name][0]+"</r>");}
+   else
+   	  {showE(o,fs[o.name][1]);
+   	   if (o.name=="app_key"||o.name=="app_secret")
+	    	{checkApp(o)?showE(o,""):showE(o,"<r>"+fs[o.name][0]+"不合法！</r>");}
+   	  }
+   }
+	  if (result&&checkApp(f["app_key"])&&checkApp(f["app_secret"]))
+	  {f["nextstep"].removeAttribute("disabled");
+	  }
+	  else{f["nextstep"].disabled="disabled";}
+  }
+  function checkApp(o)
+  {
+  	if (o.name=="app_key"||o.name=="app_secret")
+  	{
+  	 if(/^[0-9a-z]{32}$/.test(o.value))
+  		{return true;}
+  	 else
+  	 	{return false;}
+  	}
+  	else
+  	{return false;}
+  }
+  
+  for (var e in fs)
+  {f[e].onblur=function()
+   {checkNull(this);}
+   f[e].value=(cookie.get(e)==null?"":cookie.get(e));
+  }
+  f["app_secret"].onkeyup=f["app_secret"].onkeydown=f["app_secret"].onmousedown=f["app_secret"].onpaste=f["app_secret"].onchange=function()
+  {
+  	if(/^[0-9a-z]{32}$/.test(this.value))
+  	{checkNull(this);}
+  }
+  checkNull();
+}
+</script>
+</body>
+</html>

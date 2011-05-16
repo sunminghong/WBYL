@@ -1,0 +1,44 @@
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,textarea,p,blockquote,th,td,img {margin:0;padding:0;border:0;}
+*,input{margin:0;padding:0}
+ul,ol{display:block;list-style-type:none;}
+body {height:100%;font:12px/1.75 Tahoma,Arial;color:#333;background:#76b6da;}
+table {border-collapse:collapse;border-spacing:0;}
+a {color:#2b4a78;text-decoration:none;}
+.bold{font-weight:bold;}
+.block{display:block;}
+.cutoverflow{overflow:hidden;}
+.notvisible{visibility:hidden;}
+.hide{display:none;}
+.gray{color:#999;}
+.deepgray{color:#dedede;}
+.warm{color:#F47700;}
+.warningmessage{color:purple;}
+.errormessage{color:red;}
+.infomessage{color:#999;}
+.successmessage{color:green;}
+.inkblue{color:#2d6a97;}
+.utopleft{float:left;line-height:100%;}
+.toright{float:right;}
+.usebtns{background:url("../images/btns.gif")}
+.clearall{clear:both;}
+.clearleft{clear:left;}
+.clearright{clear:right;}
+.smallfont{font-size:12px;}
+.mediumfont{font-size:14px;}
+.bigfont{font-size:16px;}
+.largefont{font-size:20px;}
+.red{color:red;}
+.fs14{font-size:14px;}
+.lh14{line-height:14px;}
+.fs12{font-size:12px;}
+.lh12{line-height:12px;}
+.lh12{line-height:18px;}
+.lh42{line-height:42px;}
+.h18{height:18px;}
+.top4{margin-top:4px;}
+.top10{margin-top:10px;}
+.left12{margin-left:12px;}
+.right12{margin-right:12px;}
+.tocenter{margin:0 auto;}
+.breakword{word-wrap:break-word;}
+.breakall{word-break:break-all;}

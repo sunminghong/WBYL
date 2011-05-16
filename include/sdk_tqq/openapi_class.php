@@ -141,7 +141,18 @@ class openapi extends openapiAbstract{
 			$p['p'] = array($mime,'tmp.'.$ext,file_get_contents($pic_path));
 		}	
 		
-		return $this->getClient()->postOne($p);
+		$rel=$this->getClient()->postOne($p);
+
+		$wbid=$rel['data'];
+		$wbid=$wbid['id'];
+
+		$p=array('id'=>$wbid);
+		$wb=$this->getClient()->getOne($p);
+
+		$pic=$wb['data']['image'][0];
+		$rel=array('id'=>$wbid,'thumbnail_pic'=>$pic."/160",'bmiddle_pic'=>$pic."/460",'original_pic'=>$pic."/2000");
+		//print_r($rel);
+		return $rel;
 	}
 
 	public function del( $sid ){

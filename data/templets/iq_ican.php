@@ -4,7 +4,7 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>看看你有多聪明！ -  微博IQ测试 </title>
 	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/iq_images/iq.css" />
-<!--	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> -->
+	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> 
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
@@ -22,7 +22,12 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 <? } ?>
 </head>
 <body>
-
+<div id="topbg">
+	<div id="topmenu">
+    	<span class="toplink">您还可以玩：<a href="http://ciniao.me/wbapp/?a=xm&from=sina" target="_blank">羡慕嫉妒恨</a></span>
+    	
+    </div>
+</div>
 	<div class="mainFrame">
 		
 		<div class="ui-widget">

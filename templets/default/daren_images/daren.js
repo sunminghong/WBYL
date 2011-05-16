@@ -127,7 +127,7 @@ if(tSecs2>=0) {
 	}
 	iclock++;
 }else {
-	iclock=0;$("#face2").html(0);
+	iclock=1;$("#face2").html(0);
 }
 timerID = setTimeout("showtime()",1000);
 timerRunning = true;
@@ -167,7 +167,7 @@ function addScore(lastScore,score) {
 	width:'toggle'
   }, 400, function() {
 		ooo.remove();
-		$("#div_score").html(score);
+		$("#div_score").html('得分：'+score);
 		
   });
 
@@ -176,17 +176,16 @@ function addScore(lastScore,score) {
 
 
 function drawClock(num) {
-	if(num>6) return;
+	if(num>7) {return;	}
 
-	var dclock=$('#clock_div_abc');
+	var dclock=$('#div__clock');
 
 	var lef=(num-1) * -141;
 
-	if(dclock.length==0) {
-		$("#div__clock").append('<div id="clock_div_abc" style="background:url('+urlbase+'templets/default/daren_images/clock_block.png)  '
-		+lef+'px 0; width:141px;height:141px;margin:2px;"></div>');
-		return ;
-		//dclock=$('#clock_div_abc');
+	if(dclock.length==0) {return;
+		//$("#div__clock").append('<div id="clock_div_abc" style="background:url('+urlbase+'templets/default/daren_images/clock_block.png?t=33d)  '
+		//+lef+'px 0; width:141px;height:141px;margin:2px;"></div>');
+		return ;		
 	}
 
 	dclock.css({"background-position":lef+"px 0"});	
@@ -203,6 +202,13 @@ $(document).ready(function(){
 	poff=$("#div_score").offset();
 	divScoreLeft=poff.left;
 	divScoreTop=poff.top;
+	
+	$("#test_main td").hover(function(){
+		$(this).removeClass("answer-box").addClass("answer-box-green");
+	},function(){
+		$(this).addClass("answer-box").removeClass("answer-box-green");
+	});
+
 	//init();
 
 });

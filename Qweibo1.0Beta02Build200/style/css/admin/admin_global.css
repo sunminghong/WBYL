@@ -1,0 +1,185 @@
+/******************************************************************************
+ * Author: fucaixie
+ * Last modified: 2010-12-20 13:16
+ * Filename: admin_global.css
+ * Description: 后台管理样式
+******************************************************************************/
+body{margin:0;padding:0;font-size:12px;overflow-x:hidden;}
+
+ul,ol,li{margin:0;padding:0;}
+.header{height:66px;background:url(../../images/admin/logo.gif) 20px 12px no-repeat;position:relative;}
+.header h1{position:absolute;font-size:1px;left:-9999px;}
+.header div{position:absolute;bottom:5px;right:20px;font-size:12px;color:#3A3A3A;}
+.header div span{margin-left:10px;color:#3A8DC9;}
+.header div span a:link,.header div span a:visited{color:#3A8DC9; text-decoration:none;}
+.header div span a:hover,.header div span a:active{color:#3A8DC9; text-decoration:underline;}
+.header_bottom{height:7px; background:url(../../images/admin/header_bottom.gif) repeat-x;font-size:1px;}
+.main{min-height:300px;}
+.mainA{width:200px;float:left; background:#CDE1EC;}
+.mainA ul{margin:36px 0 0;}
+.mainA li{height:36px;line-height:36px;font-size:14px;font-weight:bold;}
+.mainA li.current{background-color:#fff;}
+.mainA li a:link,.mainA li a:visited{color:#3A8DC9;text-decoration:none;text-indent:45px;display:block;background:url(../../images/admin/icon1.gif) 27px -22px no-repeat;width:100%;}
+.mainA li.current a{background-position:27px 13px;}
+.mainA li a:hover{background-color:#B4D5E7;}
+.mainA li.current a:hover{background-color:#fff;}
+.mainB{}
+.footer{
+	height:56px;
+	clear:both;
+	border-top:1px solid #ECF1F4;
+	text-align:center; line-height:56px;font-size:12px;color:#999;font-family:Arial;
+	width:100%;
+	bottom:0;
+}
+
+input[type="text"],input[type="password"],textarea,select{outline:none;}
+input,select,label{vertical-align:middle;}
+textarea{vertical-align:bottom;overflow:auto;}
+ul,li{list-style:none;}
+a:link,a:visited{color:#3A8DC9;text-decoration:none;}
+a:hover,a:active{color:#3A8DC9;text-decoration:underline;}
+.menu{
+	margin:10px 0;height:20px;line-height:20px;color:#BDC5CB;text-indent:22px;border-bottom:1px solid #E0E6EA;
+}
+.fl{
+	float:left;
+}
+.menu a,.menu span{margin:0 10px;}
+.menu span{color:#333;border-bottom:2px solid #095C98;padding:0 0 3px;}
+.sline{width:98%;margin:0 1%;height:1px;font-size:0;background:-webkit-gradient(linear, left top, right top, from(#ffffff), to(#E0E6EA),color-stop(0.1,#E0E6EA),color-stop(.9,#E0E6EA),color-stop(0.999,#ffffff));background:-moz-linear-gradient(0% 0% 0deg, #FFFFFF,#FFFFFF, #E0E6EA 10%,#E0E6EA 90%,#FFFFFF 100%);* width:97.9%;border-bottom:1px solid #E0E6EA\9;}
+.table_header{width:96%;margin:10px 2%;display:inline-block;* display:inline;zoom:1;}
+.table_header strong{float:left;font-size:14px;}
+.table_header span{float:right;}
+.table_header cite{font-style:normal;font-size:12px;color:#999;margin:-1px 0 0 60px;line-height:12px;display:block;padding:4px 0;}
+.tableA{border:1px solid #B8BFC4;margin:0 auto 15px;}
+.tableA th{
+	height:24px;background:#EAF1F5;font-weight:normal;font-size:14px;
+	text-align:left;
+	padding:0 4px;
+}
+.tableA td{
+	font-size:12px;
+	line-height:24px;
+	padding:0 4px;
+}
+.tableA tr{ background:#F7FCFD;line-height:26px;}
+.tableA tr:nth-child(2n) {background:#fff;}
+.buttonA{width:69px;height:22px;color:#64707D;background:url(../../images/admin/buttonA.gif) 0 0 no-repeat;border:0;cursor:pointer;}
+.button{width:101px;height:31px;background:url(../../images/admin/icon.png) 0 -24px no-repeat;border:0;cursor:pointer;color:#6f7985;text-shadow:0 0 1px #fff; white-space:16px;font-size:14px;font-family:微软雅黑;font-weight:bold;}
+.button:hover{background-position:0 -55px;}
+.button:active{background-position:0 -86px;}
+.txt{border:1px solid #B8BFC4;margin-right:15px;}
+.searchform{margin:0 32px;}
+/*升级提示的样式**/
+.updateVersion{width: 180px; height: 76px; background: url("../../images/admin/update.gif") no-repeat;margin:30px auto 0;text-align:left;color:#C8E1F4;}
+.updateVersion h2{font-size:14px;color:#fff;margin:4px 0 0 45px;padding:0;height:28px;line-height:28px;display:inline-block;}
+.updateVersion p{font-size:12px;margin:0 0 4px 45px;padding:0;height:18px;line-height:18px;}
+.updateVersion div{margin-left:12px;}
+.updateVersion a:link,.updateVersion a:visited{color:#C8E1F4;}
+.updateVersion a:hover,.updateVersion a:active{color:#fff;text-decoration:underline;}
+.updateVersion input,.updateVersion label,.updateVersion a{vertical-align:middle;}
+
+/*分页的样式**/
+.pageinfo{clear:both; text-align:center;font-size:12px;color:#3A8DC9;width:96%;margin:10px 2%;}
+.pageinfo strong{color:#333;margin:0 5px;}
+.pageinfo a:link,.pageinfo a:visited{color:#7897B6; text-decoration:none;margin:0 5px;}
+.pageinfo a.pageN,.pageinfo a.pageP{width:55px;height:19px; background:url(../../images/admin/icon.png) -203px -61px no-repeat;display:inline-block; line-height:19px;}
+.pageinfo a.pageN:hover,.pageinfo a.pageP:hover{background-position:-259px -61px;}
+.pageinfo a.pageN[disabled],.pageinfo a.pageN[disabled]:hover,
+.pageinfo a.pageP[disabled],.pageinfo a.pageP[disabled]:hover
+{background-position:-259px -81px;color:#CACACA;cursor:default;}
+
+/*弹出窗样式**/
+.modulebg{background:#000;filter:alpha(opacity=50);opacity:0.5;position:fixed;_ position:absolute;top:0;left:0;width:100%;height:100%;z-index:998;_top:expression(documentElement.scrollTop);width:100%;height:100%;}
+.cwindow{background:rgba(255,255,255,.5);background:url(../../images/admin/winbg.png)\9;position:fixed;_ position:absolute;z-index:999;width:auto;}
+.cwindow_inner{margin:4px;background:#fff;border:1px solid #999;min-width:220px;min-height:120px;}
+.cwindowA{height:30px;line-height:30px;background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#D2D9E2));background: -moz-linear-gradient(top,#fff,#D2D9E2);font-size:14px;color:#333;margin:0;padding:0;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#D2D9E2');}
+.cwindowA strong{float:left;margin-left:8px;}
+.cwindowA span{float:right;width:12px;height:12px;display:block;background:url(../../images/admin/close.gif) no-repeat;margin:9px 10px 0 0;font-size:1px;cursor:pointer;}
+.cwindowA strong,.cwindowA span{*display:inline;zoom:1;}
+.cwindowB{clear:both;}
+.cwindowB ul{text-align:left;margin:20px 0 0 20px;padding:0;list-style:none;color:#333;font-size:14px;}
+.cwindowB ul li{margin:10px 0 0;padding:0;}
+.cwindowB ul li input{vertical-align:middle;}
+.cwindowB ul li input.button{padding:5px 20px;}
+.cwindowB ul li label{font-size:12px;vertical-align:middle;}
+.cwindowB input[type="text"],
+.cwindowB input[type="password"]{outline:none;}
+.cwindowB .inputTxt{width:180px;}
+.form{list-style:none;}
+.form strong{white-space:pre;font-weight:normal;color:#333;display:inline-block;*display:inline;zoom:1;width:100px;text-align:right;}
+.form cite{font-style:normal;font-size:12px;color:#999;}
+
+.pform{margin:0 0 0 32px;}
+.pform ul,.pform ol,.pform li{margin:0;padding:0;}
+.pform li strong{vertical-align:middle;display:inline-block;*display:inline;zoom:1;width:100px;text-align:right;}
+.pform li cite{font-style:normal;font-size:12px;color:#999;display:inline-block;*display:inline;zoom:1;margin-top:8px;}
+.pform li{margin-bottom:15px;}
+.pform p.t strong{margin-right:20px;}
+.imgarea{
+	display:inline-block;
+	vertical-align:top;
+	width:203px;
+	height:48px;
+	overflow:hidden;
+	background:url(../../images/admin/imgbg.gif);border:1px solid #C8C8C8;*display:inline;zoom:1;text-align:left;
+}
+.imgarea img{vertical-align:middle;}
+.verifycode{border:1px solid #eee;}
+#refreshCodeimg{margin:0 0 5px 10px;}
+label.error{
+	color:#f00;
+	padding-left:2px;
+}
+.nodata{
+	padding:20px;
+	font-size:14px;
+}
+.msgSuc,.msgFail{
+	padding:10px;
+	font-size:14px;
+	text-align:center;
+}
+.msgSuc a,.msgFail a{
+	font-size:12px;
+	margin:12px auto;
+	width:55px;
+	height:19px;
+	background:url(../../images/admin/icon.png) -203px -61px no-repeat;
+	display:block;
+	line-height:19px;
+}
+div.error,div.suc{
+	padding:20px;
+	font-size:14px;
+	text-align:center;
+}
+div.error img,div.suc img{
+	width:38px;
+	height:38px;
+	background:url(../../images/admin/icon.png) -352px -59px no-repeat;
+}
+div.suc img{
+	background-position:-314px -59px;
+}
+.tc{
+	text-align:center;
+}
+.rms{
+	float:left;
+	width:auto;
+	padding-bottom:56px;
+}
+.mods label.error{
+	display:block;
+	padding:4px 0 4px 60px;
+}
+#getRepost{
+	color:#00a2e8;
+	font-weight:600;
+}
+#repostShow{
+	padding-left:108px;
+	color:#7f7f7f;
+}

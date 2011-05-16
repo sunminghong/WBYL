@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>系统配置-安装向导</title>
+<link rel="stylesheet" type="text/css" href="css/install.css" />
+<script type="text/javascript" src="js/install.js"></script>
+</head>
+<body>
+<div class="wrapper header"><h1>iWeibo管理中心</h1><span><a href="http://open.t.qq.com" target="_blank">腾讯微博开放平台</a> | <a href="http://open.t.qq.com/resource.php?i=2,0" target="_blank">帮助</a></span></div>
+<div class="wrapper main">
+<div class="mainA"></div>
+<div class="mainB">
+<div class="step">
+<img src="../style/images/admin/0.gif" class="step3"/>
+</div>
+<form id="form1" name="form1" method="post" action="install.saveSiteInfo.php?step=2" class="form2">
+<h2 class="step3_title"><strong class="step3_title_1">数据库信息</strong><cite>请填写以下信息，以便iWeibo访问您的数据库</cite></h2>
+<ul>
+<li>
+<strong>数据库服务器地址：</strong><input class="txt" type="text" name="database_url" value="localhost"/><cite></cite><br /><strong></strong>
+<label>服务器地址：端口名(默认为3306) 一般为 localhost</label>
+</li>
+<li>
+<ol>
+<li><strong></strong>
+	<span onclick="database_type(0)"><input type="radio" name="database_ctype" value="0" style="margin-left:0;" checked/><span>使用已有的数据库</span></span>
+	<span onclick="database_type(1)"><input type="radio" name="database_ctype" value="1"/><span>创建一个新的数据库</span></span>
+</li>
+<li><strong></strong><span id="database_ctype_tooltip"><img src="images/angle.gif"/>先删除同名数据库，再创建一个新的数据库</span></li>
+</ol>
+</li>
+<li>
+<strong>数据库名：</strong><input class="txt" type="text" name="database_name" value=""/><cite></cite>
+</li>
+<li>
+<strong>数据库用户名：</strong><input name="database_user" type="text" class="txt"/><cite></cite>
+</li>
+<li>
+<strong>数据库密码：</strong><input name="database_pasw" type="password" class="txt"/><cite></cite>
+</li>
+<li>
+<strong>数据表前缀：</strong><input name="database_prefix" type="text" class="txt"/><cite></cite><br /><strong></strong><label>同一数据库运行多个网站时，请修改前缀</label>
+</li>
+<!--
+<li><strong><input type="checkbox" value="0" name="cache_config"/><b>缓存设置</b>&nbsp;&nbsp;</strong><label>如果您的网站使用了缓存，请填写以下信息</label></li>
+<li>
+<strong>memcached地址：</strong><input name="memcached_url" type="text" class="txt"/><cite></cite>
+</li>
+<li>
+<strong>memcached端口：</strong><input name="memcached_port" type="text" class="txt"/><cite></cite>
+</li>-->
+</ul>
+<div class="sline"></div>
+<h2 class="step3_title"><strong class="step3_title_2">管理员信息</strong><cite>请设置用于登录iWeibo管理后台的管理员帐号和密码</cite></h2>
+<ul>
+<li>
+<strong>管理员帐号：</strong><input class="txt" type="text" name="adminName" value=""/><cite></cite>
+</li>
+<li>
+<strong>管理员密码：</strong><input name="adminPasw" type="password" class="txt"/><cite></cite>
+</li>
+<li>
+<strong>确认密码：</strong><input name="adminPasw2" type="password" class="txt"/><cite></cite>
+</li>
+</ul>
+<!--
+<div class="sline"></div>
+<h2 class="step3_title"><strong class="step3_title_3">数据库信息</strong><cite>以下资料将用于我们与您联系，为您解决问题或通知您最新产品动态。</cite></h2>
+<ul>
+<li>
+<strong>姓名：</strong><input class="txt" type="text" name="nickname" value=""/><cite></cite>
+</li>
+<li>
+<strong>电子邮箱：</strong><input name="email" type="text" class="txt"/><cite></cite><br/><strong></strong><label>此邮箱地址将作为找回管理员帐号密码的安全邮箱，设定后不可修改</label>
+</li>
+<li>
+<strong>QQ：</strong><input name="qq" type="text" class="txt"/><cite></cite>
+</li>
+<li>
+<strong>MSN：</strong><input name="msn" type="text" class="txt"/><cite></cite>
+</li>
+<li>
+<strong>联系电话：</strong><input name="tel" type="text" class="txt"/><cite></cite>
+</li>
+</ul>
+-->
+<div class="stepnav">
+<input type="button" name="prestep" value="上一页" class="button" onclick="window.location.href='step2.html';"/>
+<input type="submit" name="nextstep" value="下一步"  class="button" onclick="window.location.href='step4.html';" disabled="disabled"/>
+</div>
+</form>
+<div id="log" style="display:none;">
+<iframe src="install.txt" frameborder="0" width="100%" height="400"></iframe>
+</div>
+</div>
+<div class="mainC"></div>
+</div>
+<div class="wrapper footer">Copyright &copy; 1998-2011 Tencent. All Rights Reserved.</div>
+<script type="text/javascript">
+var f=document.getElementById("form1");
+var logObj=document.getElementById("log");
+var logWin=logObj.getElementsByTagName("iframe")[0];
+//var notNullElements=["database_url","database_name","database_user","database_pasw","database_prefix","adminName","adminPasw","adminPasw2","nickname","email","qq","msn","tel"];
+var notNullElements=["database_url","database_name","database_user","database_prefix","adminName","adminPasw","adminPasw2"];
+function showE(o,s)
+{var oc=o.parentNode.getElementsByTagName("cite")[0];
+	if (/<r>.*?<\/r>/gi.test(s))
+	{oc.innerHTML="<img src=\"/style/images/admin/0.gif\" class=\"no\"/> <font color=\"red\">"+s+"</font>";}
+	else
+	{oc.innerHTML=s;}
+}
+function database_type(v)
+{f["database_ctype"][v].checked=true;
+ cookie.set("database_ctype",v);
+ var t=document.getElementById("database_ctype_tooltip");
+ var s=["使用您在下方指定的数据库，发现同名表将会删除，您可以使用数据表前缀作区分","如果存在您在下方指定的数据库同名的数据库，系统将会先删除它，再按您指定的数据库名创建一个新的数据库"];
+ t.innerHTML="<img src=\"images/angle.gif\"/>"+s[v];
+ var timg=t.getElementsByTagName("img")[0];
+ if (v==0)
+ {timg.style.left="6px";}
+ else if(v==1)
+ {timg.style.left="130px";}
+}
+function checkAllNull()
+{var r=true;
+	for (var i=notNullElements.length-1;i>=0;i--)
+	{var e=f[notNullElements[i]];
+		if(e.value=="")
+		{r=r&&false;}
+		else
+		{r=r&&true;}
+	}
+	return r;
+}
+
+function checkElementNull(o)
+{
+   if (o.value=="")
+   {showE(o,"<r>请填写"+getTitleByElement(o)+"</r>");return false;}
+   else if((o.value.indexOf("'")>-1||o.value.indexOf("\"")>-1)&&arguments.length!=2)
+   {showE(o,"<r>请不要包含单引号或双引号！</r>");return false;}
+   else
+   {showE(o,"");return true;}
+}
+
+function checkTelNum(o)
+{if (/^[\d+\-]*$/.test(o.value)==false)
+	{showE(o,"<r>电话号码格式错误</r>");return false;}
+ else
+ 	{return true;}
+}
+
+function checkQQNum(o)
+{if (/^\d+$/.test(o.value)==false)
+	{showE(o,"<r>QQ号码格式错误</r>");return false;}
+ else
+ 	{return true;}
+}
+
+function checkEmail(o)
+{
+if (/^([a-zA-Z0-9._\-])+@([a-zA-Z0-9_\-])+(\.[a-zA-Z0-9_\-]+)+$/.test(o.value)==false)
+{showE(o,"<r>"+getTitleByElement(o)+"格式错误！</r>");return false;}
+else
+{return true;}
+}
+
+function checkPasw(o)
+{if(/.*[\u4e00-\u9fa5]+.*$/.test(o.value)){return false;}
+ if(o.value.length==0){return;}
+ if (o.value!=f["adminPasw"].value)
+	{showE(o,"<r>与管理员密码不一致！</r>");return false;}
+ else
+ 	{showE(o,"");return true;}
+}
+
+function getTitleByElement(a)
+{return a.parentNode.getElementsByTagName("strong")[0].innerHTML.replace("：","");}
+
+function releaseNextStep()
+{var result=checkAllNull();
+ //var k=result&&checkTelNum(f["tel"])&&checkQQNum(f["qq"])&&checkEmail(f["email"])&&checkEmail(f["msn"])&&checkPasw(f["adminPasw2"]);
+ var k=result&&checkPasw(f["adminPasw2"]);
+ if (k)
+	{f["nextstep"].removeAttribute("disabled");}
+ else
+ 	{f["nextstep"].disabled="disabled";}
+}
+
+window.onload=function()
+{
+	 if(cookie.get("database_ctype"))
+	 {database_type(cookie.get("database_ctype"));}
+	 else
+	 {database_type(0);}
+	for (var i=notNullElements.length-1;i>=0;i--)
+	{var e=f[notNullElements[i]];
+		e.onblur=function()
+		{var r;
+		 if(this.name=="adminPasw")
+		 {r=checkElementNull(this,false);checkPasw(f["adminPasw2"]);}
+		 else
+		 {r=checkElementNull(this);}
+		/*
+		 if (this.name=="tel")
+		 {if (!r){return;}checkTelNum(this);}
+		 if (this.name=="qq")
+		 {if (!r){return;}checkQQNum(this);}
+		 if (this.name=="email"||this.name=="msn")
+		 {if (!r){return;}checkEmail(this);}*/
+		 if (this.name=="adminName"&&(/.*[\u4e00-\u9fa5]+.*$/.test(this.value)))
+		 {showE(this,"<r>不能含有中文！</r>");return;}
+		 if (this.name=="adminPasw2")
+		 {if (!r){return;}checkPasw(this);}
+		 if (this.name=="adminPasw")
+		 {if (!r) return;
+		  if (/.*[\u4e00-\u9fa5]+.*$/.test(this.value))  
+		  {
+		  	showE(this,"<r>不能含有中文！</r>");return;
+		  }
+		  else
+		  {showE(this,"密码等级："+checkPaswSafe(this.value));}
+		 }
+		 
+		 releaseNextStep();
+		}
+	 if (e.type=="text")
+	 	{e.value=(cookie.get(e.name)==null?"":cookie.get(e.name));}
+	}
+	f["adminPasw2"].onmouseup=f["adminPasw2"].onkeyup=function()
+	  { if(/.*[\u4e00-\u9fa5]+.*$/.test(this.value)){return;}
+	  	if(this.value==f["adminPasw"].value&&this.value.length>0)
+	  	{showE(this,"");releaseNextStep();}
+	  	else
+	  	{return;}
+	  }
+	 
+	f.onsubmit=function()
+	{
+	  var es=f.getElementsByTagName("input");
+	  for(var i=0;i<es.length;i++)
+	  {
+	  	if(es[i].type=="text")
+	  	{cookie.set(es[i].name,es[i].value);}
+	  }
+	  cookie.set("step4",true);
+	  /*显示安装进度**/
+	  setTimeout("refreshLogWin()",500);
+	  /*显示安装进度**/
+	  return true;
+	}
+	
+	/*
+	(function cacheConfig(o)
+	{
+	   var t1=f["memcached_url"];var t2=f["memcached_port"];
+	   function f1()
+	   {if (t1.value==""&&t2.value=="")
+		{o.removeAttribute("checked");}
+		else
+		{checkElementNull(t1);checkElementNull(t2);}  
+	   }
+	   function f2()
+	   {if (!o.checked)o.setAttribute("checked");}
+	   function f3(c)
+	   {if (!c&&t1.value!=""&&t2.value!="")
+	   		{t1.setAttribute("readonly","readonly");t2.setAttribute("readonly","readonly");}
+	   	else
+	   		{t1.removeAttribute("readonly");t2.removeAttribute("readonly");}
+	   }
+	   t1.onblur=t2.onblur=f1;
+	   t1.onfocus=t2.onfocus=f2;
+	   o.onchange=function()
+	   {f3(this.checked);
+	    if (this.checked)
+	   	 {checkElementNull(t1);checkElementNull(t2);}
+	   	else
+	   	 {showE(t1,"");showE(t2,"");}
+	   }
+	})(f["cache_config"]);
+	*/
+	
+}
+/*
+database_url,database_name,database_user,database_pasw,database_prefix,
+cache_config,memcached_url,memcached_port
+adminName,adminPasw,adminPasw2
+nickname,email,qq,msn,tel
+prestep,nextstep
+*/
+/*
+$(document).ready(function(){var s=[];
+$(".form2").find("input").each(function(){
+$(this).parent().find("cite").html("<font color=\"red\">dddddddd</font>")							
+});
+});
+*/
+
+ function refreshLogWin()
+	  {
+	  	if (logObj.style.display=="block")
+	  	{
+	  	  logWin.src="install.txt?t="+new Date().getTime();
+	  	}else
+	  	{logObj.style.display="block";f.style.display="none";}
+	  	setTimeout("refreshLogWin()",300);
+	  }
+function checkPaswSafe(s)
+{
+var _arr=[0,0,0,0];
+		   if (/\d+/.test(s)){_arr[0]=1;}
+		   if (/[a-z]+/.test(s)){_arr[1]=1;}
+		   if (/[A-Z]+/.test(s)){_arr[2]=1;}
+		   if (/[_\-,\';:\"+=()\*&%$#@!~\?\/\\<>\.]+/.test(s)){_arr[3]=1;}
+		   switch(_arr.join("").split("1").length-1)
+		   {case 1:return "低";break;
+		   	case 2:return "中";break;
+		   	case 3:return "高";break;
+		   	case 4:return "很高";break;
+		   	default:return "未知";break;
+		   }
+}
+</script>
+</body>
+</html>
