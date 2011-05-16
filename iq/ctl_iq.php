@@ -37,6 +37,9 @@ class iq extends ctl_base
 			$this->display("iq_index");
 			return;
 		}
+		
+		ssetcookie('iq_usetime',"");
+		ssetcookie("iq_iqvalue","");
 	/*	if(!strpos($_SERVER["HTTP_REFERER"],"app=iq"))
 		{
 			$this->set("op","ready");
@@ -46,7 +49,7 @@ class iq extends ctl_base
 		$this->saveIq(-1,0);
 
 		$this->set("op","ican");
-		$this->display("iq_ican");		
+		$this->display("iq_ican");
 	}
 	
 
@@ -90,7 +93,7 @@ class iq extends ctl_base
 		//读取排名第一
 		$testlist=array();
 		$sql="select l.uid,l.name,testCount,iq,useTime from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","login").
-			" l on iq.uid=l.uid where iq.iq>0  and (TO_DAYS(NOW()) - TO_DAYS(FROM_UNIXTIME(lasttime)) <= 0 ) order by iq.iq desc,testCount ,lasttime desc limit 0,1";
+			" l on iq.uid=l.uid where iq.iq>0  and lasttime > UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  order by iq.iq desc,testCount ,lasttime desc limit 0,1";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$iqCount["maxIq"]=$row['iq'];
@@ -102,62 +105,80 @@ class iq extends ctl_base
 	}
 
 	function cacl(){
-		$account=getAccount();
-		if(!$account){
-			echo "-1";
-			return;
-		}
+		$account=$this->checkLogin();
 		$storea=rq("storea",0);
 		$useTime=rq("usetime",0);
-		$iqvalue=0;     
-		if($storea=="1"){$iqvalue=20;}     
-		else if($storea=="2"){$iqvalue=30;}     
-		else if($storea=="3"){$iqvalue=40;}     
-		else if($storea=="4"){$iqvalue=50;}     
-		else if($storea=="5"){$iqvalue=60;}     
-		else if($storea=="6"){$iqvalue=65;}     
-		else if($storea=="7"){$iqvalue=65;}     
-		else if($storea=="8"){$iqvalue=67;}     
-		else if($storea=="9"){$iqvalue=67;}     
-		else if($storea=="10"){$iqvalue=68;}     
-		else if($storea=="11"){$iqvalue=70;}     
-		else if($storea=="12"){$iqvalue=72;}     
-		else if($storea=="13"){$iqvalue=74;}     
-		else if($storea=="14"){$iqvalue=75;}     
-		else if($storea=="15"){$iqvalue=80;}     
-		else if($storea=="16"){$iqvalue=83;}     
-		else if($storea=="17"){$iqvalue=85;}     
-		else if($storea=="18"){$iqvalue=88;}     
-		else if($storea=="19"){$iqvalue=89;}     
-		else if($storea=="20"){$iqvalue=90;}     
-		else if($storea=="21"){$iqvalue=93;}     
-		else if($storea=="22"){$iqvalue=95;}     
-		else if($storea=="23"){$iqvalue=100;}     
-		else if($storea=="24"){$iqvalue=105;}     
-		else if($storea=="25"){$iqvalue=108;}     
-		else if($storea=="26"){$iqvalue=110;}     
-		else if($storea=="27"){$iqvalue=111;}     
-		else if($storea=="28"){$iqvalue=114;}     
-		else if($storea=="29"){$iqvalue=115;}     
-		else if($storea=="30"){$iqvalue=120;}     
-		else if($storea=="31"){$iqvalue=122;}     
-		else if($storea=="32"){$iqvalue=125;}     
-		else if($storea=="33"){$iqvalue=127;}     
-		else if($storea=="34"){$iqvalue=128;}     
-		else if($storea=="35"){$iqvalue=130;}     
-		else if($storea=="36"){$iqvalue=135;}     
-		else if($storea=="37"){$iqvalue=140;}     
-		else if($storea=="38"){$iqvalue=143;}     
-		else if($storea=="39"){$iqvalue=145;}     
-		else if($storea=="40"){$iqvalue=150;}     
-		
-		$this->saveIq($iqvalue,$useTime);
-		
-		$score=readIqScore($account["uid"],true);
+		if($storea) {
+			$iqvalue=0;     
+			if($storea=="1"){$iqvalue=20;}     
+			else if($storea=="2"){$iqvalue=30;}     
+			else if($storea=="3"){$iqvalue=40;}     
+			else if($storea=="4"){$iqvalue=50;}     
+			else if($storea=="5"){$iqvalue=60;}     
+			else if($storea=="6"){$iqvalue=65;}     
+			else if($storea=="7"){$iqvalue=65;}     
+			else if($storea=="8"){$iqvalue=67;}     
+			else if($storea=="9"){$iqvalue=67;}     
+			else if($storea=="10"){$iqvalue=68;}     
+			else if($storea=="11"){$iqvalue=70;}     
+			else if($storea=="12"){$iqvalue=72;}     
+			else if($storea=="13"){$iqvalue=74;}     
+			else if($storea=="14"){$iqvalue=75;}     
+			else if($storea=="15"){$iqvalue=80;}     
+			else if($storea=="16"){$iqvalue=83;}     
+			else if($storea=="17"){$iqvalue=85;}     
+			else if($storea=="18"){$iqvalue=88;}     
+			else if($storea=="19"){$iqvalue=89;}     
+			else if($storea=="20"){$iqvalue=90;}     
+			else if($storea=="21"){$iqvalue=93;}     
+			else if($storea=="22"){$iqvalue=95;}     
+			else if($storea=="23"){$iqvalue=100;}     
+			else if($storea=="24"){$iqvalue=105;}     
+			else if($storea=="25"){$iqvalue=108;}     
+			else if($storea=="26"){$iqvalue=110;}     
+			else if($storea=="27"){$iqvalue=111;}     
+			else if($storea=="28"){$iqvalue=114;}     
+			else if($storea=="29"){$iqvalue=115;}     
+			else if($storea=="30"){$iqvalue=120;}     
+			else if($storea=="31"){$iqvalue=122;}     
+			else if($storea=="32"){$iqvalue=125;}     
+			else if($storea=="33"){$iqvalue=127;}     
+			else if($storea=="34"){$iqvalue=128;}     
+			else if($storea=="35"){$iqvalue=130;}     
+			else if($storea=="36"){$iqvalue=135;}     
+			else if($storea=="37"){$iqvalue=140;}     
+			else if($storea=="38"){$iqvalue=143;}     
+			else if($storea=="39"){$iqvalue=145;}     
+			else if($storea=="40"){$iqvalue=150;}     
+	
+		 ////echo '<!--'.$iqvalue.'--'.$useTime.'-->';
+		}else{
+			$iqvalue=('0'.sreadcookie('iq_iqvalue'))*1;
+		}
 
+		if(!$useTime)
+			$useTime=('0'.sreadcookie('iq_usetime'))*1;
+
+		//// echo '<!--'.$iqvalue.'--'.$useTime.'-->';
+		if(!sreadcookie('iq_iqvalue')){ //////echo 'sdfsdfs';
+
+			$this->saveIq($iqvalue,$useTime);
+
+			ssetcookie('iq_usetime',$useTime);
+			ssetcookie("iq_iqvalue",$iqvalue);
+		}
+
+		$score=readIqScore($account["uid"],true);
+		
+		$score["words"] = getWords($score['iqlv']);
+		$score["newusetime"] = strftime('%M:%S',$useTime);
 		$score['nowiq']=$iqvalue;
-		echo json_encode($score);
-		exit;
+		//echo json_encode($score);
+		//exit;
+
+		$this->set("score",$score);
+		$this->set("op","showscore");
+		$this->display("iq_ican");
 	}
 		
 	public function sendStats(){
@@ -169,7 +190,8 @@ class iq extends ctl_base
 		dbhelper::execute($sql);
 
 		$iqCount=$this->iqCount();
-		$msg="#看看你有多聪明#数据统计：总登录人数 ".$iqCount['totalUser']."，成功测试人数 ".$iqCount[iqs]."人， 有效测试 ".$iqCount[logs]. "次。目前@".$iqCount[maxName]. " 以 ". $iqCount[maxIq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ " .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
+		$msg="#看看你有多聪明#数据统计：总登录人数 ".$iqCount['totalUser']."，成功测试人数 ".$iqCount[iqs]."人， 有效测试 ".$iqCount[logs]. "次。目前@".$iqCount[maxName]. " 以 ". $iqCount[maxIq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ " .URLBASE ."iq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=iq";
+		//echo $msg;exit;
 		$this->getApi()->update($msg);
 
 		echo "1";exit;
@@ -193,9 +215,9 @@ class iq extends ctl_base
 		if($score['retname'])
 			$msg.= $score['retname']	. "你们也来试试！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
 		else
-			$msg.= "你们也来试试吧！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
+			$msg.= "你们也来试试吧！" .URLBASE ."iq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=iq";
 
-		//echo ($score['zsurl']);exit;
+		//echo $score['zsurl'].$msg; exit;
 		$this->getApi()->upload($msg,$score['zsurl']);
 		echo "1";exit;
 	}
@@ -214,7 +236,7 @@ class iq extends ctl_base
 			echo "0";exit;
 		}
 
-		//echo $msg."&retuid=".$account['uid']."&retapp=" . type;
+		echo $msg."&retuid=".$account['uid']."&retapp=" . type; exit;
 		
 		importlib("zhengshu");
 		$fun='get'.$type;
@@ -251,7 +273,7 @@ class iq extends ctl_base
 	private function mingrenlist(){
 		$top=10;
 		$testlist=array();
-		$sql="select l.uid,l.name,l.followers,testCount,iq,useTime,lfrom,l.avatar from ". dbhelper::tname("iq","iq") . " iq  inner join ".
+		$sql="select l.uid,l.name,l.followers,testCount,iq,useTime,lfrom,l.avatar,l.verified from ". dbhelper::tname("iq","iq") . " iq  inner join ".
 			dbhelper::tname("ppt","user")." l on iq.uid=l.uid where l.avatar<>'' order by l.followers desc  limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
@@ -272,27 +294,7 @@ class iq extends ctl_base
 		$top=10;
 		$testlist=array();
 		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".
-			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 AND  (TO_DAYS(NOW()) - TO_DAYS(FROM_UNIXTIME(lasttime)) <= 0 ) order by iq desc,testCount  limit 0,$top";
-		$rs=dbhelper::getrs($sql);
-		$i=0;
-		while($row=$rs->next()){
-			$i++;
-			$row["i"]=$i;
-			$row["useTime"]=intval($row["useTime"]/60) ."分".$row["useTime"] % 60 ."秒";
-			$iqlv=0;
-			$row["ch"]=iqtoch($row["iq"],&$iqlv);
-			$row["iqlv"]=$iqlv;
-			$testlist[]=$row;
-		}
-//		echo json_encode($testlist);
-		return $testlist;
-	}
-
-	private function toplist7(){
-		$top=10;
-		$testlist=array();
-		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".
-			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 and (TO_DAYS(NOW()) - TO_DAYS(FROM_UNIXTIME(lasttime)) <= 7 ) order by iq desc,testCount  limit 0,$top";
+			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 AND lasttime > UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  order by iq desc,testCount  limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){
@@ -332,84 +334,6 @@ class iq extends ctl_base
 		echo json_encode($testlist);
 	}
 
-	private function readIqScore($uid,$nocache=false){
-		if(!$nocache){
-			$json=sreadcookie('iq_score');		
-			if ($json){
-				$json= authcode($json, 'DECODE', $key = 'abC!@#$%^');
-				$iqScore=unserialize($json);
-				if(is_array($iqScore)) {
-					return $iqScore;
-				}	
-			}
-		}
-
-		$iqScore=array();
-		$sql="select testCount,iq,useTime from ". dbhelper::tname("iq","iq") ." where uid=$uid";
-		$rs=dbhelper::getrs($sql);
-		if($row=$rs->next()){
-			$iqScore["iq"]=$row['iq'];
-			$iqScore['testCount']=$row['testCount'];
-			$iqScore['useTime']=$row['useTime'];
-
-		}else{	
-			$iqScore["iq"]=0;
-			$iqScore['testCount']=0;
-			$iqScore['useTime']=100000;
-		}
-
-		$iqv=$iqScore['iq']*1;
-		$iqlv=0;
-		$iqScore['chs']=iqtoch($iqv,&$iqlv);
-		$iqScore['iqlv']=$iqlv;
-
-		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq'].") + (select count(*) from ". 
-			dbhelper::tname("iq","iq") ." where iq=". $iqScore['iq'] ." and testCount<".$iqScore['testCount'] .")  as top ,";
-		$sql.="(select count(*) from ". dbhelper::tname("iq","iq") .") as total ";
-		$rs=dbhelper::getrs($sql);
-		if($row=$rs->next()){
-			$iqScore["top"]=$row['top'];
-			if(intval($row['total'])==0)
-				$iqScore['win']=100;
-			else
-				$iqScore['win']=(1- $row['top']/$row['total'])*100;
-
-		}else{
-			$iqScore["top"]=1;
-			$iqScore['win']=100;
-		}
-		
-		//获取打败的好友的名单
-		$sql="select l.screen_name from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=2 where sns.uid1=".$uid." and iq.iq<".$iqScore['iq']." order by rand() limit 0,3";
-		$rs=dbhelper::getrs($sql);
-		$sss="";
-		while($row=$rs->next()){
-			$sss.="@".$row['screen_name']." ，";
-		}
-		$iqScore['lostname']=$sss;
-		//获取邀请人名单
-		$sql="select l.screen_name from ".dbhelper::tname("ppt","userlib")." l  inner join ".dbhelper::tname("ppt","userlib_sns")." sns on sns.uid2=l.id and type=2 where sns.uid1=".$uid." order by rand() limit 0,6";
-		$rs=dbhelper::getrs($sql);
-		$sss2="";$ii=0;
-		while($row=$rs->next()){
-			if($ii<3 && !strpos($sss,$row['screen_name'])){
-				$sss2.="@".$row['screen_name']." ，";
-				$ii++;
-			}
-		}
-
-		$iqScore['retname']=$sss2;
-		
-		importlib("zhengshu");
-		$zs=zhengshu::makeIQ(getAccount(),$iqScore);
-		$iqScore=array_merge($iqScore,$zs);
-
-		$json=serialize($iqScore);
-
-		$json= authcode($json, 'ENCODE', $key = 'abC!@#$%^');
-		ssetcookie('iq_score', $json,3600*24*100);
-		return $iqScore;
-	}
 
 	private function saveIq($iqvalue,$useTime){
 		global $timestamp;

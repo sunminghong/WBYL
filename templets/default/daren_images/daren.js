@@ -103,6 +103,7 @@ var myTime = new Date();
 return((myTime.getTime() - clockStart)/1000)+usetime2;
 }  
 
+var iclock=1;
 function showtime(isstop) {
 	if(timerID)clearTimeout(timerID);
 var tSecs = Math.round(initStopwatch());
@@ -119,9 +120,15 @@ $("#face").html(sMins+":"+sSecs);
 if(isstop) return;
 
 var tSecs2 =MAXTIMEPER - Math.round(initStopwatch2());
-if(tSecs2<0) tSecs2=0;
-$("#face2").html(tSecs2);
-
+if(tSecs2>=0) {
+	$("#face2").html(tSecs2);
+	if(iclock %2 ==0){
+		drawClock( iclock/2 );
+	}
+	iclock++;
+}else {
+	iclock=0;$("#face2").html(0);
+}
 timerID = setTimeout("showtime()",1000);
 timerRunning = true;
 }
@@ -167,6 +174,26 @@ function addScore(lastScore,score) {
 }
 
 
+
+function drawClock(num) {
+	if(num>6) return;
+
+	var dclock=$('#clock_div_abc');
+
+	var lef=(num-1) * -141;
+
+	if(dclock.length==0) {
+		$("#div__clock").append('<div id="clock_div_abc" style="background:url('+urlbase+'templets/default/daren_images/clock_block.png)  '
+		+lef+'px 0; width:141px;height:141px;margin:2px;"></div>');
+		return ;
+		//dclock=$('#clock_div_abc');
+	}
+
+	dclock.css({"background-position":lef+"px 0"});	
+
+}
+
+
 $(document).ready(function(){
 	poff=$("#test_main").parent().offset();
 	lastScoreLeft=poff.left;
@@ -176,5 +203,6 @@ $(document).ready(function(){
 	poff=$("#div_score").offset();
 	divScoreLeft=poff.left;
 	divScoreTop=poff.top;
-	init();
+	//init();
+
 });

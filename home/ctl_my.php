@@ -54,8 +54,10 @@ public function public_timeline(){
 	}*/
 
 	public function follow() {
-		//$uid=rq("fuid","1747738583");
-		//if(!$uid) return;
+		$account=getAccount();
+		if(!is_array($account)){
+			echo '-1';exit;
+		}
 		
 		$api=$this->getApi();
 		$account=getAccount();

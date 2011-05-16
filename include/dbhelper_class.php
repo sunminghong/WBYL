@@ -246,7 +246,6 @@ class dbhelper {
 		}
 		$sql = 'UPDATE ' . $table . ' SET ' . implode(',', $values) . ' WHERE ' . $id_name . '=' . $id;
 
-		$this->query($sql);
 		return self::execute($sql);
 	}
 

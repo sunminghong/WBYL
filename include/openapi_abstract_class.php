@@ -153,8 +153,9 @@ abstract class openapiAbstract{
 	 * @param mixed $source 源用户UID或源微博昵称，可选
 	 * @return array
 	 */
-	abstract public function is_followed( $target, $source = NULL );
-
+	abstract public function is_followed( $target);
+//是我的粉丝吗？
+	abstract public function is_follwers( $target);
 
 	/**
 	 * 当前用户退出登录

@@ -37,7 +37,8 @@ function showresult(usetime,res){
 		$('#div_words').html(words[score.iqlv]);
 		
 }
-eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[78a-hj-l]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('e calculate(){f 7=0;8(a(\'q1\',\'1\')){7+=1}8(a(\'q2\',\'2\')){7+=1}8(a(\'q3\',\'4\')){7+=1}8(a(\'q4\',\'1\')){7+=1}8(a(\'q5\',\'2\')){7+=1}8($("b[c=T6]").d()=="26"){7+=2}8(a(\'q7\',\'0\')){7+=1}8(a(\'q8\',\'0\')){7+=1}8(a(\'q9\',\'2\')){7+=1}8(a(\'q10\',\'2\')){7+=1}8($("b[c=T11]").d()=="9"){7+=1}8(a(\'q12\',\'3\')){7+=1}8(a(\'q13\',\'2\')){7+=1}8($("b[c=T14]").d()=="6"){7+=1}8(a(\'q15\',\'2\')){7+=1}8(a(\'q16\',\'2\')){7+=1}8($("b[c=T17]").d()=="g"){7+=1}8(a(\'q18\',\'1\')){7+=1}8(a(\'q19\',\'0\')){7+=1}8($("b[c=T20]").d()=="美国"){7+=2}8(a(\'q21\',\'3\')){7+=2}8($("b[c=T22]").d()=="64"){7+=2}8($("b[c=T23]").d()=="科学"){7+=2}8($("b[c=T24]").d()=="式"){7+=1}8($("b[c=h]").d()=="X"||$("b[c=h]").d()=="x"){7+=1}8($("b[c=T26]").d()=="75"){7+=1}8(a(\'q27\',\'4\')){7+=1}8($("b[c=T28]").d()=="奠"){7+=1}8($("b[c=T29]").d()=="颠"){7+=1}8($("b[c=T30]").d()=="5"){7+=1}8($("b[c=T31]").d()=="g"){7+=2}8(a(\'q32\',\'2\')){7+=2}8($("b[c=j]").d()=="O"||$("b[c=j]").d()=="o"){7+=1}8(k)clearTimeout(k);f i=$("#face").html();$.get("?app=iq&op=cacl&usetime="+initStopwatch()+"&7="+7+"&t="+Math.random(),e(l){showresult(i,l)})}',[],22,'|||||||storea|if||chC|input|name|val|function|var|36|T25||T33|timerID|res'.split('|'),0,{}))
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[78a-hj]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('function calculate(){e 7=0;8(a(\'q1\',\'1\')){7+=1}8(a(\'q2\',\'2\')){7+=1}8(a(\'q3\',\'4\')){7+=1}8(a(\'q4\',\'1\')){7+=1}8(a(\'q5\',\'2\')){7+=1}8($("b[c=T6]").d()=="26"){7+=2}8(a(\'q7\',\'0\')){7+=1}8(a(\'q8\',\'0\')){7+=1}8(a(\'q9\',\'2\')){7+=1}8(a(\'q10\',\'2\')){7+=1}8($("b[c=T11]").d()=="9"){7+=1}8(a(\'q12\',\'3\')){7+=1}8(a(\'q13\',\'2\')){7+=1}8($("b[c=T14]").d()=="6"){7+=1}8(a(\'q15\',\'2\')){7+=1}8(a(\'q16\',\'2\')){7+=1}8($("b[c=T17]").d()=="f"){7+=1}8(a(\'q18\',\'1\')){7+=1}8(a(\'q19\',\'0\')){7+=1}8($("b[c=T20]").d()=="美国"){7+=2}8(a(\'q21\',\'3\')){7+=2}8($("b[c=T22]").d()=="64"){7+=2}8($("b[c=T23]").d()=="科学"){7+=2}8($("b[c=T24]").d()=="式"){7+=1}8($("b[c=g]").d()=="X"||$("b[c=g]").d()=="x"){7+=1}8($("b[c=T26]").d()=="75"){7+=1}8(a(\'q27\',\'4\')){7+=1}8($("b[c=T28]").d()=="奠"){7+=1}8($("b[c=T29]").d()=="颠"){7+=1}8($("b[c=T30]").d()=="5"){7+=1}8($("b[c=T31]").d()=="f"){7+=2}8(a(\'q32\',\'2\')){7+=2}8($("b[c=h]").d()=="O"||$("b[c=h]").d()=="o"){7+=1}8(j)clearTimeout(j);e i=$("#face").html();location.href="?app=iq&op=cacl&usetime="+initStopwatch()+"&7="+7+"&t="+Math.random();return}',[],20,'|||||||storea|if||chC|input|name|val|var|36|T25|T33||timerID'.split('|'),0,{}));
+
 
 
 var timerID = null;     
@@ -192,6 +193,16 @@ function closeView(){
 	//$(document).unbind("click");
 }
 $(document).ready(function(){
+	/*var snotice='<div class="contentFrame" style="clear:both;text-align:center; ">\
+<div class="ui-widget" style="text-align:center; color:#f00;" id="ui-widget-content">\
+友情提示：本站于今天 9:00~9:05 将进行一个小更新，在此期间将暂停5 分钟，请朋友们谅解！\
+</div>\
+</div>';
+
+	if($('#div_notice1').length==0)
+		$(".contentFrame:first").before(snotice);
+	else
+		$('#div_notice').html(snotice);*/
 
 	$("#msg_list .msg_block").live("mouseover",	function(){$(this).addClass("msgHigh");});
 	$("#msg_list .msg_block").live("mouseout",	function(){$(this).removeClass("msgHigh");});

@@ -15,6 +15,9 @@ error_reporting (E_ALL & ~E_NOTICE);
 include ROOT.'config.inc.php';
 include_once(ROOT.'include/function.php');
 
+$lfrom=rq("lfrom","");
+if($lfrom) $canLogin=array($lfrom);
+
 importlib("envhelper_class");
 importlib("dbhelper_class");
 importlib("ppt_class");
@@ -35,12 +38,12 @@ if(is_array($accounts)){
 		break;
 	}
 }
-if(!is_array($account))
-	$lfrom='tsina';
-else
-	$lfrom=$account['lfrom'];
-//echo "accounts=";print_r($accounts);exit;
-
+if(is_array($account)) {
+	if($lfrom && $lfrom!=$account['lfrom']) {
+		$account=false;
+	}
+}
+//echo "accounts=";print_r($accounts);echo "account=";print_r($accounts);
 
 //时间
 $mtime = explode(' ', microtime());
@@ -82,6 +85,8 @@ function LetGo(){
 
 	$cont->set("lfrom",$lfrom);
 	$cont->assign("account",$account);
+
+	$cont->force=rq("clstemplate",0);
 	$cont->$op();	
 }
 

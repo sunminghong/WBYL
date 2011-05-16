@@ -42,7 +42,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			if(intval($row['total'])==0)
 				$iqScore['win']=100;
 			else
-				$iqScore['win']=(1- $row['top']/$row['total'])*100;
+				$iqScore['win']=$row['total']-$row['top'];//(1- $row['top']/$row['total'])*100;
 
 		}else{
 			$iqScore["top"]=1;
@@ -57,8 +57,12 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			$sss.="@".$row['screen_name']." ，";
 		}
 		$iqScore['lostname']=$sss;
+		
+		global $lfrom;
+		if($lfrom=="tsina") $lf_pre="";
+		else $lf_pre=$lfrom."_";
 		//获取邀请人名单
-		$sql="select l.screen_name from ".dbhelper::tname("ppt","userlib")." l  inner join ".dbhelper::tname("ppt","userlib_sns")." sns on sns.uid2=l.id and type=2 where sns.uid1=".$uid." order by rand() limit 0,6";
+		$sql="select l.screen_name from ".dbhelper::tname("ppt",$lf_pre."userlib")." l  inner join ".dbhelper::tname("ppt",$lf_pre."userlib_sns")." sns on sns.uid2=l.id and type=2 where sns.uid1=".$uid." order by rand() limit 0,6";
 		$rs=dbhelper::getrs($sql);
 		$sss2="";$ii=0;
 		while($row=$rs->next()){

@@ -38,6 +38,8 @@ class zhengshu {
 		return false;
 	}
 	
+
+	///////////////////////////////////////////////////IQ     FUN///////////////////////////////////////////////
 	static function getiq($uid,$lv) {
 		$iqscore=array("iqlv"=>$lv);
 		$account=array("uid"=>$uid);
@@ -126,10 +128,94 @@ class zhengshu {
 		return array('isold'=>0,"zsurl"=>$url);
 	}
 
+///////////////////////////////////////////////////EQ LIST/////////////////////////////////////////////////////////////
+	static function geteq($uid,$lv) {
+		$eqscore=array("eqlv"=>$lv);
+		$account=array("uid"=>$uid);
+		$sql="select u.uid,u.screen_name,u.avatar,eq.eq,eq.testCount from ". dbhelper::tname("ppt","user") ." u inner join ". dbhelper::tname("eq","eq") ." eq on u.uid=eq.uid where u.uid=$uid";
+		$rs=dbhelper::getrs($sql);
+		if($row=$rs->next()){
+			$account['screen_name']=$row['screen_name'];
+			$account['avatar']=$row['avatar'];
+
+			$eqscore['eq']=$row['eq'];
+			$eqscore['testCount']=$row['testCount'];
+		}else				return "";
+		
+		$sql="select (select count(*) from ". dbhelper::tname("eq","eq") ." where eq>" . $eqscore['eq'].") + (select count(*) from ". dbhelper::tname("eq","eq") ." where eq=". $eqscore['eq'] ." and testCount<".$eqscore['testCount'] .")  as top";
+		$rs=dbhelper::getrs($sql);
+		if($row=$rs->next()){
+			$eqscore["top"]=$row['top'];
+			
+		}else{
+			$eqscore["top"]=1;
+		}
+
+		return self::makeEQ($account,$eqscore,false);
+	}
+
+	static function makeEQ($account,$eqscore,$newmake=false) { 
+		$eqlv=$eqscore['eqlv'];
+		$uid=$account['uid'];
+		$type="eq";
+		$url="";
+		if(!$newmake && ($url=self::checkZhengshu($uid,$type,$eqlv))){
+			return array("isold"=>1,"zsurl"=>$url);
+		}
+		
+		$lasttime=getTimestamp();
+		//加入证书，且取得证号编号
+		$sql="insert into ". dbhelper::tname("ppt","zhengshu") ." set uid=$uid,type='$type',lv=$eqlv,lasttime=$lasttime";
+		$zid=dbhelper::execute($sql,1);
+		$no="EQ". right("0000000".$zid,7);
+		if(ISSAE){
+			$newName=tempnam(SAE_TMP_PATH, "SAE_IMAGE");
+		}
+		else
+			$newName=ROOT."data/zhengshu/{$type}_{$uid}_{$eqlv}.png";
+
+		$name=$account['screen_name'];
+
+		$backImage=ROOT."images/zhengshu_{$type}_".$eqlv.".png";
+		//$backImage=ROOT."images/zhengshu_eq_0.png";
+		$text=$no;
+		$color="#000000";
+		$fontFile=ROOT."images/fonts/arial.ttf";
+		 imageWaterText($backImage,$text,$color,263,70,12,$fontFile,$newName);
+
+		$backImage=$newName;
+		$text=$name;
+		$fontFile=ROOT."images/fonts/YGY20070701.ttf";	
+		if(len($text)<6) $posx=115;
+		else $posx=95;
+		 imageWaterText($backImage,$text,$color,$posx,205,24,$fontFile,$newName);
+
+		$text=$eqscore['top'];
+		$fontFile=ROOT."images/fonts/arial.ttf";
+		if(len($text)<4) $posx=275;
+		else
+			$posx=260;
+		 imageWaterText($backImage,$text,$color,$posx,265,16,$fontFile,$newName);
+
+		$text= date("y.m.d",$lasttime);
+		$fontFile=ROOT."images/fonts/arial.ttf";
+		 imageWaterText($backImage,$text,$color,286,479,12,$fontFile,$newName);
+
+		$waterPic=$account['avatar'];
+
+		$rel= imageWaterPic($backImage,$waterPic,37,172);
+		//echo 'backImage='.$backImage."<br/>";
+		//echo 'newname='.$newName;
+		if(ISSAE) {
+			 $s = new SaeStorage();
+			 $s->write( 'zhengshu' , "data/zhengshu/{$type}_{$uid}_{$eqlv}.png",@file_get_contents($newName)  );			 
+			 $url=$s->getUrl( 'zhengshu' , "data/zhengshu/{$type}_{$uid}_{$eqlv}.png");
+			  @unlink($newName);
+		}else{
+			$url=self::getBaseUrl($zid)."data/zhengshu/{$type}_{$uid}_{$eqlv}.png";
+		}
+		return array('isold'=>0,"zsurl"=>$url);
+	}
+
 }
-
-
-
-
-
 ?>

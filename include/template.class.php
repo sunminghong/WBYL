@@ -113,7 +113,7 @@ class template {
 
 		$template = "<? if(!defined('ROOT')) exit('Access Denied');?>\r\n$template";
 		$template = preg_replace("/(\\\$[a-zA-Z_]\w+\[)([a-zA-Z_]\w+)\]/i", "\\1'\\2']", $template);
-echo $template;
+
 		$fp = fopen($this->objfile, 'w');
 		fwrite($fp, $template);
 		fclose($fp);

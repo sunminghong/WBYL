@@ -4,31 +4,44 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>看看你有多聪明！ -  微博IQ测试 </title>
 	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/iq_images/iq.css" />
-	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> 
+<!--	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> -->
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var myuid='<?=$account['uid']?>';<? } else { ?>var myuid='';<? } ?></script>
-<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.62"></script>
+<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.6"></script>
 </head>
 <body>
-
+<div id="topbg">
+	<div id="topmenu">
+    	<span class="toplink">您还可以玩：<a href="http://ciniao.me/wbapp/?a=xm&from=sina" target="_blank">羡慕嫉妒恨</a></span>
+    	
+    </div>
+</div>
 	<div class="mainFrame">
 		
 		<? if($op=="login") { ?>
 		<div class="ui-widget">
 			
 			<div class="login">
-			<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
-			<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！<br/>
-				<!--<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/login.png" alt="用微博帐号登录" /></a><br />-->
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
+						<? if(is_array($account) ) { ?>
+			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
+<font color="#ff3333"><?=$account['screen_name']?></font> <img src="<?=$urlbase?>images/weiboicon16_<?=$account['lfrom']?>.png" height=16 /><? if($account['verified']==1) { ?><img src="<?=$urlbase?>images/vip_<?=$account['lfrom']?>.gif" title="认证用户" alt=""><? } ?>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?></b>人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
+<? } else { ?>
+
+	<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
+	<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！
+		<? } ?>
+<br/><br/>
+
+		<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
 			</div>
 			
 			<div class="logo">
 				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明"/></a>
 			</div>
 		</div>
+<div id="div_notice"></div>
 		<div class="contentFrame" style="width:260px;float:right;padding:0px;">
 			<div class="ui-widget" style="text-align:center; color:#696a62;padding:0px;">
 				<div style="background:#ceeff6;line-height:27px;height:27px;">
@@ -37,7 +50,7 @@
 				<div class="welcomeDiv1" id="mingrenlist" style="font-size:12px;font-family:georgia;background1:#eee;">
 <? foreach((array)$mingrenlist as $top) {?>
 						<div style="height:45px; overflow:hidden; margin:5px 5px;">
-							<div style="width:155px;float:right;line-height:21px;">@<?=$top['name']?><br/>粉丝数<b><?=$top['followers']?></b></div>
+							<div style="width:155px;float:right;line-height:21px;">@<?=$top['name']?><img src="<?=$urlbase?>images/weiboicon16_<?=$top['lfrom']?>.png" height=16 /><? if($top['verified']==1) { ?><img src="<?=$urlbase?>images/vip_<?=$top['lfrom']?>.gif" title="认证用户" alt=""><? } ?><br/>粉丝数<b><?=$top['followers']?></b></div>
 							<img style="height:45px;" src="<?=$top['avatar']?>"/><img style="height:45px;" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$top['iqlv']?>.png" class="icoview" params="iq:<?=$top['iqlv']?>:<?=$top['uid']?>" alt="点击查看证书"/>
 						</div>
 
@@ -57,8 +70,13 @@
 		<? if(is_array($account) ) { ?>
 			<a href="?app=iq&op=ready"><img src="<?=$templatepath?>/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
 
-			<? } else { ?>			<a href="?act=account&op=tologin" border="0"><img height1="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
-			<? } ?>
+		<? } else { ?>	
+<? global $canLogin;?>
+	<? foreach((array)$canLogin as $login) {?>
+		<a href="?act=account&op=tologin&lfrom=<?=$login?>" border="0"><img height="24" src="<?=$templatepath?>/images/btn_login_<?=$login?>.png" alt="用微博帐号登录" /></a> 
+	<? } ?>
+
+<? } ?>
 		</div>
 
 <? } elseif($op=="ready") { ?>
@@ -67,16 +85,16 @@
 			<div class="login">			
 			<? if(is_array($account) ) { ?>
 			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
-<font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
-<? } else { ?>
-<a href="?act=account&op=tologin" border="0"><img height1="37" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
+<font color="#ff3333"><?=$account['screen_name']?></font> <img src="<?=$urlbase?>images/weiboicon16_<?=$account['lfrom']?>.png" height=16 /><? if($account['verified']==1) { ?><img src="<?=$urlbase?>images/vip_<?=$account['lfrom']?>.gif" title="认证用户" alt=""><? } ?>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?></b>人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
 <? } ?>
 <br /><br/>
 				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
 			</div>
 			
 			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+				
+			<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+
 			</div>
 		</div>
 		<br/>
@@ -109,7 +127,15 @@
 		</div>
 		<div class="div_login">
 		
+		<? if(is_array($account) ) { ?>
 			<a href="?app=iq&op=ican"><img src="<?=$templatepath?>/iq_images/btn_ready.gif" alt="我准备好了，开始" /></a>
+		<? } else { ?>
+<? global $canLogin;?>
+	<? foreach((array)$canLogin as $login) {?>
+		<a href="?act=account&op=tologin&lfrom=<?=$login?>" border="0"><img height="24" src="<?=$templatepath?>/images/btn_login_<?=$login?>.png" alt="用微博帐号登录" /></a> 
+	<? } ?>
+<? } ?>
+
 		</div>
 
 <? } elseif($op=="stats") { ?>
@@ -117,9 +143,13 @@
 			<div class="login">
 			<? if(is_array($account) ) { ?>
 			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
-<font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　　　　　　<a href="?act=account&op=logout">退出</a>
+<font color="#ff3333"><?=$account['screen_name']?></font> <img src="<?=$urlbase?>images/weiboicon16_<?=$account['lfrom']?>.png" height=16 /><? if($account['verified']==1) { ?><img src="<?=$urlbase?>images/vip_<?=$account['lfrom']?>.gif" title="认证用户" alt=""><? } ?>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?></b> 人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　　　　　　<a href="?act=account&op=logout">退出</a>
 <? } else { ?>
-<a href="?act=account&op=tologin" border="0"><img height1="37" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
+<br/><br/>	　　　
+<? global $canLogin;?>
+	<? foreach((array)$canLogin as $login) {?>
+	<a href="?act=account&op=tologin&lfrom=<?=$login?>" border="0"><img height="24" src="<?=$templatepath?>/images/btn_login_<?=$login?>.png" alt="用微博帐号登录" /></a> 
+	<? } ?>
 <? } ?>
 
 			</div>			

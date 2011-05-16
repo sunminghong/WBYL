@@ -85,6 +85,12 @@ class openapi extends openapiAbstract{
 		$oarr0=$this->getClient()->getUserInfo();	
 		//print_r($oarr0);
 		$oarr=$oarr0['data'];
+
+		return $this->convertUserInfo($oarr);
+	}
+	//$type =2表示是粉丝列表，1为好友 ,0为我自己的信息
+	private function convertUserInfo($oarr,$type=0) { 
+
 		$uidarr=array();
 		$uidarr['screen_name']=$oarr['nick'];
 		$uidarr['name']=$oarr['name'];
@@ -92,7 +98,7 @@ class openapi extends openapiAbstract{
 		$uidarr['description']=$oarr['introduction'];
 		$uidarr['url']=$oarr[''];
 		$uidarr['avatar']=$oarr['head'];
-		$uidarr['domain']=$oarr[''];
+		$uidarr['domain']=$oarr['name'];
 		$uidarr['sex']=$oarr['sex'];
 		$uidarr['followers']=$oarr['fansnum'];
 		$uidarr['followings']=$oarr['idolnum'];
@@ -100,6 +106,7 @@ class openapi extends openapiAbstract{
 
 		$uidarr['verified']=$oarr['isvip'];
 		$uidarr['verifyinfo']=$oarr['verifyinfo'];
+		$uidarr['type'] =$oarr['Isidol']?3:$type;
 
 		$lfromuid=$oarr["name"];
 		$uidarr["kuid"]=envhelper::packKUID($this->lfrom,$lfromuid);
@@ -108,8 +115,7 @@ class openapi extends openapiAbstract{
 		$uidarr['name']=$uidarr['screen_name'];
 
 		return $uidarr;
-	}
-	
+}
 	public function update( $status, $reply_id = NULL, $lat = NULL, $long = NULL, $annotations = NULL ){
 		$p =array(
 			'c' =>$status,
@@ -122,7 +128,20 @@ class openapi extends openapiAbstract{
 	}
 
 	public function upload( $status , $pic_path, $lat = NULL, $long = NULL ){
-		return $this->getClient()-> upload( $status , $pic_path, $lat, $long);
+		$p=array(
+			'c'=>$status,
+			'ip'=>$_SERVER['REMOTE_ADDR'], 
+			'j' => '',
+			'w' => ''
+			);
+
+		if($pic_path && $pic_path!=''){
+			$ext = strtolower(pathinfo($pic_path , PATHINFO_EXTENSION ));
+			$mime = OAuthUtil::get_image_mime($pic_path);
+			$p['p'] = array($mime,'tmp.'.$ext,file_get_contents($pic_path));
+		}	
+		
+		return $this->getClient()->postOne($p);
 	}
 
 	public function del( $sid ){
@@ -134,19 +153,47 @@ class openapi extends openapiAbstract{
 	}
 
 	public function friends( $cursor = NULL , $count = 20 , $uid_or_name = NULL ){
-		return $this->getClient()->friends( $cursor , $count , $uid_or_name );
+		$back=$this->getClient()->getMyfans(array('n'=>$uid_or_name,'type'=>1,'start'=>$cursor,'num'=>$count));
+		
+		$list=$back['data']['info'];
+
+		$arrs=array();
+		if(is_array($list)) {
+			foreach($list as $li){
+				$arrs[]=$this->convertUserInfo($li,1);
+			}
+		}
+		if($back['data']['hasNext']==0) {
+			$has=1;
+		}
+		else $has=0;
+		return array("next_cursor"=>$has,"users"=>$arrs);
 	}
 
 	public function followers( $cursor = NULL , $count = NULL , $uid_or_name = NULL ){
-		return $this->getClient()->followers( $cursor, $count, $uid_or_name);
+		$back=$this->getClient()->getMyfans(array('n'=>$uid_or_name,'type'=>0,'start'=>$cursor,'num'=>$count));
+		
+		$list=$back['data']['info'];
+
+		$arrs=array();
+		if(is_array($list)) {
+			foreach($list as $li){
+				$arrs[]=$this->convertUserInfo($li,2);
+			}
+		}
+
+		if($back['data']['hasNext']==0) {
+			$has=1;
+		}
+		else $has=0;
+		return array("next_cursor"=>$has,"users"=>$arrs);
 	}
 
 	public function follow( $uid_or_name ){
 		$p =array(
 			'n' => $uid_or_name,
-			'type' => 2	
+			'type' => 1
 		);
-		//print_r($c->setMyidol($p));
 		return $this->getClient()->setMyidol($p);
 	}
 
@@ -155,24 +202,27 @@ class openapi extends openapiAbstract{
 			'n' => $uid_or_name,
 			'type' => 0	
 		);
-		//print_r($c->setMyidol($p));
 		return $this->getClient()->setMyidol($p);
 	}
 
 	public function hot_users( $category = "default" ){
-		return $this->getClient()->hot_users( $category);
+		throw new Exception();
 	}
 
+//是我跟随的吗？
 	public function is_followed( $target, $source = NULL ){
-		return $this->getClient()-> is_followed($target, $source);
+		return $this->getClient()->checkFriend(array("n"=>$target,"type"=>1));
 	}
-
+//是我的粉丝吗？
+	public function is_follwers( $target, $source = NULL ){
+		return $this->getClient()->checkFriend(array("n"=>$target,"type"=>0));
+	}
 	public function end_session(){
 		//return $this->getClient()->end_session();
 	}
 
 	public function update_profile_image($image_path){
-		return $this->getClient()->update_profile_image($image_path);
+		throw new Exception();
 	}
 
 

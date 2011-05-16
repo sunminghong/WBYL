@@ -13,6 +13,31 @@
 <!--{if $op == 'ican'}-->
 <script type="text/javascript" src="{$templatepath}/iq_images/iq_min.js?v=1.0"></script>
 <script type="text/javascript" src="{$templatepath}/daren_images/daren.js?v=1.0"></script>
+<style>
+
+.answer-box {
+font-family: arial;
+width: 212px;
+height: 83px;
+padding: 20px;
+padding-right: 30px;
+font-size: 16px;
+background: url('{$templatepath}/daren_images/answer-box.png');
+text-align: center;
+}
+.answer-box-green {
+	background: url('{$templatepath}/daren_images/answer-box-correct.png');
+}
+.answer-box-red {
+	background: url('{$templatepath}/daren_images/answer-box-wrong.png');
+}
+.clickable {
+cursor: hand;
+cursor: pointer;
+}
+
+
+</style>
 <!--{/if}-->
 <!--{if $op == 'showscore'}-->
 <script type="text/javascript" src="{$templatepath}/iq_images/iq_min.js?v=1.01"></script>
@@ -71,7 +96,24 @@
 <div id="face2"></div><div id="div_score">000</div>
 <table cellspacing="0" cellpadding="0" class="formtable" id="test_tr2">
 <caption id="test_cap"></caption>
-<tr><td style="height:300px;" valign="top"><div id="test_main"></div></td></tr>
+<tr><td style="height:300px;" valign="top" style="postion:relative; "><div id="test_main">
+		<table style="margin: 0 auto;height:200px;">
+								<tbody><tr>
+									<td style="padding: 2px 10px 2px 10px;"><div id="answer1" class="clickable answer-box" style="opacity: 1; ">three, 3</div></td>
+									<td style="padding: 2px 10px 2px 10px;"><div id="answer2" class="answer-box clickable" style="opacity: 1; " correct="true">I, me</div></td>
+								</tr>
+								<tr>
+									<td style="padding: 2px 10px 2px 10px;"><div id="answer3" class="answer-box clickable" style="opacity: 1; ">extremely, extraordinary, very</div></td>
+									<td style="padding: 2px 10px 2px 10px;"><div id="answer4" class="answer-box clickable" style="opacity: 1; ">how about</div></td>
+								</tr>
+								<tr>
+									<td style="padding: 2px 10px 2px 10px;"><div id="none-button" class="clickable answer-box" style="opacity: 1; ">None of these</div></td>
+									<td style="padding: 2px 10px 2px 10px;"><div class="clickable dont-know-button" style="text-align: center; border-top-color: rgb(194, 194, 194); border-right-color: rgb(194, 194, 194); border-bottom-color: rgb(194, 194, 194); border-left-color: rgb(194, 194, 194); color: rgb(194, 194, 194); "><img id="dont-know-choose-img" src="http://static.lingt.com/img/dont-know-button.png" style=""></div></td>
+								</tr>
+							</tbody></table>
+
+
+</div><div id="div__clock" style="postion:absolute; right:30px;bottom:40px; width:160px;height:160px;"></div></td></tr>
 </table>
 
 <!--{/if}-->

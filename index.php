@@ -1,5 +1,5 @@
 <?php
-if(!isset($_GET["app"]) && !isset($_GET["act"])){
+if(!$_GET["app"] && !isset($_GET["act"])){
 	//$defapp="iq";
 			$tourl="?app=iq";
 			header("Location: $tourl");exit;

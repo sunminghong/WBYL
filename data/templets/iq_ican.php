@@ -4,63 +4,101 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>看看你有多聪明！ -  微博IQ测试 </title>
 	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/iq_images/iq.css" />
-	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> 
+<!--	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> -->
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';</script>
-<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.5"></script>
+<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.6"></script>
+<? if($op=="ready" || $op=="showscore") { ?>
+<style>
+
+ul.test{ margin: 10px 0; line-height: 21px;}
+ul.test li{color: #666; list-style: inside disc;text-align:left;
+font: 12px/1.5em Tahoma, Arial, Helvetica, snas-serif;
+}
+ul.test li a {color:#f00;font-size:12px;line-height:18px;}
+</style>
+<? } ?>
 </head>
 <body>
 
 	<div class="mainFrame">
 		
-<? if($op=="ican") { ?>
-
-		<div class="ui-widget">			
+		<div class="ui-widget">
 			<div class="login">
 				<font color="#ff3333"><?=$account['screen_name']?></font>, 微博IQ测试须在30分钟内完成（33题）<br/><br/>
-			<!--<input name="B1" onclick="startclock()" type="button" value="开始计时">--><span id="face">00:00</span>
-			</div>
-			
+			<!--<input name="B1" onclick="startclock()" type="button" value="开始计时">--><span id="face"> <?=$score['newusetime']?></span>
+			</div>			
 			<div class="logo">
 				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
-		</div>		
+		</div>
+<div id="div_notice"></div>
 		<div class="contentFrame" style="clear:both;text-align:center; ">
-			<div class="ui-widget" style="text-align:center; color:#696a62; display:none;" id="ui-widget-result">
-				<div><p>
-					<strong>您本次智商测试得分为<span id="iq_val"></span>分 ，用时<span id="use_time"></span></strong></p>
-				</div>
 
-				<div class="welcomeDiv1" style="">
-				<img id="result_zhengshuPic" src="<?=$urlbase?>images/zhengshu_iq_1.png" align="left"/>
+	<form method="post" action="" class="c_form">
+<? if($op=="ready") { ?>
+				<table cellspacing="0" cellpadding="0" class="formtable" id="test_tr1">
+				<caption>
+				<h2>IQ测试，智商测试</h2>
+				<p>通过国内公认的专业IQ评测系统，您可以更加客观全面的了解自己和身边朋友的智商水平，这是beta版</p>
+				</caption>
+				<tr>
+				<th style="width:12em;"><a href="?app=iq&op=ican"><img src="<?=$templatepath?>/iq_images/btn_ready.gif" alt="我准备好了，开始" /></a></th>
+				<td style="text-align:left;">
+				IQ测试共计33道测试题，为了方便你操作，所有题型都设计成了单选题。为了保证测试的准确性，请你注意以下方面：
+						<ul class="test">
+							<li>1。保持最佳思维状态（根据本站统计，人在三分饥的时候思维状态最佳）</li>
+							<li>2。身边没有阿猫阿狗吧？如果有，请给足粮食，让它安静点！</li>
+							<li>3。如果你测试结果不理想，请不要气馁，可以过一段时间再来一次（测试间隔最好在一个月以上）！</li>
+							<li>4。如果结果显示你是天才，请不要窃喜，因为前有爱因斯坦，后有更天才的天才！</li>
+						</ul>
+				</td>
+				</tr>
+				</table>
+</form>
+<? } elseif($op == 'showscore') { ?>
+			<div><p>
+					<strong>您本次智商测试得分为<?=$score['nowiq']?>分 ，用时 <?=$score['newusetime']?></strong></p>
+				</div>
+			<div class="welcomeDiv1" style="">
+				<img id="result_zhengshuPic" src="<?=$score['zsurl']?>" align="left"/>
 				<br/>
-				<span id="div_result" style="padding-top:20px;color:#000;line-height:1.5em;font-size:14px;">你共测试86 次， 最高IQ值是 110 , 排名第 2663 , 打败了 77.3380988852% 的人(包括@_Justina-wjh_ ，@豬俊峰James-Lee ，@bo-少 ，~_~），加油！！！你获得【在在在在】证书（见右）！</span>
+				<span id="div_result" style="padding-top:20px;color:#000;line-height:1.5em;font-size:14px;">
+你共测试<?=$score['testCount']?> 次， 最高IQ值是<?=$score['iq']?> , 排名第 <b><?=$score['top']?></b>，打败了 <b><?=$score['win']?></b>人
+<? if($score['lostname']) { ?>（包括<?=$score['lostname']?>~_~）<? } ?>，并获得【<?=$score['chs']?>】证书（见右），好好学习，#天天向上#！！！
+</span>
 				<br/>
 				<br/>专家点评：
 				<span id="div_words" style="font-size:12px;font-weight:normal;color:#333;">					
-					你与牛顿的区别，目前仅仅在于你还没被苹果砸到，建议你尽快蹲守苹果树下吧！
+					<?=$score['words']?>
 					</span><br/> <br/> 
-				<span style="font-size:12px;font-weight:normal;color:#999;">					
-					70-89  --呆头呆脑 <br/>				
-					90-99  --波澜不兴<br/>				
-					100-109--聪明过人<br/>				
-					110-119--颖慧绝伦<br/>				
-					120-129--旷世奇才<br/>				
-					130-139--文曲星转世
+				<span style="font-size:12px;font-weight:normal;color:#999;">	<code>				
+					0-89       -- 愚不可及 <br/>				
+					90-99     -- 呆头呆脑<br/>				
+					100-109 -- 波澜不兴<br/>				
+					110-119 -- 聪明过人<br/>
+					120-129 -- 颖慧绝伦<br/>
+					130-139 -- 旷世奇才<br/>
+					140-?     -- 文曲星转世</code>
 					</span><br/> <br/> <a href="javascript:void(0);"  onclick="sendmsg();"><img src="<?=$templatepath?>/iq_images/btn_tweet_blue.gif" /></a> <div style="height:2px;"></div>
-				<a href="javascript:void(0);" onclick="follow();" title="谢谢你的关注，我们会定期在官网公告“聪明行情”！"><img src="<?=$templatepath?>/iq_images/btn_follow.gif" title="关注我"/></a> <div style="height:2px;"></div>
-				<a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats_green.gif" alt="聪明排行榜" ></a> <div style="height:2px;"></div>
-				<a href="?app=iq&op=ready"><img src="<?=$templatepath?>/iq_images/btn_testagain.gif" alt="再测试一次"/></a>
+									<a href="javascript:void(0);" onclick="follow();" title="谢谢你的关注，我们会定期在官网公告“聪明行情”！"><img src="<?=$templatepath?>/iq_images/btn_follow.gif" title="关注我"/></a>
+<br/><br/>
+
+  接下来，您还可以：
+  <ul class="test">
+    <li><a href="?app=iq&op=stats" target="_blank">看看你的好友的IQ情况&raquo;</a></li>
+    <li><a href="javascript:void(0);" onclick="follow();" target="_blank">关注官方微博，“实时”了解最新的更新&raquo;</a></li>
+    <!--li><a href="http://www.265g.com" target="_blank" title="265G是网页游戏第一门户！找网页游戏，就上265G!">如果你想玩游戏，可以上265g看看！&raquo;</a></li-->
+	<li><a href="?app=iq&op=ready">再测试一次&raquo;</a></li>
+  </ul>
 				</div>
-			</div>
-			<div class="div_login" id="ui-widget-result-send" style="clear:both;">
-			<!--
-				<a href="javascript:void(0);"  onclick="sendmsg();"><img src="<?=$templatepath?>/iq_images/btn_tweet.gif" /></a> 
-				<a href="javascript:void(0);" onclick="follow();" title="谢谢你的关注，我们会定期在官网公告“聪明行情”！"><img src="<?=$templatepath?>/iq_images/btn_follow.gif" title="关注我"/></a> 
-				<a href="?app=iq&op=ready"><img src="<?=$templatepath?>/iq_images/btn_testagain.gif" alt="再测试一次"/></a>-->
-			</div>
+				<div style="clear:both;"></div>
+
+<? } ?>
+
+<? if($op=="ican") { ?>
 
 			<div class="ui-widget" style="text-align:center; color:#696a62;" id="ui-widget-content">
 

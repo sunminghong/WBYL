@@ -84,11 +84,12 @@ class openapi extends openapiAbstract{
 	}	
 	
 	public function getUserInfo(){
-		$oarr=$this->getClient()->getUserInfo();
+		$oarr=$this->getClient()->getUserInfo(); 
 		return $this->convertUserInfo($oarr);
 	}
 
-	private function convertUserInfo($oarr) {
+	//$type =2表示是粉丝列表，1为好友 ,0为我自己的信息
+	private function convertUserInfo($oarr,$type=0) { 
 		$uidarr=array();
 		$uidarr['screen_name']=$oarr['screen_name'];
 		$uidarr['name']=$oarr['name'];
@@ -97,13 +98,14 @@ class openapi extends openapiAbstract{
 		$uidarr['url']=$oarr['url'];
 		$uidarr["avatar"]=$oarr["profile_image_url"];
 		$uidarr['domain']=empty($oarr['domain'])?$oarr['id']:$oarr['domain'];
-		$uidarr['sex']=$oarr['gender']=="m"?1:2;
+		$uidarr['sex']=($oarr['gender']=="m")?1:(($oarr['gender']=="f")?2:0);
 		$uidarr['followers']=$oarr['followers_count'];
 		$uidarr['tweets']=$oarr['statuses_count'];
 		$uidarr['followings']=$oarr['friends_count'];
 		
 		$uidarr['verified']=$oarr['verified'];
 		$uidarr['verifyinfo']=$oarr[''];
+		$uidarr['type'] =$oarr['following']?3:$type;
 
 		$lfromuid=$oarr["id"];
 		$uidarr["kuid"]=envhelper::packKUID($this->lfrom,$lfromuid);
@@ -172,6 +174,9 @@ class openapi extends openapiAbstract{
 		return $this->getClient()-> is_followed($target, $source);
 	}
 
+	public function is_follwers( $target, $source = NULL ){
+		throw new exception();
+	}
 	public function end_session(){
 		return $this->getClient()->end_session();
 	}

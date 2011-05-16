@@ -105,7 +105,11 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 //cookie设置
 function ssetcookie($var, $value, $life=0) {
 	//setcookie(CookiePre.$var, $value, $life?(time()+$life):0, "/",CookieDomain);
-	SESS::set($var,$value);
+	if($value==="")
+		SESS::del($var);
+	else
+		SESS::set($var,$value);
+
 }
 function sreadcookie($key){
 	//return $_COOKIE[CookiePre.$key];
@@ -203,7 +207,7 @@ class SESS{
 	}
 	
 	#删除所有session
-	public function delall($key){
+	public function delall(){
 		self::initSession();
 		session_destroy();
 	}

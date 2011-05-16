@@ -133,7 +133,7 @@ class MBOpenTOAuth {
      * @return mixed 
      */ 
     function get($url, $parameters) { 
-		$response = $this->oAuthRequest($url, 'GET', $parameters); 
+		$response = $this->oAuthRequest($url, 'GET', $parameters); //echo $url; print_r($parameters);echo $response;
 		if (MB_RETURN_FORMAT === 'json') { 
             return $this->jsonDecode($response, true);
 		}
@@ -171,7 +171,7 @@ class MBOpenTOAuth {
     function oAuthRequest($url, $method, $parameters , $multi = false) { 
         if (strrpos($url, 'http://') !== 0 && strrpos($url, 'https://') !== 0) { 
             $url = "{$this->host}{$url}.{$this->format}"; 
-		}print_r($this->token);echo $this->consumer;
+		}
         $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters); 
 		$request->sign_request($this->sha1_method, $this->consumer, $this->token);
         switch ($method) { 
@@ -181,7 +181,7 @@ class MBOpenTOAuth {
             return $this->http($request->get_normalized_http_url(), $method, $request->to_postdata($multi) , $multi ); 
         } 
 	}     
-
+/*
 	function http($url, $method, $postfields = NULL , $multi = false){
 		//$https = 0;
 		//判断是否是https请求
@@ -239,10 +239,10 @@ class MBOpenTOAuth {
 		}
 		
 	}
- 
+ */
 
-	/*
-	使用curl库的请求函数,可以根据实际情况使用
+
+	//使用curl库的请求函数,可以根据实际情况使用
 	function http($url, $method, $postfields = NULL , $multi = false){
         $this->http_info = array(); 
         $ci = curl_init(); 
@@ -284,11 +284,11 @@ class MBOpenTOAuth {
         $this->http_code = curl_getinfo($ci, CURLINFO_HTTP_CODE); 
         $this->http_info = array_merge($this->http_info, curl_getinfo($ci)); 
         $this->url = $url; 
-		print_r($response);	
+		//print_r($response);	
         curl_close ($ci); 
         return $response; 
 
-	}*/
+	}
 	
     function getHeader($ch, $header) { 
         $i = strpos($header, ':'); 

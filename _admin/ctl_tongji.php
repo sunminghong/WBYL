@@ -9,7 +9,7 @@ class tongji extends ctl_base
 		if(rq("j",false)){
 			$logtime= date("20y-m-d H",gettimestamp());
 			
-			$sql="select sum(iqs) as iqs,sum(logs) as logs,sum(logins) as logins,sum(users) as users,sum(libs) as libs,sum(snses) as snses,sum(lib_snses) as lib_snses,sum(zhengshu) as zhengshu,sum(posts) as posts from ".dbhelper::tname("log","tongji") ." where lasttime<'{$logtime}:00:00' order by id desc limit 0,1";
+			$sql="select sum(iqs) as iqs,sum(logs) as logs,sum(logins) as logins,sum(users) as users,sum(libs) as libs from ".dbhelper::tname("log","tongji") ." where lasttime<'{$logtime}:00:00' order by id desc limit 0,1";
 			$rs=dbhelper::getrs($sql);//echo $sql;
 			$row=$rs->next();
 
@@ -18,11 +18,7 @@ class tongji extends ctl_base
 (select sum(logins) from ".dbhelper::tname("ppt","user") .") as logins,
 
 (select count(*) from ".dbhelper::tname("ppt","user") .") as users,
-(select count(*) from ".dbhelper::tname("ppt","userlib") .") as libs,
-(select count(*) from ".dbhelper::tname("ppt","user_sns") .") as snses,
-(select count(*) from ".dbhelper::tname("ppt","userlib_sns") .") as lib_snses,
-(select count(*) from ".dbhelper::tname("ppt","zhengshu") .") as zhengshu,
-(SELECT SUM( posts )  FROM  ".dbhelper::tname("ppt","user") ." WHERE posts >0) as posts ";
+(select count(*) from ".dbhelper::tname("ppt","userlib") .") as libs ";
 			$rs=dbhelper::getrs($sql);
 			$row2=$rs->next();
 			foreach($row2 as $k => $v){
@@ -33,20 +29,43 @@ class tongji extends ctl_base
 
 			$sql="delete from  ".dbhelper::tname("log","tongji") ." where lasttime<='{$logtime}:59:59' and lasttime>='{$logtime}:00:00'";			
 			dbhelper::execute($sql); 
-			dbhelper::update($row2,"",dbhelper::tname("log","tongji"),"id");
+			$newid=dbhelper::update($row2,"",dbhelper::tname("log","tongji"),"id");
+
+
+			
+			$sql="select sum(tqq_libs) as tqq_libs,sum(snses) as snses,sum(lib_snses) as lib_snses,sum(tqq_lib_snses) as tqq_lib_snses,sum(zhengshu) as zhengshu,sum(posts) as posts from ".dbhelper::tname("log","tongji") ." where lasttime<'{$logtime}:00:00' order by id desc limit 0,1";
+			$rs=dbhelper::getrs($sql);//echo $sql;
+			$row=$rs->next();
+
+			$sql ="		select (select count(*) from ".dbhelper::tname("ppt","tqq_userlib") .") as tqq_libs,
+(select count(*) from ".dbhelper::tname("ppt","user_sns") .") as snses,
+(select count(*) from ".dbhelper::tname("ppt","userlib_sns") .") as lib_snses,
+(select count(*) from ".dbhelper::tname("ppt","tqq_userlib_sns") .") as tqq_lib_snses,
+(select count(*) from ".dbhelper::tname("ppt","zhengshu") .") as zhengshu,
+(SELECT SUM( posts )  FROM  ".dbhelper::tname("ppt","user") ." WHERE posts >0) as posts ";
+			$rs=dbhelper::getrs($sql);
+			$row2=$rs->next();
+			foreach($row2 as $k => $v){
+				if(is_array($row) && isset($row[$k])){
+					$row2[$k]=$row2[$k]-$row[$k];
+				}
+			}
+			dbhelper::update($row2,$newid,dbhelper::tname("log","tongji"),"id");
 			
 
 		$sql="delete from  ".dbhelper::tname("log","tongji_sum") ." where lasttime<='{$logtime}:59:59' and lasttime>='{$logtime}:00:00';;;";
 			$sql .="
-			insert into ".dbhelper::tname("log","tongji_sum") ." (iqs,logs,logins,users,libs,snses,lib_snses,zhengshu,posts) 
+			insert into ".dbhelper::tname("log","tongji_sum") ." (iqs,logs,logins,users,libs,tqq_libs,snses,lib_snses,tqq_lib_snses,zhengshu,posts) 
 			select (select count(*) from iq_iq) as iqs,
 	(select count(*) from iq_log ) as logs,
 	(select sum(logins) from ppt_user) as logins,
 
 	(select count(*) from ppt_user) as users,
 	(select count(*) from ppt_userlib) as libs,
-	(select count(*) from ppt_user_sns) as snses,
-	(select count(*) from ppt_userlib_sns) as lib_snses,
+(select count(*) from ".dbhelper::tname("ppt","tqq_userlib") .") as tqq_libs,
+(select count(*) from ".dbhelper::tname("ppt","user_sns") .") as snses,
+(select count(*) from ".dbhelper::tname("ppt","userlib_sns") .") as lib_snses,
+(select count(*) from ".dbhelper::tname("ppt","tqq_userlib_sns") .") as tqq_lib_snses,
 	(select count(*) from ppt_zhengshu) as zhengshu,
 	(SELECT SUM( posts )  FROM  `ppt_user` WHERE posts >0) as posts";
 				dbhelper::exesqls($sql);

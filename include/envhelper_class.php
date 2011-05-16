@@ -20,6 +20,7 @@ class envhelper{
 	
 	static public function clearAccounts(){
 		ssetcookie('sess',"");
+		SESS::delall();
 	}
 	static public function saveAccounts($uid,$userinfo){
 		$json=false;//sreadcookie('sess');
