@@ -1,25 +1,26 @@
-//测试页逻辑
-var MAXTIMEPER=15;
-var usetime2=0;var isFilish=false;
+var usetime2=0;
+var isFilish=false;
+var isLoading=false;
+var iclock=1;
+
 function init() {
-	next('init');
+	next('init',0);
 	$("#btn_b").show();
 }
 
-function subm(){
-	var an=getAn();
+function subm(an){
 	location.href='?app=daren&act=daren&op=showscore&an='+an;
 }
 
-function next(de){
-	$(".btntest").unbind();
+function next(de,an){
+	//$(".btntest").unbind();
 	//$("#test_main").hide('slow');
 
 	if(isFilish) {
-		subm();
+		subm(an);
 		return;
 	}
-	var an=getAn();
+
 	var url="?app=daren&act=daren&op="+de+'&an='+an+'&t='+Math.random();
 	$.get(url,function(res){
 
@@ -41,35 +42,30 @@ function next(de){
 		sh.push('<table cellspacing="0" cellpadding="0" class="formtable"><caption style="padding-top:0;">');
 		for(i=5;i<jl;i++){
 			sh.push("<dl>");
-			var qu=json[i];//['+qu.t+']
-			if(i==jl-1){
-				switch(qu.t){				
-					case 1:
-						$("#test_cap").html('<h2>博士考试：第一部分 &gt; 百科知识（四题）</h2><p>包括旅游,法律,金融,音乐,军事,动漫,地理,常识,体育,其它等</p>');
-						break;
-					case 2:
-						$("#test_cap").html('<h2>博士考试：第二部分 &gt; 文史政治（三题）</h2><p>包括艺术,文学,历史,哲学,政治等</p>');
-						break;
-					case 3:
-						$("#test_cap").html('<h2>博士考试：第三部分 &gt; 科技与科学</h2><p>包括物理,化学,电脑,科技,自然,天文等</p>');
-						break;
-				}
-			}
-			sh.push('<dt idx="'+qu.idx+'"><span class="testlist">'+qu.idx+'/'+co+'</span>　'+qu.q+'</dt>');
+			var qu=json[i];
 
+			if(qu.q.length>60) $('#test_cap').css("font-size","18px").css("line-height","25px;");
+			else $('#test_cap').css("font-size","24px").css("line-height","33px;");
+
+			$('#test_cap').html('<span class="testlist">'+qu.idx+'/'+co+'</span>'+qu.q);
 			var ql=qu.a.length;
 			var sel=qu.a[0];
 			var ABC=['','A','B','C','D','E','F','G'];
-			for(j=1;j<ql;j++){
-				if(qu.a[j])
-				sh.push('<dd><a hiddenFocus="true" href="javascript:void(0);" '+(sel==j-1?' class="sel"':'')+'>'+ABC[j]+'. '+qu.a[j]+'</a></dd>');
+			for(j=1;j<4;j++){
+				if(qu.a[j]) {
+					$('#answer'+j+'').html(ABC[j]+'. '+qu.a[j]);
+				}else {
+					$('#answer'+j+'').html('');
+				}
 			}
-			sh.push("</dl>");
 		}
 
-		$("#test_main").html(sh.join(''));
 		$("#test_main").show();
-		
+			
+		var ttt=Math.round(initStopwatch2());
+		drawClock(parseInt(ttt/2));
+
+		iclock=1;
 		if(co<=lidx){
 			isFilish=true;
 		}
@@ -77,60 +73,31 @@ function next(de){
 	});
 }
 
-function getAn(){
-	var an='';
-	$("#test_main dl").each(function(){
-		var idx=$(this).find("dt").attr("idx");
-		$(this).find("a").each(function(ii,v){
-			if(this.className=="sel"){
-				an=ii;	
-			}
-		});
-	});
-	return an;
-}
-
-$("#test_main dd a").live("click",function(){
-	if(isLoading) return;
-	$(this).parent().parent().find("a").removeClass("sel");
-	this.className="sel";
-	next('next');
-	isLoading=true;
-});
-
 function initStopwatch2() {
-var myTime = new Date();
-return((myTime.getTime() - clockStart)/1000)+usetime2;
+	var myTime = new Date();
+	return((myTime.getTime() - clockStart)/1000)+usetime2;
 }  
 
-var iclock=1;
 function showtime(isstop) {
 	if(timerID)clearTimeout(timerID);
-var tSecs = Math.round(initStopwatch());
-if(!isstop && tSecs>300){
-	alert('很遗憾，时间已到！');
-	subm();
-	return;
-}
-var iSecs = tSecs % 60;
-var iMins = Math.round((tSecs-30)/60);     
-var sSecs ="" + ((iSecs > 9) ? iSecs :"0" + iSecs);     
-var sMins ="" + ((iMins > 9) ? iMins :"0" + iMins);     
-$("#face").html(sMins+":"+sSecs);
-if(isstop) return;
-
-var tSecs2 =MAXTIMEPER - Math.round(initStopwatch2());
-if(tSecs2>=0) {
-	$("#face2").html(tSecs2);
-	if(iclock %2 ==0){
-		drawClock( iclock/2 );
+	var tSecs = Math.round(initStopwatch());
+	if(!isstop && tSecs>300){
+		alert('很遗憾，时间已到！');
+		subm(-1);
+		return;
 	}
-	iclock++;
-}else {
-	iclock=1;$("#face2").html(0);
-}
-timerID = setTimeout("showtime()",1000);
-timerRunning = true;
+	var iSecs = tSecs % 60;
+	var iMins = Math.round((tSecs-30)/60);     
+	var sSecs ="" + ((iSecs > 9) ? iSecs :"0" + iSecs);     
+	var sMins ="" + ((iMins > 9) ? iMins :"0" + iMins);     
+	$("#face").html(sMins+":"+sSecs);
+	if(isstop) return;
+
+	var ttt=Math.round(initStopwatch2());
+	drawClock( parseInt(ttt/2 ));
+
+	timerID = setTimeout("showtime()",1000);
+	timerRunning = true;
 }
 
 var lastScoreLeft=0;
@@ -140,20 +107,18 @@ var lastScoreWidth=0;
 var divScoreLeft=0;
 var divScoreTop=0;
 
-function addScore(lastScore,score) {
-	if(!lastScore) return;
- //$("#test_main").parent().append('<div id="div_lastScore" style="color:#0f0; line-height:'+lastScoreHeight+'px;height:'+lastScoreHeight+'px;width:'+
-//	 lastScoreWidth+'px;font-size:64px;position:absolute;left:'+lastScoreLeft+'px;top:'+lastScoreTop+';background:#ece;">'+lastScore+'</div>');
-//return;
+function addScore(lastScore,score) {	
 	poff=$("#test_main").parent().offset();
 	lastScoreLeft=poff.left;
 	lastScoreTop=poff.top;
 	lastScoreWidth=$("#test_main").parent().width();
-	
-	poff=$("#div_score").offset();
+	if(lastScore) 
+		poff=$("#div_score").offset();
+	else 
+		poff=$("#test_cap").offset();
+
 	divScoreLeft=poff.left;
-	divScoreTop=poff.top; //,width:lastScoreWidth,height:lastScoreHeight,lineHeight:lastScoreHeight
-	//  $('#div_lastScore');
+	divScoreTop=poff.top+4; 
 	var oldmain=$('#test_main');
 	var ooo=oldmain.clone().css("position","absolute").css("border","1px solid #666").css("background-color","#CEEFF6").css({left:lastScoreLeft,top:lastScoreTop}).insertAfter(oldmain);
 	oldmain.hide();
@@ -167,7 +132,7 @@ function addScore(lastScore,score) {
 	width:'toggle'
   }, 400, function() {
 		ooo.remove();
-		$("#div_score").html('得分：'+score);
+		$("#div_score").html(score);
 		
   });
 
@@ -176,7 +141,8 @@ function addScore(lastScore,score) {
 
 
 function drawClock(num) {
-	if(num>7) {return;	}
+	if(num>7) {num=7;}
+	else if(num==0) num=1;
 
 	var dclock=$('#div__clock');
 
@@ -203,12 +169,21 @@ $(document).ready(function(){
 	divScoreLeft=poff.left;
 	divScoreTop=poff.top;
 	
-	$("#test_main td").hover(function(){
+	$("#test_main td").find("div").hover(function(){
+		if(isLoading) return;
 		$(this).removeClass("answer-box").addClass("answer-box-green");
 	},function(){
+		if(isLoading) return;
 		$(this).addClass("answer-box").removeClass("answer-box-green");
+	}).click(function(){
+		if(isLoading) return;
+		isLoading=true;
+		//$(this).removeClass("answer-box").addClass("answer-box-green");
+		var idx=$(this).attr("id").replace("answer","")*1-1;
+
+		next('next',idx);
 	});
 
-	//init();
+	init();
 
 });

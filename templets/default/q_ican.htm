@@ -32,43 +32,30 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 
 </head>
 <body>
-
+{template top}
 	<div class="mainFrame">
-		
+
+<!--{if $op == 'showscore'}-->		
 		<div class="ui-widget">
 			<div class="login">
-				<font color="#ff3333">{$account[screen_name]}</font>, 微博<!--{eval echo strtoupper($app);}-->测试须在30分钟内完成（33题）<br/><br/>
-			<!--<input name="B1" onclick="startclock()" type="button" value="开始计时">--><span id="face"> {$score[newusetime]}</span>
+<!--{if is_array($account) }-->
+			<img class="zhengshuico icoview" zsurl="{$eqScore[zsurl]}" src="{$urlbase}images/zhengshu_eq_ico_{$eqScore[eqlv]}.png"/>
+<font color="#ff3333">{$account[screen_name]}</font> <img src="{$urlbase}images/weiboicon16_{$account[lfrom]}.png" height=16 /><!--{if $account[verified]==1}--><img src="{$urlbase}images/vip_{$account[lfrom]}.gif" title="认证用户" alt=""><!--{/if}-->, 你共测试{$eqScore[testCount]} 次， 最高<!--{eval echo strtoupper($app);}-->值是 {$eqScore[eq]} , 排名第<b> {$eqScore[top]} </b>, 打败了 <b>{$eqScore[win]}</b>人<!--{if $eqScore[lostname] }-->(包括{$eqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
+<!--{else}-->
+
+	<strong>　　<!--{eval echo strtoupper($app);}-->：</strong>就是常说的情商，与此对应的还有EQ、AQ、XQ...；
+	<strong>微博<!--{eval echo strtoupper($app);}-->测试：</strong>就是常说的情商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！
+		<!--{/if}-->
 			</div>			
 			<div class="logo">
 				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/eq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
-<div id="div_notice"></div>
-		<div class="contentFrame" style="clear:both;text-align:center; ">
 
-<!--{if $op=="ready"}-->
-	<form method="post" action="" class="c_form">
-				<table cellspacing="0" cellpadding="0" class="formtable" id="test_tr1">
-				<caption>
-				<h2><!--{eval echo strtoupper($app);}-->测试，情商测试</h2>
-				<p>通过国际公认的专业<!--{eval echo strtoupper($app);}-->评测系统，您可以更加客观全面的了解自己和身边朋友的情商水平，这是beta版</p>
-				</caption>
-				<tr>
-				<th style="width:12em;"><a href="?app=eq&op=ican"><img src="{$templatepath}/q_images/btn_ready.gif" alt="我准备好了，开始" /></a></th>
-				<td style="text-align:left;">
-				<!--{eval echo strtoupper($app);}-->测试共计33道测试题，为了方便你操作，所有题型都设计成了单选题。为了保证测试的准确性，请你注意以下方面：
-						<ul class="test">
-							<li>1。保持最佳思维状态（根据本站统计，人在三分饥的时候思维状态最佳）</li>
-							<li>2。身边没有阿猫阿狗吧？如果有，请给足粮食，让它安静点！</li>
-							<li>3。如果你测试结果不理想，请不要气馁，可以过一段时间再来一次（测试间隔最好在一个月以上）！</li>
-							<li>4。如果结果显示你是天才，请不要窃喜，因为前有爱因斯坦，后有更天才的天才！</li>
-						</ul>
-				</td>
-				</tr>
-				</table>
-</form>
-<!--{elseif $op == 'showscore'}-->
+<div id="div_notice"></div>
+<div id="ad_800_60" style="width:800px;height:60px;"></div>	
+<div class="contentFrame" style="clear:both;text-align:center; ">
+
 			<div><p>
 					<strong>您本次情商测试得分为{$score[noweq]}分 ，用时 {$score[newusetime]}</strong></p>
 				</div>
@@ -85,13 +72,13 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 					{$score[words]}
 					</span><br/> <br/> 
 				<span style="font-size:12px;font-weight:normal;color:#999;">	<code>				
-					0-89       -- 愚不可及 <br/>				
-					90-99     -- 呆头呆脑<br/>				
-					100-109 -- 波澜不兴<br/>				
-					110-119 -- 聪明过人<br/>
-					120-129 -- 颖慧绝伦<br/>
-					130-139 -- 旷世奇才<br/>
-					140-?     -- 文曲星转世</code>
+					0-89       -- 笨鸟先飞 <br/>				
+					90-99     -- 左支右绌<br/>				
+					100-109 -- 曲高和寡<br/>				
+					110-119 -- 大道中庸<br/>
+					120-129 -- 洞察秋毫<br/>
+					130-139 -- 左右逢源<br/>
+					140-?     -- 上善若水</code>
 					</span><br/> <br/> <a href="javascript:void(0);"  onclick="sendmsg();"><img src="{$templatepath}/q_images/btn_tweet_blue.gif" /></a> <div style="height:2px;"></div>
 									<a href="javascript:void(0);" onclick="follow();" title="谢谢你的关注，我们会定期在官网公告“聪明行情”！"><img src="{$templatepath}/q_images/btn_follow.gif" title="关注我"/></a>
 <br/><br/>
@@ -99,8 +86,8 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
   接下来，您还可以：
   <ul class="test">
     <li><a href="?app=eq&op=stats" target="_blank">看看你的好友的EQ情况&raquo;</a></li>
-    <li><a href="javascript:void(0);" onclick="follow();" target="_blank">关注官方微博，“实时”了解最新的更新&raquo;</a></li>
-    <!--li><a href="http://www.265g.com" target="_blank" title="265G是网页游戏第一门户！找网页游戏，就上265G!">如果你想玩游戏，可以上265g看看！&raquo;</a></li-->
+   <li><a href="?app=iq" target="_blank">进行智商（IQ）测试&raquo;</a></li>
+    <li><a href="http://www.265g.com/?lfrom=5d13" target="_blank" title="265G是网页游戏第一门户！找网页游戏，就上265G!">如果你想玩游戏，可以上265g看看！&raquo;</a></li>
 	<li><a href="?app=eq&op=ready">再测试一次&raquo;</a></li>
   </ul>
 				</div>
@@ -109,12 +96,25 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 <!--{/if}-->
 
 <!--{if $op=="ican"}-->
+		
+		<div class="ui-widget">
+			<div class="login">
+				<font color="#ff3333">{$account[screen_name]}</font>, 微博<!--{eval echo strtoupper($app);}-->测试须在30分钟内完成（33题）<br/><br/>
+			<!--<input name="B1" onclick="startclock()" type="button" value="开始计时">--><span id="face"> {$score[newusetime]}</span>
+			</div>			
+			<div class="logo">
+				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/eq_logo.jpg" alt="看看你有多聪明" /></a>
+			</div>
+		</div>
+
+<div id="div_notice"></div>
+		<div class="contentFrame" style="clear:both;text-align:center; ">
 
 			<div class="ui-widget" style="text-align:center; color:#696a62;" id="ui-widget-content">
 			<p>
 			<stong>提示：测试中，每一题请选择一个和自己最切合的答案，少选中性答案。</stong><br />
 			<stong>友情提示：要本着对自己负责，对党、国家和人民负责的原则来测试，否则不准确！</stong></p>
-<form name="quest" method="post" action="?app=eq&op=cacl" target="_self" id="quest_form">
+<form name="quest" method="post" action="?app=eq&op=cacl" id="quest_form">
 <input type="hidden" name="usetime" value="1" id="in_usetime"/>
 <div id="quiz_list" style="margin-top:20px;">
 <ol id="qlist">
@@ -157,7 +157,7 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 <div id="quest_append" style="margin:30px 0 0 30px;"></div>
 	<div class="field" style="margin:20px;padding-left:20px;">
 			<p>
-							<a href="javascript:void(0);" onclick="document.getElementById('quest_form').submit();" ><img src="{$templatepath}/q_images/btn_showscore_{$app}.gif" alt="查看我的分数"/></a></p>
+							<a href="#" onclick="document.getElementById('quest_form').submit(); return false;" ><img src="{$templatepath}/q_images/btn_showscore_{$app}.gif" alt="查看我的分数"/></a></p>
 	</div>
 </form>
 
@@ -165,4 +165,4 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 
 <!--{/if}-->
 </div>
-{template q_footer}
+{template iq_footer}

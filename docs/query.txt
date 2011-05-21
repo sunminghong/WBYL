@@ -68,3 +68,155 @@ GROUP BY location
 ) as b
 group by sh
 order by persons desc
+
+
+
+CREATE TABLE `ppt_tqq_userlib_sns2` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid1` int(11) NOT NULL,
+  `uid2` int(30) NOT NULL COMMENT '这是userlib表里的ID',
+  `type` tinyint(4) NOT NULL default '1' COMMENT '2为followers,1为friends(followings),3为互粉',
+  PRIMARY KEY  (`id`),
+  KEY `uid1` (`uid1`),
+  KEY `uid2` (`uid2`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=76919 DEFAULT CHARSET=utf8
+PARTITION BY RANGE (uid1) (
+PARTITION p0 VALUES LESS THAN (20000),
+PARTITION p1 VALUES LESS THAN (40000) , 
+PARTITION p2 VALUES LESS THAN (60000) ,
+PARTITION p3 VALUES LESS THAN (80000) , 
+PARTITION p4 VALUES LESS THAN (100000) ,
+PARTITION p5 VALUES LESS THAN (120000) , 
+PARTITION p6 VALUES LESS THAN (140000) ,
+PARTITION p7 VALUES LESS THAN (160000) , 
+PARTITION p8 VALUES LESS THAN (180000) ,
+PARTITION p9 VALUES LESS THAN (200000) , 
+PARTITION p10 VALUES LESS THAN (210000),
+PARTITION p11 VALUES LESS THAN MAXVALUE )
+
+
+CREATE TABLE `ppt_userlib` (
+  `id` int(11) NOT NULL auto_increment,
+  `lfromuid` int(11) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `sex` tinyint(4) NOT NULL default '1',
+  `name` varchar(20) NOT NULL,
+  `screen_name` varchar(30) NOT NULL,
+  `domain` varchar(100) NOT NULL,
+  `location` varchar(30) NOT NULL default '',
+  `verified` tinyint(4) NOT NULL default '0',
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `avatar` varchar(200) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `lfromuid` (`lfromuid`),
+  KEY `lfrom` (`lfrom`),
+  KEY `followers` (`followers`),
+  KEY `isvip` (`verified`)
+) ENGINE=InnoDB AUTO_INCREMENT=6922 DEFAULT CHARSET=utf8
+PARTITION BY RANGE (lfromuid/100000) (
+PARTITION p0 VALUES LESS THAN (20000),
+PARTITION p1 VALUES LESS THAN (40000) , 
+PARTITION p2 VALUES LESS THAN (60000) ,
+PARTITION p3 VALUES LESS THAN (80000) , 
+PARTITION p4 VALUES LESS THAN (100000) ,
+PARTITION p5 VALUES LESS THAN (120000) , 
+PARTITION p6 VALUES LESS THAN (140000) ,
+PARTITION p7 VALUES LESS THAN (160000) , 
+PARTITION p8 VALUES LESS THAN (180000) ,
+PARTITION p9 VALUES LESS THAN (200000) , 
+PARTITION p10 VALUES LESS THAN (210000),
+PARTITION p11 VALUES LESS THAN MAXVALUE )
+
+
+CREATE TABLE `ppt_tqq_userlib_sns` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid1` int(11) NOT NULL,
+  `uid2` int(30) NOT NULL COMMENT '这是userlib表里的ID',
+  `type` tinyint(4) NOT NULL default '1' COMMENT '2为followers,1为friends(followings),3为互粉',
+  PRIMARY KEY  (`id`),
+  KEY `uid1` (`uid1`),
+  KEY `uid2` (`uid2`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=76919 DEFAULT CHARSET=utf8
+PARTITION BY RANGE (uid1) (
+PARTITION p0 VALUES LESS THAN (20000),
+PARTITION p1 VALUES LESS THAN (40000) , 
+PARTITION p2 VALUES LESS THAN (60000) ,
+PARTITION p3 VALUES LESS THAN (80000) , 
+PARTITION p4 VALUES LESS THAN (100000) ,
+PARTITION p5 VALUES LESS THAN (120000) , 
+PARTITION p6 VALUES LESS THAN (140000) ,
+PARTITION p7 VALUES LESS THAN (160000) , 
+PARTITION p8 VALUES LESS THAN (180000) ,
+PARTITION p9 VALUES LESS THAN (200000) , 
+PARTITION p10 VALUES LESS THAN (210000),
+PARTITION p11 VALUES LESS THAN MAXVALUE )
+
+CREATE TABLE `ppt_tqq_userlib_sns` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid1` int(11) NOT NULL,
+  `uid2` int(30) NOT NULL COMMENT '这是userlib表里的ID',
+  `type` tinyint(4) NOT NULL default '1' COMMENT '2为followers,1为friends(followings),3为互粉',
+  PRIMARY KEY  (`id`),
+  KEY `uid1` (`uid1`),
+  KEY `uid2` (`uid2`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=76919 DEFAULT CHARSET=utf8
+PARTITION BY RANGE (uid1) (
+PARTITION p0 VALUES LESS THAN (20000),
+PARTITION p1 VALUES LESS THAN (40000) , 
+PARTITION p2 VALUES LESS THAN (60000) ,
+PARTITION p3 VALUES LESS THAN (80000) , 
+PARTITION p4 VALUES LESS THAN (100000) ,
+PARTITION p5 VALUES LESS THAN (120000) , 
+PARTITION p6 VALUES LESS THAN (140000) ,
+PARTITION p7 VALUES LESS THAN (160000) , 
+PARTITION p8 VALUES LESS THAN (180000) ,
+PARTITION p9 VALUES LESS THAN (200000) , 
+PARTITION p10 VALUES LESS THAN (210000),
+PARTITION p11 VALUES LESS THAN MAXVALUE )
+
+
+alter table `ppt_tqq_userlib_sns` PARTITION BY RANGE (uid1) ( PARTITION p5 VALUES LESS THAN (150000) , PARTITION p6 VALUES LESS THAN (200000) , PARTITION p7 VALUES LESS THAN (250000) , PARTITION p8 VALUES LESS THAN (300000) , PARTITION p9 VALUES LESS THAN (350000) , PARTITION p10 VALUES LESS THAN (400000), PARTITION p11 VALUES LESS THAN MAXVALUE )
+
+
+ INSERT INTO `app_5d13`.`ppt_userlib_sns2` SELECT * FROM `app_5d13`.`ppt_userlib_sns`
+
+
+
+ CREATE TABLE `ilike_pics` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid` int(11) NOT NULL,
+  `big_pic` varchar(255) NOT NULL default '',
+  `middle_pic` varchar(255) NOT NULL default '',
+  `small_pic` varchar(255) NOT NULL default '',
+  `score` int(11) NOT NULL COMMENT '总分数',
+  `rateCount` int(11) NOT NULL default '0',
+  `regtime` int(11) NOT NULL default '0',
+  `lasttime` int(11) NOT NULL default '0',
+  `wbid` int(11) NOT NULL default '0' COMMENT '微博编号',
+  PRIMARY KEY  (`id`),
+  KEY `wbid` (`wbid`),
+  KEY `uid` (`uid`),
+  KEY `score` (`score`),
+  KEY `rateCount` (`rateCount`),
+  KEY `regtime` (`regtime`),
+  KEY `lasttime` (`lasttime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+PARTITION BY RANGE (id) (
+PARTITION p0 VALUES LESS THAN (500000),
+PARTITION p1 VALUES LESS THAN (1000000) , 
+PARTITION p2 VALUES LESS THAN (1500000) ,
+PARTITION p3 VALUES LESS THAN (2000000) , 
+PARTITION p4 VALUES LESS THAN (2500000) ,
+PARTITION p5 VALUES LESS THAN (3000000) , 
+PARTITION p6 VALUES LESS THAN (3500000) ,
+PARTITION p7 VALUES LESS THAN (4000000) , 
+PARTITION p8 VALUES LESS THAN (4500000) ,
+PARTITION p9 VALUES LESS THAN (5000000) , 
+PARTITION p10 VALUES LESS THAN MAXVALUE )

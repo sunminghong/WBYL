@@ -37,7 +37,10 @@ function showresult(usetime,res){
 		$('#div_words').html(words[score.iqlv]);
 		
 }
-eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[78a-hj]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('function calculate(){e 7=0;8(a(\'q1\',\'1\')){7+=1}8(a(\'q2\',\'2\')){7+=1}8(a(\'q3\',\'4\')){7+=1}8(a(\'q4\',\'1\')){7+=1}8(a(\'q5\',\'2\')){7+=1}8($("b[c=T6]").d()=="26"){7+=2}8(a(\'q7\',\'0\')){7+=1}8(a(\'q8\',\'0\')){7+=1}8(a(\'q9\',\'2\')){7+=1}8(a(\'q10\',\'2\')){7+=1}8($("b[c=T11]").d()=="9"){7+=1}8(a(\'q12\',\'3\')){7+=1}8(a(\'q13\',\'2\')){7+=1}8($("b[c=T14]").d()=="6"){7+=1}8(a(\'q15\',\'2\')){7+=1}8(a(\'q16\',\'2\')){7+=1}8($("b[c=T17]").d()=="f"){7+=1}8(a(\'q18\',\'1\')){7+=1}8(a(\'q19\',\'0\')){7+=1}8($("b[c=T20]").d()=="美国"){7+=2}8(a(\'q21\',\'3\')){7+=2}8($("b[c=T22]").d()=="64"){7+=2}8($("b[c=T23]").d()=="科学"){7+=2}8($("b[c=T24]").d()=="式"){7+=1}8($("b[c=g]").d()=="X"||$("b[c=g]").d()=="x"){7+=1}8($("b[c=T26]").d()=="75"){7+=1}8(a(\'q27\',\'4\')){7+=1}8($("b[c=T28]").d()=="奠"){7+=1}8($("b[c=T29]").d()=="颠"){7+=1}8($("b[c=T30]").d()=="5"){7+=1}8($("b[c=T31]").d()=="f"){7+=2}8(a(\'q32\',\'2\')){7+=2}8($("b[c=h]").d()=="O"||$("b[c=h]").d()=="o"){7+=1}8(j)clearTimeout(j);e i=$("#face").html();location.href="?app=iq&op=cacl&usetime="+initStopwatch()+"&7="+7+"&t="+Math.random();return}',[],20,'|||||||storea|if||chC|input|name|val|var|36|T25|T33||timerID'.split('|'),0,{}));
+
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[79a-hj-l]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('function calculate_v2(){e 7=0;9($("b[c=f]").d()=="m"||$("b[c=f]").d()=="M"){7+=6}9($("b[c=q2]").d()=="15"){7+=6}9($("b[c=q3]").d()=="8"){7+=6}9($("b[c=q4]").d()=="6"){7+=6}9($("b[c=q5]").d()=="5"){7+=6}9($("b[c=q6]").d()=="4"){7+=6}9($("b[c=q7]").d()=="1"){7+=6}9($("b[c=q8]").d()=="2"){7+=6}9(a(\'q9\',\'1\')){7+=6}9(a(\'q10\',\'3\')){7+=5}9(a(\'q11\',\'2\')){7+=5}9(a(\'q12\',\'0\')){7+=5}9(a(\'q13\',\'2\')){7+=5}9(a(\'q14\',\'3\')){7+=5}9(a(\'q15\',\'2\')){7+=5}9(a(\'q16\',\'2\')){7+=5}9(a(\'q17\',\'1\')){7+=5}9(a(\'q18\',\'3\')){7+=5}9(a(\'q19\',\'3\')){7+=5}9(a(\'q20\',\'3\')){7+=5}9(a(\'q21\',\'2\')){7+=5}9(a(\'q22\',\'2\')){7+=5}9(a(\'q23\',\'3\')){7+=5}9(a(\'q24\',\'1\')){7+=5}9(a(\'q25\',\'0\')){7+=5}9(a(\'g\',\'0\')&&a(\'g\',\'3\')){7+=5}9(a(\'h\',\'1\')&&a(\'h\',\'2\')){7+=5}9(a(\'j\',\'0\')&&a(\'j\',\'3\')){7+=5}9(a(\'k\',\'1\')&&a(\'k\',\'3\')){7+=5}9(a(\'q30\',\'3\')){7+=5}9(a(\'q31\',\'2\')){7+=5}9(a(\'q32\',\'1\')){7+=5}9(a(\'q33\',\'2\')){7+=5}9(l)clearTimeout(l);e i=$("#face").html();location.href="?app=iq&op=caclv2&usetime="+initStopwatch()+"&7="+7+"&t="+Math.random();return}',[],22,'|||||||storea||if|chC|input|name|val|var|q1|q26|q27||q28|q29|timerID'.split('|'),0,{}))
+
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[78a-hj]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('function calculate(){e 7=0;8(a(\'q1\',\'1\')){7+=1}8(a(\'q2\',\'2\')){7+=1}8(a(\'q3\',\'4\')){7+=1}8(a(\'q4\',\'1\')){7+=1}8(a(\'q5\',\'2\')){7+=1}8($("b[c=T6]").d()=="26"){7+=2}8(a(\'q7\',\'0\')){7+=1}8(a(\'q8\',\'0\')){7+=1}8(a(\'q9\',\'2\')){7+=1}8(a(\'q10\',\'2\')){7+=1}8($("b[c=T11]").d()=="9"){7+=1}8(a(\'q12\',\'3\')){7+=1}8(a(\'q13\',\'2\')){7+=1}8($("b[c=T14]").d()=="6"){7+=1}8(a(\'q15\',\'2\')){7+=1}8(a(\'q16\',\'2\')){7+=1}8($("b[c=T17]").d()=="f"){7+=1}8(a(\'q18\',\'1\')){7+=1}8(a(\'q19\',\'0\')){7+=1}8($("b[c=T20]").d()=="美国"){7+=2}8(a(\'q21\',\'3\')){7+=2}8($("b[c=T22]").d()=="64"){7+=2}8($("b[c=T23]").d()=="科学"){7+=2}8($("b[c=T24]").d()=="式"){7+=1}8($("b[c=g]").d()=="X"||$("b[c=g]").d()=="x"){7+=1}8($("b[c=T26]").d()=="75"){7+=1}8(a(\'q27\',\'4\')){7+=1}8($("b[c=T28]").d()=="奠"){7+=1}8($("b[c=T29]").d()=="颠"){7+=1}8($("b[c=T30]").d()=="5"){7+=1}8($("b[c=T31]").d()=="f"){7+=2}8(a(\'q32\',\'2\')){7+=2}8($("b[c=h]").d()=="O"||$("b[c=h]").d()=="o"){7+=1}8(j)clearTimeout(j);e i=$("#face").html();location.href="?app=iq&op=caclv1&usetime="+initStopwatch()+"&7="+7+"&t="+Math.random();return}',[],20,'|||||||storea|if||chC|input|name|val|var|36|T25|T33||timerID'.split('|'),0,{}));
 
 
 
@@ -214,13 +217,6 @@ $(document).ready(function(){
 	if(msg_list.length>0){
 		refreshMsg();
 	}
-	if(op=="ready"){
-		$.get("?act=my&op=syncfriends",function(){
-			//if(msg_list.length>0) setInterval(refreshMsg,10000);			
-		});
-	}else{
-		//if(msg_list.length>0) setInterval(refreshMsg,10000);		
-	}
 	
 	var odivView=$("#zhengshupreview");
 	var ww=$(window).width();
@@ -266,5 +262,8 @@ $(document).ready(function(){
 			event.stopPropagation();
 
 	});
+	if(op=="login"){
+		$.get("?act=my&op=syncfriends",function(){});
+	}
 
 }).click(function(){closeView();});

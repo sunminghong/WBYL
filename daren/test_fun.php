@@ -1,11 +1,41 @@
 <?php
 
+	//取得当前所选考试类型，0 为综合
+	function readQtype(){
+		$qtype=rq("qtype",false);
+		if($qtype===false) {
+			$qtype=sreadcookie("daren_qtype");
+			if(!$qtype) $qtype=0;
+		}else {
+			ssetcookie("daren_qtype",intval($qtype));
+		}
+		$qtype=intval($qtype);
+		return $qtype;
+	}
+	function readqtypelist(){
+		$cache=new CACHE();		
+		$qtypearr=$cache->get("daren_qtype_arr"); 
+		if(is_array($qtypearr) && 1==1) {
+			return $qtypearr;
+		}
+
+		$qtypearr=array();
+		$sql="select * from ".dbhelper::tname("daren","tmb_type")." where num>=500 order by num desc";
+		$rs=dbhelper::getrs($sql);
+		while($row=$rs->next()) {
+			$qtypearr[intval($row["id"])]=$row["ctype"];
+		}
+		
+		$cache->set("daren_qtype_arr",$qtypearr);
+		return $qtypearr;
+	}
+
 	function getQuestion(){	
 		global $question,$qtype,$timestamp;
 //echo '/*';print_r($question);echo '*/';
 		$timestamp=gettimestamp();
 		$op=rq("op","");
-		$an=array(0,0,0);
+		$an=array(0,0,0);$ans=array(0,0);
 		//if($isinit || $idx!=-1){
 		//	$idx=1;
 		//}
@@ -54,7 +84,6 @@
 
 		//echo $idx .":".$co.":" . $step;
 		$json="";
-
 		for($idx;$idx<=$co && $idx<$step;$idx++){
 			$quest=$question[$idx];
 			
@@ -66,7 +95,7 @@
 			$json.=",{'idx':$idx,'t':".$quest[0].",'q':'".$quest[1]."','a':[".$ra;
 			
 			$anco=count($quest[2]);
-			for($ii=0;$ii<$anco;$ii++){				
+			for($ii=0;$ii<$anco;$ii++){
 				$json.=",'".$quest[2][$ii]."'";
 				$ii++;
 			}
@@ -96,7 +125,7 @@ function saveAndReadAnswerToCookie($idx=0){
 	if (rq("an",false)!==false){
 		$an=$_GET["an"];
 		$raarr[$idx]=$an."|".$useTime2;
-		ssetcookie("raar_",$raarr);		echo "/*";print_r($raarr);echo '*/';
+		ssetcookie("raar_",$raarr);		//echo "/*";print_r($raarr);echo '*/';
 	}
 	return $raarr;
 }
@@ -121,6 +150,8 @@ function g_s($raarr,$idx){
 		$selv=$raarr[$idx];
 		$selv=explode("|",$selv);
 		$sel=$selv[0];
+		if(!is_numeric($sel)) return array(0,0,0);
+
 		$time=$selv[1];
 		$val=$question[$idx][2][$sel*2+1];
 		$an=array($val,$time,0);

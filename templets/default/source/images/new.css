@@ -1,0 +1,58 @@
+@charset utf-8;
+body {
+	margin:0;padding:0; text-align:center;background:#CEEFF6;
+	font1-family:Arial, Helvetica, sans-serif;
+}
+ul {margin:0;padding:0;list-style-type: none; }
+li {margin:0;padding:0;float:left;}
+
+#top{height:10px;}
+.main {
+	clear:both;width:900px;
+	margin:0px auto 20px auto;
+}
+.cl {clear:both;}
+#menu_nav {background1:#ececec;}
+#menu_nav li {height:60px;line-height:60px;font-size:12px;font-weight:normal;}
+
+#prev_left {width:0px;}
+#menu_nav #channel_name {width:150px; font-family:"微软雅黑","黑体"; font-size:20px;}
+
+#menu_nav li.curr_left {
+  background1:url(line_shengzhi_red.png) bottom repeat-x;
+}
+#menu_nav li.curr_right{
+  background1:url(line_shengzhi_green.png) bottom repeat-x;
+}
+#menu_nav li.curr{   background:none; }
+
+#menu_nav li a {color:#000;
+display:block;height:60px;width:65px;
+text-align:center; text-decoration: none;font-size:12px;
+background:url(5d13logo45.png) center no-repeat;
+}
+#menu_nav li a:hover {
+background:url(5d13logo60.png) center no-repeat;
+}
+
+#menu_nav li a b{display:block;padding-top:5px;padding-left:1px;font-weight:normal;}
+
+#menu_nav li.curr a { 
+display:block;height:60px;width:56px;font-size:18px;
+text-align:center; text-decoration: none;
+background:url(5d13logo60.png) center no-repeat;
+}
+
+#menu_nav li.curr a b{font-weight:bold;}
+
+
+
+.contentFrame
+{
+	clear:both;
+	border:1px solid #72cade;
+	padding:30px;
+	margin:10px 0px 0px 0px;
+	background-color:#FFF;
+}
+

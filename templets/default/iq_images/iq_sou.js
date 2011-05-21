@@ -11,6 +11,49 @@ function chC(name,num){
 	return rel;
 }
 
+function calculate_v2(){     
+	var storea=0;
+
+	if($("input[name=q1]").val()=="m"||$("input[name=q1]").val()=="M"){storea+=6;}
+	if($("input[name=q2]").val()=="15"){storea+=6;}
+	if($("input[name=q3]").val()=="8"){storea+=6;}
+	if($("input[name=q4]").val()=="6"){storea+=6;}
+	if($("input[name=q5]").val()=="5"){storea+=6;}
+	if($("input[name=q6]").val()=="4"){storea+=6;}
+	if($("input[name=q7]").val()=="1"){storea+=6;}
+	if($("input[name=q8]").val()=="2"){storea+=6;}
+	if(chC('q9','1')){storea+=6;}
+	if(chC('q10','3')){storea+=5;}
+	if(chC('q11','2')){storea+=5;}
+	if(chC('q12','0')){storea+=5;}
+	if(chC('q13','2')){storea+=5;}
+	if(chC('q14','3')){storea+=5;}
+	if(chC('q15','2')){storea+=5;}
+	if(chC('q16','2')){storea+=5;}
+	if(chC('q17','1')){storea+=5;}
+	if(chC('q18','3')){storea+=5;}
+	if(chC('q19','3')){storea+=5;}
+	if(chC('q20','3')){storea+=5;}
+	if(chC('q21','2')){storea+=5;}
+	if(chC('q22','2')){storea+=5;}
+	if(chC('q23','3')){storea+=5;}
+	if(chC('q24','1')){storea+=5;}
+	if(chC('q25','0')){storea+=5;}
+	if(chC('q26','0')  && chC('q26','3')){storea+=5;}
+	if(chC('q27','1') && chC('q27','2')){storea+=5;}
+	if(chC('q28','0') && chC('q28','3')){storea+=5;}
+	if(chC('q29','1') && chC('q29','3')){storea+=5;}
+	if(chC('q30','3')){storea+=5;}
+	if(chC('q31','2')){storea+=5;}
+	if(chC('q32','1')){storea+=5;}
+	if(chC('q33','2')){storea+=5;}
+
+    if(timerID)clearTimeout(timerID);
+	var i=$("#face").html();
+	location.href="?app=iq&op=cacl&usetime="+initStopwatch()+"&storea="+storea+"&t="+Math.random();
+	return;
+}   
+
 function calculate(){     
 var storea=0;
 
@@ -47,8 +90,12 @@ if($("input[name=T30]").val()=="5"){storea+=1;}
 if($("input[name=T31]").val()=="36"){storea+=2;}     
 if(chC('q32','2')){storea+=2;}     
 if($("input[name=T33]").val()=="O"||$("input[name=T33]").val()=="o"){storea+=1;}     
+
     if(timerID)clearTimeout(timerID);
 	var i=$("#face").html();
+	location.href="?app=iq&op=cacl&usetime="+initStopwatch()+"&storea="+storea+"&t="+Math.random();
+	return;
+
 	$.get("?app=iq&op=cacl&usetime="+initStopwatch()+"&storea="+storea+"&t="+Math.random(),function(res){
 		eval("var score="+res);
 		alert(score);

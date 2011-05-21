@@ -4,7 +4,7 @@ include_once("eq_fun.php");
 class eq extends ctl_base
 {
 	function index(){ // 这里是首页
-	$this->ready();exit;
+			//$this->ready();exit;
 
 		$account=getAccount();		
 		if($account){
@@ -164,6 +164,7 @@ class eq extends ctl_base
 		 ////echo '<!--'.$eqvalue.'--'.$useTime.'-->';
 			$this->saveEq($eqvalue,$useTime);
 			header("Location: ?app=eq&op=cacl&eqvalue=$eqvalue&usetime=$useTime");
+			//echo '<script type="text/javascript">location.href="?app=eq&op=cacl&eqvalue='.$eqvalue.'&usetime='.$useTime.'";</script>';
 			exit;
 		}
 
@@ -175,7 +176,10 @@ class eq extends ctl_base
 		$score['noweq']=$eqvalue;
 		//echo json_encode($score);
 		//exit;
-
+		if($account){
+			$eqScore=readEqScore($account["uid"],false);
+			$this->assign("eqScore",$eqScore);
+		}
 		$this->set("score",$score);
 		$this->set("op","showscore");
 		$this->display("q_ican");
@@ -288,6 +292,8 @@ class eq extends ctl_base
 			$eqlv=0;
 			$row["ch"]=eqtoch($row["eq"],&$eqlv);
 			$row["eqlv"]=$eqlv;
+			if($row['lfrom']=='tqq' && right($row['avatar'],3)!="/50") $row['avatar'] .= "/50";
+
 			$testlist[]=$row;
 		}
 //		print_r($testlist);

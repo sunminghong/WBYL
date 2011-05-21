@@ -10,15 +10,16 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var myuid='<?=$account['uid']?>';<? } else { ?>var myuid='';<? } ?></script>
 <script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.6"></script>
+<script type="text/javascript" src="http://cbjs.baidu.com/js/m.js"></script>
+<script type="text/javascript">
+BAIDU_CLB_addSlot("158633");
+BAIDU_CLB_enableAllSlots();
+BAIDU_CLB_preloadSlots("158633");
+</script>
 </head>
 <body>
-<div id="topbg">
-	<div id="topmenu">
-    	<span class="toplink">您还可以玩：<a href="http://ciniao.me/wbapp/?a=xm&from=sina" target="_blank">羡慕嫉妒恨</a></span>
-    	
-    </div>
-</div>
-	<div class="mainFrame">
+<? include $this->gettpl('top');?>
+<div class="mainFrame">
 		
 		<? if($op=="login") { ?>
 		<div class="ui-widget">
@@ -34,7 +35,12 @@
 		<? } ?>
 <br/><br/>
 
-		<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
+				<? if(is_array($account) ) { ?>
+			<a href="?app=iq&op=ready"><img src="<?=$templatepath?>/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
+
+			<? } else { ?>			<a href="?act=account&op=tologin" border="0"><img height1="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
+			<? } ?>
+			<a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
 			</div>
 			
 			<div class="logo">
@@ -42,6 +48,8 @@
 			</div>
 		</div>
 <div id="div_notice"></div>
+<!-- 广告位：顶部通栏 -->
+<script type="text/javascript">BAIDU_CLB_fillSlot("158633");</script>
 		<div class="contentFrame" style="width:260px;float:right;padding:0px;">
 			<div class="ui-widget" style="text-align:center; color:#696a62;padding:0px;">
 				<div style="background:#ceeff6;line-height:27px;height:27px;">
@@ -93,14 +101,8 @@
 			</div>
 		</div>
 		<br/>
-		<!--
-				<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<div class="welcomeDiv1" id="msg_list">
-
-				</div>
-			</div>
-		</div>-->
+<div id="div_notice"></div>
+<div id="ad_800_60" style="width:800px;height:60px;"></div>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
@@ -118,11 +120,16 @@
 				<div class="welcomeDiv1">
 					4。如果结果显示你是天才，请不要窃喜，因为前面已有爱因思坦，后面也会有更聪明的人！
 				</div>
+				
+				<div class="welcomeDiv1">
+					*本应用现在有两套测试题， V1是国内版，V2是欧洲版; V1总分（150分），V2总分（174分），您随意选择。
+				</div>
 			</div>
 		</div>
-		<div class="div_login">
-		
-			<a href="?app=iq&op=ican"><img src="<?=$templatepath?>/iq_images/btn_ready.gif" alt="我准备好了，开始" /></a>
+		<div class="div_login">		
+			<a href="?app=iq&op=icanv1"><img src="<?=$templatepath?>/iq_images/btn_ready_v1.gif" alt="我准备好了，开始" /></a>
+			
+			<a href="?app=iq&op=icanv2"><img src="<?=$templatepath?>/iq_images/btn_ready_v2.gif" alt="我准备好了，开始" /></a>
 		</div>
 
 <? } elseif($op=="stats") { ?>
@@ -140,6 +147,7 @@
 				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
+		<div id="div_notice"></div>
 <div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div class="welcomeDiv1" id="top_list1" style="text-align:left;">				
@@ -169,6 +177,7 @@
 			</div>
 		</div>
 		<? } ?>
+<div id="ad_800_60" style="width:800px;height:60px;margin-top:5px;" ></div>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>

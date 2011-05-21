@@ -97,7 +97,7 @@ class openapi extends openapiAbstract{
 		$uidarr['location']=$oarr['location'];
 		$uidarr['description']=$oarr['introduction'];
 		$uidarr['url']=$oarr[''];
-		$uidarr['avatar']=$oarr['head'];
+		$uidarr['avatar']=$oarr['head'].'/50';
 		$uidarr['domain']=$oarr['name'];
 		$uidarr['sex']=$oarr['sex'];
 		$uidarr['followers']=$oarr['fansnum'];
@@ -150,7 +150,7 @@ class openapi extends openapiAbstract{
 		$wb=$this->getClient()->getOne($p);
 
 		$pic=$wb['data']['image'][0];
-		$rel=array('id'=>$wbid,'thumbnail_pic'=>$pic."/160",'bmiddle_pic'=>$pic."/460",'original_pic'=>$pic."/2000");
+		$rel=array('wbid'=>$wbid,'small_pic'=>$pic."/160",'middle_pic'=>$pic."/460",'big_pic'=>$pic."/2000");
 		//print_r($rel);
 		return $rel;
 	}

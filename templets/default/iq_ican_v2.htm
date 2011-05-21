@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>看看你有多聪明！ -  微博IQ测试 </title>
+	<link type="text/css" rel="stylesheet" href="{$templatepath}/iq_images/iq.css" />
+	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> 
+<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script>var op="{$op}"; var wbisload=false; var urlbase='{$urlbase}';</script>
+<script type="text/javascript" src="{$templatepath}/iq_images/iq_min.js?v=1.6"></script>
+<style>
+ol,dl,li{text-align:left;margin-bottom:10px;}
+
+<!--{if $op=="ready" || $op=="showscore"}-->
+
+
+ul.test{ margin: 10px 0; line-height: 21px;}
+ul.test li{color: #666; list-style: inside disc;text-align:left;
+font: 12px/1.5em Tahoma, Arial, Helvetica, snas-serif;
+}
+ul.test li a {color:#f00;font-size:12px;line-height:18px;}
+
+<!--{/if}-->
+</style>
+</head>
+<body>
+{template top}
+	<div class="mainFrame">
+
+<!--{if $op == 'showscore'}-->		
+		<div class="ui-widget">
+			<div class="login">
+					<!--{if is_array($account) }-->
+						<img class="zhengshuico icoview" zsurl="{$iqScore[zsurl]}" src="{$urlbase}images/zhengshu_iq_ico_{$iqScore[iqlv]}.png"/>
+			<font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}</b>人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
+			<!--{else}-->
+
+				<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
+				<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！
+					<!--{/if}-->
+			<br/><br/>
+
+					<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/btn_follow_blue.gif" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="{$templatepath}/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
+			</div>		
+			<div class="logo">
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+			</div>
+		</div>
+<div id="div_notice"></div>
+<div id="ad_800_60" style="width:800px;height:60px;"></div>
+		<div class="contentFrame" style="clear:both;text-align:center; ">
+			<div><p>
+					<strong>您本次智商测试得分为{$score[nowiq]}分 ，用时 {$score[newusetime]}</strong></p>
+				</div>
+			<div class="welcomeDiv1" style="">
+				<img id="result_zhengshuPic" src="{$score[zsurl]}" align="left"/>
+				<br/>
+				<span id="div_result" style="padding-top:20px;color:#000;line-height:1.5em;font-size:14px;">
+你共测试{$score[testCount]} 次， 最高IQ值是{$score[iq]} , 排名第 <b>{$score[top]}</b>，打败了 <b>{$score[win]}</b>人
+<!--{if $score['lostname']}-->（包括{$score[lostname]}~_~）<!--{/if}-->，并获得【{$score[chs]}】证书（见右），好好学习，#天天向上#！！！
+</span>
+				<br/>
+				<br/>专家点评：
+				<span id="div_words" style="font-size:12px;font-weight:normal;color:#333;">					
+					{$score[words]}
+					</span><br/> <br/> 
+				<span style="font-size:12px;font-weight:normal;color:#999;">	<code>				
+					0-89       -- 愚不可及 <br/>				
+					90-99     -- 呆头呆脑<br/>				
+					100-109 -- 波澜不兴<br/>				
+					110-119 -- 聪明过人<br/>
+					120-129 -- 颖慧绝伦<br/>
+					130-139 -- 旷世奇才<br/>
+					140-?     -- 文曲星转世</code>
+					</span><br/> <br/> <a href="javascript:void(0);"  onclick="sendmsg();"><img src="{$templatepath}/iq_images/btn_tweet_blue.gif" /></a> <div style="height:2px;"></div>
+									<a href="javascript:void(0);" onclick="follow();" title="谢谢你的关注，我们会定期在官网公告“聪明行情”！"><img src="{$templatepath}/iq_images/btn_follow.gif" title="关注我"/></a>
+<br/><br/>
+
+  接下来，您还可以：
+  <ul class="test">
+    <li><a href="?app=iq&op=stats" target="_blank">看看你的好友的IQ情况&raquo;</a></li>
+   <li><a href="?app=eq" target="_blank">进行情商（EQ）测试&raquo;</a></li>
+    <li><a href="http://www.265g.com/?lfrom=5d13" target="_blank" title="265G是网页游戏第一门户！找网页游戏，就上265G!">如果你想玩游戏，可以上265g看看！&raquo;</a></li>
+	<li><a href="?app=iq&op=ready">再测试一次&raquo;</a></li>
+  </ul>
+				</div>
+				<div style="clear:both;"></div>
+
+<!--{/if}-->
+
+<!--{if $op=="ican"}-->
+		
+		<div class="ui-widget">
+			<div class="login">
+				<font color="#ff3333">{$account[screen_name]}</font>, 微博IQ测试须在30分钟内完成（33题）<br/><br/>
+			<!--<input name="B1" onclick="startclock()" type="button" value="开始计时">--><span id="face"> {$score[newusetime]}</span>
+			</div>			
+			<div class="logo">
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
+			</div>
+		</div>
+<div id="div_notice"></div>
+		<div class="contentFrame" style="clear:both;text-align:center; ">
+
+			<div class="ui-widget" style="text-align:center; color:#696a62;" id="ui-widget-content">
+
+<div align="center">
+							<p>
+							<a href="#" onclick="calculate();return false;" ><img src="{$templatepath}/iq_images/btn_showscore.gif" alt="查看我的分数"/></a></p>
+						</div>
+			</div>
+
+
+<!--{/if}-->
+</div>
+{template iq_footer}

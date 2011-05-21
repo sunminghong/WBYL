@@ -36,16 +36,16 @@ class ppt{
 	//是否需要同步好友、粉丝信息
 	public function snsNeedSync($uid1){
 		global $lfrom;
-		if($lfrom=="tsina") $lf_pre="";
+		if($lfrom=="tsina" || $lfrom=="") $lf_pre="";
 		else $lf_pre=$lfrom."_";
 
-		$sql="select uid2 from ".dbhelper::tname("ppt",lf_pre.'userlib_sns')." where uid1=".$uid1." limit 0,1";
+		$sql="select uid2 from ".dbhelper::tname("ppt",$lf_pre.'userlib_sns')." where uid1=".$uid1." limit 0,1";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			if(getTimestamp() % 5==0) {
 				return true;
 			}
-			return true;
+			return false;
 		}
 		else {
 			return true;

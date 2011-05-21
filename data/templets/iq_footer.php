@@ -23,6 +23,47 @@
 		<a href="javascript:void(0);" id="btn_send_2"><img src="<?=$templatepath?>/iq_images/btn_tweet.gif"/></a> 
 </div>
 
+<? $coo=intval(mt_rand()*20); ?>
+
+<? if(!NOADS) { ?>
+<? if($coo<10) { ?>
+<script type="text/javascript">
+	$('#ad_800_60').html('<a href="http://ciniao.me/wbapp/?a=xm&from=sina" target="_blank" title="羡慕嫉妒恨!"><img src="<?=$urlbase?>images/ad_xmjd.gif"  width="800" height="60"/></a>'); </script>
+<? } else { ?>
+<script type="text/javascript">
+	$('#ad_800_60').html('<a href="http://www.265g.com/?from=5d13" target="_blank" title="中国网页游戏第一门户，找网页游戏，就上265G!"><img src="http://img.265g.com/images/gg/265g0525.gif"  width="800" height="60"/></a>'); 
+</script>
+<? } ?>
+<? } ?>
+<script type="text/javascript" src="http://js.wcdn.cn/t3/platform/js/api/wb.js"></script> 
+<script type="text/javascript"> 
+
+if(location.href.indexOf('5d13.sinaapp.com')!=-1)
+WB.core.load(['connect', 'client', 'widget.base', 'widget.atWhere'], function() {
+	var cfg = {
+		key: '4106323544',
+		xdpath: 'http://5d13.sinaapp.com/_rights/xd.html'
+	};
+	WB.connect.init(cfg);
+	WB.client.init(cfg);
+ 	
+	WB.widget.atWhere.searchAndAt(EE("mingrenlist"));
+	WB.widget.atWhere.searchAndAt(EE("footer1"));
+
+	WB.widget.atWhere.blogAt(EE("logo"));
+	if(op=='stats'){
+		WB.widget.atWhere.searchAndAt(EE("stats_1"));
+		WB.widget.atWhere.searchAndAt(EE("top_list1"));
+		WB.widget.atWhere.searchAndAt(EE("top_list2"));
+	}
+	if( op!='ican')
+		WB.widget.atWhere.blogAt(EE("div_follow"));
+ 
+	//WB.widget.atWhere.blogAt(("msg_list"), "a");
+	
+	wbisload=true;
+});
+</script> 
 <div style="display:none;"><script src="http://s20.cnzz.com/stat.php?id=3050823&web_id=3050823" language="JavaScript"></script></div>
 </body>
 </html>

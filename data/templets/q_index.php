@@ -12,6 +12,7 @@
 <script type="text/javascript" src="<?=$templatepath?>/q_images/main.js?v=1.6"></script>
 </head>
 <body>
+<? include $this->gettpl('top');?>
 	<div class="mainFrame">
 		
 		<? if($op=="login") { ?>
@@ -23,12 +24,21 @@
 <font color="#ff3333"><?=$account['screen_name']?></font> <img src="<?=$urlbase?>images/weiboicon16_<?=$account['lfrom']?>.png" height=16 /><? if($account['verified']==1) { ?><img src="<?=$urlbase?>images/vip_<?=$account['lfrom']?>.gif" title="认证用户" alt=""><? } ?>, 你共测试<?=$eqScore['testCount']?> 次， 最高<? echo strtoupper($app);?>值是 <?=$eqScore['eq']?> , 排名第<b> <?=$eqScore['top']?> </b>, 打败了 <b><?=$eqScore['win']?></b>人<? if($eqScore['lostname'] ) { ?>(包括<?=$eqScore['lostname']?>~_~）<? } ?>，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
 <? } else { ?>
 
-	<strong>　　<? echo strtoupper($app);?>：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
-	<strong>微博<? echo strtoupper($app);?>测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！
+	<strong>　　<? echo strtoupper($app);?>：</strong>就是常说的情商，与此对应的还有EQ、AQ、XQ...；
+	<strong>微博<? echo strtoupper($app);?>测试：</strong>就是常说的情商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！
 		<? } ?>
 <br/><br/>
 
-		<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/q_images/btn_follow_blue_<?=$app?>.gif" alt="关注官方微博" ></a> <a href="?app=eq&op=stats"><img src="<?=$templatepath?>/q_images/btn_stats.gif" alt="聪明排行榜" ></a>
+	<? if(is_array($account) ) { ?>
+			<a href="?app=eq&op=ready"><img src="<?=$templatepath?>/q_images/btn_test_green.gif" alt="我来测试下"/></a>
+
+		<? } else { ?>	
+<? global $canLogin;?>
+	<? foreach((array)$canLogin as $login) {?>
+		<a href="?act=account&op=tologin&lfrom=<?=$login?>" border="0"><img height1="24" src="<?=$templatepath?>/images/btn_login_<?=$login?>.png" alt="用微博帐号登录" /></a> 
+	<? } ?>
+
+<? } ?> <a href="?app=eq&op=stats"><img src="<?=$templatepath?>/q_images/btn_stats.gif" alt="聪明排行榜" ></a>
 			</div>
 			
 			<div class="logo">
@@ -36,6 +46,7 @@
 			</div>
 		</div>
 <div id="div_notice"></div>
+<div id="ad_800_60" style="width:800px;height:60px;"></div>	
 		<div class="contentFrame" style="width:260px;float:right;padding:0px;">
 			<div class="ui-widget" style="text-align:center; color:#696a62;padding:0px;">
 				<div style="background:#ceeff6;line-height:27px;height:27px;">
@@ -92,14 +103,8 @@
 			</div>
 		</div>
 		<br/>
-		<!--
-				<div class="contentFrame">
-			<div class="ui-widget" style="text-align:center; color:#696a62;">
-				<div class="welcomeDiv1" id="msg_list">
-
-				</div>
-			</div>
-		</div>-->
+<div id="div_notice"></div>
+<div id="ad_800_60" style="width:800px;height:60px;"></div>	
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
@@ -151,6 +156,7 @@
 				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/q_images/eq_logo.jpg" alt="看看你有多聪明" /></a>
 			</div>
 		</div>
+
 <div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div class="welcomeDiv1" id="top_list1" style="text-align:left;">				
@@ -180,6 +186,8 @@
 			</div>
 		</div>
 		<? } ?>
+		<div id="div_notice"></div>
+<div id="ad_800_60" style="width:800px;height:60px;margin-top:5px;"></div>	
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
@@ -202,4 +210,4 @@
 
 <? } ?>
 </div>
-<? include $this->gettpl('q_footer');?>
+<? include $this->gettpl('iq_footer');?>

@@ -1,0 +1,59 @@
+html,body{ margin:0; padding:0; background:#fff; border:0; font-size:10pt;}
+html{ background:url(bodybottom.png) no-repeat bottom;}
+
+#topbg{ width:100%; height:41px; background:#000}
+
+#main{ width:965px; margin:30px auto;}
+#left{ width:194px; height:100%; background:url(leftbg.gif) no-repeat left 75px; float:left;}
+#left.first{ background:url(leftbg2.png) no-repeat left 35px;text-align:center;}
+#left.first img{ border:0;}
+#left.first a{ position:relative; top:420px;}
+#left #j{ width:117px; height:59px; background:url(j.png); position:absolute; margin-left:145px; margin-top:178px;}
+
+#content{ width:552px; height:100%; float:left; border:10px solid #000;}
+#right{ width:195px; height:100%; background:url(rightbg.gif) no-repeat left 70px;float:left;}
+#bottom{ }
+
+#scorediv{ height:61px; width:100%;}
+#scorediv a{ float:left;}
+#jiong{ width:92px; height:100%; background:url(jiong.png)}
+.scorenum{ width:36px; height:60px; background:url(ratings.png); border-bottom:1px solid #CCBFBF; border-right:1px solid #ED9900;}
+#shuai{width:90px; height:100%; }
+a.f{background:url(liang.png);}
+a.m{background:url(shuai.png);}
+
+#s2{ background-position-y:-60px}
+#s3{ background-position-y:-120px}
+#s4{ background-position-y:-180px}
+#s5{ background-position-y:-240px}
+#s6{ background-position-y:-300px}
+#s7{ background-position-y:-360px}
+#s8{ background-position-y:-420px}
+#s9{ background-position-y:-480px}
+#s10{ background-position-y:-540px}
+
+#s1:hover{ background-position-y:-600px}
+#s2:hover{ background-position-y:-660px}
+#s3:hover{ background-position-y:-720px}
+#s4:hover{ background-position-y:-780px}
+#s5:hover{ background-position-y:-840px}
+#s6:hover{ background-position-y:-900px}
+#s7:hover{ background-position-y:-960px}
+#s8:hover{ background-position-y:-1020px}
+#s9:hover{ background-position-y:-1080px}
+#s10:hover{ background-position-y:-1140px}
+
+#photodiv{ width:512px; height:427px; background:#f00; margin:20px auto 0; background:#eee; border-bottom:2px solid #EDEDED}
+#photobtn{ height:35px; line-height:35px; color:#0066CC; width:512px; margin:10px auto 0; }
+#blackdiv{ height:44px; background:#000; width:100$; margin-top:20px;}
+
+#nextimgdiv{ width:144px; height:144px; overflow:hidden; margin:90px 0 0 29px;}
+#nextflag{ width:144px; height:50px; position:absolute; margin-top:94px;background:url(next.png)}
+#nextimg{ height:144px;} 
+
+#preimgdiv{ width:144px; height:144px; overflow:hidden; margin:95px 0 0 20px;}
+#preimg{ height:144px;} 
+#preflag{ width:144px; height:50px; line-height:50px; color:#fff; text-align:center; font-size:22pt; font-family:Tahoma; font-weight:bold; position:absolute; margin-top:94px;background:url(prescbg.png)} 
+#preintr{ color:#666; font-size:9pt; text-align:center; font-family:Tahoma, Geneva, sans-serif; margin-top:20px;}
+
+

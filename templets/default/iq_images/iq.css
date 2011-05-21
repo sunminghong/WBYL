@@ -9,7 +9,7 @@ margin:0px;padding:0px;
 #topbg{ width:100%; height:36px; line-height:36px; background-color:#5aa0de; background-image:url(topbg.jpg)}
 .toplink{float:left; color:#fff;}
 .toplink a{ text-decoration:underline;}
-#topmenu{ width:800px; margin:auto; height:100%; background:url(sinalogo.jpg) no-repeat left; text-align:right; font-size:12px;}
+#topmenu{ width:800px; margin:auto; height:100%;  text-align:right; font-size:12px;}
 #topmenu a{color:#fff}
 
 #K{text-align:left;}

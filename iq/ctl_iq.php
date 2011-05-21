@@ -27,7 +27,16 @@ class iq extends ctl_base
 		$this->display("iq_index");
 	}
 
-	function ican(){	
+	function icanv1(){		
+		$this->set("op","icanv1");
+		$this->_ican();
+	}
+	function icanv2(){	
+		$this->set("op","icanv2");
+		$this->_ican();
+	}
+
+	private function _ican() {
 		//header("Location: ?app=iq&act=iqtest&op=ican");
 		//exit;
 		global $timestamp;
@@ -40,15 +49,8 @@ class iq extends ctl_base
 		
 		ssetcookie('iq_usetime',"");
 		ssetcookie("iq_iqvalue","");
-	/*	if(!strpos($_SERVER["HTTP_REFERER"],"app=iq"))
-		{
-			$this->set("op","ready");
-			$this->display("iq_index");	
-			return;
-		}*/
-		$this->saveIq(-1,0);
 
-		$this->set("op","ican");
+		$this->saveIq(-1,0);
 		$this->display("iq_ican");
 	}
 	
@@ -104,11 +106,56 @@ class iq extends ctl_base
 		return $iqCount;
 	}
 
-	function cacl(){
+	function caclv1(){
+		$this->cacl();
+	}
+	
+	function caclv2(){
+		$this->cacl();
+	}
+
+	function cacl() {
+		global $op;
+
 		$account=$this->checkLogin();
-		$storea=rq("storea",0);
+		$iqvalue=rq("iqvalue",-1);
 		$useTime=rq("usetime",0);
-		if($storea) {
+		if($iqvalue==-1) {
+			$storea=rq("storea",false);
+			if($storea===false){
+				header("Location: ?app=iq");
+				exit;
+			}
+			$useTime=rq("usetime",0);
+			$iqvalue=$this->computeIQ($storea);
+			$this->saveIq($iqvalue,$useTime);
+	
+			header("Location: ?app=iq&op=cacl&iqvalue={$iqvalue}&usetime=$useTime");
+			exit;
+		}
+
+		$score=readIqScore($account["uid"],true);
+		
+		$score["words"] = getWords($score['iqlv']);
+		$score["newusetime"] = strftime('%M:%S',$useTime);
+		$score['nowiq']=$iqvalue;
+		//echo json_encode($score);
+		//exit;
+
+		if($account){
+			$iqScore=readIqScore($account["uid"],false);
+			$this->assign("iqScore",$iqScore);
+		}
+
+		$this->set("score",$score);
+		$this->set("op","showscore");
+		$this->display("iq_ican");
+	}
+
+	private function computeIQ($storea) {
+		$op=rq("op","caclv2");
+		if($op=="caclv2") return $storea;
+
 			$iqvalue=0;     
 			if($storea=="1"){$iqvalue=20;}     
 			else if($storea=="2"){$iqvalue=30;}     
@@ -151,36 +198,9 @@ class iq extends ctl_base
 			else if($storea=="39"){$iqvalue=145;}     
 			else if($storea=="40"){$iqvalue=150;}     
 	
-		 ////echo '<!--'.$iqvalue.'--'.$useTime.'-->';
-		}else{
-			$iqvalue=('0'.sreadcookie('iq_iqvalue'))*1;
-		}
-
-		if(!$useTime)
-			$useTime=('0'.sreadcookie('iq_usetime'))*1;
-
-		//// echo '<!--'.$iqvalue.'--'.$useTime.'-->';
-		if(!sreadcookie('iq_iqvalue')){ //////echo 'sdfsdfs';
-
-			$this->saveIq($iqvalue,$useTime);
-
-			ssetcookie('iq_usetime',$useTime);
-			ssetcookie("iq_iqvalue",$iqvalue);
-		}
-
-		$score=readIqScore($account["uid"],true);
-		
-		$score["words"] = getWords($score['iqlv']);
-		$score["newusetime"] = strftime('%M:%S',$useTime);
-		$score['nowiq']=$iqvalue;
-		//echo json_encode($score);
-		//exit;
-
-		$this->set("score",$score);
-		$this->set("op","showscore");
-		$this->display("iq_ican");
+		return $iqvalue;
 	}
-		
+	
 	public function sendStats(){
 		$account=getAccount();
 		if(!is_array($account)){

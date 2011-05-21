@@ -57,16 +57,6 @@ function getAccount(){
 	return is_array($account)?$account:false;
 }
 
-function readqtype(){
-	$qtype=rq("qtype",0);
-	if($qtype!=0) {
-		ssetcookie("daren_qtype",$qtype);
-		return $qtype;
-	}
-	$qtype=intval("0".sreadcookie("daren_qtype",$qtype));
-	return $qtype;
-}
-
 function LetGo(){
 	global $account,$defapp,$accounts;
 	if(!$defapp)$defapp="home";
@@ -81,7 +71,7 @@ function LetGo(){
 	$cont->assign("act",$act);
 	$cont->assign("op",$op);
 	
-	$cont->set('qtype',readqtype());
+	////$cont->set('qtype',readqtype());
 
 	$cont->set("lfrom",$lfrom);
 	$cont->assign("account",$account);

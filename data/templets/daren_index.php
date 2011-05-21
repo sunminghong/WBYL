@@ -55,7 +55,7 @@
 <div style="clear:both;"></div>
 		<div class="div_login">
 		<? if(is_array($account) ) { ?>
-			<a href="?app=daren&op=ready&qtype=1"><img src="<?=$templatepath?>/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
+			<a href="?app=daren&op=ready"><img src="<?=$templatepath?>/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
 
 			<? } else { ?>
 			<a href="?act=account&op=tologin" border="0"><img height1="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 

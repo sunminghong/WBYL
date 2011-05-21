@@ -1,0 +1,51 @@
+Array
+(
+    [up] => Array
+        (
+            [id] => 14
+            [uid] => 11
+            [msg] => 
+            [big_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dhdh12nhkej.jpg
+            [middle_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dhdh12nhkej.jpg
+            [small_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dhdh12nhkej.jpg
+            [score] => 4
+            [rateCount] => 2
+            [regtime] => 0
+            [lasttime] => 1305865185
+            [wbid] => 0
+        )
+
+    [curr] => Array
+        (
+            [id] => 13
+            [uid] => 11
+            [msg] => 
+            [big_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dhdh12nhkej.jpg
+            [middle_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dhdh12nhkej.jpg
+            [small_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dhdh12nhkej.jpg
+            [score] => 0
+            [rateCount] => 0
+            [regtime] => 0
+            [lasttime] => 0
+            [wbid] => 0
+        )
+
+    [next] => Array
+        (
+            [id] => 14
+            [uid] => 11
+            [msg] => 
+            [big_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dhdh12nhkej.jpg
+            [middle_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dhdh12nhkej.jpg
+            [small_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dhdh12nhkej.jpg
+            [score] => 4
+            [rateCount] => 2
+            [regtime] => 0
+            [lasttime] => 1305865185
+            [wbid] => 0
+        )
+
+)
+
+/////////////////////////////json
+{"up":{"id":"13","uid":"11","msg":"","big_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg","middle_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg","small_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg","score":"0","rateCount":"0","regtime":"0","lasttime":"0","wbid":"0"},"curr":{"id":"14","uid":"11","msg":"","big_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg","middle_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg","small_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg","score":"4","rateCount":"2","regtime":"0","lasttime":"1305865185","wbid":"0"},"next":{"id":"14","uid":"11","msg":"","big_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg","middle_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg","small_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg","score":"4","rateCount":"2","regtime":"0","lasttime":"1305865185","wbid":"0"}}

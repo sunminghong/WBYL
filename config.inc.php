@@ -1,7 +1,11 @@
 <?php
 define('ISSAE',false);  //是否为sae平台
+define('SAVELOG',true); //是否保存测试log 
+define('NOADS',false); //是否不显示广告
 
 $canLogin=array("tqq","tsina");
+
+//我的一生
 $apiConfig=array(
 	"tsina"=>array(
 		"name"=>'新浪微博',
@@ -16,6 +20,39 @@ $apiConfig=array(
 		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
 	)
 );
+//我就喜欢
+$apiConfig=array(
+	"tsina"=>array(
+		"name"=>'新浪微博',
+		"domain_format" => 'http://weibo.com/{domain}',
+		"access_key" =>'517732164',
+		"screct_key"=>'42c11fb1beed4ea012177b28a7fd32fa'
+	),
+	"tqq"=>array(
+		"name"=>'腾讯微博',
+		"domain_format" => 'http://t.qq.com/{domain}',
+		"access_key" =>'633e42f93e2f4a8a9981711ee890cf99',
+		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
+	)
+);
+
+//火不火，给你看看
+$apiConfig=array(
+	"tsina"=>array(
+		"name"=>'新浪微博',
+		"domain_format" => 'http://weibo.com/{domain}',
+		"access_key" =>'3011873221',
+		"screct_key"=>'554994f0eb7256d950b52611782e027d'
+	),
+	"tqq"=>array(
+		"name"=>'腾讯微博',
+		"domain_format" => 'http://t.qq.com/{domain}',
+		"access_key" =>'633e42f93e2f4a8a9981711ee890cf99',
+		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
+	)
+);
+
+
 
 if(!ISSAE){
 	$DBCONFIG=array(
@@ -39,6 +76,7 @@ if(!ISSAE){
 	$app_dbpre_eq="ppt.eq_";
 	$app_dbpre_log="ppt.log_";
 	$app_dbpre_daren="ppt.daren_";
+	$app_dbpre_ilike='ppt.ilike_';
 }
 
 else{
@@ -69,6 +107,7 @@ define('DEFAULT_DB',SAE_MYSQL_DB);
 	$app_dbpre_eq=DEFAULT_DB . ".eq_";	
 	$app_dbpre_log=DEFAULT_DB .".log_";
 	$app_dbpre_daren=DEFAULT_DB .".daren_";
+	$app_dbpre_ilike=DEFAULT_DB .'.ilike_';
 
 }
 

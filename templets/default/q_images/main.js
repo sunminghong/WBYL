@@ -157,7 +157,7 @@ function refreshMsg(){
 			}
 			
 			var ph=[];
-			for(var i=mlist.length-1;i>=mlist.length-19;i--){
+			for(var i=mlist.length-1; i>=0 && i>=mlist.length-19;i--){
 				ph.unshift(addMsgLine(i));
 			}
 			msg_list.html(ph.join(''));
@@ -202,7 +202,7 @@ function addMsgLine(idx){
 	}
 	else{
 		ph.push('恭喜 <a href="'+shareurl+'');
-		ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' IQ 为'+msg[app]+'分，经鉴定为 '+msg.ch+'，我都不敢测试了！" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+name+' </a>完成测试， IQ 为<b>'+msg[app]+'</b>分，经鉴定为 <b> '+msg.ch+'</b>!');
+		ph.push('在玩微博游戏《看看你有多聪明》时看到了@'+msg.name+' EQ 为'+msg[app]+'分，经鉴定为 '+msg.ch+'，我都不敢测试了！" target="_blank" title1="点击对他说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+name+' </a>完成测试， EQ 为<b>'+msg[app]+'</b>分，经鉴定为 <b> '+msg.ch+'</b>!');
 	}
 	ph.push('</div>');
 	if(maxid>19)
@@ -237,13 +237,6 @@ $(document).ready(function(){
 	var msg_list=$("#msg_list");
 	if(msg_list.length>0){
 		refreshMsg();
-	}
-	if(op=="ready"){
-		$.get("?act=my&op=syncfriends",function(){
-			//if(msg_list.length>0) setInterval(refreshMsg,10000);			
-		});
-	}else{
-		//if(msg_list.length>0) setInterval(refreshMsg,10000);		
 	}
 	
 	var odivView=$("#zhengshupreview");
@@ -291,4 +284,7 @@ $(document).ready(function(){
 
 	});
 
+	if(op=="login"){
+		$.get("?act=my&op=syncfriends",function(){});
+	}
 }).click(function(){closeView();});
