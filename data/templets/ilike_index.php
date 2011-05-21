@@ -16,23 +16,47 @@
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var myuid='<?=$account['uid']?>';<? } else { ?>var myuid='';<? } ?></script><script type="text/javascript" src="<?=$templatepath?>/ilike_images/ilike.js"></script>
 </head>
 <body>
+
+	<div id="uploaddiv" style="display:none;">
+	<div id="uploaddiv_content">
+		<form id="uploadform" action="index.php?app=ilike&op=ijoin" method="post" name="form1" target="uploadiframe" enctype="multipart/form-data" style="margin:0px;padding:0px;">
+			<a href="javascript:void(0);" id="colseupload"><img src="<?=$templatepath?>/ilike_images/closebtn.gif" /></a>
+			<p style="margin-top:15px;">选择照片：<input name="uploadfile" type="file" /></p>
+			<p>拉票宣言：(发布后会将照片及宣言自动同步到微博，你懂的！)</p>
+			<p><textarea name="content" id="xuanyan" cols="" rows="">测试发篇微博，打扰大家，不好意思，马上删除！</textarea></p>
+			<p><input name="iffollow" type="checkbox" value="1" checked="checked" /> 关注#爱人#官方微博  <i>（可以即时接收我们的动态）</i></p>
+			<p><a href="#" id="submitdo"></a></p>
+		</form>
+	</div>
+	<iframe id="loginiframe" name="loginiframe" style="width: 400px; height:250px;"></iframe>
+	<!--<iframe name="uploadiframe" style="display:none;"></iframe>-->
+<form id="loginform" action="" target="_blank"><input type="submit" id="form_btn_login" value="登录"/></form>
+	
+    </div>
+
+	<div id="mask" class="transparent_class" style="display:none;"></div>
+    
 	<div id="topbg"></div>
     <div id="main">
     	<div id="left" class="first">
-        	<div id="j" ></div> 
-        	<a href="#"><img src="<?=$templatepath?>/ilike_images/sign-in-with-sina-32.png" /></a>
-            
-            <!--div id="preimgdiv">
-            	<div id="preflag" class="pngfix">9.4<font face="黑体">分</font></div> 
-            	<img id="preimg" src="http://asset3-cdn.hotornot.com/photos/017/868/345/17868345/large_2011-04-10_09-57-08_328.jpg?1305787423" />
+        	<div class="loginfalse">
+                <div id="j"></div> 
+                <a href="#" id="loginbtn"><img src="<?=$templatepath?>/ilike_images/sina_login_32.png" /></a>
             </div>
             
-            <div id="preintr">共有 <font color="#ffffff">343</font> 次投票</div-->
+            <div class="logintrue" style=" display:none">
+                <div id="preimgdiv" >
+                    <div id="preflag" class="pngfix"><span id="prescore"></span><font face="黑体">分</font></div> 
+                    <img id="preimg"/>
+                </div>            
+                <div id="preintr">共有 <font id="prepnum" color="#ffffff">343</font> 次投票</div>
+                <a id="uploadbtn" href="javascript:void(0);"></a>
+            </div>
         </div>
         <div id="content">
         	<div id="scorediv">
             	<a href="###" id="jiong"></a>
-                <a href="###" id="s1" class="scorenum"></a>
+                <a href="#" id="s1" class="scorenum"></a>
                 <a href="###" id="s2" class="scorenum"></a>
                 <a href="###" id="s3" class="scorenum"></a>
                 <a href="###" id="s4" class="scorenum"></a>
@@ -44,7 +68,7 @@
                 <a href="###" id="s10" class="scorenum"></a>
 				<a href="###" id="shuai" class="m"></a>
             </div>
-            <div id="photodiv" style="background-image:url(http://hotornot.com/photos/017/868/166/17868166/large_190270_601767266736_32501001_33982732_3173825.jpg?1305779379)"></div>
+            <div id="photodiv"></div>
             
             <div id="photobtn">查看资料　　关注他　　其他的一些按钮</div>            
             <div id="blackdiv"></div>
@@ -52,19 +76,27 @@
         <div id="right">
         	<div id="nextimgdiv">
             	<div id="nextflag" class="pngfix"></div>
-            	<img id="nextimg" src="http://asset3-cdn.hotornot.com/photos/017/868/345/17868345/large_2011-04-10_09-57-08_328.jpg?1305787423" />
+            	<img id="nextimg"/>
             </div>
         	
+            <div id="loglist">
+            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>上传了照片</p>
+            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>打分完成</p>
+                            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>上传了照片</p>
+            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>打分完成</p>
+
+            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>上传了照片</p>
+            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>打分完成</p>
+
+            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>上传了照片</p>
+            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>打分完成</p>
+            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>上传了照片</p>
+            	<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>打分完成</p>
+
+            </div>
         </div>
     </div>
     
     <div id="bottom"></div>
 </body>
-<script>
-if($('#main').height()<=639){
-	$('#main').css('height',619);
-}else{
-	$('#main').css('height','auto');
-}
-</script>
 </html>

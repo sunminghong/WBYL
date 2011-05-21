@@ -48,7 +48,7 @@ class upload
 		if ($_SERVER['CONTENT_LENGTH'] > $unit * (int)$post_max_size) {
 			return $this->setError('2');
 		}
-print_r($_FILES);
+//print_r($_FILES);
 		if (empty($_FILES[$fieldName]['name'])) {
 			return $this->setError('1');
 		}

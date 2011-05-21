@@ -1,14 +1,31 @@
 html,body{ margin:0; padding:0; background:#fff; border:0; font-size:10pt;}
-html{ background:url(bodybottom.png) no-repeat bottom;}
+html{}
+
+.transparent_class {
+ filter:alpha(opacity=70);
+ -moz-opacity:0.7;
+ -khtml-opacity: 0.7;
+ opacity: 0.7;
+}
+
+#mask{ width:100%; height:100%; z-index:7; background:#000; position:absolute;}
+#logindiv,#uploaddiv{ width: 425px; height:250px; overflow:hidden; padding:15px; position:absolute; background:#fff; border:10px solid #ccc; left:50%; top:50%; margin-top:-150px; margin-left:-265px; z-index:8; font-size:10pt;}
+#uploaddiv p{ margin:10px;}
+#xuanyan{ width:400px; height:80px;}
+#submitdo{ width:122px; margin-top:25px; height:38px; display:block; background:url(uploaddo.png);}
+#submitdo:hover{ background:url(uploaddo_on.png);}
+#colseupload{ position:absolute; left:425px;}
+#colseupload img{ border:0;}
+#uploaddiv i{ color:#666; font-style:normal; font-size:9pt;}
 
 #topbg{ width:100%; height:41px; background:#000}
 
-#main{ width:965px; margin:30px auto;}
+#main{ width:965px; margin:30px auto; position:relative;}
 #left{ width:194px; height:100%; background:url(leftbg.gif) no-repeat left 75px; float:left;}
 #left.first{ background:url(leftbg2.png) no-repeat left 35px;text-align:center;}
 #left.first img{ border:0;}
 #left.first a{ position:relative; top:420px;}
-#left #j{ width:117px; height:59px; background:url(j.png); position:absolute; margin-left:145px; margin-top:178px;}
+#left #j{ width:117px; height:59px; background:url(j.png); position:absolute; left:145px; top:178px;}
 
 #content{ width:552px; height:100%; float:left; border:10px solid #000;}
 #right{ width:195px; height:100%; background:url(rightbg.gif) no-repeat left 70px;float:left;}
@@ -43,7 +60,7 @@ a.m{background:url(shuai.png);}
 #s9:hover{ background-position-y:-1080px}
 #s10:hover{ background-position-y:-1140px}
 
-#photodiv{ width:512px; height:427px; background:#f00; margin:20px auto 0; background:#eee; border-bottom:2px solid #EDEDED}
+#photodiv{ width:512px; height:427px; background1:#f00; margin:20px auto 0; background:#eee; border-bottom:2px solid #EDEDED}
 #photobtn{ height:35px; line-height:35px; color:#0066CC; width:512px; margin:10px auto 0; }
 #blackdiv{ height:44px; background:#000; width:100$; margin-top:20px;}
 
@@ -57,3 +74,11 @@ a.m{background:url(shuai.png);}
 #preintr{ color:#666; font-size:9pt; text-align:center; font-family:Tahoma, Geneva, sans-serif; margin-top:20px;}
 
 
+
+#uploadbtn{ width:122px; height:38px; position:absolute; background:url(upload.png); top:338px; left:36px;}
+#uploadbtn:hover{ background:url(upload_on.png);}
+
+#loglist{ width:150px; height:255px; overflow:hidden; margin:43px 0 0 27px; font-size:9pt;}
+#loglist p{ margin:0; padding:0; line-height:19px; margin-bottom:5px;}
+#loglist i{ font-size:7pt; font-family:Tahoma, Geneva, sans-serif; color:#666; font-style:normal;}
+#loglist a{ color:#0066cc}
