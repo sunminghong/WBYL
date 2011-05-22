@@ -9,7 +9,7 @@
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';</script>
-<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=5.1"></script>
+<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=5.2"></script>
 <? if($op=="ready" || $op=="showscore") { ?>
 <style>
 
@@ -22,8 +22,8 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 <? } else { ?>
 <style>
 dt {text-align:left;font-size:14px;font-weight:bold;}
-li {text-align:left;padding-top:5px;padding-bottom:5px;}
-
+li {text-align:left;padding-top:5px;padding-bottom:5px;list-style-type:none;}
+ol.first li {list-style-type:decimal ;}
 </style>
 <? } ?>
 </head>

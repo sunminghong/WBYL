@@ -33,16 +33,28 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		$iqScore['chs']=iqtoch($iqv,&$iqlv);
 		$iqScore['iqlv']=$iqlv;
 
-		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq'].") + (select count(*) from ". 
-			dbhelper::tname("iq","iq") ." where iq=". $iqScore['iq'] ." and testCount<".$iqScore['testCount'] .")  as top ,";
-		$sql.="(select count(*) from ". dbhelper::tname("iq","iq") .") as total ";
+		$top=1;
+		$sql="select count(*) as top from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq']."";
+		$rs=dbhelper::getrs($sql);
+		$row=$rs->next();
+		$top=$row['top'];
+
+		$sql="select count(*) as top from ". dbhelper::tname("iq","iq") ." where iq=". $iqScore['iq'] ." and testCount<".$iqScore['testCount'] ."";
+		$rs=dbhelper::getrs($sql);
+		$row=$rs->next();
+		$top += $row['top'];
+//echo $top;
+		//$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq'].") + (select count(*) from ". 
+		//	dbhelper::tname("iq","iq") ." where iq=". $iqScore['iq'] ." and testCount<".$iqScore['testCount'] .")  as top ,";
+		//$sql.="(select count(*) from ". dbhelper::tname("iq","iq") .") as total ";
+		$sql="select count(*) as total from ". dbhelper::tname("iq","iq") ." ";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
-			$iqScore["top"]=$row['top'];
+			$iqScore["top"]=$top;
 			if(intval($row['total'])==0)
 				$iqScore['win']=100;
 			else
-				$iqScore['win']=$row['total']-$row['top'];//(1- $row['top']/$row['total'])*100;
+				$iqScore['win']=$row['total'] - $top; //(1- $row['top']/$row['total'])*100;
 
 		}else{
 			$iqScore["top"]=1;

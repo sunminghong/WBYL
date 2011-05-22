@@ -8,6 +8,11 @@ function chC(name,num){
 		if(num==i)
 			rel=this.checked;
 	});
+	$('input:checkbox[name='+name+']').each(function(i,n){
+		if(num==i)
+			rel=this.checked;
+	});
+
 	return rel;
 }
 

@@ -78,22 +78,27 @@ public function public_timeline(){
 	}
 
 	function syncfriends(){
+		$account=getAccount();
+		if(!is_array($account)){
+			echo '-1';exit;
+		}
 
 		$api=$this->getApi();
-		$account=getAccount();
-
 		importlib("ppt_class");
 		$ppt=new ppt();
 		if(!$ppt->snsNeedSync($account['uid'])) {
 			echo 0;exit;
 		}
-		$ppt-> syncSNS($api,1,$account['uid'],500,-1,$account['lfromuid']);
+		$ppt-> syncSNS($api,1,$account['uid'],100,-1,$account['lfromuid']);
 
-		$ppt-> syncSNS($api,2,$account['uid'],500,-1,$account['lfromuid']);
-		echo '1'; exit;
+		$ppt-> syncSNS($api,2,$account['uid'],100,-1,$account['lfromuid']);
+		echo '1'; 
 	}
 	
 	function syncfollowers(){
+		if(!is_array($account)){
+			echo '-1';exit;
+		}
 
 		$api=$this->getApi();
 		$account=getAccount();
@@ -103,8 +108,9 @@ public function public_timeline(){
 		if(!$ppt->snsNeedSync($account['uid'])) {
 			echo 0;exit;
 		}
-		$ppt-> syncSNS($api,2,$account['uid'],$account['lfromuid'],500);
-		echo 1;exit;
+		$ppt-> syncSNS($api,2,$account['uid'],$account['lfromuid'],100);
+
+		echo 1;
 	}
 }
 ?>

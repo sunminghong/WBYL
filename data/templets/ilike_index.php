@@ -13,12 +13,11 @@
 <style type="text/css">.pngfix{behavior: url("images/iepngfix.htc");}</style>
 <![endif]--> 
 <link href="<?=$templatepath?>/ilike_images/css.css" rel="stylesheet" type="text/css" />
-<script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var myuid='<?=$account['uid']?>';<? } else { ?>var myuid='';<? } ?></script><script type="text/javascript" src="<?=$templatepath?>/ilike_images/ilike.js"></script>
+<script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var logined=true; var myuid='<?=$account['uid']?>';<? } else { ?>var logined=false;  var myuid='';<? } ?></script><script type="text/javascript" src="<?=$templatepath?>/ilike_images/ilike.js"></script>
 </head>
 <body>
 
 	<div id="uploaddiv" style="display:none;">
-	<div id="uploaddiv_content">
 		<form id="uploadform" action="index.php?app=ilike&op=ijoin" method="post" name="form1" target="uploadiframe" enctype="multipart/form-data" style="margin:0px;padding:0px;">
 			<a href="javascript:void(0);" id="colseupload"><img src="<?=$templatepath?>/ilike_images/closebtn.gif" /></a>
 			<p style="margin-top:15px;">选择照片：<input name="uploadfile" type="file" /></p>
@@ -26,13 +25,12 @@
 			<p><textarea name="content" id="xuanyan" cols="" rows="">测试发篇微博，打扰大家，不好意思，马上删除！</textarea></p>
 			<p><input name="iffollow" type="checkbox" value="1" checked="checked" /> 关注#爱人#官方微博  <i>（可以即时接收我们的动态）</i></p>
 			<p><a href="#" id="submitdo"></a></p>
-		</form>
-	</div>
-	<iframe id="loginiframe" name="loginiframe" style="width: 400px; height:250px;"></iframe>
-	<!--<iframe name="uploadiframe" style="display:none;"></iframe>-->
-<form id="loginform" action="" target="_blank"><input type="submit" id="form_btn_login" value="登录"/></form>
-	
+		</form>	
+	<iframe name="uploadiframe" style="display:none;"></iframe>
     </div>
+	<div id="logindiv" style="display:none;">
+		<iframe id="loginiframe" name="loginiframe" style="width: 600px; height:410px;" border="0"></iframe>
+	</div>
 
 	<div id="mask" class="transparent_class" style="display:none;"></div>
     

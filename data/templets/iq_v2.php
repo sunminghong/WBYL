@@ -7,7 +7,7 @@
     <p><b><input type="hidden" name="usetime"> </b></p></blockquote>
         <dl><dt><span class="px14bx">第1-8 题：请从理论上或逻辑的角度在后面的空格中填入后续字母或数字；</span> 
 			<dd>
-                <ol>
+                <ol class="first">
                 <li>A, D, G, J<b> <input size="5" name="q1"> </b>
                 </li><li>1, 3, 6, 10 <b><input size="5" name="q2"> </b>
                 </li><li>1, 1, 2, 3, 5<b> <input size="5" name="q3"> </b>
@@ -24,85 +24,50 @@
           <dl> 
               <dt><span class="px14bx">第9-15 题：请从备选的图形中选择一个正确的(a,b,c,d)填入空白方格中 </span></dt>
                <dd>
-                  <ol>
-                      <li> (第9题)<br>
-                      <b><img height="150" src="<?=$templatepath?>/iq_images/iq09a.gif" width="150" align="top"><br>
-                        <input type="radio" value="a" name="q9">
-                        a 
-                        <input type="radio" value="b" name="q9">
-                        b 
-                        <input type="radio" value="c" name="q9">
-                        c 
-                        <input type="radio" value="d" name="q9">
-                        d</b> <br>
-                        <br>
-                      </li><li>(第10题)<br>
-                      <b><img height="150" src="<?=$templatepath?>/iq_images/iq10a.gif" width="150" align="top"><br>
-                        <input type="radio" value="a" name="q10">
-                        a 
-                        <input type="radio" value="b" name="q10">
-                        b 
-                        <input type="radio" value="c" name="q10">
-                        c 
-                        <input type="radio" value="d" name="q10">
-                        d</b> <br>
-                        <br>
-                      </li><li>(第11题)<br>
-                      <b><img height="150" src="<?=$templatepath?>/iq_images/iq11a.gif" width="150" align="top"><br>
-                        <input type="radio" value="a" name="q11">
-                        a 
-                        <input type="radio" value="b" name="q11">
-                        b 
-                        <input type="radio" value="c" name="q11">
-                        c 
-                        <input type="radio" value="d" name="q11">
-                        d</b> <br>
-                        <br>
-                      </li><li>(第12题)<br>
-                      <b><img height="150" src="<?=$templatepath?>/iq_images/iq12a.gif" width="150" align="top"><br>
-                        <input type="radio" value="a" name="q12">
-                        a 
-                        <input type="radio" value="b" name="q12">
-                        b 
-                        <input type="radio" value="c" name="q12">
-                        c 
-                        <input type="radio" value="d" name="q12">
-                        d</b> <br>
-                        <br>
-                      </li><li>(第13题)<br>
-                      <b><img height="150" src="<?=$templatepath?>/iq_images/iq13a.gif" width="150" align="top"><br>
-                        <input type="radio" value="a" name="q13">
-                        a 
-                        <input type="radio" value="b" name="q13">
-                        b 
-                        <input type="radio" value="c" name="q13">
-                        c 
-                        <input type="radio" value="d" name="q13">
-                        d</b> <br>
-                        <br>
-                      </li><li>(第14题)<br>
-                      <b><img height="150" src="<?=$templatepath?>/iq_images/iq14a.gif" width="150" align="top"><br>
-                        <input type="radio" value="a" name="q14">
-                        a 
-                        <input type="radio" value="b" name="q14">
-                        b 
-                        <input type="radio" value="c" name="q14">
-                        c 
-                        <input type="radio" value="d" name="q14">
-                        d</b> <br>
-                        <br>
-                      </li><li>(第15题)<br>
-                      <b><img height="150" src="<?=$templatepath?>/iq_images/iq15a.gif" width="150" align="top"><br>
-                        <input type="radio" value="a" name="q15">
-                        a 
-                        <input type="radio" value="b" name="q15">
-                        b 
-                        <input type="radio" value="c" name="q15">
-                        c 
-                        <input type="radio" value="d" name="q15">
-                        d</b> <br>
-                  <br>
-                      </li>
+                  <ul>
+                      <li>(第9题)<br/><b><img align="top" height="150" src="<?=$templatepath?>/iq_images/iq09a.gif" width="150">
+	<img align="top" height="150" src="<?=$templatepath?>/iq_images/iq09b.gif" width="150"><br>
+	<input name="q9" type="radio" value="a"> a
+	<input name="q9" type="radio" value="b"> b
+	<input name="q9" type="radio" value="c"> c
+	<input name="q9" type="radio" value="d"> d</b> </li>
+	<li>(第10题)<br/><b><img align="top" height="150" src="<?=$templatepath?>/iq_images/iq10a.gif" width="150">
+	<img align="top" height="150" src="<?=$templatepath?>/iq_images/iq10b.gif" width="150"><br>
+	<input name="q10" type="radio" value="a"> a
+	<input name="q10" type="radio" value="b"> b
+	<input name="q10" type="radio" value="c"> c
+	<input name="q10" type="radio" value="d"> d</b> </li>
+	<li>(第11题)<br/><b><img align="top" height="150" src="<?=$templatepath?>/iq_images/iq11a.gif" width="150">
+	<img align="top" height="150" src="<?=$templatepath?>/iq_images/iq11b.gif" width="150"><br>
+	<input name="q11" type="radio" value="a"> a
+	<input name="q11" type="radio" value="b"> b
+	<input name="q11" type="radio" value="c"> c
+	<input name="q11" type="radio" value="d"> d</b> </li>
+	<li>(第12题)<br/><b><img align="top" height="150" src="<?=$templatepath?>/iq_images/iq12a.gif" width="150">
+	<img align="top" height="150" src="<?=$templatepath?>/iq_images/iq12b.gif" width="150"><br>
+	<input name="q12" type="radio" value="a"> a
+	<input name="q12" type="radio" value="b"> b
+	<input name="q12" type="radio" value="c"> c
+	<input name="q12" type="radio" value="d"> d</b> </li>
+	<li>(第13题)<br/><b><img align="top" height="150" src="<?=$templatepath?>/iq_images/iq13a.gif" width="150">
+	<img align="top" height="150" src="<?=$templatepath?>/iq_images/iq13b.gif" width="150"><br>
+	<input name="q13" type="radio" value="a"> a
+	<input name="q13" type="radio" value="b"> b
+	<input name="q13" type="radio" value="c"> c
+	<input name="q13" type="radio" value="d"> d</b> </li>
+	<li>(第14题)<br/><b><img align="top" height="150" src="<?=$templatepath?>/iq_images/iq14a.gif" width="150">
+	<img align="top" height="150" src="<?=$templatepath?>/iq_images/iq14b.gif" width="150"><br>
+	<input name="q14" type="radio" value="a"> a
+	<input name="q14" type="radio" value="b"> b
+	<input name="q14" type="radio" value="c"> c
+	<input name="q14" type="radio" value="d"> d</b> </li>
+	<li>(第15题)<br/><b><img align="top" height="150" src="<?=$templatepath?>/iq_images/iq15a.gif" width="150">
+	<img align="top" height="150" src="<?=$templatepath?>/iq_images/iq15b.gif" width="150"><br>
+	<input name="q15" type="radio" value="a"> a
+	<input name="q15" type="radio" value="b"> b
+	<input name="q15" type="radio" value="c"> c
+	<input name="q15" type="radio" value="d"> d</b> </li>
+
                     </ol></dd>
 </dl>
 
@@ -111,48 +76,70 @@
             <dt><span class="px14bx">第16-25 题：选择图形填入空缺方格，以满足下列图形按照逻辑角度能正确排列下来。</span></dt>
 			<dd>
           <ol>
-            <li>(第16题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq16a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q16"> A <input type="radio" value="b" name="q16"> B <input type="radio" value="c" name="q16"> C 
-            <input type="radio" value="d" name="q16"> D</b> <br><br>
-            </li><li>(第17题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq17a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q17"> A <input type="radio" value="b" name="q17"> B <input type="radio" value="c" name="q17"> C 
-            <input type="radio" value="d" name="q17"> D</b> <br><br>
-            </li><li>(第18题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq18a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q18"> A <input type="radio" value="b" name="q18"> B <input type="radio" value="c" name="q18"> C 
-            <input type="radio" value="d" name="q18"> D</b> <br><br>
-            </li><li>(第19题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq19a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q19"> A <input type="radio" value="b" name="q19"> B <input type="radio" value="c" name="q19"> C 
-            <input type="radio" value="d" name="q19"> D</b> <br><br>
-                    </li><li>(第20题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq20a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q20"> A <input type="radio" value="b" name="q20"> B <input type="radio" value="c" name="q20"> C 
-            <input type="radio" value="d" name="q20"> D</b> <br><br>
-            </li><li>(第21题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq21a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q21"> A <input type="radio" value="b" name="q21"> B <input type="radio" value="c" name="q21"> C 
-            <input type="radio" value="d" name="q21"> D</b> <br><br>
-        
-            </li><li>(第22题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq22a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q22"> A <input type="radio" value="b" name="q22"> B <input type="radio" value="c" name="q22"> C 
-            <input type="radio" value="d" name="q22"> D</b> <br><br>
-            </li><li>(第23题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq23a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q23"> A <input type="radio" value="b" name="q23"> B <input type="radio" value="c" name="q23"> C 
-            <input type="radio" value="d" name="q23"> D</b> <br><br>
-            </li><li>(第24题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq24a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q24"> A <input type="radio" value="b" name="q24"> B <input type="radio" value="c" name="q24"> C 
-            <input type="radio" value="d" name="q24"> D</b> <br><br>
-            </li><li>(第25题)<br>
-                      <b><img height="50" src="<?=$templatepath?>/iq_images/iq25a.gif" align="top"><br>
-                      <input type="radio" value="a" name="q25"> A <input type="radio" value="b" name="q25"> B <input type="radio" value="c" name="q25"> C 
-            <input type="radio" value="d" name="q25"> D</b> <br><br>
-  </li></ol>
+            <li>(第16题)<br/>
+			
+			<b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq16a.gif" width="150">　
+	<img align="top" src="<?=$templatepath?>/iq_images/iq16b.gif" height="50" width="357"><br>
+	<input name="q16" type="radio" value="a"> A
+	<input name="q16" type="radio" value="b"> B
+	<input name="q16" type="radio" value="c"> C
+	<input name="q16" type="radio" value="d"> D</b> </li>
+	<li>(第17题)<br/><b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq17a.gif" width="150">　
+	<img align="top" height="50" src="<?=$templatepath?>/iq_images/iq17b.gif" width="357"><br>
+	<input name="q17" type="radio" value="a"> A
+	<input name="q17" type="radio" value="b"> B
+	<input name="q17" type="radio" value="c"> C
+	<input name="q17" type="radio" value="d"> D</b> </li>
+	<li>(第18题)<br/><b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq18a.gif" width="150">　
+	<img align="top" height="50" src="<?=$templatepath?>/iq_images/iq18b.gif" width="357"><br>
+	<input name="q18" type="radio" value="a"> A
+	<input name="q18" type="radio" value="b"> B
+	<input name="q18" type="radio" value="c"> C
+	<input name="q18" type="radio" value="d"> D</b> </li>
+	<li>(第19题)<br/><b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq19a.gif" width="150">　
+	<img align="top" height="50" src="<?=$templatepath?>/iq_images/iq19b.gif" width="357"><br>
+	<input name="q19" type="radio" value="a"> A
+	<input name="q19" type="radio" value="b"> B
+	<input name="q19" type="radio" value="c"> C
+	<input name="q19" type="radio" value="d"> D</b> </li>
+	<li>(第20题)<br/><b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq20a.gif" width="150">　
+	<img align="top" height="50" src="<?=$templatepath?>/iq_images/iq20b.gif" width="357"><br>
+	<input name="q20" type="radio" value="a"> A
+	<input name="q20" type="radio" value="b"> B
+	<input name="q20" type="radio" value="c"> C
+	<input name="q20" type="radio" value="d"> D</b> </li>
+	<li>(第21题)<br/><b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq21a.gif" width="150">　
+	<img align="top" height="50" src="<?=$templatepath?>/iq_images/iq21b.gif" width="357"><br>
+	<input name="q21" type="radio" value="a"> A
+	<input name="q21" type="radio" value="b"> B
+	<input name="q21" type="radio" value="c"> C
+	<input name="q21" type="radio" value="d"> D</b> </li>
+
+	<li>(第22题)<br/><b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq22a.gif" width="150">　
+<img align="top" height="50" src="<?=$templatepath?>/iq_images/iq22b.gif" width="357"><br>
+<input name="q22" type="radio" value="a"> A
+<input name="q22" type="radio" value="b"> B
+<input name="q22" type="radio" value="c"> C
+<input name="q22" type="radio" value="d"> D</b> </li>
+<li>(第23题)<br/><b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq23a.gif" width="150">　
+<img align="top" height="50" src="<?=$templatepath?>/iq_images/iq23b.gif" width="357"><br>
+<input name="q23" type="radio" value="a"> A
+<input name="q23" type="radio" value="b"> B
+<input name="q23" type="radio" value="c"> C
+<input name="q23" type="radio" value="d"> D</b> </li>
+<li>(第24题)<br/><b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq24a.gif" width="150">　
+<img align="top" height="50" src="<?=$templatepath?>/iq_images/iq24b.gif" width="357"><br>
+<input name="q24" type="radio" value="a"> A
+<input name="q24" type="radio" value="b"> B
+<input name="q24" type="radio" value="c"> C
+<input name="q24" type="radio" value="d"> D</b> </li>
+<li>(第25题)<br/><b><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq25a.gif" width="150">　
+<img align="top" height="50" src="<?=$templatepath?>/iq_images/iq25b.gif" width="357"><br>
+<input name="q25" type="radio" value="a"> A
+<input name="q25" type="radio" value="b"> B
+<input name="q25" type="radio" value="c"> C
+<input name="q25" type="radio" value="d"> D</b> </li>
+			</ol>
 		</dd>
 	</dl>
 
@@ -161,7 +148,7 @@
             <dd>
 				<ol>
                 <li>(第26题)<br>
-                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq26a.gif" width="200" align="top"><br>
+                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq26a.gif" width="200" align="top"><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq26b.gif" width="250"><br>
                   &nbsp; 
                   <input type="checkbox" value="a" name="q26">
                   a 
@@ -175,7 +162,7 @@
                   e</b><br>
                   <br>
                 </li><li>(第27题)<br>
-                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq27a.gif" width="200" align="top"><br>
+                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq27a.gif" width="200" align="top"><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq27b.gif" width="250"><br>
                   &nbsp; 
                   <input type="checkbox" value="a" name="q27">
                   a 
@@ -189,7 +176,7 @@
                   e</b><br>
                   <br>
                 </li><li>(第28题)<br>
-                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq28a.gif" width="200" align="top"><br>
+                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq28a.gif" width="200" align="top"><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq28b.gif" width="250"><br>
                   &nbsp; 
                   <input type="checkbox" value="a" name="q28">
                   a 
@@ -203,7 +190,7 @@
                   e</b><br>
                   <br>
                 </li><li>(第29题)<br>
-                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq29a.gif" width="200" align="top"> 
+                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq29a.gif" width="200" align="top"><img align="top" height="50" src="<?=$templatepath?>/iq_images/iq29b.gif" width="250"> 
                         <br>
                   &nbsp; 
                   <input type="checkbox" value="a" name="q29">
@@ -226,7 +213,7 @@
 			  <dd> 
               <ol>
                 <li>(第30题)<br>
-                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq30a.gif" width="200" align="top"><br>
+                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq30a.gif" width="200" align="top"><img height="50" src="<?=$templatepath?>/iq_images/iq30b.gif" width="200" align="top"><br>
                   <input type="radio" value="a" name="q30">
                   a 
                   <input type="radio" value="b" name="q30">
@@ -237,7 +224,7 @@
                   d</b> <br>
                   <br>
                 </li><li>(第31题)<br>
-                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq31a.gif" width="200" align="top"><br>
+                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq31a.gif" width="200" align="top"><img height="50" src="<?=$templatepath?>/iq_images/iq31b.gif" width="200" align="top"><br>
                   <input type="radio" value="a" name="q31">
                   a 
                   <input type="radio" value="b" name="q31">
@@ -248,7 +235,7 @@
                   d</b> <br>
                   <br>
                 </li><li>(第32题)<br>
-                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq32a.gif" width="200" align="top"><br>
+                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq32a.gif" width="200" align="top"><img height="50" src="<?=$templatepath?>/iq_images/iq32b.gif" width="200" align="top"><br>
                   <input type="radio" value="a" name="q32">
                   a 
                   <input type="radio" value="b" name="q32">
@@ -259,7 +246,7 @@
                   d</b> <br>
                   <br>
                 </li><li>(第33题)<br>
-                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq33a.gif" width="200" align="top"><br>
+                        <b><img height="50" src="<?=$templatepath?>/iq_images/iq33a.gif" width="200" align="top"><img height="50" src="<?=$templatepath?>/iq_images/iq33b.gif" width="200" align="top"><br>
                   <input type="radio" value="a" name="q33">
                   a 
                   <input type="radio" value="b" name="q33">

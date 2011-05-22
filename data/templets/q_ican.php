@@ -87,7 +87,7 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
   接下来，您还可以：
   <ul class="test">
     <li><a href="?app=eq&op=stats" target="_blank">看看你的好友的EQ情况&raquo;</a></li>
-    <li><a href="javascript:void(0);" onclick="follow();" target="_blank">关注官方微博，“实时”了解最新的更新&raquo;</a></li>
+   <li><a href="?app=iq" target="_blank">进行智商（IQ）测试&raquo;</a></li>
     <li><a href="http://www.265g.com/?lfrom=5d13" target="_blank" title="265G是网页游戏第一门户！找网页游戏，就上265G!">如果你想玩游戏，可以上265g看看！&raquo;</a></li>
 	<li><a href="?app=eq&op=ready">再测试一次&raquo;</a></li>
   </ul>

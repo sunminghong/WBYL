@@ -32,16 +32,28 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		$eqScore['chs']=eqtoch($eqv,&$eqlv);
 		$eqScore['eqlv']=$eqlv;
 
-		$sql="select (select count(*) from ". dbhelper::tname("eq","eq") ." where eq>" . $eqScore['eq'].") + (select count(*) from ". 
-			dbhelper::tname("eq","eq") ." where eq=". $eqScore['eq'] ." and testCount<".$eqScore['testCount'] .")  as top ,";
-		$sql.="(select count(*) from ". dbhelper::tname("eq","eq") .") as total ";
+		$top=1;
+		$sql="select count(*) as top from ". dbhelper::tname("eq","eq") ." where eq>" . $eqScore['eq']."";
+		$rs=dbhelper::getrs($sql);
+		$row=$rs->next();
+		$top=$row['top'];
+
+		$sql="select count(*) as top from ". dbhelper::tname("eq","eq") ." where eq=". $eqScore['eq'] ." and testCount<".$eqScore['testCount'] ."";
+		$rs=dbhelper::getrs($sql);
+		$row=$rs->next();
+		$top += $row['top'];
+//echo $top;
+		//$sql="select (select count(*) from ". dbhelper::tname("eq","eq") ." where eq>" . $eqScore['eq'].") + (select count(*) from ". 
+		//	dbhelper::tname("eq","eq") ." where eq=". $eqScore['eq'] ." and testCount<".$eqScore['testCount'] .")  as top ,";
+		//$sql.="(select count(*) from ". dbhelper::tname("eq","eq") .") as total ";
+		$sql="select count(*) as total from ". dbhelper::tname("eq","eq") ." ";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
-			$eqScore["top"]=$row['top']?$row['top']:1;
+			$eqScore["top"]=$top;
 			if(intval($row['total'])==0)
-				$eqScore['win']=0;
+				$eqScore['win']=100;
 			else
-				$eqScore['win']=$row['total']-$row['top'];//(1- $row['top']/$row['total'])*100;
+				$eqScore['win']=$row['total'] - $top; //(1- $row['top']/$row['total'])*100;
 
 		}else{
 			$eqScore["top"]=1;

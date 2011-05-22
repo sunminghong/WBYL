@@ -15,28 +15,7 @@ var $id = function(id){
 
 
 var data ={};
-/*{
-	"up":{"id":"13","uid":"11",
-	"msg":"",
-"big_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg",
-	"middle_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg",
-	"small_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg",
-	"score":"0","rateCount":"0","regtime":"0","lasttime":"0","wbid":"0"},
 
-"curr":{"id":"14","uid":"11",
-	"msg":"",
-	"big_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg",
-	"middle_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg",
-	"small_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg",
-	"score":"4","rateCount":"2","regtime":"0","lasttime":"1305865185","wbid":"0"},
-	
-"next":{"id":"14","uid":"11",
-	"msg":"",
-	"big_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg",
-"middle_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg",
-	"small_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhdh12nhkej.jpg",
-	"score":"4","rateCount":"2","regtime":"0","lasttime":"1305865185","wbid":"0"}};
-*/
 function next(score) {
 	var rateid='';
 	if(data && data.curr && data.curr.id) {
@@ -60,21 +39,23 @@ function fmtData(j){
 			$('#left').css({'background':'url(images/leftbg3.png) no-repeat left 35px'});
 			$('#loginbtn').hide();
 		}
+		logined = j.logined;
 		$('#prescore').html(j.up.score);
 	}
 
-		$id('left').className = '';
-		$('.loginfalse').hide();
-		$('.logintrue').show();
-		
-		//上一个
-		$('#prepnum').html(j.up.rateCount);
-		$('#preimg').attr('src',j.up.small_pic);
-		//当前
+	$id('left').className = '';
+	//$('.loginfalse').hide();
+	$('.logintrue').show();
+	
+	//上一个
+	$('#prepnum').html(j.up.rateCount);
+	$('#preimg').attr('src',j.up.small_pic);
+	//当前
 
-		$('#photodiv').css({'background':'url('+ j.curr.middle_pic +') #fff center no-repeat'});
-		//下一个
-		$('#nextimg').attr('src',j.next.small_pic);
+	$('#photodiv').css({'background':'url('+ j.curr.middle_pic +') #fff center no-repeat'});
+	//下一个
+	$('#nextimg').attr('src',j.next.small_pic);
+
 	if(j.next)
 		$('.scorenum').attr('href','#'+j.next.id);
 }
@@ -85,10 +66,10 @@ function login(){
 //var ifr=	document.getElementById('loginiframe');
 	//ifr.src=loginurl;
 	//$('#loginiframe').show();
-
+	$('#mask').show();
+	$('#logindiv').show();
 	document.getElementById('loginform').src=loginurl;
 	$('#form_btn_login').click();
-
 }
 function upload_return(rel){
 	switch(rel.success) {
@@ -119,6 +100,10 @@ $(document).ready(function(){
 		$('#main').css('height','auto');
 	}
 	fHideFocus('a');
+
+	if(!logined) {		
+		$('#loginfalse').show();
+	}
 
 	$('.scorenum').click(function(){
 		next($(this).attr('id').replace('s',''));

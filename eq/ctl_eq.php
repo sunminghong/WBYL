@@ -51,7 +51,7 @@ class eq extends ctl_base
 		$this->saveEq(-1,0);
 
 		$this->set("op","ican");
-		$this->display("q_ican");		
+		$this->display("q_ican");
 	}
 	
 
@@ -165,9 +165,7 @@ class eq extends ctl_base
 			$this->saveEq($eqvalue,$useTime);
 			header("Location: ?app=eq&op=cacl&eqvalue=$eqvalue&usetime=$useTime");
 			//echo '<script type="text/javascript">location.href="?app=eq&op=cacl&eqvalue='.$eqvalue.'&usetime='.$useTime.'";</script>';
-			exit;
 		}
-
 
 		$score=readEqScore($account["uid"],true);
 		
@@ -199,7 +197,6 @@ class eq extends ctl_base
 		$msg .= URLBASE ."eq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=eq";
 		//echo $msg;exit;
 		$this->getApi()->update($msg);
-
 		echo "1";exit;
 	}
 	

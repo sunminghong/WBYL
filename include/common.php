@@ -15,7 +15,7 @@ error_reporting (E_ALL & ~E_NOTICE);
 include ROOT.'config.inc.php';
 include_once(ROOT.'include/function.php');
 
-$lfrom=rq("lfrom","");
+$lfrom=rq("lfrom","tsina");
 if($lfrom) $canLogin=array($lfrom);
 
 importlib("envhelper_class");
@@ -77,7 +77,9 @@ function LetGo(){
 	$cont->assign("account",$account);
 
 	$cont->force=rq("clstemplate",0);
-	$cont->$op();	
+	$cont->$op();
+	
+	dbhelper::close();
 }
 
 //if(ISSAE)sae_xhprof_end()

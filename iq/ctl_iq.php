@@ -24,7 +24,7 @@ class iq extends ctl_base
 		}
 
 		$this->set("op","ready");
-		$this->display("iq_index");
+		$this->display("iq_index");		
 	}
 
 	function icanv1(){		
@@ -208,7 +208,6 @@ class iq extends ctl_base
 		}
 		$sql="update ".dbhelper::tname("ppt","user")." set posts=posts+1 where uid='".$account['uid']."'";
 		dbhelper::execute($sql);
-
 		$iqCount=$this->iqCount();
 		$msg="#看看你有多聪明#数据统计：总登录人数 ".$iqCount['totalUser']."，成功测试人数 ".$iqCount[iqs]."人， 有效测试 ".$iqCount[logs]. "次。目前@".$iqCount[maxName]. " 以 ". $iqCount[maxIq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ " .URLBASE ."iq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=iq";
 		//echo $msg;exit;
@@ -224,7 +223,6 @@ class iq extends ctl_base
 		}
 		$sql="update ".dbhelper::tname("ppt","user")." set posts=posts+1 where uid='".$account['uid']."'";
 		dbhelper::execute($sql);
-
 		$score=readIqScore($account['uid'],false); //得了".$score['iq']."分，
 	
 		if($score['lostname'])
@@ -239,7 +237,7 @@ class iq extends ctl_base
 
 		//echo $score['zsurl'].$msg; exit;
 		$this->getApi()->upload($msg,$score['zsurl']);
-		echo "1";exit;
+		echo "1";
 	}
 		
 	public function sendstatus2(){
@@ -265,8 +263,7 @@ class iq extends ctl_base
 //			echo $zs['zsurl'];
 			print_r($this->getApi()->upload($msg,$zs['zsurl']));
 		}
-		
-		echo "1";exit;
+		echo "1";
 	}
 
 	private function friendstoplist($uid){

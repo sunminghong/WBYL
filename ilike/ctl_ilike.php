@@ -5,7 +5,7 @@ class ilike extends ctl_base
 {
 	function index(){ // 这里是首页
 			//$this->ready();exit;
-		$account=$this->checkLogin();
+		//$account=$this->checkLogin();
 		
 		$this->set("op","index");
 		$this->display("ilike_index");
@@ -176,8 +176,7 @@ class ilike extends ctl_base
 				unset($ratelog[0]);
 
 			$ratelog[]=$rateid;
-			ssetcookie("ilike_ratelog",$ratelog);
-			//echo 'ratelog=';print_r($ratelog);
+			ssetcookie("ilike_ratelog",$ratelog);			
 		}
 	}
 }	

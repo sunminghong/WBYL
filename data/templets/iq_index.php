@@ -9,12 +9,12 @@
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var myuid='<?=$account['uid']?>';<? } else { ?>var myuid='';<? } ?></script>
-<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=1.6"></script>
-<script type="text/javascript" src="http://cbjs.baidu.com/js/m.js"></script>
+<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=5.2"></script>
+<!--<script type="text/javascript" src="http://cbjs.baidu.com/js/m.js"></script>-->
 <script type="text/javascript">
-BAIDU_CLB_addSlot("158633");
-BAIDU_CLB_enableAllSlots();
-BAIDU_CLB_preloadSlots("158633");
+//BAIDU_CLB_addSlot("158633");
+//BAIDU_CLB_enableAllSlots();
+//BAIDU_CLB_preloadSlots("158633");
 </script>
 </head>
 <body>
@@ -47,9 +47,8 @@ BAIDU_CLB_preloadSlots("158633");
 				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/iq_logo.jpg" alt="看看你有多聪明"/></a>
 			</div>
 		</div>
-<div id="div_notice"></div>
-<!-- 广告位：顶部通栏 -->
-<script type="text/javascript">BAIDU_CLB_fillSlot("158633");</script>
+<div id="div_notice"></div><div id="ad_800_60" style="width:800px;height:60px;"></div>	
+
 		<div class="contentFrame" style="width:260px;float:right;padding:0px;">
 			<div class="ui-widget" style="text-align:center; color:#696a62;padding:0px;">
 				<div style="background:#ceeff6;line-height:27px;height:27px;">
@@ -84,8 +83,8 @@ BAIDU_CLB_preloadSlots("158633");
 
 <? } elseif($op=="ready") { ?>
 
-		<div class="ui-widget">			
-			<div class="login">			
+		<div class="ui-widget">
+			<div class="login">
 			<? if(is_array($account) ) { ?>
 			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
 <font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?></b>人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
@@ -101,8 +100,11 @@ BAIDU_CLB_preloadSlots("158633");
 			</div>
 		</div>
 		<br/>
-<div id="div_notice"></div>
+
+<div id="div_notice"></div><!-- 广告位：顶部通栏 -->
+<!--<script type="text/javascript"> BAIDU_CLB_fillSlot("158633"); </script>-->
 <div id="ad_800_60" style="width:800px;height:60px;"></div>
+
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
