@@ -43,7 +43,7 @@ class zhengshu {
 	static function getiq($uid,$lv) {
 		$iqscore=array("iqlv"=>$lv);
 		$account=array("uid"=>$uid);
-		$sql="select u.uid,u.screen_name,u.avatar,iq.iq,iq.testCount from ". dbhelper::tname("ppt","user") ." u inner join ". dbhelper::tname("iq","iq") ." iq on u.uid=iq.uid where u.uid=$uid";
+		$sql="select u.uid,u.screen_name,u.avatar,iq.iq,iq.testCount from ". dbhelper::tname("ppt","user") ." u inner join ". dbhelper::tname("iq","iq") ." iq on u.uid=iq.uid where u.uid=$uid";echo $sql;
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$account['screen_name']=$row['screen_name'];
@@ -51,15 +51,35 @@ class zhengshu {
 
 			$iqscore['iq']=$row['iq'];
 			$iqscore['testCount']=$row['testCount'];
-		}else				return "";
-		
-		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqscore['iq'].") + (select count(*) from ". dbhelper::tname("iq","iq") ." where iq=". $iqscore['iq'] ." and testCount<".$iqscore['testCount'] .")  as top";
+		}else
+			return "";
+
+		$top=1;
+		$sql="select count(*) as top from ". dbhelper::tname("iq","iq") ." where iq>" . $iqscore['iq']."";
+		$rs=dbhelper::getrs($sql);
+		$row=$rs->next();
+		$top=$row['top'];
+
+		$sql="select count(*) as top from ". dbhelper::tname("iq","iq") ." where iq=". $iqscore['iq'] ." and testCount<".$iqscore['testCount'] ."";
+		$rs=dbhelper::getrs($sql);
+		$row=$rs->next();
+		$top += $row['top'];
+//echo $top;
+		//$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq'].") + (select count(*) from ". 
+		//	dbhelper::tname("iq","iq") ." where iq=". $iqScore['iq'] ." and testCount<".$iqScore['testCount'] .")  as top ,";
+		//$sql.="(select count(*) from ". dbhelper::tname("iq","iq") .") as total ";
+		$sql="select count(*) as total from ". dbhelper::tname("iq","iq") ." ";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
-			$iqscore["top"]=$row['top'];
-			
+			$iqscore["top"]=$top;
+			if(intval($row['total'])==0)
+				$iqscore['win']=100;
+			else
+				$iqscore['win']=$row['total'] - $top; //(1- $row['top']/$row['total'])*100;
+
 		}else{
 			$iqscore["top"]=1;
+			$iqscore['win']=100;
 		}
 
 		return self::makeIQ($account,$iqscore,false);
@@ -142,13 +162,32 @@ class zhengshu {
 			$eqscore['testCount']=$row['testCount'];
 		}else				return "";
 		
-		$sql="select (select count(*) from ". dbhelper::tname("eq","eq") ." where eq>" . $eqscore['eq'].") + (select count(*) from ". dbhelper::tname("eq","eq") ." where eq=". $eqscore['eq'] ." and testCount<".$eqscore['testCount'] .")  as top";
+		$top=1;
+		$sql="select count(*) as top from ". dbhelper::tname("eq","eq") ." where eq>" . $eqscore['eq']."";
+		$rs=dbhelper::getrs($sql);
+		$row=$rs->next();
+		$top=$row['top'];
+
+		$sql="select count(*) as top from ". dbhelper::tname("eq","eq") ." where eq=". $eqscore['eq'] ." and testCount<".$eqscore['testCount'] ."";
+		$rs=dbhelper::getrs($sql);
+		$row=$rs->next();
+		$top += $row['top'];
+//echo $top;
+		//$sql="select (select count(*) from ". dbhelper::tname("eq","eq") ." where eq>" . $eqscore['eq'].") + (select count(*) from ". 
+		//	dbhelper::tname("eq","eq") ." where eq=". $eqscore['eq'] ." and testCount<".$eqscore['testCount'] .")  as top ,";
+		//$sql.="(select count(*) from ". dbhelper::tname("eq","eq") .") as total ";
+		$sql="select count(*) as total from ". dbhelper::tname("eq","eq") ." ";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
-			$eqscore["top"]=$row['top'];
-			
+			$eqscore["top"]=$top;
+			if(intval($row['total'])==0)
+				$eqscore['win']=100;
+			else
+				$eqscore['win']=$row['total'] - $top; //(1- $row['top']/$row['total'])*100;
+
 		}else{
 			$eqscore["top"]=1;
+			$eqscore['win']=0;
 		}
 
 		return self::makeEQ($account,$eqscore,false);

@@ -288,6 +288,14 @@ class iq extends ctl_base
 	}
 
 	private function mingrenlist(){
+		$ocache=new Cache();
+		$minLast=$ocache->get('iq_minlast');
+		if(getTimestamp() - $minLast<3600) {
+			$testlist=$ocache->get('iq_mingrenlist');
+			
+			if( is_array($testlist)) 
+				return $testlist;
+		}
 		$top=10;
 		$testlist=array();
 		$sql="select l.uid,l.name,l.followers,testCount,iq,useTime,lfrom,l.avatar,l.verified from ". dbhelper::tname("iq","iq") . " iq  inner join ".
@@ -304,6 +312,10 @@ class iq extends ctl_base
 			$testlist[]=$row;
 		}
 //		print_r($testlist);
+
+		$ocache->set('iq_minlast',gettimestamp());	
+		$ocache->set('iq_mingrenlist',$testlist);
+	
 		return $testlist;
 	}
 

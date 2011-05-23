@@ -92,11 +92,12 @@ showtime();
 }
 
 
-function follow(){
+function follow(isredirect){
 	var url='?act=my&op=follow';
 	$.get(url,function(res){
 		$("#div_follow").hide();
 		alert('谢谢你的关注，我们会定期在官网“聪明行情”！');
+		//if(isredirect) location.href='?app=iq&op=stats';
 	});
 }
 

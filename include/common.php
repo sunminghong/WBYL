@@ -12,6 +12,8 @@ error_reporting (E_ALL & ~E_NOTICE);
 // 默认时区设置
 @date_default_timezone_set('PRC');
 
+$account=$accounts=false;
+
 include ROOT.'config.inc.php';
 include_once(ROOT.'include/function.php');
 
@@ -29,7 +31,6 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pramga: no-cache");
 header('Content-Type: text/html; charset=utf-8');//.DEFAULT_CHARTSET);
 
-$account=false;
 $accounts=envhelper::readAccounts();
 $ret=envhelper::readRet();
 if(is_array($accounts)){
@@ -55,6 +56,15 @@ $yymmdd=date("ymd");
 function getAccount(){
 	global $account;
 	return is_array($account)?$account:false;
+}
+function getApi(){
+	$account=getAccount();
+
+	$api="sdk_".$account['lfrom']."/openapi_class";
+	importlib($api);
+	$api=new openapi($account['kuid']); 
+	
+	return $api;
 }
 
 function LetGo(){

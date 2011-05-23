@@ -15,7 +15,7 @@ class dbhelper {
 	 * @access public
 	 */
 	static function getConnM(){
-		echo 'getConnM--';
+		////echo 'getConnM--';
 		return self::getConn($GLOBALS['DBCONFIG'][0]);
 	}
 
@@ -33,7 +33,7 @@ class dbhelper {
 		}
 		else
 			$dbid=0;
-echo 'getConns--';
+		////echo 'getConns--';
 		return self::getConn($GLOBALS['DBCONFIG'][$dbid]);
 	}
 	
@@ -46,7 +46,7 @@ echo 'getConns--';
 		$key=$serv['dbhost']."_".$serv['dbuser']."_".$serv['dbpwd'];
 		if(in_array($key,array_keys(self::$conns)))
 			return self::$conns[$key];
-echo 'isconn--';
+		///echo 'isconn--';
 		$conn=mysql_connect($serv['dbhost'],$serv['dbuser'],$serv['dbpwd']);
 		if($conn){
 			mysql_select_db(DEFAULT_DB,$conn);

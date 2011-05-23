@@ -29,13 +29,7 @@ class ctl_base extends template {
 	}
 
 	function getApi(){
-		$account=getAccount();
-
-		$api="sdk_".$account['lfrom']."/openapi_class";
-		importlib($api);
-		$api=new openapi($account['kuid']); 
-		
-		return $api;
+		return getApi();		
 	}
 }
 

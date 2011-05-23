@@ -9,15 +9,20 @@ html{}
 }
 
 #mask{ width:100%; height:100%; z-index:7; background:#000; position:absolute;}
-#logindiv,#uploaddiv{overflow:hidden; padding:15px; position:absolute; background:#fff; border:10px solid #ccc; left:50%; top:50%; margin-top:-150px; margin-left:-265px; z-index:8; font-size:10pt;}
+#uploaddiv{overflow:hidden; padding:15px; position:absolute; background:#fff; border:10px solid #ccc;/* left:50%; top:50%; margin-top:-150px; margin-left:-265px; */z-index:8; font-size:10pt;}
 #uploaddiv { width: 425px; height:250px; }
+#logindiv {width:600px;height:410px; overflow:hidden;position:absolute; background:#fff; border:10px solid #ccc; z-index:10; }
+#closelogin { right:0;top:0px;}
+#closelogin img{ border:0;}
+
 #uploaddiv p{ margin:10px;}
 #xuanyan{ width:400px; height:80px;}
 #submitdo{ width:122px; margin-top:25px; height:38px; display:block; background:url(uploaddo.png);}
 #submitdo:hover{ background:url(uploaddo_on.png);}
 #colseupload{ position:absolute; left:425px;}
-#colseupload img{ border:0;}
+#colseupload img { border:0;}
 #uploaddiv i{ color:#666; font-style:normal; font-size:9pt;}
+
 
 #topbg{ width:100%; height:41px; background:#000}
 

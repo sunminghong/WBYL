@@ -129,9 +129,9 @@
 			</div>
 		</div>
 		<div class="div_login">		
+			<a href="?app=iq&op=icanv2"><img src="<?=$templatepath?>/iq_images/btn_ready_v2.gif" alt="我准备好了，开始" /></a>
 			<a href="?app=iq&op=icanv1"><img src="<?=$templatepath?>/iq_images/btn_ready_v1.gif" alt="我准备好了，开始" /></a>
 			
-			<a href="?app=iq&op=icanv2"><img src="<?=$templatepath?>/iq_images/btn_ready_v2.gif" alt="我准备好了，开始" /></a>
 		</div>
 
 <? } elseif($op=="stats") { ?>

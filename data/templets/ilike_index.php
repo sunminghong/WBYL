@@ -16,7 +16,7 @@
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';<? if($account) { ?>var logined=true; var myuid='<?=$account['uid']?>';<? } else { ?>var logined=false;  var myuid='';<? } ?></script><script type="text/javascript" src="<?=$templatepath?>/ilike_images/ilike.js"></script>
 </head>
 <body>
-
+<!--　北京话"范儿"就是"劲头""派头"的意思，就是指在外貌、行为、或是在某种风格中特别不错的意思，有点相近于“气质”、“有情调”的意思，用别的词来形容还真有点费劲，只可意会不可言传。-->
 	<div id="uploaddiv" style="display:none;">
 		<form id="uploadform" action="index.php?app=ilike&op=ijoin" method="post" name="form1" target="uploadiframe" enctype="multipart/form-data" style="margin:0px;padding:0px;">
 			<a href="javascript:void(0);" id="colseupload"><img src="<?=$templatepath?>/ilike_images/closebtn.gif" /></a>
@@ -29,7 +29,8 @@
 	<iframe name="uploadiframe" style="display:none;"></iframe>
     </div>
 	<div id="logindiv" style="display:none;">
-		<iframe id="loginiframe" name="loginiframe" style="width: 600px; height:410px;" border="0"></iframe>
+	<a href="javascript:void(0);" id="colselogin"><img src="<?=$templatepath?>/ilike_images/closebtn.gif" /></a>
+		<iframe id="loginiframe" name="loginiframe" style="width: 100%; height:100%;" border="0"></iframe>
 	</div>
 
 	<div id="mask" class="transparent_class" style="display:none;"></div>

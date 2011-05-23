@@ -9,7 +9,7 @@
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';</script>
-<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=5.2"></script>
+<script type="text/javascript" src="<?=$templatepath?>/iq_images/iq_min.js?v=5.3"></script>
 <? if($op=="ready" || $op=="showscore") { ?>
 <style>
 
@@ -72,16 +72,16 @@ ol.first li {list-style-type:decimal ;}
 					120-129 -- 颖慧绝伦
 					130-139 -- 旷世奇才<br/>
 					140-?     -- 文曲星转世</code>
-					</span><br/> <br/> <a href="javascript:void(0);"  onclick="sendmsg();"><img src="<?=$templatepath?>/iq_images/btn_tweet_blue.gif" /></a> <div style="height:2px;"></div>
-									<a href="javascript:void(0);" onclick="follow();" title="谢谢你的关注，我们会定期在官网公告“聪明行情”！"><img src="<?=$templatepath?>/iq_images/btn_follow.gif" title="关注我"/></a>
+					</span><br/> <br/> <a href="javascript:void(0);"  onclick="sendmsg(true);"><img src="<?=$templatepath?>/iq_images/btn_tweet_blue.gif" /></a> <div style="height:2px;"></div>
+									<a href="javascript:void(0);" onclick="follow(true);" title="谢谢你的关注，我们会定期在官网公告“聪明行情”！"><img src="<?=$templatepath?>/iq_images/btn_follow.gif" title="关注我"/></a>
 <br/><br/>
 
   接下来，您还可以：
   <ul class="test">
     <li><a href="?app=iq&op=stats" target="_blank">看看你的好友的IQ情况&raquo;</a></li>
-   <li><a href="?app=eq" target="_blank">进行情商（EQ）测试&raquo;</a></li>
+   <li><a href="?app=eq" target="_blank" style="font-size:140%;color:#00f;">进行情商（EQ）测试&raquo;</a></li>
     <li><a href="http://www.265g.com" target="_blank" title="265G是网页游戏第一门户！找网页游戏，就上265G!">上265g找找好玩的网页游戏！&raquo;</a></li>
-	<li><a href="?app=iq&op=ready">再测试一次（有两套题哟！）&raquo;</a></li>
+	<li><a href="?app=iq&op=ready" style="font-size:140%;color:#f0f;">再测试一次（有两套题哟！）&raquo;</a></li>
   </ul>
 				</div>
 				<div style="clear:both;"></div>

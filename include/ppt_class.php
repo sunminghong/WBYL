@@ -42,7 +42,7 @@ class ppt{
 		$sql="select uid2 from ".dbhelper::tname("ppt",$lf_pre.'userlib_sns')." where uid1=".$uid1." limit 0,1";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
-			if(getTimestamp() % 5==0) {
+			if(getTimestamp() % 20==0) {
 				return true;
 			}
 			return false;
@@ -50,6 +50,62 @@ class ppt{
 		else {
 			return true;
 		}
+	}
+
+	public function getSNS($api,$type,$num) {
+		$cursor=-1;
+		if($api->lfrom=='tqq') {
+			if($cursor==-1) $cursor=1;
+			$cur2=($cursor-1) * 30; 
+		}elseif($api->lfrom=='tsina') {
+			$cur2=$cursor;
+		}
+		if($type==2)
+			$f_list=$api->followers($cur2,$num);//,$lfromuid);
+		else
+			$f_list=$api->friends($cur2,$num);//,$lfromuid);
+
+		$list=$f_list["users"];
+		return $list;
+	}
+
+	public function getMeetSNS($api,$type,$uid,$num,$exceptName) {
+		//获取邀请人名单
+		/*
+				global $lfrom;
+		if($lfrom=="tsina") $lf_pre="";
+		else $lf_pre=$lfrom."_";
+
+		$sql="select l.screen_name from ".dbhelper::tname("ppt",$lf_pre."userlib")." l  inner join ".dbhelper::tname("ppt",$lf_pre."userlib_sns")." sns on sns.uid2=l.id and type=2 where sns.uid1=".$uid." order by rand() limit 0,".($num+3);
+		$rs=dbhelper::getrs($sql);
+		$sss2="";$ii=0;
+		while($row=$rs->next()){
+		
+			if($ii<$num && !strpos($exceptName,$row['screen_name'])){
+				$sss2.="@".$row['screen_name']." ，";
+				$ii++;
+			}
+		}
+		*/
+
+		$arr=$this->getSNS($api,$type,$num * 3);
+		$timestamp=gettimestamp();
+		switch($timestamp % $num) {
+			case 0: $ind0=0;	break;
+			case 1: $ind0=3;break;
+			case 2: $ind0=6;break;
+		}
+
+		$sss2="";$ii=0;
+		for ($ind=$ind0;$ind<$ind0+$num && $ind<count($arr);$ind++) {
+			$row=$arr[$ind];
+			if($ii<$num && !strpos($exceptName,$row['screen_name'])){
+				$sss2.="@".$row['screen_name']." ，";
+				$ii++;
+			}
+		}
+		//echo $sss2;exit;
+		return $sss2;
 	}
 
 	public function syncSNS($api,$type,$uid1=0,$count=100,$cursor=-1){

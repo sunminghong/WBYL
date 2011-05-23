@@ -61,29 +61,26 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			$iqScore['win']=100;
 		}
 		
+		
 		//获取打败的好友的名单
+
 		$sql="select l.screen_name from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=2 where sns.uid1=".$uid." and iq.iq<".$iqScore['iq']." order by rand() limit 0,3";
 		$rs=dbhelper::getrs($sql);
 		$sss="";
 		while($row=$rs->next()){
 			$sss.="@".$row['screen_name']." ，";
 		}
+
 		$iqScore['lostname']=$sss;
 		
 		global $lfrom;
 		if($lfrom=="tsina") $lf_pre="";
 		else $lf_pre=$lfrom."_";
-		//获取邀请人名单
-		$sql="select l.screen_name from ".dbhelper::tname("ppt",$lf_pre."userlib")." l  inner join ".dbhelper::tname("ppt",$lf_pre."userlib_sns")." sns on sns.uid2=l.id and type=2 where sns.uid1=".$uid." order by rand() limit 0,6";
-		$rs=dbhelper::getrs($sql);
-		$sss2="";$ii=0;
-		while($row=$rs->next()){
-			if($ii<3 && !strpos($sss,$row['screen_name'])){
-				$sss2.="@".$row['screen_name']." ，";
-				$ii++;
-			}
-		}
-
+		
+		$api=getApi();
+		importlib("ppt_class");
+		$ppt=new ppt();
+		$sss2=$ppt->getMeetSNS($api,2,$uid,3,$iqScore['lostname']);
 		$iqScore['retname']=$sss2;
 		
 		importlib("zhengshu");

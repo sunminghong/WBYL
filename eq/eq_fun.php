@@ -2,7 +2,7 @@
 if(!defined('ISWBYL')) exit('Access Denied');
 
 	function readEqScore($uid,$nocache=false){
-		if(!$nocache){
+		if(1==0 && !$nocache){
 			$json=sreadcookie('eq_score');		
 			if ($json){
 				$json= authcode($json, 'DECODE', $key = 'abC!@#$%^');
@@ -69,22 +69,15 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		}
 		$eqScore['lostname']=$sss;
 		
-		global $lfrom;
-		if($lfrom=="tsina") $lf_pre="";
-		else $lf_pre=$lfrom."_";
-		//获取邀请人名单
-		$sql="select l.screen_name from ".dbhelper::tname("ppt",$lf_pre."userlib")." l  inner join ".dbhelper::tname("ppt",$lf_pre."userlib_sns")." sns on sns.uid2=l.id and type=2 where sns.uid1=".$uid." order by rand() limit 0,6";
-		$rs=dbhelper::getrs($sql);
-		$sss2="";$ii=0;
-		while($row=$rs->next()){
-			if($ii<3 && !strpos($sss,$row['screen_name'])){
-				$sss2.="@".$row['screen_name']." ，";
-				$ii++;
-			}
-		}
 
+		//获取邀请人名单
+
+		$api=getApi();
+		importlib("ppt_class");
+		$ppt=new ppt();
+		$sss2=$ppt->getMeetSNS($api,2,$uid,3,$eqScore['lostname']);
 		$eqScore['retname']=$sss2;
-		
+
 		importlib("zhengshu");
 		$zs=zhengshu::makeEQ(getAccount(),$eqScore);
 		$eqScore=array_merge($eqScore,$zs);

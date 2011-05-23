@@ -22,7 +22,7 @@ class ilike extends ctl_base
 	function ijoin() {
 		$account=$this->checkLogin(false);
 		if(!$account) {
-				echo "<script>parent.upload_return({'success':-1,msg:'请先登录！'})</script>";
+				echo "<script>parent.upload_return({'success':-1,msg:'请先登录！'});</script>";
 				exit;
 		}
 		$uid=$account['uid'];

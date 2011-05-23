@@ -209,8 +209,7 @@ class eq extends ctl_base
 		dbhelper::execute($sql);
 
 		$score=readEqScore($account['uid'],false); //得了".$score['eq']."分，
-		$score['lostname']=false;
-		$score['retname']=false;
+
 		if($score['lostname'])
 			$msg="刚刚玩#看看你有多聪明#，我目前最高 EQ 得分".$score['eq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了".$score['lostname']."哈哈！";
 		else
@@ -276,6 +275,14 @@ class eq extends ctl_base
 	}
 
 	private function mingrenlist(){
+		$ocache=new Cache();
+		$minLast=$ocache->get('eq_minlast');
+		if(getTimestamp() - $minLast<3600) {
+			$testlist=$ocache->get('eq_mingrenlist');			
+			if( is_array($testlist)) 
+				return $testlist;
+		}
+
 		$top=10;
 		$testlist=array();
 		$sql="select l.uid,l.name,l.followers,testCount,eq,useTime,lfrom,l.avatar,l.verified from ". dbhelper::tname("eq","eq") . " eq  inner join ".
@@ -294,6 +301,8 @@ class eq extends ctl_base
 			$testlist[]=$row;
 		}
 //		print_r($testlist);
+		$ocache->set('eq_minlast',gettimestamp());	
+		$ocache->set('eq_mingrenlist',$testlist);
 		return $testlist;
 	}
 

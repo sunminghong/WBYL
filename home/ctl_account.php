@@ -17,7 +17,18 @@ class account extends ctl_base
 		$tourl=$api->getLoginUrl($callbackurl);
 		header("Location: $tourl");
 	}
-	
+
+	function tologinmini(){		
+		$lfrom=rq("lfrom","tsina");
+		$callbackurl=URLBASE.'?act=account&op=callback&lfrom='.$lfrom.'&fromurl=mini';
+		
+		$api="sdk_".$lfrom."/openapi_class";
+		importlib($api);
+		$api=new openapi();	
+		$tourl=$api->getLoginUrl($callbackurl);
+		header("Location: $tourl");
+	}
+
 	function callback(){
 		$lfrom=rq("lfrom","tsina");
 		$tourl=rq("fromurl","");
@@ -37,9 +48,14 @@ class account extends ctl_base
 			$uidarr['uid']=$uid;
 
 			envhelper::saveAccounts(envhelper::packKUID($lfrom,$uidarr['lfromuid']),$uidarr);
-
+					
 			if(!$tourl)
-			$tourl="?act=my";
+				$tourl="?act=my";
+			elseif($tourl=="mini") {
+				$uidjson=json_encode($uidarr);
+				echo '<script type="text/javascript"> parent.loginback('.$uidjson.');</script>';
+				return;
+			}
 			header("Location: $tourl");
 		}
 	}

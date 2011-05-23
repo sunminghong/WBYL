@@ -1,5 +1,7 @@
 var urlbase="?app=ilike";
 var loginurl="?app=home&act=account&op=tologin";
+var needmask=0;
+var isUpload=false;
 
 function fHideFocus(tName){
 	var aTag=document.getElementsByTagName(tName);
@@ -60,16 +62,42 @@ function fmtData(j){
 		$('.scorenum').attr('href','#'+j.next.id);
 }
 function login(){
-	//$('#mask').show();
-	//$('#uploaddiv').show();
-	//$('#uploaddiv_content').hide();
-//var ifr=	document.getElementById('loginiframe');
-	//ifr.src=loginurl;
-	//$('#loginiframe').show();
-	$('#mask').show();
-	$('#logindiv').show();
-	document.getElementById('loginform').src=loginurl;
-	$('#form_btn_login').click();
+	$('#mask').show();		needmask<0?needmask=1:needmask++;
+	showdiv('logindiv');
+
+	document.getElementById('loginiframe').src="?app=home&act=account&op=tologinmini";
+}
+function showdiv(id) {
+
+	ooo=$('#'+id);
+	ooo.show();
+	var h=ooo.height();
+	var w=ooo.width();
+	var t=($(window).height()- h) /2 +  $(document).scrollTop();
+	var l=($(window).width() - w) /2+  $(document).scrollLeft();
+
+	if(t<5) t=5;
+	if(l<5) l=5;alert(t+'//'+l);
+	ooo.css("top",t).css("left",l);
+}
+
+function loginback(account) {
+	if (needmask<=1)
+		$('#mask').hide();
+	needmask--;
+
+	$('#logindiv').hide();
+
+	if(account && account.uid) {
+		logined=true;
+		$('#loginfalse').hide();
+	}
+
+	if(isUpload) {
+		$('#submitdo').click();
+		isUpload=false;
+	}
+
 }
 function upload_return(rel){
 	switch(rel.success) {
@@ -80,11 +108,15 @@ function upload_return(rel){
 		if(data.next)
 			$('.scorenum').attr('href','#'+data.next.id);
 
-		$('#mask').hide();
+		if (needmask<=1)
+			$('#mask').hide();
+		needmask--;
+
 		$('#uploaddiv').hide();
 		return;
 		case -1:
 			alert(rel.msg);
+			isUpload=true;
 			login();
 			return;
 		case -2:
@@ -101,23 +133,38 @@ $(document).ready(function(){
 	}
 	fHideFocus('a');
 
-	if(!logined) {		
+	if(!logined) {
 		$('#loginfalse').show();
+	}else {
+		$('#loginfalse').hide();
 	}
 
 	$('.scorenum').click(function(){
 		next($(this).attr('id').replace('s',''));
 	});
 	$('#uploadbtn').click(function(){
-		$('#mask').show();
-		$('#uploaddiv').show();
+		$('#mask').show();		needmask<0?needmask=1:needmask++;
+		showdiv('uploaddiv');
 	});
 	$('#colseupload').click(function(){
-		$('#mask').hide();
+		if (needmask<=1)
+			$('#mask').hide();
+		needmask--;
+
 		$('#uploaddiv').hide();
 	});
 	$('#submitdo').click(function(){
 		$('#uploadform').submit();
+	});
+	$('#loginbtn').click(function(){
+		login();
+	});
+	$('#colseuplogin').click(function(){
+		if (needmask<=1)
+			$('#mask').hide();
+		needmask--;
+
+		$('#logindiv').hide();
 	});
 	//fmtData(data);
 
