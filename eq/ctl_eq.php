@@ -221,7 +221,7 @@ class eq extends ctl_base
 			$msg.= "你们也来试试吧！";
 
 		$msg .= URLBASE ."eq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=eq";
-		//echo $score['zsurl'].$msg; exit;
+		///echo $score['zsurl'].$msg; exit;
 		$this->getApi()->upload($msg,$score['zsurl']);
 		echo "1";exit;
 	}

@@ -12,9 +12,9 @@ class ilike extends ctl_base
 	}
 
 	function next() {
-		$this->recRate();//print_r($this->getshowpic());
-		$json=json_encode($this->getshowpic());
-		//$this->set("showdata",$json);
+		$this->recRate();
+		$json=$this->getshowpic();
+		
 		echo $json;
 		exit;
 	}
@@ -26,6 +26,13 @@ class ilike extends ctl_base
 				exit;
 		}
 		$uid=$account['uid'];
+
+		$api=$this->getApi();
+
+		$iffollow=rf("iffollow",0);
+		if($iffollow) {
+			$ret=$api->follow($uid); 
+		}
 
 		$msg=rf("content","");
 		if(strlen($msg)<10) {
@@ -44,27 +51,54 @@ class ilike extends ctl_base
 		importlib("upload_class");
 		$upload=new upload();
 		$file=$upload->do_upload();
+		//$file=$upload->make_thumb($file, $file, 1024 , 768, false)
+
 		//echo 'file='.$file;
 		if(strlen($file)>5) {
-			$api=$this->getApi();
 			$upl=$api->upload($wbmsg,$file);
 			$up=array_merge($up,$upl);
-			
-			$this->savepic($id,$up);
-			echo "<script>parent.upload_return({'success':1,curr:" .json_encode($up). "})</script>";
+			if(is_array($upl)) { 
+				$this->savepic($id,$up);
+				echo "<script>parent.upload_return({'success':1,curr:" .json_encode($up). "})</script>";
+			}else {
+				echo "<script>parent.upload_return({'success':-2,msg:'微博太火了，服务器忙不过来了，你再传看看吧！'})</script>";
+			}
 			exit;
 		}
 		else {
-			//$this->delnewid($id);
-			echo "<script>parent.upload_return({'success':-2,msg:'微博太火了，服务器忙不过来了，你再传看看吧！'})</script>";
+			$api->update($wbmsg);
+			$this->delnewid($id);
+			echo "<script>parent.upload_return({'success':-3,msg:'已经同步到你的微博，但你没有上传图片哟！'})</script>";
 			exit;
 		}
 
-//echo '<script>parent.upload_return({"success":1,curr:{"uid":null,"msg":"\u6d4b\u8bd5\u53d1\u7bc7\u5fae\u535a\uff0c\u6253\u6270\u5927\u5bb6\uff0c\u4e0d\u597d\u610f\u601d\uff0c\u9a6c\u4e0a\u5220\u9664\uff01","wbid":10983444359,"small_pic":"http:\/\/ww2.sinaimg.cn\/thumbnail\/682c5fd7jw1dhezuni6tsj.jpg","middle_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhezuni6tsj.jpg","big_pic":"http:\/\/ww2.sinaimg.cn\/large\/682c5fd7jw1dhezuni6tsj.jpg"}});</script>';
+		//echo '<script>parent.upload_return({"success":1,curr:{"uid":null,"msg":"\u6d4b\u8bd5\u53d1\u7bc7\u5fae\u535a\uff0c\u6253\u6270\u5927\u5bb6\uff0c\u4e0d\u597d\u610f\u601d\uff0c\u9a6c\u4e0a\u5220\u9664\uff01","wbid":10983444359,"small_pic":"http:\/\/ww2.sinaimg.cn\/thumbnail\/682c5fd7jw1dhezuni6tsj.jpg","middle_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhezuni6tsj.jpg","big_pic":"http:\/\/ww2.sinaimg.cn\/large\/682c5fd7jw1dhezuni6tsj.jpg"}});</script>';
 		exit;
 	}
+	
+	public function timelist(){
+		$top=rq("mo",0);
+		$last=rq("last",0);
+		if($last==0)
+			$top=15;
+		else
+			$top=5;
 
-	function savepic($id,$up) {
+		$testlist=array();
+		$sql="select iq.id,iq.type,iq.score,iq.lasttime,l.uid,l.name,l.lfrom from ". dbhelper::tname("ilike","log") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid  where  iq.lasttime>{$last} order by iq.lasttime desc limit 0,$top";
+		$rs=dbhelper::getrs($sql);
+		$i=0;
+		while($row=$rs->next()){
+			$i++;
+			$row["i"]=$i;
+			$row['testtime']= date("H:i",$row['lasttime']);
+
+			$testlist[]=$row;			
+		}
+		echo json_encode($testlist);
+	}
+
+	private function savepic($id,$up) {
 		global $timestamp;
 
 		$account=getAccount();
@@ -80,27 +114,37 @@ class ilike extends ctl_base
 		return $id;
 	}
 	
-	function getnewid($up) {
+	private function getnewid($up) {
 		$id=dbhelper::update($up, $id = '', dbhelper::tname("ilike","pics"), 'id');		
 		return $id;
 	}	
-	function delnewid($id) {
+	private function delnewid($id) {
 		dbhelper::execute("delete from ". dbhelper::tname("ilike","pics") ." where id=$id");		
 	}
 
 	private function getshowpic() {
-		$score=rq("score",0);
+		$isfirst=rq('f','');
+		if(!$isfirst) {
+			$account=getAccount();
+			if(!is_array($account)) {
+				return '{"logined":false}';
+			}
+		}
+
+		$score=intval(rq("score",0));
 		$id=intval(rq("rateid",0));
+		$sex=intval(rq("sex",0));
 
 		$curr=$next=$up=0;
 		
 		$swhere="";
+		if($sex!=0) $swhere=" and l.sex=$sex ";
 		$up=sreadcookie('ilike_up');
 		$curr=sreadcookie("ilike_curr");
 		$next=sreadcookie("ilike_next");
 
 		if ($id && !$score) {
-			$sql="select p.*,l.sex,l.name,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid  where p.id=$id";
+			$sql="select p.*,l.sex,l.name,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid  where p.big_pic<>'' and p.id=$id";
 			$rs=dbhelper::getrs($sql);
 			if ($row=$rs->next()) {
 				$curr=$row;
@@ -124,7 +168,7 @@ class ilike extends ctl_base
 		}
 
 		if(!is_array($next)) $top += 1;
-		if($swhere != '')$swhere = "where 1=1 ". $swhere;
+		if($swhere != '')$swhere = "where  p.big_pic<>''  ". $swhere;
 		$sql="select p.*,l.sex,l.name,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid $swhere order by rand() limit 0,$top"; 
 		$rs=dbhelper::getrs($sql);
 		if ($row=$rs->next()) {
@@ -143,10 +187,8 @@ class ilike extends ctl_base
 		//echo 'up=';print_r($up);
 		//echo 'curr=';print_r($curr);
 		//echo 'next=';print_r($next);
-		$account=getAccount();
-		if(is_array($account)) $logined=true;
-		else $logined=false;
-		return array('logined'=>$logined,'up'=>$up?$up:0,'curr'=>$curr,'next'=>$next);
+
+		return json_encode(array('logined'=>true,'up'=>$up?$up:0,'curr'=>$curr,'next'=>$next));
 	}
 
 	private function recRate() {

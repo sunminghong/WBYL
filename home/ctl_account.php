@@ -69,6 +69,7 @@ class account extends ctl_base
 		}
 		
 		envhelper::clearAccounts();
+		SESS::delall();
 	
 		$tourl=$_SERVER["HTTP_REFERER"];
 		if(!$tourl)

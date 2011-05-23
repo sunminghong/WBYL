@@ -64,11 +64,14 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		
 		//获取打败的好友的名单
 
-		$sql="select l.screen_name from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=2 where sns.uid1=".$uid." and iq.iq<".$iqScore['iq']." order by rand() limit 0,3";
+		$sql="select l.screen_name,l.lfrom,l.lfromuid from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=2 where sns.uid1=".$uid." and iq.iq<".$iqScore['iq']." order by rand() limit 0,3";
 		$rs=dbhelper::getrs($sql);
 		$sss="";
 		while($row=$rs->next()){
-			$sss.="@".$row['screen_name']." ，";
+			if($row['lfrom']=='tqq')
+				$sss.="@".$row['lfromuid']." ，";
+			else
+				$sss.="@".$row['screen_name']." ，";
 		}
 
 		$iqScore['lostname']=$sss;

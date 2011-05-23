@@ -99,9 +99,16 @@ class ppt{
 		$sss2="";$ii=0;
 		for ($ind=$ind0;$ind<$ind0+$num && $ind<count($arr);$ind++) {
 			$row=$arr[$ind];
-			if($ii<$num && !strpos($exceptName,$row['screen_name'])){
-				$sss2.="@".$row['screen_name']." ，";
-				$ii++;
+			if($row['lfrom']=='tqq') {
+				if($ii<$num && !strpos($exceptName,$row['lfromuid'])){
+					$sss2.="@".$row['lfromuid']." ，";
+					$ii++;
+				}
+			}	else {
+				if($ii<$num && !strpos($exceptName,$row['screen_name'])){
+					$sss2.="@".$row['screen_name']." ，";
+					$ii++;
+				}				
 			}
 		}
 		//echo $sss2;exit;

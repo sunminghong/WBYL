@@ -61,11 +61,14 @@ public function public_timeline(){
 		
 		$api=$this->getApi();
 		$account=getAccount();
-
-		if($account['lfrom']=='tqq')
-			$uid="yihuiso";
-		else
-			$uid="1747738583";
+		
+		$uid=rq("uid",false);
+		if(!$uid) {
+			if($account['lfrom']=='tqq')
+				$uid="yihuiso";
+			else
+				$uid="1747738583";
+		}
 
 		$isFollow=rq("follow",1);
 		

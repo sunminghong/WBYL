@@ -28,17 +28,8 @@
 	<strong>微博<? echo strtoupper($app);?>测试：</strong>就是常说的情商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！
 		<? } ?>
 <br/><br/>
-
-	<? if(is_array($account) ) { ?>
-			<a href="?app=eq&op=ready"><img src="<?=$templatepath?>/q_images/btn_test_green.gif" alt="我来测试下"/></a>
-
-		<? } else { ?>	
-<? global $canLogin;?>
-	<? foreach((array)$canLogin as $login) {?>
-		<a href="?act=account&op=tologin&lfrom=<?=$login?>" border="0"><img height1="24" src="<?=$templatepath?>/images/btn_login_<?=$login?>.png" alt="用微博帐号登录" /></a> 
-	<? } ?>
-
-<? } ?> <a href="?app=eq&op=stats"><img src="<?=$templatepath?>/q_images/btn_stats.gif" alt="聪明排行榜" ></a>
+<a href="?app=eq&op=ready&lfrom=<?=$lfrom?>"><img src="<?=$templatepath?>/q_images/btn_test_green.gif" alt="我来测试下"/></a>
+	 <a href="?app=eq&op=stats"><img src="<?=$templatepath?>/q_images/btn_stats.gif" alt="聪明排行榜" ></a>
 			</div>
 			
 			<div class="logo">

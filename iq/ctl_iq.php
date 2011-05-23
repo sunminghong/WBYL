@@ -235,7 +235,7 @@ class iq extends ctl_base
 		else
 			$msg.= "你们也来试试吧！" .URLBASE ."iq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=iq";
 
-		//echo $score['zsurl'].$msg; exit;
+		///echo $score['zsurl'].$msg; exit;
 		$this->getApi()->upload($msg,$score['zsurl']);
 		echo "1";
 	}

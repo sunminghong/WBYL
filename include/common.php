@@ -17,8 +17,15 @@ $account=$accounts=false;
 include ROOT.'config.inc.php';
 include_once(ROOT.'include/function.php');
 
-$lfrom=rq("lfrom","tsina");
+$lfrom=rq("lfrom","");
 if($lfrom) $canLogin=array($lfrom);
+
+//$lfrom=rq("lfrom","");
+//if($lfrom=="tsina") 
+//	$canLogin=array('tsina','tqq');
+//else
+//	$canLogin=array('tqq','tsina');
+
 
 importlib("envhelper_class");
 importlib("dbhelper_class");
@@ -59,7 +66,7 @@ function getAccount(){
 }
 function getApi(){
 	$account=getAccount();
-
+	if(!is_array($account)) return false;
 	$api="sdk_".$account['lfrom']."/openapi_class";
 	importlib($api);
 	$api=new openapi($account['kuid']); 
@@ -73,6 +80,7 @@ function LetGo(){
 	$app=empty($_GET['app'])?$defapp:$_GET['app'];
 	$act=empty($_GET['act'])?$app:$_GET['act'];
 	$op=empty($_GET['op'])?'index':$_GET['op'];
+	$lfrom=$_GET['lfrom'];
 		
 	include(ROOT.$app."/ctl_".$act.".php");
 	
@@ -80,6 +88,7 @@ function LetGo(){
 	$cont->assign("app",$app);
 	$cont->assign("act",$act);
 	$cont->assign("op",$op);
+	$cont->assign("lfrom",$lfrom);
 	
 	////$cont->set('qtype',readqtype());
 
