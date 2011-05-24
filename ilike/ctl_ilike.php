@@ -36,7 +36,7 @@ class ilike extends ctl_base
 
 		$msg=rf("content","");
 		if(strlen($msg)<10) {
-			$msg = "刚在#爱人#上发了一张照片，这个微博是向你们拉票的！";
+			$msg = "刚在#看看我的范儿#上发了一张照片，这个微博是向你们拉票的！";
 		}
 		
 		$up=array();
@@ -51,7 +51,6 @@ class ilike extends ctl_base
 		importlib("upload_class");
 		$upload=new upload();
 		$file=$upload->do_upload();
-		//$file=$upload->make_thumb($file, $file, 1024 , 768, false)
 
 		//echo 'file='.$file;
 		if(strlen($file)>5) {
@@ -123,13 +122,13 @@ class ilike extends ctl_base
 	}
 
 	private function getshowpic() {
-		$isfirst=rq('f','');
-		if(!$isfirst) {
-			$account=getAccount();
-			if(!is_array($account)) {
-				return '{"logined":false}';
-			}
-		}
+		//$isfirst=rq('f','');
+		//if(!$isfirst) {
+		//	$account=getAccount();
+		//	if(!is_array($account)) {
+		//		return '{"logined":false}';
+		//	}
+		//}
 
 		$score=intval(rq("score",0));
 		$id=intval(rq("rateid",0));
@@ -137,14 +136,14 @@ class ilike extends ctl_base
 
 		$curr=$next=$up=0;
 		
-		$swhere="";
+		$swhere="where  p.big_pic<>'' ";
 		if($sex!=0) $swhere=" and l.sex=$sex ";
 		$up=sreadcookie('ilike_up');
 		$curr=sreadcookie("ilike_curr");
 		$next=sreadcookie("ilike_next");
 
 		if ($id && !$score) {
-			$sql="select p.*,l.sex,l.name,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid  where p.big_pic<>'' and p.id=$id";
+			$sql="select p.*,l.sex,l.name,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid  where p.id=$id";
 			$rs=dbhelper::getrs($sql);
 			if ($row=$rs->next()) {
 				$curr=$row;
@@ -168,7 +167,7 @@ class ilike extends ctl_base
 		}
 
 		if(!is_array($next)) $top += 1;
-		if($swhere != '')$swhere = "where  p.big_pic<>''  ". $swhere;
+		if($swhere != '')$swhere = " ". $swhere;
 		$sql="select p.*,l.sex,l.name,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid $swhere order by rand() limit 0,$top"; 
 		$rs=dbhelper::getrs($sql);
 		if ($row=$rs->next()) {
@@ -188,7 +187,12 @@ class ilike extends ctl_base
 		//echo 'curr=';print_r($curr);
 		//echo 'next=';print_r($next);
 
-		return json_encode(array('logined'=>true,'up'=>$up?$up:0,'curr'=>$curr,'next'=>$next));
+		$account=getAccount();
+		if(!is_array($account))
+			$login=false;
+		else $login=true;
+
+		return json_encode(array('logined'=>$login,'up'=>$up?$up:0,'curr'=>$curr,'next'=>$next));
 	}
 
 	private function recRate() {

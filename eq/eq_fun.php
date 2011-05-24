@@ -2,7 +2,7 @@
 if(!defined('ISWBYL')) exit('Access Denied');
 
 	function readEqScore($uid,$nocache=false){
-		if(1==0 && !$nocache){
+		if(!$nocache){
 			$json=sreadcookie('eq_score');		
 			if ($json){
 				$json= authcode($json, 'DECODE', $key = 'abC!@#$%^');

@@ -26,7 +26,8 @@ a,img {border:0px;}
 
 
 #topbg{ width:100%; height:41px; background:#000;padding-left:20px;}
-#logo {float:left;color:#f00;font-size:24px;font-family:'微软雅黑','黑体'; line-height:39px;width:}
+#logo {float:left;color:#f00;font-size:24px;font-family:'微软雅黑','黑体'; line-height:39px;}
+#logo b {font-weight:normal;}
 #aboutfaner {float:left;font-size:12px;color:#666;width:600px;margin-left:50px;margin-top:3px;}
 
 #main{ width:965px; margin:30px auto; position:relative;}
@@ -35,7 +36,7 @@ a,img {border:0px;}
 #left.first3{ background:url(leftbg3.png) no-repeat left 35px;text-align:center;}
 #left.first img{ border:0;}
 #left.first a{ position:relative; top:420px;}
-#left #j{ width:117px; height:59px; background:url(j.png); position:absolute; left:145px; top:178px;}
+#left #j{ width:117px; height:59px; background:url(j.png); position:absolute; left:145px; top:178px;z-index:11;}
 #loginbtn{position:absolute; left:5px; top:388px;}
 
 #content{ width:552px; height:100%; float:left; border:10px solid #000;}
@@ -72,11 +73,11 @@ a.m{background:url(shuai.png) no-repeat;}
 #s10:hover{ background-position-y:-1140px}
 
 #filterdiv {margin:3px 5px;background:#ececec;padding:3px 10px;}
-#photodiv{ width:512px; height:480px;overflow:hidden; margin:10px auto 0; background1:#eee; border-bottom:2px solid #EDEDED}
-#photodiv img {height:480px;/*width:512px;*/}
+#photodiv{ width:512px; height:480px;overflow:hidden; margin:10px auto 0; background1:#eee; border-bottom:2px solid #EDEDED; position:relative; text-align:center;}
+
 #photobtn{ height:35px; line-height:35px; color:#0066CC; width:512px; margin:10px auto 0; }
 #photobtn a{color:#06c;}
-#blackdiv{ height:44px; background:#000; width:100%; margin-top:20px;}
+#blackdiv{clear:both; height:44px; background:#000; width:100%; margin-top:20px;}
 
 #nextimgdiv{ width:144px; height:144px; overflow:hidden; margin:90px 0 0 29px;}
 #nextflag{ width:144px; height:50px; position:absolute; margin-top:94px;background:url(next.png)}
@@ -88,11 +89,25 @@ a.m{background:url(shuai.png) no-repeat;}
 #preintr{ color:#666; font-size:9pt; text-align:center; font-family:Tahoma, Geneva, sans-serif; margin-top:20px;}
 
 
-
-#uploadbtn{ width:122px; height:38px; position:absolute; background:url(upload.png); top:338px; left:36px;}
+#uploadbtn,#uploadbtn2{ width:122px; height:38px; position:absolute; background:url(upload.png); top:338px; left:36px;}
 #uploadbtn:hover{ background:url(upload_on.png);}
+#uploadbtn2 {top:428px;left:12px;}
 
 #msglist{ width:150px; height:255px; overflow:hidden; margin:43px 0 0 27px; font-size:9pt;}
 #msglist p{ margin:0; padding:0; line-height:19px; margin-bottom:5px;}
 #msglist i{ font-size:7pt; font-family:Tahoma, Geneva, sans-serif; color:#666; font-style:normal;}
 #msglist a{ color:#0066cc}
+
+
+#footer {
+	background: #FC0;
+	margin-top:20px;
+	height:40px;
+}
+#copyright {
+	background: black;
+	height: 108px; 
+	text-align:center;
+	color:#fff;
+	line-height: 90px;
+}

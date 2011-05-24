@@ -1,2 +1,2 @@
-	<div id="logo">¿´¿´ÎÒµÄ·¶¶ù <sup style="font-size:12px;color:#666;">V1.0</sup></div>
-	<div id="aboutfaner">±±¾©»°"·¶¶ù"¾ÍÊÇ"¾¢Í·""ÅÉÍ·"µÄÒâË¼£¬¾ÍÊÇÖ¸ÔÚÍâÃ²¡¢ÐÐÎª¡¢»òÊÇÔÚÄ³ÖÖ·ç¸ñÖÐÌØ±ð²»´íµÄÒâË¼£¬°üº¬ÁËÆøÖÊ¡¢ÓÐÇéµ÷¡¢ÓÐÆ·Î¶¡¢ÓÐÐÍ¡¢ÓÐ¸öÐÔµÈ¶àÖÖº¬Òå£¬¾ßÌåÒâË¼Ö»¿ÉÒâ»á²»¿ÉÑÔ´«¡£¿´¿´ÄãµÄ·¶¶ù£¬ÆÀÆÀTAµÄ·¶¶ù£¡</div>
+	<div id="logo">çœ‹çœ‹æˆ‘çš„èŒƒå„¿ <sup style="font-size:12px;color:#666;">V1.0</sup></div>
+	<div id="aboutfaner">åŒ—äº¬è¯"èŒƒå„¿"å°±æ˜¯"åŠ²å¤´""æ´¾å¤´"çš„æ„æ€ï¼Œå°±æ˜¯æŒ‡åœ¨å¤–è²Œã€è¡Œä¸ºã€æˆ–æ˜¯åœ¨æŸç§é£Žæ ¼ä¸­ç‰¹åˆ«ä¸é”™çš„æ„æ€ï¼ŒåŒ…å«äº†æ°”è´¨ã€æœ‰æƒ…è°ƒã€æœ‰å“å‘³ã€æœ‰åž‹ã€æœ‰ä¸ªæ€§ç­‰å¤šç§å«ä¹‰ï¼Œå…·ä½“æ„æ€åªå¯æ„ä¼šä¸å¯è¨€ä¼ ã€‚çœ‹çœ‹ä½ çš„èŒƒå„¿ï¼Œè¯„è¯„TAçš„èŒƒå„¿ï¼</div>

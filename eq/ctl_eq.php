@@ -285,8 +285,13 @@ class eq extends ctl_base
 
 		$top=10;
 		$testlist=array();
-		$sql="select l.uid,l.name,l.followers,testCount,eq,useTime,lfrom,l.avatar,l.verified from ". dbhelper::tname("eq","eq") . " eq  inner join ".
-			dbhelper::tname("ppt","user")." l on eq.uid=l.uid where l.avatar<>'' order by l.followers desc  limit 0,$top";
+
+		$sql="select l.uid,l.name,l.followers,testCount,eq,useTime,lfrom,l.avatar,l.verified from (select * from ".
+		dbhelper::tname("ppt","user")." where followers>70000 and avatar<>'' order by followers desc limit 0,100) l,". dbhelper::tname("eq","eq") . " eq where l.uid=eq.uid limit 0,10";
+
+		//$sql="select l.uid,l.name,l.followers,testCount,eq,useTime,lfrom,l.avatar,l.verified from ". dbhelper::tname("eq","eq") . " eq  inner join ".
+		//	dbhelper::tname("ppt","user")." l on eq.uid=l.uid where l.avatar<>'' order by l.followers desc  limit 0,$top";
+
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){

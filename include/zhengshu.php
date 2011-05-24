@@ -43,7 +43,7 @@ class zhengshu {
 	static function getiq($uid,$lv) {
 		$iqscore=array("iqlv"=>$lv);
 		$account=array("uid"=>$uid);
-		$sql="select u.uid,u.screen_name,u.avatar,iq.iq,iq.testCount from ". dbhelper::tname("ppt","user") ." u inner join ". dbhelper::tname("iq","iq") ." iq on u.uid=iq.uid where u.uid=$uid";echo $sql;
+		$sql="select u.uid,u.screen_name,u.avatar,iq.iq,iq.testCount from ". dbhelper::tname("ppt","user") ." u inner join ". dbhelper::tname("iq","iq") ." iq on u.uid=iq.uid where u.uid=$uid";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$account['screen_name']=$row['screen_name'];
@@ -107,34 +107,45 @@ class zhengshu {
 
 		$name=$account['screen_name'];
 
-		$backImage=ROOT."images/zhengshu_{$type}_".$iqlv.".png";
+		$backImage=ROOT."images/265g/iq/zhengshu_{$type}_".$iqlv.".png";
 		//$backImage=ROOT."images/zhengshu_iq_0.png";
 		$text=$no;
-		$color="#000000";
+		$color="#ffffff";
 		$fontFile=ROOT."images/fonts/arial.ttf";
-		 imageWaterText($backImage,$text,$color,263,70,12,$fontFile,$newName);
+		 imageWaterText($backImage,$text,$color,289,20,10,$fontFile,$newName);
 
 		$backImage=$newName;
 		$text=$name;
+		$color="#ff9900";
 		$fontFile=ROOT."images/fonts/YGY20070701.ttf";	
-		if(len($text)<6) $posx=115;
-		else $posx=95;
-		 imageWaterText($backImage,$text,$color,$posx,205,24,$fontFile,$newName);
+		if(len($text)<6) $posx=152;
+		else $posx=130;
+		 imageWaterText($backImage,$text,$color,$posx,194,24,$fontFile,$newName);
+
+		$text=$iqscore['iq'];
+		$color="#ff9900";
+		$fontFile=ROOT."images/fonts/arial.ttf";
+		if(len($text)<4) $posx=177;
+		else
+			$posx=176;
+		 imageWaterText($backImage,$text,$color,$posx,254,16,$fontFile,$newName);
 
 		$text=$iqscore['top'];
+		$color="#ff9900";
 		$fontFile=ROOT."images/fonts/arial.ttf";
-		if(len($text)<4) $posx=275;
+		if(len($text)<5) $posx=284;
 		else
-			$posx=260;
-		 imageWaterText($backImage,$text,$color,$posx,265,16,$fontFile,$newName);
+			$posx=269;
+		 imageWaterText($backImage,$text,$color,$posx,254,16,$fontFile,$newName);
 
 		$text= date("y.m.d",$lasttime);
+		$color="#ffffff";
 		$fontFile=ROOT."images/fonts/arial.ttf";
-		 imageWaterText($backImage,$text,$color,286,479,12,$fontFile,$newName);
+		 imageWaterText($backImage,$text,$color,287,493,12,$fontFile,$newName);
 
 		$waterPic=$account['avatar'];
 
-		$rel= imageWaterPic($backImage,$waterPic,37,172);
+		$rel= imageWaterPic($backImage,$waterPic,67,163);
 		//echo 'backImage='.$backImage."<br/>";
 		//echo 'newname='.$newName;
 		if(ISSAE) {
@@ -215,34 +226,44 @@ class zhengshu {
 
 		$name=$account['screen_name'];
 
-		$backImage=ROOT."images/zhengshu_{$type}_".$eqlv.".png";
-		//$backImage=ROOT."images/zhengshu_eq_0.png";
+		$backImage=ROOT."images/265g/eq/zhengshu_{$type}_".$eqlv.".png";
 		$text=$no;
-		$color="#000000";
+		$color="#ffffff";
 		$fontFile=ROOT."images/fonts/arial.ttf";
-		 imageWaterText($backImage,$text,$color,263,70,12,$fontFile,$newName);
+		 imageWaterText($backImage,$text,$color,289,20,10,$fontFile,$newName);
 
 		$backImage=$newName;
 		$text=$name;
+		$color="#ff9900";
 		$fontFile=ROOT."images/fonts/YGY20070701.ttf";	
-		if(len($text)<6) $posx=115;
-		else $posx=95;
-		 imageWaterText($backImage,$text,$color,$posx,205,24,$fontFile,$newName);
+		if(len($text)<6) $posx=152;
+		else $posx=130;
+		 imageWaterText($backImage,$text,$color,$posx,194,24,$fontFile,$newName);
+
+		$text=$eqscore['eq'];
+		$color="#ff9900";
+		$fontFile=ROOT."images/fonts/arial.ttf";
+		if(len($text)<4) $posx=177;
+		else
+			$posx=176;
+		 imageWaterText($backImage,$text,$color,$posx,254,16,$fontFile,$newName);
 
 		$text=$eqscore['top'];
+		$color="#ff9900";
 		$fontFile=ROOT."images/fonts/arial.ttf";
-		if(len($text)<4) $posx=275;
+		if(len($text)<5) $posx=284;
 		else
-			$posx=260;
-		 imageWaterText($backImage,$text,$color,$posx,265,16,$fontFile,$newName);
+			$posx=269;
+		 imageWaterText($backImage,$text,$color,$posx,254,16,$fontFile,$newName);
 
 		$text= date("y.m.d",$lasttime);
+		$color="#ffffff";
 		$fontFile=ROOT."images/fonts/arial.ttf";
-		 imageWaterText($backImage,$text,$color,286,479,12,$fontFile,$newName);
+		 imageWaterText($backImage,$text,$color,287,493,12,$fontFile,$newName);
 
 		$waterPic=$account['avatar'];
 
-		$rel= imageWaterPic($backImage,$waterPic,37,172);
+		$rel= imageWaterPic($backImage,$waterPic,67,163);
 		//echo 'backImage='.$backImage."<br/>";
 		//echo 'newname='.$newName;
 		if(ISSAE) {

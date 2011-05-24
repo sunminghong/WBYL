@@ -3,6 +3,7 @@ var loginurl="?app=home&act=account&op=tologinmini";
 var needmask=0;
 var isUpload=false;
 var MSGLINE=10;
+var nologincount=0;
 
 function fHideFocus(tName){
 	var aTag=document.getElementsByTagName(tName);
@@ -20,6 +21,11 @@ var $id = function(id){
 var data ={};
 
 function next(score,pa) {
+	if(!logined && (nologincount++)>3) {
+		login();
+		return;
+	}
+
 	if(!pa) pa='';
 	var rateid='';
 	if(data && data.curr && data.curr.id) {
@@ -38,12 +44,15 @@ function fmtData(j){
 	//logined = j.logined;
 	if(!j.up){
 		if(j.logined==false){
-			//$id('left').className = 'first2';
-			login();
-			return;
+			$id('left').className = 'first2';
+			$('.loginfalse').show();
+			$('.logintrue').hide();
+			$('#uploadbtn2').hide();
 		}else if(j.logined==true){
-			$id('left').className = 'first3';	
-			$('#loginbtn').hide();
+			$id('left').className = 'first3';			
+			$('.loginfalse').hide();
+			$('.logintrue').hide();
+			$('#uploadbtn2').show();
 		}
 		$('#j').show();
 	} else {
@@ -64,12 +73,12 @@ function fmtData(j){
 		else  $('#shuai').removeClass("m").addClass("f");
 
 		//$('#photodiv').css({'background':'url('+ j.curr.big_pic +') #fff center no-repeat'});
-		$('#photodiv').html('<img src="'+j.curr.big_pic+'" />');
-	
+		$('#photodiv_img').attr('src',j.curr.big_pic);
+		
 		$('#btn_watchta').attr('href',j.curr.domain);
 
 	}else {
-		$('#photodiv').html('<img src="/images/nophoto.jpg" />');
+		$('#photodiv_img').attr('src',"/images/nophoto.jpg");
 	}
 	//下一个
 
@@ -100,10 +109,14 @@ function loginback(account) {
 	$('#logindiv').hide();
 
 	if(account && account.uid) {
+		logined=true;
 		if(!data.curr) {
-			logined=true;
 			$('.loginfalse').hide();
-			$id('left').className = 'first3';
+			if($id('left').className == 'first2') {
+				$id('left').className = 'first3';
+				$('#uploadbtn2').show();
+				$('#j').show();
+			}
 		}
 	}
 
@@ -213,11 +226,11 @@ function addMsgLine(idx){
 	ph.push('<p class="msg_block noid'+maxid+'" id="msg_block_'+msg.id+'"'+(isinit?'':' style="height:0;"')+'><i>'+msg.testtime+'</i> ');
 	if(msg.type*1==2){
 		ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-		ph.push('@'+msg.name+' 在《爱你》上发布了TA最新的照片，去看看吧~_~!" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+'</a> 上传了照片！');
+		ph.push('@'+msg.name+' 在《看看我的范儿》上发布了TA最新的照片，去看看吧~_~!" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+'</a> 上传了照片！');
 	}
 	else{
 		ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-		ph.push('在《爱你》上给XXX的”照片“打了分,你们也去看看照片、打打分吧~_~！" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a> 打分一次！');
+		ph.push('在《看看我的范儿》上给XXX的”照片“打了分,你们也去看看照片、打打分吧~_~！" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a> 打分一次！');
 	}
 	ph.push('</p>');
 	if(maxid>MSGLINE)
@@ -235,11 +248,11 @@ $(document).ready(function(){
 	}
 	fHideFocus('a');
 
-	if(logined) {
-		$id('left').className = 'first3';
-		$('.loginfalse').hide();
-		$('.logintrue').show();
-	}
+	//if(logined) {
+	//	$id('left').className = 'first3';
+	//	$('.loginfalse').hide();
+	//	$('#j2').show();
+	//}
 
 	$('.scorenum').click(function(){
 		next($(this).attr('id').replace('s',''));
@@ -287,5 +300,34 @@ $(document).ready(function(){
 		_follow('');
 		$('#btn_follow_this').hide();
 	});
-
+	
+	//You can use the methods .dragOff() and .dragOn() to disable and enable the dragging behavior respectively.
+	$('#photodiv_img').easydrag();
+	/*$("#photodiv_img111").ondrag(function(e, element){ 
+		var oo=$("#photodiv_img");
+		var w=oo.width();
+		var h=oo.height();
+		var l=parseInt(oo.css("left")) ;
+		var t=parseInt(oo.css("top"));
+		if(w==512)  {
+			oo.css("top",0);
+		}
+		
+		if(h==480) oo.css("left",0);
+	});*/
+	$("#photodiv_img").ondrag(function(e, element){ 
+		var oo=$("#photodiv_img");
+		var w=oo.width();
+		var h=oo.height();
+		var l=parseInt(oo.css("left")) ;
+		var t=parseInt(oo.css("top"));
+		if(l>0)  {
+			oo.css("left",0);
+		}else 	if(l+ w < 512) {
+			oo.css("left",512-w);		
+		}
+		if(t>0) oo.css("top",0);
+		else if (t + h < 480)
+			oo.css("top",480-h);		
+	});
 });
