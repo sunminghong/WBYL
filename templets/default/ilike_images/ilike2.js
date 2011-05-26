@@ -1,14 +1,13 @@
 var __url=urlbase+"?app=ilike";
-var loginurl=urlbase+"?app=home&act=account&op=tologinmini&param=ilike_ilike_getscore";
+var loginurl=urlbase+"?app=home&act=account&op=tologinmini";
 var needmask=0;
 var isUpload=false;
-var MSGLINE=8;
+var MSGLINE=10;
 var nologincount=0;
 var isClick=false;
 var score=0;
 var oldhash=location.hash;
 var isbusy=true;
-var upcore=0;
 
 function fHideFocus(tName){
 	var aTag=document.getElementsByTagName(tName);
@@ -26,7 +25,6 @@ var data ={};
 
 function next(pa) {//alert('2');
 	if(!logined && (nologincount++)>3) {
-		isbusy=false;
 		login();
 		return;
 	}
@@ -38,7 +36,7 @@ function next(pa) {//alert('2');
 		rateid =oldhash.replace('#','');
 	isClick=false;
 	//if(data && data.curr && data.curr.id) rateid=data.curr.id;
-	upcore=score;
+
 	var sex=$('#sel_sex').val();
 	$.get(__url+"&op=next&rateid="+rateid+'&score='+score+'&sex='+sex+pa+'&t='+Math.random(),function(res){
 		eval('data='+res);
@@ -63,10 +61,8 @@ function fmtData(j){
 		}
 		$('#j').show();
 	} else {
-		$('#prescore').html(j.up.score*1+upcore*1);upcore=0;
-		$('#prepnum').html(j.up.byratecount*1+1);
-
-		$id('left').className = 'first4';
+		$('#prescore').html(j.up.score);
+		$id('left').className = '';
 		$('#j').hide();
 		$('.loginfalse').hide();
 		$('.logintrue').show();
@@ -140,29 +136,15 @@ function loginback(account) {
 
 	if(account && account.uid) {
 		logined=true;
-		//if(!data.curr) {
+		if(!data.curr) {
 			$('.loginfalse').hide();
 			if($id('left').className == 'first2') {
 				$id('left').className = 'first3';
 				$('#uploadbtn2').show();
 				$('#j').show();
 			}
-		//}
-		var score=account.ilike_ilike_getscore;
-			var ph=[];
-			ph.push(account.screen_name);
-			ph.push('，你现在得分<b id="myscore">');
-			ph.push(score.score || 0);
-			ph.push('</b>，上传<b id="mypiccount">');
-			ph.push(score.piccount || 0);
-			ph.push('</b>个范儿，<br/>被评价<b id="mybyratecount">');
-			ph.push(score.byratecount || 0);
-			ph.push('</b>次，看了<b id="myratecount">');
-			ph.push(score.ratecount || 0);
-			ph.push('</b>个范儿，共评出 <b id="myratescore">');
-			ph.push(score.ratescore || 0);
-			ph.push('</b>分。');
-			$('#aboutfaner').html(ph.join(''));
+		}
+
 	}
 
 	if(isUpload) {
@@ -189,16 +171,15 @@ function upload_return(rel){
 		case 1:
 		$('#btn_follow_this').hide();
 		data.curr=rel.curr;
-		$('#photodiv_img').attr('src',data.curr.big_pic).css("left",0).css("top",0);
-		setHash('#'+data.curr.id);
-		uploadnotice();
+		$('#photodiv').css({'background':'url('+ data.curr.middle_pic +') #fff center no-repeat'});
+		if(data.next)
+			$('.scorenum').attr('href','#'+data.next.id);
+
 		if (needmask<=1)
 			$('#mask').hide();
 		needmask--;
 
 		$('#uploaddiv').hide();
-
-
 		return;
 		case -1:
 			alert(rel.msg);
@@ -210,9 +191,7 @@ function upload_return(rel){
 			return;
 	}
 }
-function uploadnotice() {
-	var a="趁别人不知道，快给自己打个高分吧！";
-}
+
 ////////////////////////////////////////////////////////////////////////////
 
 var mlist=[];
@@ -259,27 +238,25 @@ function aniAppend(idx){
 		return;
 	}
 
-	if(mlist[idx]) {
-		msg_list.prepend(addMsgLine(idx));
-		
-		var h = 31; //$("#msg_block_"+mlist[idx].id).height();
-		$("#msg_block_"+mlist[idx].id).animate({
-		   height: h
-		 }, 500);
-	}
+	msg_list.prepend(addMsgLine(idx));
+
+	$("#msg_block_"+mlist[idx].id).animate({
+	   height: 25
+	 }, 500);
+	
 	startani(idx-1);
 }
 function addMsgLine(idx){
-	var msg=mlist[idx],ph=[];if(!msg) return;
+	var msg=mlist[idx],ph=[];
 	//<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>上传了照片</p>
 	ph.push('<p class="msg_block noid'+maxid+'" id="msg_block_'+msg.id+'"'+(isinit?'':' style="height:0;"')+'><i>'+msg.testtime+'</i> ');
 	if(msg.type*1==2){
 		ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-		ph.push('@'+msg.name+' 在《看看我的范儿》上发布了TA最新的照片，去看看吧~_~!" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+'</a> 上传了TA最近的范儿！');
+		ph.push('@'+msg.name+' 在《看看我的范儿》上发布了TA最新的照片，去看看吧~_~!" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+'</a> 上传了照片！');
 	}
 	else{
 		ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-		ph.push('在《看看我的范儿》上给XXX的”照片“打了分,你们也去看看照片、打打分吧~_~！" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a> 给一个范儿打了<b>'+msg.score+'</b>分！');
+		ph.push('在《看看我的范儿》上给XXX的”照片“打了分,你们也去看看照片、打打分吧~_~！" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a> 打分一次！');
 	}
 	ph.push('</p>');
 	if(maxid>MSGLINE)
@@ -355,10 +332,6 @@ $(document).ready(function(){
 		$('#mask').show();		needmask<0?needmask=1:needmask++;
 		showdiv('uploaddiv');
 	});
-	$('#uploadbtn2').click(function(){
-		$('#mask').show();		needmask<0?needmask=1:needmask++;
-		showdiv('uploaddiv');
-	});
 	$('#colseupload').click(function(){
 		if (needmask<=1)
 			$('#mask').hide();
@@ -372,7 +345,7 @@ $(document).ready(function(){
 	$('#loginbtn').click(function(){
 		login();
 	});
-	$('#btn_closelogin').click(function(){
+	$('#colselogin').click(function(){
 		if (needmask<=1)
 			$('#mask').hide();
 		needmask--;
@@ -428,7 +401,12 @@ $(document).ready(function(){
 	});
 	
 	//$(window).hashchange();
-	setTimeout(function(){
-		$('body').css('height',$('body').height()+1);
-	},10);
+}););		oo.css("top",480-h);		
+	});
+	
+	//$(window).hashchange();
+});	
+	});
+	
+	//$(window).hashchange();
 });

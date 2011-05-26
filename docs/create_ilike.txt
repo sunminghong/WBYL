@@ -1,0 +1,110 @@
+
+
+CREATE TABLE `ilike_ilike` (
+  `uid` int(11) NOT NULL,
+  `piccount` int(11) NOT NULL default '0',
+  `byratecount` int(11) NOT NULL default '0',
+  `score` int(11) NOT NULL default '0' COMMENT '总得到的评分',
+  `ratecount` int(11) NOT NULL default '0',
+  `ratescore` int(11) NOT NULL COMMENT '共评出多少分',
+  `burycount` int(11) NOT NULL default '0',
+  `regtime` int(11) NOT NULL default '0',
+  `lasttime` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`uid`),
+  KEY `score` (`score`),
+  KEY `wbid` (`byratecount`),
+  KEY `ratecount` (`ratecount`),
+  KEY `regtime` (`regtime`),
+  KEY `lasttime` (`lasttime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+PARTITION BY RANGE (uid) (
+PARTITION p0 VALUES LESS THAN (500000),
+PARTITION p1 VALUES LESS THAN (1000000) , 
+PARTITION p2 VALUES LESS THAN (1500000) ,
+PARTITION p3 VALUES LESS THAN (2000000) , 
+PARTITION p4 VALUES LESS THAN (2500000) ,
+PARTITION p5 VALUES LESS THAN (3000000) , 
+PARTITION p6 VALUES LESS THAN (3500000) ,
+PARTITION p7 VALUES LESS THAN (4000000) , 
+PARTITION p8 VALUES LESS THAN (4500000) ,
+PARTITION p9 VALUES LESS THAN (5000000) , 
+PARTITION p10 VALUES LESS THAN MAXVALUE );
+
+
+
+
+CREATE TABLE `ilike_pics` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid` int(11) NOT NULL,
+  `big_pic` varchar(255) NOT NULL default '',
+  `middle_pic` varchar(255) NOT NULL default '',
+  `small_pic` varchar(255) NOT NULL default '',
+  `score` int(11) NOT NULL COMMENT '总分数',
+  `byratecount` int(11) NOT NULL default '0',
+  `sortid` int(11) NOT NULL default '0',
+  `bury` int(11) NOT NULL default '0' COMMENT '埋葬，投诉次数',
+  `regtime` int(11) NOT NULL default '0',
+  `lasttime` int(11) NOT NULL default '0',
+  `msg` varchar(255) NOT NULL default '',
+  `wbid` int(11) NOT NULL default '0' COMMENT '微博编号',
+  PRIMARY KEY  (`id`,`uid`),
+  KEY `uid` (`uid`),
+  KEY `bury` (`bury`),
+  KEY `rateCount` (`byratecount`),
+  KEY `score` (`score`),
+  KEY `wbid` (`wbid`),
+  KEY `regtime` (`regtime`),
+  KEY `lasttime` (`lasttime`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+PARTITION BY RANGE (uid) (
+PARTITION p0 VALUES LESS THAN (500000),
+PARTITION p1 VALUES LESS THAN (1000000) , 
+PARTITION p2 VALUES LESS THAN (1500000) ,
+PARTITION p3 VALUES LESS THAN (2000000) , 
+PARTITION p4 VALUES LESS THAN (2500000) ,
+PARTITION p5 VALUES LESS THAN (3000000) , 
+PARTITION p6 VALUES LESS THAN (3500000) ,
+PARTITION p7 VALUES LESS THAN (4000000) , 
+PARTITION p8 VALUES LESS THAN (4500000) ,
+PARTITION p9 VALUES LESS THAN (5000000) , 
+PARTITION p10 VALUES LESS THAN MAXVALUE );
+
+
+CREATE TABLE `ilike_log` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL default '1' COMMENT '2为上传照片；1为评分;3为埋葬',
+  `score` int(11) NOT NULL,
+  `picid` int(11) NOT NULL default '0',
+  `lasttime` int(11) NOT NULL,
+  PRIMARY KEY  (`id`,`uid`),
+  KEY `uid` (`uid`),
+  KEY `score` (`score`),
+  KEY `type` (`type`),
+  KEY `lasttime` (`lasttime`),
+  KEY `picid` (`picid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+PARTITION BY RANGE (uid) (
+PARTITION p0 VALUES LESS THAN (500000),
+PARTITION p1 VALUES LESS THAN (1000000) , 
+PARTITION p2 VALUES LESS THAN (1500000) ,
+PARTITION p3 VALUES LESS THAN (2000000) , 
+PARTITION p4 VALUES LESS THAN (2500000) ,
+PARTITION p5 VALUES LESS THAN (3000000) , 
+PARTITION p6 VALUES LESS THAN (3500000) ,
+PARTITION p7 VALUES LESS THAN (4000000) , 
+PARTITION p8 VALUES LESS THAN (4500000) ,
+PARTITION p9 VALUES LESS THAN (5000000) , 
+PARTITION p10 VALUES LESS THAN MAXVALUE );
+
+
+
+CREATE TABLE `ilike_tuijian` (
+  `picid` int(11) NOT NULL,
+  `regtime` int(11) NOT NULL default '0',
+  `lefttime` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`picid`),
+  KEY `regtime` (`regtime`),
+  KEY `lefttime` (`lefttime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

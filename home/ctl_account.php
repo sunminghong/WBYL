@@ -18,10 +18,11 @@ class account extends ctl_base
 		header("Location: $tourl");
 	}
 
-	function tologinmini(){		
+	function tologinmini(){
 		$lfrom=rq("lfrom","tsina");
-		$callbackurl=URLBASE.'?act=account&op=callback&lfrom='.$lfrom.'&fromurl=mini';
-		
+		$param=rq('param','');
+		$callbackurl=URLBASE.'?act=account&op=callback&lfrom='.$lfrom.'&fromurl=mini_'.$param;
+				
 		$api="sdk_".$lfrom."/openapi_class";
 		importlib($api);
 		$api=new openapi();	
@@ -30,6 +31,7 @@ class account extends ctl_base
 	}
 
 	function callback(){
+		global $account;
 		$lfrom=rq("lfrom","tsina");
 		$tourl=rq("fromurl","");
 
@@ -51,7 +53,18 @@ class account extends ctl_base
 					
 			if(!$tourl)
 				$tourl="?act=my";
-			elseif($tourl=="mini") {
+			elseif(left($tourl,5)=="mini_") {
+				$param=explode('_',$tourl);
+				$app=$param[1];
+				$act=$param[2];
+				$op=$param[3];
+				$account=$uidarr;
+				include(ROOT.$app."/ctl_".$act.".php");
+				$cont=new $act();
+				$ret=$cont->$op();
+
+				$uidarr[$app.'_'.$act.'_'.$op]=$ret;
+
 				$uidjson=json_encode($uidarr);
 				echo '<script type="text/javascript"> parent.loginback('.$uidjson.');</script>';
 				return;

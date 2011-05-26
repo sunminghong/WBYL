@@ -121,7 +121,7 @@ class openapi extends openapiAbstract{
 	}
 
 	public function upload( $status , $pic_path, $lat = NULL, $long = NULL ){
-		$rel= $this->getClient()-> upload( $status , $pic_path, $lat, $long);print_r($rel);
+		$rel= $this->getClient()-> upload( $status , $pic_path, $lat, $long);
 /*    [thumbnail_pic] => http://ww2.sinaimg.cn/thumbnail/682c5fd7jw1dh98natpehj.jpg
     [bmiddle_pic] => http://ww2.sinaimg.cn/bmiddle/682c5fd7jw1dh98natpehj.jpg
     [original_pic] => http://ww2.sinaimg.cn/large/682c5fd7jw1dh98natpehj.jpg*/

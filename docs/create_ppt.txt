@@ -1,0 +1,244 @@
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ppt_login`
+--
+
+CREATE TABLE IF NOT EXISTS `ppt_login` (
+  `uid` int(11) NOT NULL AUTO_INCREMENT,
+  `lfromuid` varchar(25) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`uid`),
+  KEY `lfromuid` (`lfromuid`),
+  KEY `lfrom` (`lfrom`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8  
+PARTITION BY RANGE (uid)
+(PARTITION p0 VALUES LESS THAN (50000) ENGINE = MyISAM,
+ PARTITION p1 VALUES LESS THAN (100000) ENGINE = MyISAM,
+ PARTITION p2 VALUES LESS THAN (150000) ENGINE = MyISAM,
+ PARTITION p3 VALUES LESS THAN (200000) ENGINE = MyISAM,
+ PARTITION p4 VALUES LESS THAN (250000) ENGINE = MyISAM,
+ PARTITION p5 VALUES LESS THAN (300000) ENGINE = MyISAM,
+ PARTITION p6 VALUES LESS THAN (350000) ENGINE = MyISAM,
+ PARTITION p7 VALUES LESS THAN (400000) ENGINE = MyISAM,
+ PARTITION p8 VALUES LESS THAN (450000) ENGINE = MyISAM,
+ PARTITION p9 VALUES LESS THAN (500000) ENGINE = MyISAM,
+ PARTITION p11 VALUES LESS THAN MAXVALUE ENGINE = MyISAM);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ppt_tqq_userlib`
+--
+
+CREATE TABLE IF NOT EXISTS `ppt_tqq_userlib` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lfromuid` varchar(30) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `sex` tinyint(4) NOT NULL DEFAULT '1',
+  `name` varchar(20) NOT NULL,
+  `screen_name` varchar(30) NOT NULL,
+  `domain` varchar(100) NOT NULL,
+  `location` varchar(30) NOT NULL DEFAULT '',
+  `verified` tinyint(4) NOT NULL DEFAULT '0',
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `lfromuid` (`lfromuid`),
+  KEY `lfrom` (`lfrom`),
+  KEY `followers` (`followers`),
+  KEY `isvip` (`verified`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8   ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ppt_tqq_userlib_sns`
+--
+
+CREATE TABLE IF NOT EXISTS `ppt_tqq_userlib_sns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid1` int(11) NOT NULL,
+  `uid2` int(30) NOT NULL COMMENT '这是userlib表里的ID',
+  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '2为followers,1为friends(followings),3为互粉',
+  PRIMARY KEY (`id`,`uid1`),
+  KEY `uid1` (`uid1`),
+  KEY `uid2` (`uid2`),
+  KEY `type` (`type`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8
+PARTITION BY RANGE (uid1)
+(PARTITION p5 VALUES LESS THAN (150000) ENGINE = MyISAM,
+ PARTITION p6 VALUES LESS THAN (200000) ENGINE = MyISAM,
+ PARTITION p7 VALUES LESS THAN (250000) ENGINE = MyISAM,
+ PARTITION p8 VALUES LESS THAN (300000) ENGINE = MyISAM,
+ PARTITION p9 VALUES LESS THAN (350000) ENGINE = MyISAM,
+ PARTITION p10 VALUES LESS THAN (400000) ENGINE = MyISAM,
+ PARTITION p11 VALUES LESS THAN MAXVALUE ENGINE = MyISAM);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ppt_user`
+--
+
+CREATE TABLE IF NOT EXISTS `ppt_user` (
+  `uid` int(11) NOT NULL,
+  `lfromuid` varchar(25) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `screen_name` varchar(30) NOT NULL,
+  `domain` varchar(100) NOT NULL,
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `logins` int(11) NOT NULL,
+  `regtime` int(11) NOT NULL,
+  `logintime` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `retuid` int(11) NOT NULL DEFAULT '0' COMMENT '是由哪个项目引荐来的',
+  `retapp` varchar(8) NOT NULL DEFAULT '' COMMENT '从哪个项目的',
+  `sex` tinyint(4) NOT NULL DEFAULT '1',
+  `location` varchar(30) NOT NULL DEFAULT '',
+  `verified` tinyint(4) NOT NULL DEFAULT '0',
+  `posts` int(11) NOT NULL DEFAULT '0',
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`uid`),
+  KEY `logins` (`logins`),
+  KEY `isvip` (`verified`),
+  KEY `location` (`location`),
+  KEY `sex` (`sex`),
+  KEY `posts` (`posts`),
+  KEY `retuid` (`retuid`),
+  KEY `avatar` (`avatar`),
+  KEY `followers` (`followers`),
+  KEY `following` (`followings`),
+  KEY `lfrom` (`lfrom`),
+  KEY `lfromuid` (`lfromuid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
+ PARTITION BY RANGE (uid)
+(PARTITION p0 VALUES LESS THAN (50000) ENGINE = MyISAM,
+ PARTITION p1 VALUES LESS THAN (100000) ENGINE = MyISAM,
+ PARTITION p2 VALUES LESS THAN (150000) ENGINE = MyISAM,
+ PARTITION p3 VALUES LESS THAN (200000) ENGINE = MyISAM,
+ PARTITION p4 VALUES LESS THAN (250000) ENGINE = MyISAM,
+ PARTITION p5 VALUES LESS THAN (300000) ENGINE = MyISAM,
+ PARTITION p6 VALUES LESS THAN (350000) ENGINE = MyISAM,
+ PARTITION p7 VALUES LESS THAN (400000) ENGINE = MyISAM,
+ PARTITION p8 VALUES LESS THAN (450000) ENGINE = MyISAM,
+ PARTITION p9 VALUES LESS THAN (500000) ENGINE = MyISAM,
+ PARTITION p11 VALUES LESS THAN MAXVALUE ENGINE = MyISAM);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ppt_userlib`
+--
+
+CREATE TABLE IF NOT EXISTS `ppt_userlib` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lfromuid` int(11) NOT NULL,
+  `lfrom` varchar(10) NOT NULL,
+  `sex` tinyint(4) NOT NULL DEFAULT '1',
+  `name` varchar(20) NOT NULL,
+  `screen_name` varchar(30) NOT NULL,
+  `domain` varchar(100) NOT NULL,
+  `location` varchar(30) NOT NULL DEFAULT '',
+  `verified` tinyint(4) NOT NULL DEFAULT '0',
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`,`lfromuid`),
+  KEY `lfromuid` (`lfromuid`),
+  KEY `lfrom` (`lfrom`),
+  KEY `followers` (`followers`),
+  KEY `isvip` (`verified`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8
+PARTITION BY RANGE (lfromuid div 100000)
+(PARTITION p0 VALUES LESS THAN (20000) ENGINE = MyISAM,
+ PARTITION p1 VALUES LESS THAN (40000) ENGINE = MyISAM,
+ PARTITION p2 VALUES LESS THAN (60000) ENGINE = MyISAM,
+ PARTITION p3 VALUES LESS THAN (80000) ENGINE = MyISAM,
+ PARTITION p4 VALUES LESS THAN (100000) ENGINE = MyISAM,
+ PARTITION p5 VALUES LESS THAN (120000) ENGINE = MyISAM,
+ PARTITION p6 VALUES LESS THAN (140000) ENGINE = MyISAM,
+ PARTITION p7 VALUES LESS THAN (160000) ENGINE = MyISAM,
+ PARTITION p8 VALUES LESS THAN (180000) ENGINE = MyISAM,
+ PARTITION p9 VALUES LESS THAN (200000) ENGINE = MyISAM,
+ PARTITION p10 VALUES LESS THAN (210000) ENGINE = MyISAM,
+ PARTITION p11 VALUES LESS THAN MAXVALUE ENGINE = MyISAM);
+
+-- ----------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ppt_userlib_sns`
+--
+
+CREATE TABLE IF NOT EXISTS `ppt_userlib_sns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid1` int(11) NOT NULL,
+  `uid2` int(30) NOT NULL COMMENT '这是userlib表里的ID',
+  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '2为followers,1为friends(followings),3为互粉',
+  PRIMARY KEY (`id`,`uid1`),
+  KEY `uid1` (`uid1`),
+  KEY `uid2` (`uid2`),
+  KEY `type` (`type`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8
+ PARTITION BY RANGE (uid1)
+(PARTITION p0 VALUES LESS THAN (50000) ENGINE = MyISAM,
+ PARTITION p1 VALUES LESS THAN (100000) ENGINE = MyISAM,
+ PARTITION p2 VALUES LESS THAN (150000) ENGINE = MyISAM,
+ PARTITION p3 VALUES LESS THAN (200000) ENGINE = MyISAM,
+ PARTITION p4 VALUES LESS THAN (250000) ENGINE = MyISAM,
+ PARTITION p5 VALUES LESS THAN (300000) ENGINE = MyISAM,
+ PARTITION p6 VALUES LESS THAN (350000) ENGINE = MyISAM,
+ PARTITION p7 VALUES LESS THAN (400000) ENGINE = MyISAM,
+ PARTITION p8 VALUES LESS THAN (450000) ENGINE = MyISAM,
+ PARTITION p9 VALUES LESS THAN (500000) ENGINE = MyISAM,
+ PARTITION p11 VALUES LESS THAN MAXVALUE ENGINE = MyISAM);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ppt_user_sns`
+--
+
+CREATE TABLE IF NOT EXISTS `ppt_user_sns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid1` int(11) NOT NULL,
+  `uid2` int(30) NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1为followers,0为friends(followings)',
+  PRIMARY KEY (`id`),
+  KEY `uid1` (`uid1`),
+  KEY `uid2` (`uid2`),
+  KEY `type` (`type`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2232748 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ppt_zhengshu`
+--
+
+CREATE TABLE IF NOT EXISTS `ppt_zhengshu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `type` varchar(5) NOT NULL,
+  `lv` varchar(10) NOT NULL,
+  `top` tinyint(4) NOT NULL DEFAULT '1',
+  `lasttime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lv` (`lv`),
+  KEY `type` (`type`),
+  KEY `uid` (`uid`),
+  KEY `lasttime` (`lasttime`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=409830 ;
+
+-- --------------------------------------------------------

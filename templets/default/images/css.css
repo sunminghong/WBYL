@@ -1,4 +1,4 @@
-html,body{ margin:0; padding:0; background:#fff; border:0; font-size:10pt;font-family:'lucida grande',tahoma,helvetica,'Microsoft Yahei',"宋体",arial,'bitstream vera sans',sans-serif;}
+html,body{ margin:0; padding:0; background:#fff; border:0; font-size:10pt;}
 html{}
 
 .transparent_class {
@@ -7,59 +7,35 @@ html{}
  -khtml-opacity: 0.7;
  opacity: 0.7;
 }
-a,img {border:0px;color:#06C;}
-a:hover {color:#f09;}
+a,img {border:0px;}
 
-#mask{ width:100%; height:100%; z-index:15; background:#000; position:absolute;}
-#uploaddiv{overflow:hidden; padding:15px; position:absolute; background:#fff; border:10px solid #ccc;/* left:50%; top:50%; margin-top:-150px; margin-left:-265px; */z-index:19; font-size:10pt;}
+#mask{ width:100%; height:100%; z-index:7; background:#000; position:absolute;}
+#uploaddiv{overflow:hidden; padding:15px; position:absolute; background:#fff; border:10px solid #ccc;/* left:50%; top:50%; margin-top:-150px; margin-left:-265px; */z-index:8; font-size:10pt;}
 #uploaddiv { width: 425px; height:250px; }
-
-#logindiv {width:600px;height:435px; overflow:hidden;position:absolute; background:#fff; border:2px solid #000; z-index:20; }
-.logindiv_bottom { text-align:right; background:#eee;height:40px ;border-top:1px #ccc solid;}
-a#btn_closelogin {
-float:right;display:block;margin:5px;width:105px;height:28px; line-height:27px;
-font-size:15px;text-align:center; background:#999;color:#fff; border:1px solid #ececec;text-decoration: none;
-font-family:'lucida grande',tahoma,helvetica,'Microsoft Yahei',"宋体",arial,'bitstream vera sans',sans-serif;
-}
-a#btn_closelogin:hover {border:#f09 1px solid; color:#f09;}
-
+#logindiv {width:600px;height:410px; overflow:hidden;position:absolute; background:#fff; border:10px solid #ccc; z-index:10; }
+#closelogin { right:0;top:0px;}
+#closelogin img{ border:0;}
 
 #uploaddiv p{ margin:10px;}
 #xuanyan{ width:400px; height:80px;}
 #submitdo{ width:122px; margin-top:25px; height:38px; display:block; background:url(uploaddo.png);}
 #submitdo:hover{ background:url(uploaddo_on.png);}
-#colseupload{ position:absolute; left:430px; top:3px;}
+#colseupload{ position:absolute; left:425px;}
 #colseupload img { border:0;}
 #uploaddiv i{ color:#666; font-style:normal; font-size:9pt;}
 
 
-#topbg{ width:100%; height:61px; line-height:21px; background:#000; padding-top:0px;}
-#topcon{width:830px; margin:auto;}
-#logo {float:left;color:#f00;font-size:24px;font-family:'微软雅黑','黑体'; line-height:39px;width:200px;}
+#topbg{ width:100%; height:61px; line-height:21px; background:#000;}
+#logo {float:left;color:#f00;font-size:24px;font-family:'微软雅黑','黑体'; line-height:39px;}
 #logo b {font-weight:normal;}
-#aboutfaner {float:right;text-align:right;font-size:12px;width:600px; margin-top:5px; line-height:21px; height:31px; color:#ddd; 
-font-family:Tahoma, Geneva, sans-serif;}
-
-#aboutfaner b{ font-family:Georgia, "Times New Roman", Times, serif; font-size:18px; color:#eee;}
-#aboutfaner b#myscore {color:#99cc33;}
-#aboutfaner b#mybyratecount {color:#f69;}
-#aboutfaner b#mypiccount {color:#60c;}
-#aboutfaner b#myratecount {color:#39c;}
-#aboutfaner b#myratescore {color:#f93;}
-/*#aboutfaner b#myscore {color:#f00;}
-#aboutfaner b#mybyratecount {color:#f90;}
-#aboutfaner b#mypiccount {color:#ff0;}
-#aboutfaner b#myratecount {color:#f0c;}
-#aboutfaner b#myratescore {color:#f0f;}*/
+#aboutfaner {float:left;font-size:12px;color:#666;width:600px;margin-left:50px;margin-top:3px;text-align:right;}
 
 #main{ width:965px; margin:30px auto; position:relative;}
-#left{ width:194px; height:480px;  float:left;}
-.first2{ background:url(leftbg2.png) no-repeat left 35px; height:450px;text-align:center;}
-.first3{ background:url(leftbg3.png) no-repeat left 35px;text-align:center;}
-.first4{ background:url(leftbg.gif) no-repeat left 75px;}
-
-.first img{ border:0;}
-.first a{ position:relative; top:420px;}
+#left{ width:194px; height:100%; background:url(leftbg.gif) no-repeat left 75px; float:left;}
+#left.first2{ background:url(leftbg2.png) no-repeat left 35px; height:450px;text-align:center;}
+#left.first3{ background:url(leftbg3.png) no-repeat left 35px;text-align:center;}
+#left.first img{ border:0;}
+#left.first a{ position:relative; top:420px;}
 #left #j{ width:117px; height:59px; background:url(j.png); position:absolute; left:145px; top:178px;z-index:11;}
 #loginbtn{position:absolute; left:5px; top:388px;}
 
@@ -107,34 +83,31 @@ a.m{background:url(shuai.png) no-repeat;}
 #nextflag{ width:144px; height:50px; position:absolute; margin-top:94px;background:url(next.png)}
 #nextimg{ height:144px;} 
 
-#preimgdiv{width:144px; height:144px; overflow:hidden; margin:95px 0 0 20px;}
+#preimgdiv{ width:144px; height:144px; overflow:hidden; margin:95px 0 0 20px;text-align:center;}
 #preimg{ height:144px;} 
-#preflag{ width:144px; height:50px; line-height:50px; color:#fff; font-size:22pt; font-family:Tahoma; font-weight:bold; position:absolute; margin-top:94px;background:url(prescbg.png); text-align:center} 
+#preflag{ width:144px; height:50px; line-height:50px; color:#fff; text-align:center; font-size:22pt; font-family:Tahoma; font-weight:bold; position:absolute; margin-top:94px;background:url(prescbg.png)} 
 #preintr{ color:#666; font-size:9pt; text-align:center; font-family:Tahoma, Geneva, sans-serif; margin-top:20px;}
 
 
 #uploadbtn,#uploadbtn2{ width:122px; height:38px; position:absolute; background:url(upload.png); top:338px; left:36px;}
 #uploadbtn:hover{ background:url(upload_on.png);}
-#uploadbtn2 {top:450px;left:32px;}
+#uploadbtn2 {top:428px;left:12px;}
 
 #msglist{ width:150px; height:255px; overflow:hidden; margin:43px 0 0 27px; font-size:9pt;}
-#msglist p{ margin:0; padding:0; line-height:15px; margin-bottom:1px;height:31px;overflow:hidden;}
+#msglist p{ margin:0; padding:0; line-height:19px; margin-bottom:5px;}
 #msglist i{ font-size:7pt; font-family:Tahoma, Geneva, sans-serif; color:#666; font-style:normal;}
 #msglist a{ color:#0066cc}
 
 
 #footer {
 	background: #FC0;
-	margin-top:20px;padding-left:30px;
-	height:40px; line-height:39px;
+	margin-top:20px;
+	height:40px;
 }
-#footer a{ padding-right:2em;}
-
 #copyright {
 	background: black;
-	height: 88px; 
+	height: 108px; 
 	text-align:center;
-	color:#ccc;
+	color:#fff;
 	line-height: 90px;
 }
-#copyright img {border:0px;}
