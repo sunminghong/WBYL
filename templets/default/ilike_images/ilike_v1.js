@@ -1,5 +1,6 @@
 var __url=urlbase+"?app=ilike";
 var loginurl=urlbase+"?app=home&act=account&op=tologinmini&param=ilike_ilike_getscore";
+var needmask=0;
 var isUpload=false;
 var MSGLINE=8;
 var nologincount=0;
@@ -8,9 +9,6 @@ var score=0;
 var oldhash=location.hash;
 var isbusy=true;
 var upcore=0;
-
-var isie6=false;
-var bFix=true;
 
 function fHideFocus(tName){
 	var aTag=document.getElementsByTagName(tName);
@@ -24,179 +22,132 @@ var $id = function(id){
 	return document.getElementById(id);
 }
 
-var data =[];
+var data ={};
 
-function next(pa,lfrom) { //alert(lfrom+':data.len='+data.length); 
+function next(pa) {//alert('2');
 	if(!logined && (nologincount++)>3) {
 		isbusy=false;
 		login();
 		return;
 	}
-	if(!pa) {
-		pa=''; 
-	}else {
-		data=[];
-	}
+	if(!pa) pa='';
 	var rateid="";
-	if(!isClick) {
+	if(!isClick) 
 		rateid=location.hash.replace('#','');
-		if(!pa) {
-			$.get(__url+"&op=next&rateid="+rateid+'&ishistory=1&req=1',function(res){
-				if(!res) return;
-				eval('var datanew='+res);
-				_showcurr(datanew);
-			});
-			oldhash =location.hash;
-			return; 
-		}
-	}
-	else {
+	else
 		rateid =oldhash.replace('#','');
-	}
 	isClick=false;
-
+	//if(data && data.curr && data.curr.id) rateid=data.curr.id;
 	upcore=score;
 	var sex=$('#sel_sex').val();
-	var req='';
-	if(data.length<=2) req="&req=1";
-	_showpic(data);
-
-	$.get(__url+"&op=next&rateid="+rateid+'&score='+score+'&sex='+sex+pa+req+'&t='+Math.random(),function(res){
-		if(!res) return;
-		eval('var datanew='+res);
-		if(data.length>1)	datanew.unshift(data[1]);
-		if(data.length>0)			{
-			datanew.unshift(data[0]);
-			data=datanew;
-		}
-		else{
-			datanew.unshift(false);
-			data=datanew;
-			_showpic(datanew);
-		}
+	$.get(__url+"&op=next&rateid="+rateid+'&score='+score+'&sex='+sex+pa+'&t='+Math.random(),function(res){
+		eval('data='+res);
+		fmtData(data);
 	});
-	
 	score=0;
 }
-function _showcurr(curr) {
-	data.unshift(curr);
-	var da=curr;
-	if(da.sex==1) 
-		$('#shuai').removeClass("f").addClass("m");
-	else  
-		$('#shuai').removeClass("m").addClass("f");
-	$('#photodiv_img').css("left",0).css("top",0).attr('src',da.big_pic);		
-	$('#btn_watchta').attr('href',da.domain);	
-}
-function _showpic(j){
-	var dlen=data.length;
-	if(dlen==0) return;
-	
-	if(dlen>0 && data[0]){
-		var da=data[0];
-		$('#prescore').html(da.score*1+upcore*1);
-		upcore=0;
-		$('#prepnum').html(da.byratecount*1+1);
+
+function fmtData(j){
+	//logined = j.logined;
+	if(!j.up){
+		if(j.logined==false){
+			$id('left').className = 'first2';
+			$('.loginfalse').show();
+			$('.logintrue').hide();
+			$('#uploadbtn2').hide();
+		}else if(j.logined==true){
+			$id('left').className = 'first3';			
+			$('.loginfalse').hide();
+			$('.logintrue').hide();
+			$('#uploadbtn2').show();
+		}
+		$('#j').show();
+	} else {
+		$('#prescore').html(j.up.score*1+upcore*1);upcore=0;
+		$('#prepnum').html(j.up.byratecount*1+1);
 
 		$id('left').className = 'first4';
 		$('#j').hide();
 		$('.loginfalse').hide();
 		$('.logintrue').show();
 		
-		if(isie6 && bFix) {
-			setTimeout(function(){
-				$('body').css('height',$('body').height()+1);
-				bFix=false;
-			},10);
-		}
-		$('#uploadbtn2').hide();
 		//上一个
-		$('#prepnum').html(da.rateCount);
-		$('#preimg').attr('src',da.big_pic);
+		$('#prepnum').html(j.up.rateCount);
+		$('#preimg').attr('src',j.up.small_pic);
 	}
 
 	//当前
-	if(dlen>1 && data[1]) {
-		var da=data[1];
-		if(da.sex==1) $('#shuai').removeClass("f").addClass("m");
+	if(j.curr) {
+		if(j.curr.sex==1) $('#shuai').removeClass("f").addClass("m");
 		else  $('#shuai').removeClass("m").addClass("f");
-		$('#photodiv_img').attr('src',da.big_pic).css("left",0).css("top",0);		
-		$('#btn_watchta').attr('href',da.domain);		
-		setHash('#'+da.id);
+
+		//$('#photodiv').css({'background':'url('+ j.curr.big_pic +') #fff center no-repeat'});
+		$('#photodiv_img').attr('src',j.curr.big_pic).css("left",0).css("top",0);
+		
+		$('#btn_watchta').attr('href',j.curr.domain);
+		
+		//setHash('#'+j.curr.id);
+
 	}else {
-		$('#photodiv_img').attr('src',"images/nophoto.jpg");
+		$('#photodiv_img').attr('src',"/images/nophoto.jpg");
 	}
 	//下一个
-	if(dlen>2 && data[2]) {
-		var da=data[2];
-		$('#nextimg').attr('src',da.middle_pic);
-		//$('.scorenum').attr('href','#'+da.id);
 
-		var img=new Image();
-		img.src=data[2].big_pic;
+	if(j.next) {
+		$('#nextimg').attr('src',j.next.small_pic);
+		$('.scorenum').attr('href','#'+j.next.id);
 	}
-	if(dlen>3 && data[3]) {
-
-		var img=new Image();
-		img.src=data[3].middle_pic;
-	}	
-	data.shift();
 	isbusy=false;
 }
 
 function setHash(a){
-	oldhash=a;  
 	if(location.hash==a) return;
 	location.hash=a;
 }
 
-$(window).hashchange( function(){
-		var ischanged = (location.hash!=oldhash); 
+if( ('onhashchange' in window) && ((typeof document.documentMode==='undefined') || document.documentMode==8)) {
+    window.onhashchange = next; 
+} else {
+    // 不支持则用定时器检测的办法
+    setInterval(function() {//alert(location.hash+'========='+oldhash);
+        var ischanged = (location.hash!=oldhash); 
         if(ischanged) {
-			next('','onhashchange');	
-		}
-});
+            next();
+			oldhash=location.hash;
+        }
+    }, 2000);
+}
 
 function _follow(uid){
-	var url=urlbase+"?app=home&act=my&op=follow&uid="+(uid?uid:'');
+	var url=__url+"?app=home&act=my&op=follow&uid="+(uid?uid:'');
 	$.get(url,function(res){
 		alert('已经帮你关注TA了，以后就可以实时看到他的动态了！');
 	})
 }
-function sendshare(){
-	alert('sendshare');
-	var url=__url+'&op=sendshare';
-		$.post(url,{id:data[0].id,picurl:data[0].big_pic,msg:$('#div_share_msg').val()},function(res){
-		if(res=="-1"){alert('请先登录！');login();return;}
-
-		$('#mask').hide();
-		$('#div_share').hide();
-		alert("已经将这张”范儿“分享到你的微博！");		
-	});	
-}
 
 function login(){
-	$('#mask').show();
+	$('#mask').show();		needmask<0?needmask=1:needmask++;
 	showdiv('logindiv');
 
 	document.getElementById('loginiframe').src=loginurl;
 }
-
 function loginback(account) {
-	if ($('#uploaddiv').css('display')=='none' && $('#div_share').css('display')=='none')
+	if (needmask<=1)
 		$('#mask').hide();
+	needmask--;
 
 	$('#logindiv').hide();
 
 	if(account && account.uid) {
 		logined=true;
-		$('.loginfalse').hide();
-		if($id('left').className == 'first2') {
-			$id('left').className = 'first3';
-			$('#uploadbtn2').show();
-			$('#j').show();
-		}
-
+		//if(!data.curr) {
+			$('.loginfalse').hide();
+			if($id('left').className == 'first2') {
+				$id('left').className = 'first3';
+				$('#uploadbtn2').show();
+				$('#j').show();
+			}
+		//}
 		var score=account.ilike_ilike_getscore;
 			var ph=[];
 			ph.push(account.screen_name);
@@ -220,7 +171,6 @@ function loginback(account) {
 	}
 }
 function showdiv(id) {
-	$('#mask').show();
 
 	ooo=$('#'+id);
 	ooo.show();
@@ -234,25 +184,20 @@ function showdiv(id) {
 	ooo.css("top",t).css("left",l);
 }
 
-function  submitupload() {
-		var fi=$('#in_uploadfile').val();
-		if(!fi) {
-			$('#div_upload_file').css("border","1px solid #f00");
-			return false;
-		}
-		return true;
-}
 function upload_return(rel){
 	switch(rel.success) {
 		case 1:
 		$('#btn_follow_this').hide();
-		_showcurr(rel.curr);
-
-		setHash('#'+data[0].id);
+		data.curr=rel.curr;
+		$('#photodiv_img').attr('src',data.curr.big_pic).css("left",0).css("top",0);
+		setHash('#'+data.curr.id);
 		uploadnotice();
+		if (needmask<=1)
+			$('#mask').hide();
+		needmask--;
 
-		$('#mask').hide();
 		$('#uploaddiv').hide();
+
 
 		return;
 		case -1:
@@ -267,7 +212,6 @@ function upload_return(rel){
 }
 function uploadnotice() {
 	var a="趁别人不知道，快给自己打个高分吧！";
-
 }
 ////////////////////////////////////////////////////////////////////////////
 
@@ -353,9 +297,7 @@ var divScoreLeft=0;
 var divScoreTop=0;
 
 function addScore(score) {
-	if(isie6) return;
 	if(!$id('myratescore')) return;
-
 	poff=$("#photodiv").offset();
 	lastScoreLeft=poff.left;
 	lastScoreTop=poff.top;
@@ -385,30 +327,8 @@ function addScore(score) {
 		$('#myratecount').html(byra+1);
   });
 }
-var timer=null;	
-	var flashc=0;
-function _notice() {	
-	$('#notice_rate').show();
-	$('#notice_share').hide();		
-	flashc=0;	
-	timer=setInterval(function(){
-		if(flashc<10) {
-			if($id('notice_rate').className=="pngfix")
-				$id('notice_rate').className='pngfix notice_rate_over';
-			else
-				$id('notice_rate').className='pngfix';
-			flashc++;
-		}else {
-			clearInterval(timer);
-			$('#notice_rate').hide();
-			$('#notice_share').show();				
-		}
-	},500);
-}
 
 $(document).ready(function(){
-	isie6=$.browser.msie&&($.browser.version == "6.0")&&!$.support.style;
-
 	if($('#main').height()<=639){
 		$('#main').css('height',619);
 	}else{
@@ -416,66 +336,60 @@ $(document).ready(function(){
 	}
 	fHideFocus('a');
 
-	if(logined) {
-		$id('left').className = 'first3';
-		$('.loginfalse').hide();
-		$('#uploadbtn2').show();
-		$('#j').show();
-	}else {
-		$id('left').className = 'first2';
-		$('.loginfalse').show();
-		$('#uploadbtn2').hide();
-		$('#j').show();
-	}
+	//if(logined) {
+	//	$id('left').className = 'first3';
+	//	$('.loginfalse').hide();
+	//	$('#j2').show();
+	//}
 
 	$('.scorenum').attr('href','javascript:void(0)').click(function(){
 		if(isbusy) return false;
 		isbusy=true;
-		score=$(this).attr('id').replace('s','');
+		score=$(this).attr('id').replace('s','');		
 		addScore(score);		
-
+		oldhash=location.hash;  
 		isClick=true;
-		//if(oldhash==$(this).attr('href')) 
-			next('','click');
+		//next();
 	});
-	$('#nextflag').click(function(){
-		_notice();
-	});
-
 	$('#uploadbtn').click(function(){
+		$('#mask').show();		needmask<0?needmask=1:needmask++;
 		showdiv('uploaddiv');
 	});
 	$('#uploadbtn2').click(function(){
+		$('#mask').show();		needmask<0?needmask=1:needmask++;
 		showdiv('uploaddiv');
 	});
 	$('#colseupload').click(function(){
-		$('#mask').hide();
+		if (needmask<=1)
+			$('#mask').hide();
+		needmask--;
+
 		$('#uploaddiv').hide();
 	});
-	$('#submitdo').click(function(){		
+	$('#submitdo').click(function(){
 		$('#uploadform').submit();
-		//return submitupload();
 	});
 	$('#loginbtn').click(function(){
 		login();
 	});
 	$('#btn_closelogin').click(function(){
-		if ($('#uploaddiv').css('display')=='none' && $('#div_share').css('display')=='none')
+		if (needmask<=1)
 			$('#mask').hide();
+		needmask--;
 
 		$('#logindiv').hide();
 	});
-	next(	'&f=1','init');
+	next(	'&f=1');
 	$('#mask').css({'width':$(document).width(),'height':$(document).height()});
 
 	msg_list=$("#msglist");
 	if(msg_list.length>0){
-		//refreshMsg();
+		refreshMsg();
 	}
 
 	$('#btn_followta').click(function(){
-		if(data[0] && data[0].uid) 
-			_follow(data[0].uid);			
+		if(data.curr && data.curr.uid) 
+			_follow(data.curr.uid);			
 	});
 
 	$('#btn_follow_this').click(function(){
@@ -490,9 +404,8 @@ $(document).ready(function(){
 			}
 			else alert('谢谢你的举报，每个人都是这个舞台的监督者！');
 		});
-		score=0;
-		isClick=true;
-		next('','bury');
+		score=-1;
+		location.href=$('#s1').attr('href');
 	});
 	
 	//You can use the methods .dragOff() and .dragOn() to disable and enable the dragging behavior respectively.
@@ -513,27 +426,9 @@ $(document).ready(function(){
 		else if (t + h < 480)
 			oo.css("top",480-h);		
 	});
-
-	$('#sel_sex').change(function(){
-		next('&f=1','sexchange');
-	});
 	
-	$('#btn_share').click(function(){
-		sendshare();
-	});
-	$('#colseshare').click(function(){
-		$('#mask').hide();
-		$('#div_share').hide();
-	});
-
-	$('#notice_share').click(function(){
-		var words=['',
-			'作为一个男人，帅不帅不重要，重要的是有没有#范儿#！来#看看我的范儿#给他评个高分吧！',
-			'哪有那么多歌星？电视台的舞台也有限！但我在微博里发现了她，瞧瞧她的范儿！到#看看我的范儿#给她评个满分吧！'
-			];
-		$('#div_share_msg').val(words[data[0].sex]);
-		 showdiv('div_share');
-	});
-
-	_notice();
+	//$(window).hashchange();
+	setTimeout(function(){
+		$('body').css('height',$('body').height()+1);
+	},10);
 });

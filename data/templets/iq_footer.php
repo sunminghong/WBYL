@@ -26,7 +26,7 @@
 <? $coo=intval(mt_rand()*20); ?>
 
 <? if(!NOADS) { ?>
-<? if($coo<10) { ?>
+<? if($coo<15) { ?>
 <script type="text/javascript">
 	$('#ad_800_60').html('<a href="http://ciniao.me/wbapp/?tindex=app.80.index&app=app.80.intr&from=sina" target="_blank" title="我是80后!"><img src="<?=$urlbase?>images/ads/ad_80.gif"  width="800" height="60"/></a>'); </script>
 <? } else { ?>

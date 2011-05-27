@@ -13,28 +13,10 @@
 <style type="text/css">.pngfix{behavior: url("js/iepngfix.htc");}</style>
 <![endif]--> 
 <link href="{$templatepath}/ilike_images/css.css" rel="stylesheet" type="text/css" />
-<script>var op="{$op}"; var wbisload=false; var templateurl='{$templatepath}'; var urlbase='{$urlbase}';<!--{if $account}-->var logined=true; var myuid='{$account[uid]}';<!--{else}-->var logined=false;  var myuid='';<!--{/if}--></script><script type="text/javascript" src="{$templatepath}/ilike_images/ilike.js"></script>
+<script>var op="{$op}"; var wbisload=false; var templateurl='{$templatepath}'; var urlbase='{$urlbase}';<!--{if $account}-->var logined=true; var myuid='{$account[uid]}';<!--{else}-->var logined=false;  var myuid='';<!--{/if}--></script>
+<script type="text/javascript" src="{$templatepath}/ilike_images/ilike.js?v=0.2"></script>
 </head>
 <body>
-	<div id="uploaddiv" style="display:none;">
-    			<a href="javascript:void(0);" id="colseupload"><img src="{$templatepath}/ilike_images/closebtn.gif" /></a>
-
-		<form id="uploadform" action="index.php?app=ilike&op=ijoin" method="post" name="form1" target="uploadiframe" enctype="multipart/form-data" style="margin:0px;padding:0px;">
-			<p style="margin-top:15px;">选择范儿：<input name="uploadfile" type="file" /></p>
-			<p>拉票宣言：(发布后会将范儿及宣言将同步到微博让粉丝来支持你！)</p>
-			<p><textarea name="content" id="xuanyan" cols="" rows="">测试发篇微博，打扰大家，不好意思，马上删除！</textarea></p>
-			<p><input name="iffollow" type="checkbox" value="1" checked="checked" /> 关注#看看我的范儿#官方微博  <i>（可以即时接收我们的动态）</i></p>
-			<p><a href="#" id="submitdo"></a></p>
-		</form>	
-	<iframe name="uploadiframe" style="display:none;"></iframe>
-    </div>
-	<div id="logindiv" style="display:none;">
-		<iframe id="loginiframe" frameborder="0" name="loginiframe" style="width: 100%; height:395px;" border="0"></iframe>
-		<div class="logindiv_bottom"><a href="javascript:void(0);" id="btn_closelogin"> 关 闭 </a></div>
-	</div>
-
-	<div id="mask" class="transparent_class" style="display:none;"></div>
-    
 	<div id="topbg">    
     <div id="topcon">    
 	<!--<div id="logo"><b style="color:#f00;">看</b><b style="color:#f90;">看</b><b style="color:#ff0;">我</b><b style="color:#090;">的</b><b style="color:#f0c;">范</b><b style="color:#f0f;">儿</b> <sup style="font-size:12px;color:#666;">V1.0</sup></div>-->
@@ -46,7 +28,7 @@
 		<div id="aboutfaner"><img style="height:45px;"  src="{$account[avatar]}" align="right"/>{$account[screen_name]}，你现在得分<b id="myscore">0</b>，被评价<b id="mybyratecount">0</b>次，上传<b id="mypiccount">0</b>个范儿，<br/>看了<b id="myratecount">0</b>个范儿，共评出 <b id="myratescore">0</b>分。</div>		
 		<!--{/if}-->
 	<!--{else}-->
-	<div id="aboutfaner" style="color:#ccc;">北京话"范儿"就是"劲头""派头"的意思，就是指在外貌、行为、或是在某种风格中特别不错的意思，包含了气质、有情调、有品味、有型、有个性等多种含义，具体意思只可意会不可言传。看看你的范儿，评评TA的范儿！</div>
+	<div id="aboutfaner" style="color:#ccc;">北京话"范儿"就是"劲头""派头"的意思，包含气质、有情调、有品味、有型、有个性等多种含义，可意会不可言传。看看你的范儿，评评TA的范儿！</div>
 	<!--{/if}-->
     <div style="clear:both;font-size:0;"></div>
     </div>
@@ -56,7 +38,7 @@
             <div id="j" style="display:none;" class="pngfix"></div> 
         	<div class="loginfalse" style=" display:none">
                 
-                <a href="#" id="loginbtn"><img src="{$templatepath}/ilike_images/sina_login_32.png" /></a>
+                <a href="javascript:void(0);" id="loginbtn"><img src="{$templatepath}/ilike_images/sina_login_32.png" /></a>
             </div>
             <div class="logintrue" style=" display:none">
                 <div id="preimgdiv" >
@@ -70,23 +52,28 @@
         </div>
         <div id="content">
         	<div id="scorediv">
-            	<a href="#" id="jiong"></a>
-                <a href="#" id="s1" class="scorenum" title="给这张范儿评 1 分，并看下一张"></a>
-                <a href="#" id="s2" class="scorenum" title="给这张范儿评 2 分，并看下一张"></a>
-                <a href="#" id="s3" class="scorenum" title="给这张范儿评 3 分，并看下一张"></a>
-                <a href="#" id="s4" class="scorenum" title="给这张范儿评 4 分，并看下一张"></a>
-                <a href="#" id="s5" class="scorenum" title="给这张范儿评 5 分，并看下一张"></a>
-                <a href="#" id="s6" class="scorenum" title="给这张范儿评 6 分，并看下一张"></a>
-                <a href="#" id="s7" class="scorenum" title="给这张范儿评 7 分，并看下一张"></a>
-                <a href="#" id="s8" class="scorenum" title="给这张范儿评 8 分，并看下一张"></a>
-                <a href="#" id="s9" class="scorenum" title="给这张范儿评 9 分，并看下一张"></a>
-                <a href="#" id="s10" class="scorenum" title="给这张范儿评 10 分，并看下一张"></a>
-				<a href="#" id="shuai" class="f"></a>
+            	<a href="javascript:void(0);" id="jiong"></a>
+                <a href="javascript:void(0);" id="s1" class="scorenum" title="给这张范儿评 1 分，并看下一张"></a>
+                <a href="javascript:void(0);" id="s2" class="scorenum" title="给这张范儿评 2 分，并看下一张"></a>
+                <a href="javascript:void(0);" id="s3" class="scorenum" title="给这张范儿评 3 分，并看下一张"></a>
+                <a href="javascript:void(0);" id="s4" class="scorenum" title="给这张范儿评 4 分，并看下一张"></a>
+                <a href="javascript:void(0);" id="s5" class="scorenum" title="给这张范儿评 5 分，并看下一张"></a>
+                <a href="javascript:void(0);" id="s6" class="scorenum" title="给这张范儿评 6 分，并看下一张"></a>
+                <a href="javascript:void(0);" id="s7" class="scorenum" title="给这张范儿评 7 分，并看下一张"></a>
+                <a href="javascript:void(0);" id="s8" class="scorenum" title="给这张范儿评 8 分，并看下一张"></a>
+                <a href="javascript:void(0);" id="s9" class="scorenum" title="给这张范儿评 9 分，并看下一张"></a>
+                <a href="javascript:void(0);" id="s10" class="scorenum" title="给这张范儿评 10 分，并看下一张"></a>
+				<a href="javascript:void(0);" id="shuai" class="f"></a>
             </div>
-			<div id="filterdiv">范儿这么多，我要筛选：<select id="sel_sex"style="width:100px;"><option value="0">靓女、帅哥</option><option value="2">靓女</option><option value="1">帅哥</option></select>　　*点击上面打分看下一个范儿</div>
+			<div id="filterdiv">范儿这么多，我要筛选：<select id="sel_sex"style="width:100px;"><option value="0">靓女、帅哥</option><option value="2">靓女</option><option value="1">帅哥</option></select>　　<b style="color:#9900ff">*点击上面打分看下一个范儿↑</b></div>
             <div id="photodiv"><img src="images/nophoto.jpg" id="photodiv_img"/></div>
             
             <div id="photobtn"><a href="javascript:void(0);" target="_blank" id="btn_watchta">查看TA的微博 » </a>　　<a href="javascript:void(0);" id="btn_followta">喜欢TA的范儿，我关注TA » </a>　　<a href="javascript:void(0);" id="btn_bury" title="这是三俗、非人的范儿">我要埋葬它 » </a></div>
+
+				<a href="javascript:void(0)" id="notice_rate" title="点击上面的数字对该照片进行投票并看下一张" class="pngfix"></a>
+	<a href="javascript:void(0)" id="notice_share" title="分享到你的微博" class="pngfix"></a>
+
+
             <div id="blackdiv"></div>
         </div>
         <div id="right">
@@ -122,6 +109,32 @@
 		<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&amp;title=对@孙铭鸿 (官方微博)说:" target="_blank">意见反馈</a>　
 		<a href="http://www.cnzz.com/stat/website.php?web_id=3130104" target="_blank">cnzz流量统计</a>
     </div>
+
+	<div id="mask" class="transparent_class" style="display:none;"></div>
+	<div id="uploaddiv" style="display:none;">
+    			<a href="javascript:void(0);" id="colseupload"><img src="{$templatepath}/ilike_images/closebtn.gif" /></a>
+
+		<form id="uploadform" action="index.php?app=ilike&op=ijoin" method="post" name="form1" target="uploadiframe" enctype="multipart/form-data" style="margin:0px;padding:0px;" onsubmit="return submitupload();">
+			<p style="margin-top:15px;" id="div_upload_file"><b style="font-size:24px;font-family:Georgia, 'Times New Roman', Times, serif;">1.</b>选择范儿：<input id="in_uploadfile" name="uploadfile" type="file" /></p>
+			<p><b style="font-size:24px;font-family:Georgia, 'Times New Roman', Times, serif;">2.</b>拉票宣言：(发布后会将范儿及宣言将同步到微博让粉丝来支持你！)</p>
+			<p><textarea name="content" id="xuanyan" cols="" rows="">我刚上传了一张近照，欢迎你来#看看我的范儿#！</textarea></p>
+			<p><input name="iffollow" type="checkbox" value="1" checked="checked" /> 关注#看看我的范儿#官方微博  <i>（可以即时接收我们的动态）</i></p>
+			<p><a href="javascript:void(0);" id="submitdo"></a></p>
+		</form>	
+	<iframe name="uploadiframe" style="display:none;"></iframe>
+    </div>
+	<div id="logindiv" style="display:none;">
+		<iframe id="loginiframe" frameborder="0" name="loginiframe" style="width: 100%; height:395px;" border="0"></iframe>
+		<div class="logindiv_bottom"><a href="javascript:void(0);" id="btn_closelogin"> 关 闭 </a></div>
+	</div>
+
+	<div id="div_share" style="display:none;">
+   			<a href="javascript:void(0);" id="colseshare"><img src="{$templatepath}/ilike_images/closebtn.gif" /></a>
+			<p><textarea name="content" id="div_share_msg" cols="" rows="">测试发篇微博，打扰大家，不好意思，马上删除！</textarea></p>
+			<p><input name="iffollow" type="checkbox" value="1" checked="checked" /> 关注#看看我的范儿#官方微博  <i>（可以即时接收我们的动态）</i></p>
+			<p><a href="javascript:void(0);" id="btn_share"></a></p>
+    </div>
+
 	<div style="display:none;"><script src="http://s22.cnzz.com/stat.php?id=3130104&web_id=3130104" language="JavaScript"></script></div>
 </body>
 </html>

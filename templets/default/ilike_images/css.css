@@ -10,20 +10,10 @@ html{}
 a,img {border:0px;color:#06C;}
 a:hover {color:#f09;}
 
-#mask{ width:100%; height:100%; z-index:15; background:#000; position:absolute;}
-#uploaddiv{overflow:hidden; padding:15px; position:absolute; background:#fff; border:10px solid #ccc;/* left:50%; top:50%; margin-top:-150px; margin-left:-265px; */z-index:19; font-size:10pt;}
-#uploaddiv { width: 425px; height:250px; }
+#mask{ width:100%; height:100%; z-index:20015; top:0;left:0; background:#000; position:absolute;}
 
-#logindiv {width:600px;height:435px; overflow:hidden;position:absolute; background:#fff; border:2px solid #000; z-index:20; }
-.logindiv_bottom { text-align:right; background:#eee;height:40px ;border-top:1px #ccc solid;}
-a#btn_closelogin {
-float:right;display:block;margin:5px;width:105px;height:28px; line-height:27px;
-font-size:15px;text-align:center; background:#999;color:#fff; border:1px solid #ececec;text-decoration: none;
-font-family:'lucida grande',tahoma,helvetica,'Microsoft Yahei',"宋体",arial,'bitstream vera sans',sans-serif;
-}
-a#btn_closelogin:hover {border:#f09 1px solid; color:#f09;}
-
-
+#uploaddiv{overflow:hidden; padding:15px; position:absolute; background:#fff; border:10px solid #ccc;z-index:20019; font-size:10pt;}
+#uploaddiv { width: 425px; height:290px; }
 #uploaddiv p{ margin:10px;}
 #xuanyan{ width:400px; height:80px;}
 #submitdo{ width:122px; margin-top:25px; height:38px; display:block; background:url(uploaddo.png);}
@@ -32,12 +22,33 @@ a#btn_closelogin:hover {border:#f09 1px solid; color:#f09;}
 #colseupload img { border:0;}
 #uploaddiv i{ color:#666; font-style:normal; font-size:9pt;}
 
+#logindiv {width:600px;height:435px; overflow:hidden;position:absolute; background:#fff; border:2px solid #000; z-index:20020; }
+.logindiv_bottom { text-align:right; background:#eee;height:40px ;border-top:1px #ccc solid;}
+a#btn_closelogin {
+float:right;display:block;margin:5px;width:105px;height:28px; line-height:27px;
+font-size:15px;text-align:center; background:#999;color:#fff; border:1px solid #ececec;text-decoration: none;
+font-family:'lucida grande',tahoma,helvetica,'Microsoft Yahei',"宋体",arial,'bitstream vera sans',sans-serif;
+}
+
+#div_share {overflow:hidden; padding:15px; position:absolute; background:#fff; border:10px solid #ccc;z-index:20019; font-size:10pt;}
+#div_share { width: 425px; height:200px; }
+#div_share_msg {width:393px;height:75px;margin-top:5px;}
+#div_share p{ margin:10px;}
+#xuanyan{ width:400px; height:80px;}
+#btn_share{ width:122px; margin-top:25px; height:38px; display:block; background:url(uploaddo.png);}
+#btn_share:hover{ background:url(uploaddo_on.png);}
+#colseshare{ position:absolute; left:430px; top:3px;}
+#colseshare img { border:0;}
+
+
+a#btn_closelogin:hover {border:#f09 1px solid; color:#f09;}
+
 
 #topbg{ width:100%; height:61px; line-height:21px; background:#000; padding-top:0px;}
 #topcon{width:830px; margin:auto;}
 #logo {float:left;color:#f00;font-size:24px;font-family:'微软雅黑','黑体'; line-height:39px;width:200px;}
 #logo b {font-weight:normal;}
-#aboutfaner {float:right;text-align:right;font-size:12px;width:600px; margin-top:5px; line-height:21px; height:31px; color:#ddd; 
+#aboutfaner {float:right;text-align:right;font-size:12px;width:400px; margin-top:5px; line-height:21px; height:31px; color:#ddd; 
 font-family:Tahoma, Geneva, sans-serif;}
 
 #aboutfaner b{ font-family:Georgia, "Times New Roman", Times, serif; font-size:18px; color:#eee;}
@@ -46,11 +57,7 @@ font-family:Tahoma, Geneva, sans-serif;}
 #aboutfaner b#mypiccount {color:#60c;}
 #aboutfaner b#myratecount {color:#39c;}
 #aboutfaner b#myratescore {color:#f93;}
-/*#aboutfaner b#myscore {color:#f00;}
-#aboutfaner b#mybyratecount {color:#f90;}
-#aboutfaner b#mypiccount {color:#ff0;}
-#aboutfaner b#myratecount {color:#f0c;}
-#aboutfaner b#myratescore {color:#f0f;}*/
+
 
 #main{ width:965px; margin:30px auto; position:relative;}
 #left{ width:194px; height:480px;  float:left;}
@@ -60,10 +67,10 @@ font-family:Tahoma, Geneva, sans-serif;}
 
 .first img{ border:0;}
 .first a{ position:relative; top:420px;}
-#left #j{ width:117px; height:59px; background:url(j.png); position:absolute; left:145px; top:178px;z-index:11;}
+#left #j{ width:117px; height:59px; background:url(j.png); position:absolute; left:145px; top:178px;z-index:19999;}
 #loginbtn{position:absolute; left:5px; top:388px;}
 
-#content{ width:552px; height:100%; float:left; border:10px solid #000;}
+#content{ width:552px; height:100%; float:left; border:10px solid #000; position:relative;}
 #right{ width:195px; height:610px; background:url(rightbg.gif) no-repeat left 70px;float:left;}
 #bottom{ }
 
@@ -104,7 +111,7 @@ a.m{background:url(shuai.png) no-repeat;}
 #blackdiv{clear:both; height:44px; background:#000; width:100%; margin-top:20px;}
 
 #nextimgdiv{ width:144px; height:144px; overflow:hidden; margin:90px 0 0 29px;}
-#nextflag{ width:144px; height:50px; position:absolute; margin-top:94px;background:url(next.png)}
+#nextflag{ width:144px; height:50px; position:absolute; margin-top:94px;background:url(next.png);cursor:pointer;}
 #nextimg{ height:144px;} 
 
 #preimgdiv{width:144px; height:144px; overflow:hidden; margin:95px 0 0 20px;}
@@ -114,7 +121,7 @@ a.m{background:url(shuai.png) no-repeat;}
 
 
 #uploadbtn,#uploadbtn2{ width:122px; height:38px; position:absolute; background:url(upload.png); top:338px; left:36px;}
-#uploadbtn:hover{ background:url(upload_on.png);}
+#uploadbtn:hover,#uploadbtn2:hover{ background:url(upload_on.png);}
 #uploadbtn2 {top:450px;left:32px;}
 
 #msglist{ width:150px; height:255px; overflow:hidden; margin:43px 0 0 27px; font-size:9pt;}
@@ -138,3 +145,10 @@ a.m{background:url(shuai.png) no-repeat;}
 	line-height: 90px;
 }
 #copyright img {border:0px;}
+
+a#notice_share {width:106px; height:100px; position:absolute; background:url(notice_share.png) 0 0 no-repeat; top:98px; left:444px;z-index:19998;}
+a#notice_share:hover{ background:url(notice_share.png) 0 -100px no-repeat;}
+
+a#notice_rate {width:205px; height:157px; position:absolute; background:url(notice_rate.png) -203px 0 no-repeat; top:36px; left:352px;z-index:19999;}
+a#notice_rate.notice_rate_over,a#notice_rate:hover{ background:url(notice_rate.png)  -1px 0 no-repeat;}
+
