@@ -127,6 +127,37 @@ class openapi extends openapiAbstract{
 		return $this->getClient()->postOne($p);
 	}
 
+	public function repost($wbid,$msg,$is_comment=0) {
+		$p =array(
+			'r'=>$wbid,
+			'type'=>2,
+			'c' =>$msg,
+			'ip' => $_SERVER['REMOTE_ADDR'], 
+			'j' => '',
+			'w' => ''
+		);
+
+		$this->getClient()->postOne($p);
+
+		if($is_comment) {
+			$p['type']=3;
+			$this->getClient()->postOne($p);
+		}
+	}
+		
+	function send_comment( $sid , $text , $cid = NULL ) {
+		$p =array(
+			'r'=>$wbid,
+			'type'=>2,
+			'c' =>$msg,
+			'ip' => $_SERVER['REMOTE_ADDR'], 
+			'j' => '',
+			'w' => ''
+		);
+		$this->getClient()->postOne($p);
+	}
+
+
 	public function upload( $status , $pic_path, $lat = NULL, $long = NULL ){
 		$p=array(
 			'c'=>$status,

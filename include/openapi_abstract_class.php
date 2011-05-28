@@ -42,6 +42,30 @@ abstract class openapiAbstract{
 	abstract public function update( $status, $reply_id = NULL, $lat = NULL, $long = NULL, $annotations = NULL );
 
 	/**
+	 * 转发一条微博信息。
+	 * 可加评论。为防止重复，发布的信息与最新信息一样话，将会被忽略。
+	 * 
+	 * @access public
+	 * @param int64 $sid 转发的微博ID
+	 * @param string $text 添加的评论信息。可选。
+	 * @param int $is_comment 是否在转发的同时发表评论。1表示发表评论，0表示不发表。默认为0。可选。
+	 * @return array
+	 */
+	abstract public function repost($wbid,$msg,$is_comment=0);
+
+	/**
+	 * 对一条微博信息进行评论
+	 * 为防止重复，发布的信息与最后一条评论信息一样话，将会被忽略。
+	 * 
+	 * @access public
+	 * @param int64 $sid 要评论的微博id
+	 * @param string $text 评论内容
+	 * @param int64 $cid 要评论的评论id
+	 * @return array
+	 */
+	abstract function send_comment( $sid , $text , $cid = NULL );
+
+	/**
 	 * 发表图片微博
 	 * 上传图片及发布微博信息。请求必须用POST方式提交。为防止重复，发布的信息与当前最新信息一样话，将会被忽略。目前上传图片大小限制为<5M。<br />
 	 * 注意：lat和long参数需配合使用，用于标记发表微博消息时所在的地理位置，只有用户设置中geo_enabled=true时候地理位置信息才有效。

@@ -129,6 +129,28 @@ class openapi extends openapiAbstract{
 		return $rel;
 	}
 
+	public function repost($wbid,$msg,$is_comment=0) {
+		$rel=$this->getClient()-> repost( $wbid , $msg, $is_comment );
+		if(isset($rel['error_code']) && isset($rel['error'])) 
+			return false;
+		else
+			return true;
+	}
+	
+	/**
+	 * 对一条微博信息进行评论
+	 * 为防止重复，发布的信息与最后一条评论信息一样话，将会被忽略。
+	 * 
+	 * @access public
+	 * @param int64 $sid 要评论的微博id
+	 * @param string $text 评论内容
+	 * @param int64 $cid 要评论的评论id
+	 * @return array
+	 */
+	function send_comment( $sid , $text , $cid = NULL ) {
+		return $this->getClient()-> repost( $wbid , $text, $cid );
+	}
+
 	public function del( $sid ){
 		return $this->getClient()->delete($sid);
 	}

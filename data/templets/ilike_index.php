@@ -116,10 +116,10 @@
     			<a href="javascript:void(0);" id="colseupload"><img src="<?=$templatepath?>/ilike_images/closebtn.gif" /></a>
 
 		<form id="uploadform" action="index.php?app=ilike&op=ijoin" method="post" name="form1" target="uploadiframe" enctype="multipart/form-data" style="margin:0px;padding:0px;" onsubmit="return submitupload();">
-			<p style="margin-top:15px;" id="div_upload_file"><b style="font-size:24px;font-family:Georgia, 'Times New Roman', Times, serif;">1.</b>选择范儿：<input id="in_uploadfile" name="uploadfile" type="file" /></p>
+			<p style="margin-top:15px;" id="div_upload_file"><b style="font-size:24px;font-family:Georgia, 'Times New Roman', Times, serif;">1.</b>选择你的范儿：<input id="in_uploadfile" name="uploadfile" type="file" /></p>
 			<p><b style="font-size:24px;font-family:Georgia, 'Times New Roman', Times, serif;">2.</b>拉票宣言：(发布后会将范儿及宣言将同步到微博让粉丝来支持你！)</p>
 			<p><textarea name="content" id="xuanyan" cols="" rows="">我刚上传了一张近照，欢迎你来#看看我的范儿#！</textarea></p>
-			<p><input name="iffollow" type="checkbox" value="1" checked="checked" /> 关注#看看我的范儿#官方微博  <i>（可以即时接收我们的动态）</i></p>
+			<p><input name="iffollow" type="checkbox" value="1"/> 关注#看看我的范儿#官方微博  <i>（可以即时接收我们的动态）</i></p>
 			<p><a href="javascript:void(0);" id="submitdo"></a></p>
 		</form>	
 	<iframe name="uploadiframe" style="display:none;"></iframe>
@@ -132,7 +132,8 @@
 	<div id="div_share" style="display:none;">
    			<a href="javascript:void(0);" id="colseshare"><img src="<?=$templatepath?>/ilike_images/closebtn.gif" /></a>
 			<p><textarea name="content" id="div_share_msg" cols="" rows="">测试发篇微博，打扰大家，不好意思，马上删除！</textarea></p>
-			<p><input name="iffollow" type="checkbox" value="1" checked="checked" /> 关注#看看我的范儿#官方微博  <i>（可以即时接收我们的动态）</i></p>
+			<p><input id="iffollow" type="checkbox" value="1" /> 关注#看看我的范儿#官方微博  <i>（可以即时接收我们的动态）</i></p>
+			<p><input id="is_comment" type="checkbox" value="1" checked="true"/> <span id="div_share_byname">同时发表评论</span></p>
 			<p><a href="javascript:void(0);" id="btn_share"></a></p>
     </div>
 

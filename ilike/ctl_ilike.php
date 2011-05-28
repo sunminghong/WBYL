@@ -46,6 +46,7 @@ class ilike extends ctl_base
 	}
 	
 	function ijoin() {
+			global $apiConfig;
 		$account=$this->checkLogin(false);
 		if(!$account) {
 				echo "<script>parent.upload_return({'success':-1,msg:'请先登录！'});</script>";
@@ -56,8 +57,12 @@ class ilike extends ctl_base
 		$api=$this->getApi();
 
 		$iffollow=rf("iffollow",0);
-		if($iffollow) {
-			$ret=$api->follow($uid); 
+		if($iffollow) {		
+			//关注官方的处理
+			$byuid=$apiConfig[$account['lfrom']]['orguid'];
+		
+			$ret=$api->follow($byuid); 
+
 		}
 
 		$msg=rf("content","");
@@ -71,7 +76,7 @@ class ilike extends ctl_base
 
 		$id=$this->getnewid($up);
 
-		$wbmsg = $msg . URLBASE ."?rateid={$id}&lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=faner";
+		$wbmsg = $msg . URLBASE ."?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=faner#{$id}";
 		//echo $wbmsg;
 
 		importlib("upload_class");
@@ -84,8 +89,14 @@ class ilike extends ctl_base
 			if(is_array($upl) && $upl['big_pic']) { 
 				$up=array_merge($up,$upl);
 				$id=$this->savepic($id,$up);
-				
-				echo "<script>parent.upload_return({'success':1,curr:" .json_encode($up). "})</script>";
+				$sql="select p.*,l.sex,l.name,l.lfrom,l.lfromuid,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid  where p.id=$id ";
+				$rs=dbhelper::getrs($sql);
+				if ($row=$rs->next()) {
+					echo "<script>parent.upload_return({'success':1,curr:" .json_encode($row). "})</script>";
+				}
+				else {
+					echo "<script>parent.upload_return({'success':-2,msg:'微博太火了，服务器忙不过来了，你再传看看吧！'})</script>";
+				}
 			}else {
 				echo "<script>parent.upload_return({'success':-2,msg:'微博太火了，服务器忙不过来了，你再传看看吧！'})</script>";
 			}
@@ -98,7 +109,6 @@ class ilike extends ctl_base
 			exit;
 		}
 
-		//echo '<script>parent.upload_return({"success":1,curr:{"uid":null,"msg":"\u6d4b\u8bd5\u53d1\u7bc7\u5fae\u535a\uff0c\u6253\u6270\u5927\u5bb6\uff0c\u4e0d\u597d\u610f\u601d\uff0c\u9a6c\u4e0a\u5220\u9664\uff01","wbid":10983444359,"small_pic":"http:\/\/ww2.sinaimg.cn\/thumbnail\/682c5fd7jw1dhezuni6tsj.jpg","middle_pic":"http:\/\/ww2.sinaimg.cn\/bmiddle\/682c5fd7jw1dhezuni6tsj.jpg","big_pic":"http:\/\/ww2.sinaimg.cn\/large\/682c5fd7jw1dhezuni6tsj.jpg"}});</script>';
 		exit;
 	}
 
@@ -124,6 +134,46 @@ class ilike extends ctl_base
 		echo json_encode($testlist);
 	}
 
+	public function follow() {
+		global $timestamp;
+		$account=getAccount();
+		if(!is_array($account)){
+			echo '-1';return;
+		}
+		$api=$this->getApi();
+
+		$byuid=rf('byuid',''); 
+		if($byuid) {
+			$id=rf("id",'0');
+			$bylfrom=rf('bylfrom','');
+			$bylfromuid=rf('bylfromuid','');
+
+			if($bylfrom==$account['lfrom']) {
+				$ret=$api->follow($bylfromuid);
+				$sql ="select id from ".dbhelper::tname("ilike","log") . "  where picid=$id and type=5 and uid=".$account['uid'];
+				$rs=dbhelper::getrs($sql);
+				if(!($row=$rs->next())) {
+					$sql="update ".dbhelper::tname("ilike","ilike")." set followcount=followcount+1,lasttime=$timestamp where uid=".$account['uid'];
+					$sql.=";;;update ".dbhelper::tname("ilike","pics")." set byfollowcount=byfollowcount+1,lasttime=$timestamp where id='$id'";
+					$sql.=";;;update ".dbhelper::tname("ilike","ilike")."  set byfollowcount=byfollowcount+1,lasttime=$timestamp where uid='$byuid'";
+					$sql.=";;;insert into ".dbhelper::tname("ilike","log") . " (uid,type,picid,score,lasttime) select ".$account['uid'].",5,$id,0,$timestamp ";
+					dbhelper::exesqls($sql);
+				}
+				echo "1";
+			}else {
+				echo "-2";
+			}
+			return ;
+		}
+
+		//关注官方的处理
+		global $apiConfig;
+		$byuid=$apiConfig[$account['lfrom']]['orguid'];
+	
+		$ret=$api->follow($byuid); 
+		echo '1';
+
+	}
 	public function sendshare(){
 		global $timestamp;
 		$account=getAccount();
@@ -131,26 +181,51 @@ class ilike extends ctl_base
 			echo '-1';exit;
 		}
 
-		$id=rf("id",'');
+		$id=rf("id",'0');
 		$msg=rf("msg","");	
+		$wbid=rf("wbid","0");
+		$is_follow=rf('is_follow','0');
+
+		$is_comment=rf("is_comment","0");
 		$picurl=rf("picurl","");
+		
+		$byuid=rf('byuid','');
+		$bylfrom=rf('bylfrom','');
+		$bylfromuid=rf('bylfromuid','');
+
 		if(!$msg) {
 			$msg="咱啥也不说了，上图！想看看更多图，请#看看我的范儿#。";
 		}
 
-		if($id)  $msg.= URLBASE ."?rateid={$id}&lfrom=".$account["lfrom"]."&retapp=faner&retuid=".$account['uid'];
-		echo $msg."picurl=" .$picurl; 
-		//if(count($picurl)>20))
-		//	$this->getApi()->upload($msg,$picurl));
-		//else
-		//	$this->getApi()->update($msg);
-
+		if($id)  $msg.= URLBASE ."?lfrom=".$account["lfrom"]."&retapp=faner&retuid=".$account['uid']."#{$id}";
+		//echo $msg."picurl=" .$picurl; 
+		echo $wbid . $bylfrom .$account['lfrom'];
+		if($bylfrom==$account['lfrom'] && $wbid) {
+			echo '2=repost'.$is_comment;
+			$rel=$this->getApi()->repost($wbid,$msg,$is_comment);
+			echo $rel;
+			if(!$rel) {
+				$this->getApi()->upload($msg,$picurl);				
+			}
+		}
+		elseif (strlen($picurl)>5) {
+			echo '3=upload';
+			$this->getApi()->upload($msg,$picurl);
+		}
+		else{
+			echo '4=update';
+			$this->getApi()->update($msg);
+		}
 		$sql="update ".dbhelper::tname("ilike","ilike")." set sharecount=sharecount+1,lasttime=$timestamp where uid=".$account['uid'];
-		$sql.=";;;update ".dbhelper::tname("ilike","pics")." set bysharecount=bysharecount+1,lasttime=$timestamp where id=$id";
-		$sql.=";;;update ".dbhelper::tname("ilike","ilike")."  set bysharecount=bysharecount+1,lasttime=$timestamp where uid=(select uid from ".dbhelper::tname("ilike","pics")."  where id=$id)";
+		$sql.=";;;update ".dbhelper::tname("ilike","pics")." set bysharecount=bysharecount+1,lasttime=$timestamp where id='$id'";
+		$sql.=";;;update ".dbhelper::tname("ilike","ilike")."  set bysharecount=bysharecount+1,lasttime=$timestamp where uid='$byuid'";
 		$sql.=";;;insert into ".dbhelper::tname("ilike","log") . " (uid,type,picid,score,lasttime) select ".$account['uid'].",4,$id,0,$timestamp ";
-		//echo $sql;
+
 		dbhelper::exesqls($sql);
+
+		if($bylfrom==$account['lfrom'] && $is_follow) {//echo '5='.$bylfromuid;
+			$ret=$api->follow($bylfromuid); // done	
+		}
 		echo "1";
 	}
 
@@ -167,8 +242,15 @@ class ilike extends ctl_base
 		$up['sortid'] =$sortid;
 
 		dbhelper::update($up, $id, dbhelper::tname("ilike","pics"), 'id');
-		$sql="replace into ".dbhelper::tname("ilike","ilike")." set piccount=piccount+1,lasttime=$timestamp,uid=$uid";
+
+		$sql="select * from ".dbhelper::tname("ilike","ilike")." where uid=$uid";
+		$rs=dbhelper::getrs($sql);
+		if($row=$rs->next())
+			$sql="update ".dbhelper::tname("ilike","ilike")." set piccount=piccount+1,lasttime=$timestamp where uid=$uid";
+		else
+			$sql="insert into ".dbhelper::tname("ilike","ilike")." set piccount=piccount+1,lasttime=$timestamp,regtime=$timestamp,uid=$uid";
 		dbhelper::execute($sql);
+
 		$sql="insert into ".dbhelper::tname("ilike","log") . " (uid,type,picid,score,lasttime) select $uid,$type,$id,0,$timestamp ";
 		dbhelper::execute($sql);
 		return $id;

@@ -44,6 +44,11 @@ function next(pa,lfrom) { //alert(lfrom+':data.len='+data.length);
 			$.get(__url+"&op=next&rateid="+rateid+'&ishistory=1&req=1',function(res){
 				if(!res) return;
 				eval('var datanew='+res);
+				if(!datanew)
+					alert('此范儿不存在了哦！');
+				else
+					data.unshift(datanew);
+
 				_showcurr(datanew);
 			});
 			oldhash =location.hash;
@@ -78,15 +83,19 @@ function next(pa,lfrom) { //alert(lfrom+':data.len='+data.length);
 	
 	score=0;
 }
-function _showcurr(curr) {
-	data.unshift(curr);
-	var da=curr;
+function _showcurr(da) {
 	if(da.sex==1) 
 		$('#shuai').removeClass("f").addClass("m");
 	else  
 		$('#shuai').removeClass("m").addClass("f");
 	$('#photodiv_img').css("left",0).css("top",0).attr('src',da.big_pic);		
 	$('#btn_watchta').attr('href',da.domain);	
+
+	$('#btn_watchta').attr('href',da.domain).html('查看@'+da.name+' 的微博');
+	$('#btn_followta').html('关注@'+da.name+' 的微博');
+	$('#notice_share').attr('title','分享@'+da.name+' 的这张范儿到微博');
+
+	setHash('#'+da.id);
 }
 function _showpic(j){
 	var dlen=data.length;
@@ -117,12 +126,8 @@ function _showpic(j){
 
 	//当前
 	if(dlen>1 && data[1]) {
-		var da=data[1];
-		if(da.sex==1) $('#shuai').removeClass("f").addClass("m");
-		else  $('#shuai').removeClass("m").addClass("f");
-		$('#photodiv_img').attr('src',da.big_pic).css("left",0).css("top",0);		
-		$('#btn_watchta').attr('href',da.domain);		
-		setHash('#'+da.id);
+		var da=data[1];			
+		_showcurr(da);
 	}else {
 		$('#photodiv_img').attr('src',"images/nophoto.jpg");
 	}
@@ -158,15 +163,43 @@ $(window).hashchange( function(){
 });
 
 function _follow(uid){
-	var url=urlbase+"?app=home&act=my&op=follow&uid="+(uid?uid:'');
-	$.get(url,function(res){
-		alert('已经帮你关注TA了，以后就可以实时看到他的动态了！');
-	})
+	var param={};
+	if(uid) {
+		var curr=data[0];
+		param={byuid:curr.uid,bylfrom:curr.lfrom,bylfromuid:curr.lfromuid,id:curr.id	};
+	}
+	else 
+		param= null;
+
+	var url=__url+'&op=follow';
+	$.post(url,param,function(res){
+		switch(res) {
+			case "1":
+				alert('已经帮你关注TA了，以后就可以实时看到他的动态了！');
+				break;
+			case "-1":
+				alert('请先登录吧，否则他怎么知道你关注了 ta ?');
+				login();
+				break;
+			case "-2":
+				alert('你知道吗？世界上最远的距离不是生与死的距离，也不是心和心的距离，而是你们一个在新浪微博一个在腾讯微博里！');
+				break;
+		}
+	});
 }
+
 function sendshare(){
-	alert('sendshare');
 	var url=__url+'&op=sendshare';
-		$.post(url,{id:data[0].id,picurl:data[0].big_pic,msg:$('#div_share_msg').val()},function(res){
+	var is_comment=0,is_follow=0;
+	if($('#is_comment').attr('checked')) is_comment=1;
+	if($('#iffollow').attr('checked')) is_follow=1;
+	
+	var curr=data[0];
+	$.post(url,{byuid:curr.uid,bylfrom:curr.lfrom,bylfromuid:curr.lfromuid,
+			wbid:curr.wbid,is_follow:is_follow,is_comment:is_comment,
+			id:curr.id,
+			picurl:curr.big_pic,msg:$('#div_share_msg').val()			
+		},function(res){
 		if(res=="-1"){alert('请先登录！');login();return;}
 
 		$('#mask').hide();
@@ -246,11 +279,11 @@ function upload_return(rel){
 	switch(rel.success) {
 		case 1:
 		$('#btn_follow_this').hide();
+		data.unshift(rel.curr);
 		_showcurr(rel.curr);
 
-		setHash('#'+data[0].id);
 		uploadnotice();
-
+		$('#in_uploadfile').val('');
 		$('#mask').hide();
 		$('#uploaddiv').hide();
 
@@ -528,9 +561,10 @@ $(document).ready(function(){
 
 	$('#notice_share').click(function(){
 		var words=['',
-			'作为一个男人，帅不帅不重要，重要的是有没有#范儿#！来#看看我的范儿#给他评个高分吧！',
-			'哪有那么多歌星？电视台的舞台也有限！但我在微博里发现了她，瞧瞧她的范儿！到#看看我的范儿#给她评个满分吧！'
+			'作为一个男人，帅不帅不重要，重要的是有没有#范儿#！在#看看我的范儿#发现了 @'+data[0].name+' 的这个#范儿#，你给他评个分吧！',
+			'哪有那么多歌星？电视台的舞台也有限！但我在#看看我的范儿#发现了 @'+data[0].name+' ，让你们也瞧瞧她的#范儿#！你也给她评分支持下吧！'
 			];
+		$('#div_share_byname').html('同时评论给 <i>'+data[0].name+'</i>');
 		$('#div_share_msg').val(words[data[0].sex]);
 		 showdiv('div_share');
 	});
