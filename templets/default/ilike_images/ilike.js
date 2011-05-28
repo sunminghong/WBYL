@@ -233,7 +233,7 @@ function loginback(account) {
 		var score=account.ilike_ilike_getscore;
 			var ph=[];
 			ph.push(account.screen_name);
-			ph.push('，你现在得分<b id="myscore">');
+			ph.push('，你现在得<b id="myscore">分');
 			ph.push(score.score || 0);
 			ph.push('</b>，上传<b id="mypiccount">');
 			ph.push(score.piccount || 0);
@@ -358,17 +358,30 @@ function aniAppend(idx){
 	}
 	startani(idx-1);
 }
+function _formatmsg(content) {
+	return encodeURIComponent(content+urlbase+'?retapp=fanshare');
+}
 function addMsgLine(idx){
 	var msg=mlist[idx],ph=[];if(!msg) return;
 	//<p><i>5-12 15:30</i> <a href="#">@刺鸟</a>上传了照片</p>
 	ph.push('<p class="msg_block noid'+maxid+'" id="msg_block_'+msg.id+'"'+(isinit?'':' style="height:0;"')+'><i>'+msg.testtime+'</i> ');
-	if(msg.type*1==2){
-		ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-		ph.push('@'+msg.name+' 在《看看我的范儿》上发布了TA最新的照片，去看看吧~_~!" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+'</a> 上传了TA最近的范儿！');
-	}
-	else{
-		ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
-		ph.push('在《看看我的范儿》上给XXX的”照片“打了分,你们也去看看照片、打打分吧~_~！" target="_blank" title1="点击对TA说话" '+(msg.lfrom=='tsina'?'wb_screen_name="'+msg.name+'"':'')+'>@'+msg.name+' </a> 给一个范儿打了<b>'+msg.score+'</b>分！');
+	switch(msg.type*1){
+		case 2:
+			ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
+			ph.push(_formatmsg('@'+msg.name+' 在#看看我的范儿#上发布了TA最新的照片，去看看吧~_~!')+'" target="_blank" title="点击对TA说话">@'+msg.name+'</a> 上传了TA最近的范儿！');
+			break;
+		case 1:
+			ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
+			ph.push(_formatmsg('@'+msg.name+' 在#看看我的范儿#上给一张”照片“打了分,你们也去看看照片、打打分吧~_~！')+'" target="_blank" title="点击对TA说话">@'+msg.name+' </a> 给一个范儿打了<b>'+msg.score+'</b>分！');
+			break;
+		case 4:
+			ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
+			ph.push(_formatmsg('#看看我的范儿#上有好多照片，@'+msg.name+'还分享了一张到他的微博哦！')+'" target="_blank" title="点击对TA说话">@'+msg.name+' </a> 分享一张范儿到微博！');
+			break;
+		case 5:
+			ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
+			ph.push(_formatmsg('@'+msg.name+' 在#看看我的范儿#上关注了一张范儿，想增加粉丝数的快去玩这个应用！')+'" target="_blank" title1="点击对TA说话">@'+msg.name+' </a> 关注了一张范儿！');
+			break;
 	}
 	ph.push('</p>');
 	if(maxid>MSGLINE)
@@ -503,7 +516,7 @@ $(document).ready(function(){
 
 	msg_list=$("#msglist");
 	if(msg_list.length>0){
-		//refreshMsg();
+		refreshMsg();
 	}
 
 	$('#btn_followta').click(function(){
@@ -557,6 +570,10 @@ $(document).ready(function(){
 	$('#colseshare').click(function(){
 		$('#mask').hide();
 		$('#div_share').hide();
+	});
+	
+	$('#in_uploadfile').change(function() {
+		$('#div_upload_file').css('border','#0f0 solid 1px;')
 	});
 
 	$('#notice_share').click(function(){
