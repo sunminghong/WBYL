@@ -150,8 +150,14 @@ class zhengshu {
 		//echo 'newname='.$newName;
 		if(ISSAE) {
 			 $s = new SaeStorage();
-			 $s->write( 'zhengshu' , "data/zhengshu/{$type}_{$uid}_{$iqlv}.png",@file_get_contents($newName)  );			 
-			 $url=$s->getUrl( 'zhengshu' , "data/zhengshu/{$type}_{$uid}_{$iqlv}.png");
+
+			 if($zid <540000) $nda='zhengshu1';
+			 elseif($zid<570000)$nda='zhengshu2';
+			 elseif($zid<600000)$nda='zhengshu3';
+			 elseif($zid<630000)$nda='zhengshu4';
+
+			 $s->write( $nda, "data/zhengshu/{$type}_{$uid}_{$iqlv}.png",@file_get_contents($newName)  );			 
+			 $url=$s->getUrl( $nda , "data/zhengshu/{$type}_{$uid}_{$iqlv}.png");
 			  @unlink($newName);
 		}else{
 			$url=self::getBaseUrl($zid)."data/zhengshu/{$type}_{$uid}_{$iqlv}.png";
@@ -212,7 +218,7 @@ class zhengshu {
 		if(!$newmake && ($url=self::checkZhengshu($uid,$type,$eqlv))){
 			return array("isold"=>1,"zsurl"=>$url);
 		}
-		
+
 		$lasttime=getTimestamp();
 		//加入证书，且取得证号编号
 		$sql="insert into ". dbhelper::tname("ppt","zhengshu") ." set uid=$uid,type='$type',lv=$eqlv,lasttime=$lasttime";
@@ -268,8 +274,13 @@ class zhengshu {
 		//echo 'newname='.$newName;
 		if(ISSAE) {
 			 $s = new SaeStorage();
-			 $s->write( 'zhengshu' , "data/zhengshu/{$type}_{$uid}_{$eqlv}.png",@file_get_contents($newName)  );			 
-			 $url=$s->getUrl( 'zhengshu' , "data/zhengshu/{$type}_{$uid}_{$eqlv}.png");
+			 if($zid <540000) $nda='zhengshu1';
+			 elseif($zid<570000)$nda='zhengshu2';
+			 elseif($zid<600000)$nda='zhengshu3';
+			 elseif($zid<630000)$nda='zhengshu4';
+
+			 $s->write( $nda , "data/zhengshu/{$type}_{$uid}_{$eqlv}.png",@file_get_contents($newName)  );			 
+			 $url=$s->getUrl( $nda , "data/zhengshu/{$type}_{$uid}_{$eqlv}.png");
 			  @unlink($newName);
 		}else{
 			$url=self::getBaseUrl($zid)."data/zhengshu/{$type}_{$uid}_{$eqlv}.png";

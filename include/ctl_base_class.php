@@ -18,7 +18,7 @@ class ctl_base extends template {
 				return false;
 			}
 			else {
-				header("Location: ?app=iq");
+				header("Location: ".URLBASE);
 				exit;
 			}
 		}

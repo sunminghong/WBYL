@@ -39,17 +39,17 @@ class ppt{
 		if($lfrom=="tsina" || $lfrom=="") $lf_pre="";
 		else $lf_pre=$lfrom."_";
 
-		//$sql="select uid2 from ".dbhelper::tname("ppt",$lf_pre.'userlib_sns')." where uid1=".$uid1." limit 0,1";
-		//$rs=dbhelper::getrs($sql);
-		//if($row=$rs->next()){
+		$sql="select uid2 from ".dbhelper::tname("ppt",$lf_pre.'userlib_sns')." where uid1=".$uid1." limit 0,1";
+		$rs=dbhelper::getrs($sql);
+		if($row=$rs->next()){
 			if(getTimestamp() % 20==0) {
 				return true;
 			}
 			return false;
-		//}
-		//else {
-		//	return true;
-		//}
+		}
+		else {
+			return true;
+		}
 	}
 
 	public function getSNS($api,$type,$num) {
@@ -180,10 +180,10 @@ class ppt{
 
 		dbhelper::exesqls($sqlups);
 		
-		if($cursor==-1) dbhelper::execute("delete from  ".dbhelper::tname("ppt",'user_sns')." where uid1=$uid1 and type=$type");
+		if($cursor==-1 || $cursor==1) dbhelper::execute("delete from  ".dbhelper::tname("ppt",'user_sns')." where uid1=$uid1 and type=$type");
 		dbhelper::exesqls($sqlins);
 
-		if($cursor==-1) dbhelper::execute("delete from  ".dbhelper::tname("ppt",$lf_pre.'userlib_sns')." where uid1=$uid1 and type=$type");
+		if($cursor==-1 || $cursor==1) dbhelper::execute("delete from  ".dbhelper::tname("ppt",$lf_pre.'userlib_sns')." where uid1=$uid1 and type=$type");
 		dbhelper::exesqls($sqlins2);
 
 		if ($f_list["next_cursor"]){

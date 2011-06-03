@@ -85,7 +85,7 @@ showtime();
 
 
 function follow(){
-	var url='?act=my&op=follow';
+	var url='?app=home&act=my&op=follow';
 	$.get(url,function(res){
 			if(res=="-1"){alert('请先登录！');return;}
 		$("#div_follow").hide();
@@ -221,7 +221,7 @@ $(document).ready(function(){
 		refreshMsg();
 	}
 	if(op=="ready"){
-		$.get("?act=my&op=syncfriends",function(){
+		$.get("?app=home&act=my&op=syncfriends",function(){
 			//if(msg_list.length>0) setInterval(refreshMsg,10000);			
 		});
 	}else{

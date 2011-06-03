@@ -1,5 +1,6 @@
 <?php
 //if(ISSAE)sae_xhprof_start();
+define('SENTATNAME',false);
 define('ISWBYL',true);
 $PHP_SELF=$_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
 define('ROOT', substr(__FILE__, 0, -18));
@@ -12,45 +13,50 @@ error_reporting (E_ALL & ~E_NOTICE);
 // 默认时区设置
 @date_default_timezone_set('PRC');
 
-$account=$accounts=false;
-
-include ROOT.'config.inc.php';
-include_once(ROOT.'include/function.php');
-
-$lfrom=rq("lfrom","");
-if($lfrom) $canLogin=array($lfrom);
-
-//$lfrom=rq("lfrom","");
-//if($lfrom=="tsina") 
-//	$canLogin=array('tsina','tqq');
-//else
-//	$canLogin=array('tqq','tsina');
-
-
-importlib("envhelper_class");
-importlib("dbhelper_class");
-importlib("ppt_class");
-importlib("ctl_base_class");
-
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pramga: no-cache");
 header('Content-Type: text/html; charset=utf-8');//.DEFAULT_CHARTSET);
 
+
+$account=$accounts=false;
+
+include ROOT.'config.inc.php';
+include_once(ROOT.'include/function.php');
+
+importlib("envhelper_class");
+importlib("dbhelper_class");
+importlib("ppt_class");
+importlib("ctl_base_class");
+
+$lfrom=rq("lfrom","");
+if($lfrom) {
+	ssetcookie("lfrom",$lfrom);
+}
+else {
+	$lfrom=sreadcookie("lfrom");
+}
+if($lfrom) 
+	$canLogin=array($lfrom);
+
 $accounts=envhelper::readAccounts();
+
 $ret=envhelper::readRet();
 if(is_array($accounts)){
 	foreach($accounts as $acc){
-		$account=$acc;
-		break;
+		
+		if(is_array($acc)) {
+			if(!$lfrom || $lfrom==$acc['lfrom']) {
+				$account=$acc;
+				$lfrom=$account['lfrom'];
+				break;
+			}
+		}
 	}
 }
-if(is_array($account)) {
-	if($lfrom && $lfrom!=$account['lfrom']) {
-		$account=false;
-	}
-}
+if(!$lfrom) $lfrom="tsina";
+
 //echo "accounts=";print_r($accounts);echo "account=";print_r($accounts);
 
 //时间
@@ -75,12 +81,12 @@ function getApi(){
 }
 
 function LetGo(){
-	global $account,$defapp,$accounts;
+	global $account,$defapp,$accounts,$lfrom;
 	if(!$defapp)$defapp="home";
 	$app=empty($_GET['app'])?$defapp:$_GET['app'];
 	$act=empty($_GET['act'])?$app:$_GET['act'];
 	$op=empty($_GET['op'])?'index':$_GET['op'];
-	$lfrom=$_GET['lfrom'];
+	//$lfrom=$_GET['lfrom'];
 		
 	include(ROOT.$app."/ctl_".$act.".php");
 	
@@ -93,6 +99,10 @@ function LetGo(){
 	////$cont->set('qtype',readqtype());
 
 	$cont->set("lfrom",$lfrom);
+	if($lfrom=='tqq') 
+		$cont->set('orgwbsite','http://t.qq.com/yihuiso');
+	else
+		$cont->set('orgwbsite','http://weibo.com/5d13');
 	$cont->assign("account",$account);
 
 	$cont->force=rq("clstemplate",0);

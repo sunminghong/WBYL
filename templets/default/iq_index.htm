@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>看看你有多聪明！ -  微博IQ测试 </title>
-	<link type="text/css" rel="stylesheet" href="{$templatepath}/iq_images/iq.css" />
+	<link type="text/css" rel="stylesheet" href="{$templatepath}/iq_images/iq.css?v=5.34" />
 	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> 
-<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
 <script>var op="{$op}"; var wbisload=false; var urlbase='{$urlbase}';<!--{if $account}-->var myuid='{$account[uid]}';<!--{else}-->var myuid='';<!--{/if}--></script>
-<script type="text/javascript" src="{$templatepath}/iq_images/iq_min.js?v=5.2"></script>
+<script type="text/javascript" src="{$templatepath}/iq_images/iq_min.js?v=5.34"></script>
 <!--<script type="text/javascript" src="http://cbjs.baidu.com/js/m.js"></script>-->
 <script type="text/javascript">
 //BAIDU_CLB_addSlot("158633");
@@ -19,34 +19,36 @@
 <body>
 {template top}
 <div class="mainFrame">
-		
-		<!--{if $op=="login"}-->
-		<div class="ui-widget">
-			
+<div class="ui-widget">
 			<div class="login">
-						<!--{if is_array($account) }-->
+<!--{if is_array($account) }-->
 			<img class="zhengshuico icoview" zsurl="{$iqScore[zsurl]}" src="{$urlbase}images/zhengshu_iq_ico_{$iqScore[iqlv]}.png"/>
-<font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}</b>人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
+<font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}</b>人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　<a href="?app=home&act=account&op=logout">切换帐号</a>
 <!--{else}-->
-
-	<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
-	<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！
+<!--{eval global $canLogin;}-->
+			<!--{loop $canLogin $login}-->
+				<a href="?app=home&act=account&op=tologin&lfrom={$login}" border="0"><img height="24" src="{$templatepath}/images/btn_login_{$login}.png" alt="用微博帐号登录" /></a> 
+			<!--{/loop}-->
 		<!--{/if}-->
-<br/><br/>
+		<br/><br/>
+<!--{if ($app=='eq')}-->
+<a href="?app=eq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_eq.gif" alt="我来测试下EQ"/></a>
+<a href="?app=iq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_iq.gif" alt="我来测试下IQ"/></a>
+<!--{else}-->
+<a href="?app=iq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_iq.gif" alt="我来测试下IQ"/></a>
+<a href="?app=eq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_eq.gif" alt="我来测试下EQ"/></a>
+<!--{/if}-->
+	 <a href="?app=iq&op=stats"><img src="{$templatepath}/q_images/btn_stats.gif" alt="聪明排行榜" ></a>
 
-				<!--{if is_array($account) }-->
-			<a href="?app=iq&op=ready"><img src="{$templatepath}/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
-
-			<!--{else}-->			<a href="?act=account&op=tologin" border="0"><img height1="24" src="{$templatepath}/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
-			<!--{/if}-->
-			<a href="?app=iq&op=stats"><img src="{$templatepath}/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
-			</div>
-			
-			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明"/></a>
+			</div>			
+			<div class="logo" style="position:relative;">
+				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/logo_q.gif" alt="看看你有多聪明LOGO"/></a>
+				<a href="{$orgwbsite}" target="_blank" style="display:block;position:absolute;left:94px;top:50px;"><img src="{$templatepath}/q_images/btn_5d13site_logo.gif" alt="我的一生官方微博孙铭鸿"/></a>
 			</div>
 		</div>
-<div id="div_notice"></div><div id="ad_800_60" style="width:800px;height:60px;"></div>	
+
+<div id="div_notice" style="clear:both;"></div>
+		<!--{if $op=="login"}-->
 
 		<div class="contentFrame" style="width:260px;float:right;padding:0px;">
 			<div class="ui-widget" style="text-align:center; color:#696a62;padding:0px;">
@@ -76,34 +78,16 @@
 		<!--{if is_array($account) }-->
 			<a href="?app=iq&op=ready"><img src="{$templatepath}/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
 
-			<!--{else}-->			<a href="?act=account&op=tologin" border="0"><img height1="24" src="{$templatepath}/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
+			<!--{else}-->
+			
+			<!--{eval global $canLogin;}-->
+			<!--{loop $canLogin $login}-->
+				<a href="?app=home&act=account&op=tologin&lfrom={$login}" border="0"><img height="24" src="{$templatepath}/images/btn_login_{$login}.png" alt="用微博帐号登录" /></a> 
+			<!--{/loop}-->
 			<!--{/if}-->
 		</div>
 
 <!--{elseif $op=="ready"}-->
-
-		<div class="ui-widget">
-			<div class="login">
-			<!--{if is_array($account) }-->
-			<img class="zhengshuico icoview" zsurl="{$iqScore[zsurl]}" src="{$urlbase}images/zhengshu_iq_ico_{$iqScore[iqlv]}.png"/>
-<font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}</b>人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
-<!--{else}-->
-<a href="?act=account&op=tologin" border="0"><img height1="37" src="{$templatepath}/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
-<!--{/if}-->
-<br /><br/>
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a> <a href="?app=iq&op=stats"><img src="{$templatepath}/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
-			</div>
-			
-			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
-			</div>
-		</div>
-		<br/>
-
-<div id="div_notice"></div><!-- 广告位：顶部通栏 -->
-<!--<script type="text/javascript"> BAIDU_CLB_fillSlot("158633"); </script>-->
-<div id="ad_800_60" style="width:800px;height:60px;"></div>
-
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
@@ -127,28 +111,13 @@
 				</div>
 			</div>
 		</div>
-		<div class="div_login">		
-			<a href="?app=iq&op=icanv2"><img src="{$templatepath}/iq_images/btn_ready_v2.gif" alt="我准备好了，开始" /></a>
-			<a href="?app=iq&op=icanv1"><img src="{$templatepath}/iq_images/btn_ready_v1.gif" alt="我准备好了，开始" /></a>
-			
+		<div class="div_login">	
+			<a href="?app=iq&op=icanv1"><img src="{$templatepath}/iq_images/btn_ready_v1.gif" alt="我准备好了，开始" /></a>	
+			<a href="?app=iq&op=icanv2"><img src="{$templatepath}/iq_images/btn_ready_v2.gif" alt="我准备好了，开始" /></a>			
 		</div>
 
 <!--{elseif $op=="stats"}-->
-		<div class="ui-widget">			
-			<div class="login">
-			<!--{if is_array($account) }-->
-			<img class="zhengshuico icoview" zsurl="{$iqScore[zsurl]}" src="{$urlbase}images/zhengshu_iq_ico_{$iqScore[iqlv]}.png"/>
-<font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}</b> 人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　　　　　　<a href="?act=account&op=logout">退出</a>
-<!--{else}-->
-<a href="?act=account&op=tologin" border="0"><img height1="37" src="{$templatepath}/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
-<!--{/if}-->
-
-			</div>			
-			<div class="logo">
-				<a href="?app=iq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/iq_logo.jpg" alt="看看你有多聪明" /></a>
-			</div>
-		</div>
-		<div id="div_notice"></div>
+<div id="ad_800_60" style="width:800px;height:60px;magin-top:5px;margin-bottom:5px;"></div>	
 <div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div class="welcomeDiv1" id="top_list1" style="text-align:left;">				
@@ -178,7 +147,6 @@
 			</div>
 		</div>
 		<!--{/if}-->
-<div id="ad_800_60" style="width:800px;height:60px;margin-top:5px;" ></div>
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>

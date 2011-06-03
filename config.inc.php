@@ -10,6 +10,7 @@ $apiConfig=array(
 	"tsina"=>array(
 		"name"=>'新浪微博',
 		"orguid" => '1747738583', //官方微博帐号
+		'orgwbsite'=>'http://weibo.com/5d13',
 		"domain_format" => 'http://weibo.com/{domain}',
 		"access_key" =>'4106323544',
 		"screct_key"=>'fdea0fd0626378d951a366e00c5444d7'
@@ -17,6 +18,7 @@ $apiConfig=array(
 	"tqq"=>array(
 		"name"=>'腾讯微博',
 		"orguid" => 'yihuiso', //官方微博帐号
+		'orgwbsite'=>'http://t.qq.com/yihuiso',
 		"domain_format" => 'http://t.qq.com/{domain}',
 		"access_key" =>'633e42f93e2f4a8a9981711ee890cf99',
 		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
@@ -35,8 +37,8 @@ $apiConfig=array(
 		"name"=>'腾讯微博',
 		"orguid" => 'yihuiso', //官方微博帐号
 		"domain_format" => 'http://t.qq.com/{domain}',
-		"access_key" =>'633e42f93e2f4a8a9981711ee890cf99',
-		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
+		"access_key" =>'a6f5c8564ebe436b960bac23f3f7a7ba',
+		"screct_key"=>'17febd405a3753268cfdf539c935f8f8'
 	)
 );
 
@@ -53,8 +55,8 @@ $apiConfig=array(
 		"name"=>'腾讯微博',
 		"orguid" => 'yihuiso', //官方微博帐号
 		"domain_format" => 'http://t.qq.com/{domain}',
-		"access_key" =>'633e42f93e2f4a8a9981711ee890cf99',
-		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
+		"access_key" =>'97dc6a2ccc694339a67e3be67d27f064',
+		"screct_key"=>'b6fc750ad4f8c7efb2133de97a9c83e3'
 	)
 );
 
@@ -124,4 +126,4 @@ define("CookieDomain",""); //cookie域
 define("CookiePre","wbyl"); //cookie键前缀
 
 
-$currTemplate='default'; //定义采用哪个模版
+$currTemplate='darennew'; //定义采用哪个模版

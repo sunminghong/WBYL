@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>看看你有多聪明！ -  微博<!--{eval echo strtoupper($app);}-->测试 </title>
-	<link type="text/css" rel="stylesheet" href="{$templatepath}/q_images/main.css" />
+	<link type="text/css" rel="stylesheet" href="{$templatepath}/q_images/main.css?v=1.63" />
 <!--	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> -->
-<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
 <script>var app='{$app}';var op="{$op}"; var wbisload=false; var urlbase='{$urlbase}';</script>
-<script type="text/javascript" src="{$templatepath}/q_images/main.js?v=5.3"></script>
+<script type="text/javascript" src="{$templatepath}/q_images/main.js?v=1.63"></script>
 <!--{if $op=="ready" || $op=="showscore"}-->
 <style>
 ul.test{ margin: 10px 0; line-height: 21px;}
@@ -40,20 +40,32 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 			<div class="login">
 <!--{if is_array($account) }-->
 			<img class="zhengshuico icoview" zsurl="{$eqScore[zsurl]}" src="{$urlbase}images/zhengshu_eq_ico_{$eqScore[eqlv]}.png"/>
-<font color="#ff3333">{$account[screen_name]}</font> <img src="{$urlbase}images/weiboicon16_{$account[lfrom]}.png" height=16 /><!--{if $account[verified]==1}--><img src="{$urlbase}images/vip_{$account[lfrom]}.gif" title="认证用户" alt=""><!--{/if}-->, 你共测试{$eqScore[testCount]} 次， 最高<!--{eval echo strtoupper($app);}-->值是 {$eqScore[eq]} , 排名第<b> {$eqScore[top]} </b>, 打败了 <b>{$eqScore[win]}</b>人<!--{if $eqScore[lostname] }-->(包括{$eqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
-<!--{else}-->
+<font color="#ff3333">{$account[screen_name]}</font> <img src="{$urlbase}images/weiboicon16_{$account[lfrom]}.png" height=16 /><!--{if $account[verified]==1}--><img src="{$urlbase}images/vip_{$account[lfrom]}.gif" title="认证用户" alt=""><!--{/if}-->, 你共测试{$eqScore[testCount]} 次， 最高<!--{eval echo strtoupper($app);}-->值是 {$eqScore[eq]} , 排名第<b> {$eqScore[top]} </b>, 打败了 <b>{$eqScore[win]}</b>人<!--{if $eqScore[lostname] }-->(包括{$eqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　<a href="?app=home&act=account&op=logout">切换帐号</a>
+<!--{/if}--><br/><br/>
 
-	<strong>　　<!--{eval echo strtoupper($app);}-->：</strong>就是常说的情商，与此对应的还有EQ、AQ、XQ...；
-	<strong>微博<!--{eval echo strtoupper($app);}-->测试：</strong>就是常说的情商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！
-		<!--{/if}-->
+<!--{if ($app=='eq')}-->
+<a href="?app=eq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_eq.gif" alt="我来测试下EQ"/></a>
+<a href="?app=iq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_iq.gif" alt="我来测试下IQ"/></a>
+<!--{else}-->
+<a href="?app=iq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_iq.gif" alt="我来测试下IQ"/></a>
+<a href="?app=eq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_eq.gif" alt="我来测试下EQ"/></a>
+<!--{/if}-->
+	 <a href="?app=eq&op=stats"><img src="{$templatepath}/q_images/btn_stats.gif" alt="聪明排行榜" ></a>
+
 			</div>			
-			<div class="logo">
-				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/eq_logo.jpg" alt="看看你有多聪明" /></a>
+			<div class="logo" style="position:relative;">
+				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/logo_q.gif" alt="看看你有多聪明LOGO"/></a>
+
+				<!--{if $lfrom=='tqq'}-->
+				<a href="http://t.qq.com/yihuiso" target="_blank" style="display:block;position:absolute;left:94px;top:50px;"><img src="{$templatepath}/q_images/btn_5d13site_logo.gif" alt="我的一生官方微博孙铭鸿"/></a>
+				<!--{else}-->
+				<a href="http://weibo.com/5d13" target="_blank" style="display:block;position:absolute;left:94px;top:50px;"><img src="{$templatepath}/q_images/btn_5d13site_logo.gif" alt="我的一生官方微博孙铭鸿"/></a>
+				<!--{/if}-->
 			</div>
 		</div>
 
-<div id="div_notice"></div>
-<div id="ad_800_60" style="width:800px;height:60px;"></div>	
+<div id="div_notice" style="clear:both;"></div>
+<div id="ad_800_60" style="width:800px;height:60px;magin-top:5px;margin-bottom:5px;"></div>	
 <div class="contentFrame" style="clear:both;text-align:center; ">
 
 			<div><p>
@@ -102,8 +114,10 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 				<font color="#ff3333">{$account[screen_name]}</font>, 微博<!--{eval echo strtoupper($app);}-->测试须在30分钟内完成（33题）<br/><br/>
 			<!--<input name="B1" onclick="startclock()" type="button" value="开始计时">--><span id="face"> {$score[newusetime]}</span>
 			</div>			
-			<div class="logo">
-				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/eq_logo.jpg" alt="看看你有多聪明" /></a>
+
+			<div class="logo" style="position:relative;">
+				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/logo_q.gif" alt="看看你有多聪明LOGO"/></a>
+				<a href="{$orgwbsite}" target="_blank" style="display:block;position:absolute;left:94px;top:50px;"><img src="{$templatepath}/q_images/btn_5d13site_logo.gif" alt="我的一生官方微博孙铭鸿"/></a>
 			</div>
 		</div>
 
@@ -114,7 +128,7 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 			<p>
 			<stong>提示：测试中，每一题请选择一个和自己最切合的答案，少选中性答案。</stong><br />
 			<stong>友情提示：要本着对自己负责，对党、国家和人民负责的原则来测试，否则不准确！</stong></p>
-<form name="quest" method="post" action="?app=eq&op=cacl" id="quest_form">
+<form name="quest" method="post" action="?app=eq&op=cacl" id="quest_form" onsubmit="return calculate();">
 <input type="hidden" name="usetime" value="1" id="in_usetime"/>
 <div id="quiz_list" style="margin-top:20px;">
 <ol id="qlist">
@@ -157,7 +171,7 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 <div id="quest_append" style="margin:30px 0 0 30px;"></div>
 	<div class="field" style="margin:20px;padding-left:20px;">
 			<p>
-							<a href="#" onclick="document.getElementById('quest_form').submit(); return false;" ><img src="{$templatepath}/q_images/btn_showscore_{$app}.gif" alt="查看我的分数"/></a></p>
+							<a href="#" onclick="javascript:calculate();" ><img src="{$templatepath}/q_images/btn_showscore_{$app}.gif" alt="查看我的分数"/></a></p>
 	</div>
 </form>
 

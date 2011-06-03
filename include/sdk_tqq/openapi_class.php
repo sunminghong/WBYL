@@ -97,7 +97,7 @@ class openapi extends openapiAbstract{
 		$uidarr['location']=$oarr['location'];
 		$uidarr['description']=$oarr['introduction'];
 		$uidarr['url']=$oarr[''];
-		$uidarr['avatar']=$oarr['head'].'/50';
+		$uidarr['avatar']=$oarr['head']?$oarr['head'].'/50':'images/noavatar.gif';
 		$uidarr['domain']=$oarr['name'];
 		$uidarr['sex']=$oarr['sex'];
 		$uidarr['followers']=$oarr['fansnum'];

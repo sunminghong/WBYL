@@ -264,5 +264,5 @@
 
 <div align="center">
 							<p>
-							<a href="#" onclick="calculate_v2();return false;" ><img src="<?=$templatepath?>/iq_images/btn_showscore.gif" alt="查看我的分数"/></a></p>
+							<a href="#" onclick="submitv2();return false;" ><img src="<?=$templatepath?>/iq_images/btn_showscore.gif" alt="查看我的分数"/></a></p>
 						</div>

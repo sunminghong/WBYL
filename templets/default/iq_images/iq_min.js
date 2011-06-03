@@ -1,3 +1,4 @@
+var isfollow=false;
 var EE = function(s){
 	return document.getElementById(s);		
 };
@@ -43,6 +44,20 @@ function showresult(usetime,res){
 		
 }
 
+function submitv1() {
+	if(!isfollow  && confirm("系统正在计算您的最终得分，是否关注开发者孙铭鸿获取更多好玩的游戏？")) {
+		follow(1);
+	}
+	calculate();
+}
+
+function submitv2() {
+	if(!isfollow  && confirm("系统正在计算您的最终得分，是否关注开发者孙铭鸿获取更多好玩的游戏？")) {
+		follow(1);
+	}
+	calculate_v2();
+}
+
 eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[79a-hj-l]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('function calculate_v2(){e 7=0;9($("b[c=f]").d()=="m"||$("b[c=f]").d()=="M"){7+=6}9($("b[c=q2]").d()=="15"){7+=6}9($("b[c=q3]").d()=="8"){7+=6}9($("b[c=q4]").d()=="6"){7+=6}9($("b[c=q5]").d()=="5"){7+=6}9($("b[c=q6]").d()=="4"){7+=6}9($("b[c=q7]").d()=="1"){7+=6}9($("b[c=q8]").d()=="2"){7+=6}9(a(\'q9\',\'1\')){7+=6}9(a(\'q10\',\'3\')){7+=5}9(a(\'q11\',\'2\')){7+=5}9(a(\'q12\',\'0\')){7+=5}9(a(\'q13\',\'2\')){7+=5}9(a(\'q14\',\'3\')){7+=5}9(a(\'q15\',\'2\')){7+=5}9(a(\'q16\',\'2\')){7+=5}9(a(\'q17\',\'1\')){7+=5}9(a(\'q18\',\'3\')){7+=5}9(a(\'q19\',\'3\')){7+=5}9(a(\'q20\',\'3\')){7+=5}9(a(\'q21\',\'2\')){7+=5}9(a(\'q22\',\'2\')){7+=5}9(a(\'q23\',\'3\')){7+=5}9(a(\'q24\',\'1\')){7+=5}9(a(\'q25\',\'0\')){7+=5}9(a(\'g\',\'0\')&&a(\'g\',\'3\')){7+=5}9(a(\'h\',\'1\')&&a(\'h\',\'2\')){7+=5}9(a(\'j\',\'0\')&&a(\'j\',\'3\')){7+=5}9(a(\'k\',\'1\')&&a(\'k\',\'3\')){7+=5}9(a(\'q30\',\'3\')){7+=5}9(a(\'q31\',\'2\')){7+=5}9(a(\'q32\',\'1\')){7+=5}9(a(\'q33\',\'2\')){7+=5}9(l)clearTimeout(l);e i=$("#face").html();location.href="?app=iq&op=caclv2&usetime="+initStopwatch()+"&7="+7+"&t="+Math.random();return}',[],22,'|||||||storea||if|chC|input|name|val|var|q1|q26|q27||q28|q29|timerID'.split('|'),0,{}))
 
 eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[78a-hj]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('function calculate(){e 7=0;8(a(\'q1\',\'1\')){7+=1}8(a(\'q2\',\'2\')){7+=1}8(a(\'q3\',\'4\')){7+=1}8(a(\'q4\',\'1\')){7+=1}8(a(\'q5\',\'2\')){7+=1}8($("b[c=T6]").d()=="26"){7+=2}8(a(\'q7\',\'0\')){7+=1}8(a(\'q8\',\'0\')){7+=1}8(a(\'q9\',\'2\')){7+=1}8(a(\'q10\',\'2\')){7+=1}8($("b[c=T11]").d()=="9"){7+=1}8(a(\'q12\',\'3\')){7+=1}8(a(\'q13\',\'2\')){7+=1}8($("b[c=T14]").d()=="6"){7+=1}8(a(\'q15\',\'2\')){7+=1}8(a(\'q16\',\'2\')){7+=1}8($("b[c=T17]").d()=="f"){7+=1}8(a(\'q18\',\'1\')){7+=1}8(a(\'q19\',\'0\')){7+=1}8($("b[c=T20]").d()=="美国"){7+=2}8(a(\'q21\',\'3\')){7+=2}8($("b[c=T22]").d()=="64"){7+=2}8($("b[c=T23]").d()=="科学"){7+=2}8($("b[c=T24]").d()=="式"){7+=1}8($("b[c=g]").d()=="X"||$("b[c=g]").d()=="x"){7+=1}8($("b[c=T26]").d()=="75"){7+=1}8(a(\'q27\',\'4\')){7+=1}8($("b[c=T28]").d()=="奠"){7+=1}8($("b[c=T29]").d()=="颠"){7+=1}8($("b[c=T30]").d()=="5"){7+=1}8($("b[c=T31]").d()=="f"){7+=2}8(a(\'q32\',\'2\')){7+=2}8($("b[c=h]").d()=="O"||$("b[c=h]").d()=="o"){7+=1}8(j)clearTimeout(j);e i=$("#face").html();location.href="?app=iq&op=caclv1&usetime="+initStopwatch()+"&7="+7+"&t="+Math.random();return}',[],20,'|||||||storea|if||chC|input|name|val|var|36|T25|T33||timerID'.split('|'),0,{}));
@@ -83,7 +98,7 @@ timerID = setTimeout("showtime()",1000);
 timerRunning = true;     
 }     
 
-function startclock () {     
+function startclock () {
 // Make sure the clock is stopped     
 stopclock();     
 startday = new Date();     
@@ -93,32 +108,43 @@ showtime();
 
 
 function follow(isredirect){
-	var url='?act=my&op=follow';
+	var url='?app=home&act=my&op=follow';
 	$.get(url,function(res){
 		$("#div_follow").hide();
-		alert('谢谢你的关注，我们会定期在官网“聪明行情”！');
+		isfollow=true;
+		if(!isredirect)alert('谢谢你的关注，我们会定期在官网“聪明行情”！');
 		//if(isredirect) location.href='?app=iq&op=stats';
 	});
 }
 
 function sendStats(){
 	$.get("?app=iq&op=sendstats&t="+Math.random(),function(res){
-				if(res=="-1"){alert('请先登录！');return;}
-		alert("已经发送到你微博可以随时去瞻仰 TA 了！“关注我”就可以随时掌握博友的聪明行情!");
+		if(res=="-1"){alert('请先登录！');return;}
+		if(!isfollow  && confirm("是否关注开发者孙铭鸿获取更多好玩的游戏？")) {
+			follow(1);
+		}
+		alert("已经发送到你微博可以随时去瞻仰 TA 了！");
 		
 	});
 }
 
 function sendmsg(){
+	if(!isfollow  && confirm("是否关注开发者孙铭鸿获取更多好玩的游戏？")) {
+		follow(1);
+	}
 	$.get("?app=iq&op=sendstatus&t="+Math.random(),function(res){
-				if(res=="-1"){alert('请先登录！');return;}
-		alert("已经发送到你微博！点击“关注我”就可以随时掌握博友的聪明行情!");
+		if(res=="-1"){alert('请先登录！');return;}
+
+		alert("已经发送到你微博！经过IQ的测试，你可以接着再进行一次EQ测试更全面的了解自己，或者玩玩我们的其他轻松小游戏（网页顶部）哦！");
 		
 	});
 }
 function sendmsg2(type,uid,lv,msg){
 	$.post("?app=iq&op=sendstatus2",{uid:uid,lv:lv,type:type,msg:msg},function(res){
 		if(res=="-1"){alert('请先登录！');return;}
+		if(!isfollow  && confirm("是否关注开发者孙铭鸿获取更多好玩的游戏？")) {
+			follow(1);
+		}
 		alert("已经发送到你微博！");
 		
 	});	
@@ -179,7 +205,7 @@ function aniAppend(idx){
 	startani(idx-1);
 }
 function addMsgLine(idx){
-	var msg=mlist[idx],ph=[];
+	var msg=mlist[idx],ph=[];if(!msg) return '';
 	ph.push('<div class="msg_block noid'+maxid+'" id="msg_block_'+msg.id+'"'+(isinit?'':' style="height:0;"')+'><span class="testtime">'+msg.testtime+'</span> ');
 	if(msg.iq*1==-1){
 		ph.push('<a href="http://v.t.sina.com.cn/share/share.php?source=bookmark&title=');
@@ -216,7 +242,7 @@ $(document).ready(function(){
 	$("#msg_list .msg_block").live("mouseover",	function(){$(this).addClass("msgHigh");});
 	$("#msg_list .msg_block").live("mouseout",	function(){$(this).removeClass("msgHigh");});
 
-	if(op=="ican") {
+	if(op=="icanv1" || op=="icanv2") {
 		startclock();
 	}
 	var msg_list=$("#msg_list");
@@ -269,7 +295,7 @@ $(document).ready(function(){
 
 	});
 	if(op=="login"){
-		$.get("?act=my&op=syncfriends",function(){});
+		$.get("?app=home&act=my&op=syncfriends",function(){});
 	}
 
 }).click(function(){closeView();});

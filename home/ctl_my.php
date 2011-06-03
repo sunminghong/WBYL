@@ -61,22 +61,23 @@ public function public_timeline(){
 		
 		$api=$this->getApi();
 		$account=getAccount();
-		
+		//print_r($account);
 		$uid=rq("uid",false);
 		if(!$uid) {
 			if($account['lfrom']=='tqq')
 				$uid="yihuiso";
 			else
-				$uid="1747738583";
+				//$uid='湖北孩子';
+			$uid="1747738583";
 		}
 
 		$isFollow=rq("follow",1);
 		
-
-		if($isFollow)
+		//if($isFollow)
 			$ret=$api->follow($uid); // done	
-		else
-			$ret= $api->unfollow($uid); // done
+		//else
+		//	$ret= $api->unfollow($uid); // done
+//echo $uid.'===';print_r($ret);
 		echo "1";exit;
 	}
 

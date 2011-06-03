@@ -1,5 +1,5 @@
 <?php
-	$tourl="../?app=eq&lfrom=tqq";
+	$tourl="../?app=iq&lfrom=tqq";
 	$retuid=$_GET["retuid"];
 		if($retuid)
 			$tourl.="&retuid=" .$retuid;

@@ -2,7 +2,7 @@
 if(!defined('ISWBYL')) exit('Access Denied');
 
 	function readEqScore($uid,$nocache=false){
-		if(!$nocache){
+		if(1==0 && !$nocache){
 			$json=sreadcookie('eq_score');		
 			if ($json){
 				$json= authcode($json, 'DECODE', $key = 'abC!@#$%^');
@@ -60,26 +60,28 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			$eqScore['win']=0;
 		}
 		
-		//获取打败的好友的名单
-		$sql="select l.name as screen_name,l.lfrom,l.lfromuid from ". dbhelper::tname("eq","eq") . " eq  inner join ".dbhelper::tname("ppt","login")." l on eq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=2 where sns.uid1=".$uid." and eq.eq<".$eqScore['eq']." order by rand() limit 0,3";
-		$rs=dbhelper::getrs($sql);
-		$sss="";
-		while($row=$rs->next()){
-			if($row['lfrom']=='tqq')
-				$sss.="@".$row['lfromuid']." ，";
-			else
-				$sss.="@".$row['screen_name']." ，";
-		}
-		$eqScore['lostname']=$sss;
+		if(SENTATNAME) {
+			//获取打败的好友的名单
+			$sql="select l.name as screen_name,l.lfrom,l.lfromuid from ". dbhelper::tname("eq","eq") . " eq  inner join ".dbhelper::tname("ppt","login")." l on eq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=2 where sns.uid1=".$uid." and eq.eq<".$eqScore['eq']." order by rand() limit 0,3";
+			$rs=dbhelper::getrs($sql);
+			$sss="";
+			while($row=$rs->next()){
+				if($row['lfrom']=='tqq')
+					$sss.="@".$row['lfromuid']." ，";
+				else
+					$sss.="@".$row['screen_name']." ，";
+			}
+			$eqScore['lostname']=$sss;
 		
 
-		//获取邀请人名单
+			//获取邀请人名单
 
-		$api=getApi();
-		importlib("ppt_class");
-		$ppt=new ppt();
-		$sss2=$ppt->getMeetSNS($api,2,$uid,3,$eqScore['lostname']);
-		$eqScore['retname']=$sss2;
+			$api=getApi();
+			importlib("ppt_class");
+			$ppt=new ppt();
+			$sss2=$ppt->getMeetSNS($api,2,$uid,3,$eqScore['lostname']);
+			$eqScore['retname']=$sss2;
+		}
 
 		importlib("zhengshu");
 		$zs=zhengshu::makeEQ(getAccount(),$eqScore);

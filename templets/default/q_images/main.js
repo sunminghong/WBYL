@@ -1,4 +1,4 @@
-
+var isfollow=false;
 var EE = function(s){
 	return document.getElementById(s);		
 };
@@ -14,45 +14,11 @@ function chC(name,num){
 
 
 function calculate(){     
-var storea=0;
-
-if(chC('q1','1')){storea+=1;}     
-if(chC('q2','2')){storea+=1;}     
-if(chC('q3','4')){storea+=1;}     
-if(chC('q4','1')){storea+=1;}     
-if(chC('q5','2')){storea+=1;}     
-if($("input[name=T6]").val()=="26"){storea+=2;}     
-if(chC('q7','0')){storea+=1;}     
-if(chC('q8','0')){storea+=1;}     
-if(chC('q9','2')){storea+=1;}     
-if(chC('q10','2')){storea+=1;}     
-if($("input[name=T11]").val()=="9"){storea+=1;}     
-if(chC('q12','3')){storea+=1;}     
-if(chC('q13','2')){storea+=1;}     
-if($("input[name=T14]").val()=="6"){storea+=1;}     
-if(chC('q15','2')){storea+=1;}     
-if(chC('q16','2')){storea+=1;}     
-if($("input[name=T17]").val()=="36"){storea+=1;}     
-if(chC('q18','1')){storea+=1;}     
-if(chC('q19','0')){storea+=1;}     
-if($("input[name=T20]").val()=="美国"){storea+=2;}     
-if(chC('q21','3')){storea+=2;}     
-if($("input[name=T22]").val()=="64"){storea+=2;}     
-if($("input[name=T23]").val()=="科学"){storea+=2;}     
-if($("input[name=T24]").val()=="式"){storea+=1;}     
-if($("input[name=T25]").val()=="X"||$("input[name=T25]").val()=="x"){storea+=1;}     
-if($("input[name=T26]").val()=="75"){storea+=1;}     
-if(chC('q27','4')){storea+=1;}     
-if($("input[name=T28]").val()=="奠"){storea+=1;}     
-if($("input[name=T29]").val()=="颠"){storea+=1;}     
-if($("input[name=T30]").val()=="5"){storea+=1;}     
-if($("input[name=T31]").val()=="36"){storea+=2;}     
-if(chC('q32','2')){storea+=2;}     
-if($("input[name=T33]").val()=="O"||$("input[name=T33]").val()=="o"){storea+=1;}     
-    if(timerID)clearTimeout(timerID);
-	var i=$("#face").html();
-	location.href="?app="+app+"&op=cacl&usetime="+initStopwatch()+"&storea="+storea+"&t="+Math.random();
-	return;	
+	if(!isfollow  && confirm("系统正在计算您的最终得分，是否关注开发者孙铭鸿获取更多好玩的游戏？")) {
+		follow(1);
+	}
+	document.getElementById('quest_form').submit(); 
+	return true;
 }     
 
 
@@ -93,7 +59,7 @@ timerID = setTimeout("showtime()",1000);
 timerRunning = true;     
 }     
 
-function startclock () {     
+function startclock () {
 // Make sure the clock is stopped     
 stopclock();     
 startday = new Date();     
@@ -102,33 +68,41 @@ showtime();
 }
 
 
-function follow(){
-	var url='?act=my&op=follow';
+function follow(ia){
+	var url='?app=home&act=my&op=follow';
 	$.get(url,function(res){
 			if(res=="-1"){alert('请先登录！');return;}
+		isfollow=true;
 		$("#div_follow").hide();
-		alert('谢谢你的关注，我们会定期在官网“聪明行情”！');
+		if(!ia)alert('谢谢你的关注，我们会定期在官网“聪明行情”！');
 	});
 }
 
-function sendStats(){
+function sendStats(){	
 	$.get("?app="+app+"&op=sendstats&t="+Math.random(),function(res){
-				if(res=="-1"){alert('请先登录！');return;}
-		alert("已经发送到你微博可以随时去瞻仰 TA 了！“关注我”就可以随时掌握博友的聪明行情!");
+		if(res=="-1"){alert('请先登录！');return;}
+	if(!isfollow  && confirm("是否关注开发者孙铭鸿获取更多好玩的游戏？")) {
+		follow(1);
+	}
+		alert("已经发送到你微博可以随时去瞻仰 TA 了！");
 		
 	});
 }
 
 function sendmsg(){
 	$.get("?app="+app+"&op=sendstatus&t="+Math.random(),function(res){
-				if(res=="-1"){alert('请先登录！');return;}
-		alert("已经发送到你微博！点击“关注我”就可以随时掌握博友的聪明行情!");
+		if(res=="-1"){alert('请先登录！');return;}
+
+		alert("已经发送到你微博！经过EQ的测试，你可以接着再进行一次IQ测试更全面的了解自己或者玩玩我们的其他轻松小游戏（网页顶部）哦！");
 		
 	});
 }
 function sendmsg2(type,uid,lv,msg){
 	$.post("?app="+app+"&op=sendstatus2",{uid:uid,lv:lv,type:type,msg:msg},function(res){
 		if(res=="-1"){alert('请先登录！');return;}
+		if(!isfollow  && confirm("是否关注开发者孙铭鸿获取更多好玩的游戏？")) {
+			follow(1);
+		}
 		alert("已经发送到你微博！");
 		
 	});	
@@ -285,6 +259,6 @@ $(document).ready(function(){
 	});
 
 	if(op=="login"){
-		$.get("?act=my&op=syncfriends",function(){});
+		$.get("?app=home&act=my&op=syncfriends",function(){});
 	}
 }).click(function(){closeView();});

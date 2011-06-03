@@ -50,7 +50,7 @@ class daren extends ctl_base
 	}
 
 	function ican(){
-		$account=$this->checkLogin();
+		//$account=$this->checkLogin();
 		
 
 		$this->set("op","ican");

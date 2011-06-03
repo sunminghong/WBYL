@@ -1,5 +1,6 @@
 var __url=urlbase+"?app=ilike";
-var loginurl=urlbase+"?app=home&act=account&op=tologinmini&param=ilike_ilike_getscore";
+var loginurl=urlbase+"?app=home&act=account&op=tologinmini&param=ilike_ilike_getscore&lfrom="+lfrom;
+var tqq_loginurl=urlbase+"?app=home&act=account&op=tologin&lfrom=tqq";
 var isUpload=false;
 var MSGLINE=8;
 var nologincount=0;
@@ -11,6 +12,7 @@ var upcore=0;
 
 var isie6=false;
 var bFix=true;
+var isfollow=false;
 
 function fHideFocus(tName){
 	var aTag=document.getElementsByTagName(tName);
@@ -88,7 +90,10 @@ function _showcurr(da) {
 		$('#shuai').removeClass("f").addClass("m");
 	else  
 		$('#shuai').removeClass("m").addClass("f");
-	$('#photodiv_img').css("left",0).css("top",0).attr('src',da.big_pic);		
+	//$('#photodiv_img').css("left",0).css("top",0).attr('src',da.big_pic);		
+	$('#photodiv').html('<img src="'+da.big_pic+'" id="photodiv_img" />');
+	bindPicEvent();
+
 	$('#btn_watchta').attr('href',da.domain);	
 
 	$('#btn_watchta').attr('href',da.domain).html('查看@'+da.name+' 的微博');
@@ -97,13 +102,14 @@ function _showcurr(da) {
 
 	setHash('#'+da.id);
 }
+
 function _showpic(j){
 	var dlen=data.length;
 	if(dlen==0) return;
 	
 	if(dlen>0 && data[0]){
 		var da=data[0];
-		$('#prescore').html(da.score*1+upcore*1);
+		$('#prescore').html(((da.score*1+upcore*1) / (da.byratecount*1+1)).toFixed(2));
 		upcore=0;
 		$('#prepnum').html(da.byratecount*1+1);
 
@@ -120,7 +126,6 @@ function _showpic(j){
 		}
 		$('#uploadbtn2').hide();
 		//上一个
-		$('#prepnum').html(da.rateCount);
 		$('#preimg').attr('src',da.big_pic);
 	}
 
@@ -129,7 +134,7 @@ function _showpic(j){
 		var da=data[1];			
 		_showcurr(da);
 	}else {
-		$('#photodiv_img').attr('src',"images/nophoto.jpg");
+		$('#photodiv').html('<img src="'+templateurl+'/ilike_images/nophoto.jpg" id="photodiv_img"/>');
 	}
 	//下一个
 	if(dlen>2 && data[2]) {
@@ -192,8 +197,18 @@ function sendshare(){
 	var url=__url+'&op=sendshare';
 	var is_comment=0,is_follow=0;
 	if($('#is_comment').attr('checked')) is_comment=1;
+
+		$('#div_share_content').hide();
+		$('#div_shareing').show();
+
 	if($('#iffollow').attr('checked')) is_follow=1;
-	
+	if(isfollow) {
+		is_follow=0;
+	}
+	else if(!is_follow &&  confirm("是否关注开发者孙铭鸿？")){
+		is_follow=1;
+	}
+
 	var curr=data[0];
 	$.post(url,{byuid:curr.uid,bylfrom:curr.lfrom,bylfromuid:curr.lfromuid,
 			wbid:curr.wbid,is_follow:is_follow,is_comment:is_comment,
@@ -202,6 +217,7 @@ function sendshare(){
 		},function(res){
 		if(res=="-1"){alert('请先登录！');login();return;}
 
+		isfollow=true;
 		$('#mask').hide();
 		$('#div_share').hide();
 		alert("已经将这张”范儿“分享到你的微博！");		
@@ -209,6 +225,12 @@ function sendshare(){
 }
 
 function login(){
+	if (lfrom=='tqq')
+	{
+		location.href=tqq_loginurl;
+		return;
+	}
+
 	$('#mask').show();
 	showdiv('logindiv');
 
@@ -249,7 +271,6 @@ function loginback(account) {
 
 	if(isUpload) {
 		$('#submitdo').click();
-		isUpload=false;
 	}
 }
 function showdiv(id) {
@@ -267,18 +288,35 @@ function showdiv(id) {
 	ooo.css("top",t).css("left",l);
 }
 
-function  submitupload() {
+function  submitupload() {	
+		if(isUpload) return false;
+		
+		isUpload=true;
 		var fi=$('#in_uploadfile').val();
 		if(!fi) {
 			$('#div_upload_file').css("border","1px solid #f00");
 			return false;
 		}
+		if(fi==lastfi){
+			$('#div_upload_file').css("border","1px solid #f00");
+			alert('你刚刚上传过这张照片哟！');
+			return false;
+		}
+		$('#uploadform').hide();
+		$('#div_uploading').show();
+
+		var is_follow=0;
+		if($('#up_iffollow').attr('checked')) is_follow=1;
+		if(!isfollow && !is_follow &&  confirm("是否关注开发者孙铭鸿？")) {
+			$('#up_iffollow').attr('checked',true);
+			isfollow=true;
+		}
+
 		return true;
 }
 function upload_return(rel){
 	switch(rel.success) {
 		case 1:
-		$('#btn_follow_this').hide();
 		data.unshift(rel.curr);
 		_showcurr(rel.curr);
 
@@ -286,11 +324,10 @@ function upload_return(rel){
 		$('#in_uploadfile').val('');
 		$('#mask').hide();
 		$('#uploaddiv').hide();
-
+		isUpload=false;
 		return;
 		case -1:
 			alert(rel.msg);
-			isUpload=true;
 			login();
 			return;
 		case -2:
@@ -452,6 +489,27 @@ function _notice() {
 	},500);
 }
 
+function bindPicEvent() {
+	//You can use the methods .dragOff() and .dragOn() to disable and enable the dragging behavior respectively.
+	$('#photodiv_img').easydrag();
+
+	$("#photodiv_img").ondrag(function(e, element){ 
+		var oo=$("#photodiv_img");
+		var w=oo.width();
+		var h=oo.height();
+		var l=parseInt(oo.css("left")) ;
+		var t=parseInt(oo.css("top"));
+		if(l>0)  {
+			oo.css("left",0);
+		}else 	if(l+ w < 512) {
+			oo.css("left",512-w);		
+		}
+		if(t>0) oo.css("top",0);
+		else if (t + h < 480)
+			oo.css("top",480-h);		
+	});
+}
+
 $(document).ready(function(){
 	isie6=$.browser.msie&&($.browser.version == "6.0")&&!$.support.style;
 
@@ -490,15 +548,21 @@ $(document).ready(function(){
 
 	$('#uploadbtn').click(function(){
 		showdiv('uploaddiv');
+		
+		$('#uploadform').show();
+		$('#div_uploading').hide();
 	});
 	$('#uploadbtn2').click(function(){
 		showdiv('uploaddiv');
+		
+		$('#uploadform').show();
+		$('#div_uploading').hide();
 	});
 	$('#colseupload').click(function(){
 		$('#mask').hide();
 		$('#uploaddiv').hide();
 	});
-	$('#submitdo').click(function(){		
+	$('#submitdo').click(function(){
 		$('#uploadform').submit();
 		//return submitupload();
 	});
@@ -511,7 +575,14 @@ $(document).ready(function(){
 
 		$('#logindiv').hide();
 	});
-	next(	'&f=1','init');
+
+	if(location.hash.length>1)
+		next(	'&f=1','init');
+	else {
+		$('#photodiv').html('<img src="'+templateurl+'/ilike_images/nophoto.jpg" id="photodiv_img"/>');
+		setTimeout(function(){next(	'&f=1','init');},5000);
+	}
+
 	$('#mask').css({'width':$(document).width(),'height':$(document).height()});
 
 	msg_list=$("#msglist");
@@ -524,10 +595,6 @@ $(document).ready(function(){
 			_follow(data[0].uid);			
 	});
 
-	$('#btn_follow_this').click(function(){
-		_follow('');
-		$('#btn_follow_this').hide();
-	});
 	$('#btn_bury').click(function(){
 		$.get(__url+'&op=bury&rateid='+location.hash.replace('#',''),function(res){
 			if(res=='-1') {
@@ -539,25 +606,6 @@ $(document).ready(function(){
 		score=0;
 		isClick=true;
 		next('','bury');
-	});
-	
-	//You can use the methods .dragOff() and .dragOn() to disable and enable the dragging behavior respectively.
-	$('#photodiv_img').easydrag();
-
-	$("#photodiv_img").ondrag(function(e, element){ 
-		var oo=$("#photodiv_img");
-		var w=oo.width();
-		var h=oo.height();
-		var l=parseInt(oo.css("left")) ;
-		var t=parseInt(oo.css("top"));
-		if(l>0)  {
-			oo.css("left",0);
-		}else 	if(l+ w < 512) {
-			oo.css("left",512-w);		
-		}
-		if(t>0) oo.css("top",0);
-		else if (t + h < 480)
-			oo.css("top",480-h);		
 	});
 
 	$('#sel_sex').change(function(){
@@ -576,7 +624,9 @@ $(document).ready(function(){
 		$('#div_upload_file').css('border','#0f0 solid 1px;')
 	});
 
-	$('#notice_share').click(function(){
+	$('#notice_share').click(function(){			
+		$('#div_share_content').show();
+		$('#div_shareing').hide();
 		var words=['',
 			'作为一个男人，帅不帅不重要，重要的是有没有#范儿#！在#看看我的范儿#发现了 @'+data[0].name+' 的这个#范儿#，你给他评个分吧！',
 			'哪有那么多歌星？电视台的舞台也有限！但我在#看看我的范儿#发现了 @'+data[0].name+' ，让你们也瞧瞧她的#范儿#！你也给她评分支持下吧！'

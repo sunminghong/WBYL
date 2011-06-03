@@ -209,7 +209,7 @@ class iq extends ctl_base
 		$sql="update ".dbhelper::tname("ppt","user")." set posts=posts+1 where uid='".$account['uid']."'";
 		dbhelper::execute($sql);
 		$iqCount=$this->iqCount();
-		$msg="#看看你有多聪明#数据统计：总登录人数 ".$iqCount['totalUser']."，成功测试人数 ".$iqCount[iqs]."人， 有效测试 ".$iqCount[logs]. "次。目前@".$iqCount[maxName]. " 以 ". $iqCount[maxIq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ " .URLBASE ."iq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=iq";
+		$msg="#看看你有多聪明#IQ测试数据统计：总登录人数 ".$iqCount['totalUser']."，成功测试人数 ".$iqCount[iqs]."人， 有效测试 ".$iqCount[logs]. "次。目前@".$iqCount[maxName]. " 以 ". $iqCount[maxIq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ " .URLBASE ."iq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=iq";
 		//echo $msg;exit;
 		$this->getApi()->update($msg);
 
@@ -226,16 +226,16 @@ class iq extends ctl_base
 		$score=readIqScore($account['uid'],false); //得了".$score['iq']."分，
 	
 		if($score['lostname'])
-			$msg="刚刚玩#看看你有多聪明#，我目前最高 IQ 得分".$score['iq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了".$score['lostname']."哈哈！";
+			$msg="我刚刚玩#看看你有多聪明#， IQ 得分".$score['iq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了".$score['lostname']."哈哈哈哈哈！";
 		else
-			$msg="刚刚玩#看看你有多聪明#，我目前最高 IQ 得分".$score['iq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了全国 ".$score["win"]. "% 的博友! ";
+			$msg="哈哈哈，刚刚玩#看看你有多聪明#，我 IQ 得分".$score['iq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了全国 ".$score["win"]. " 的博友! ";
 
 		if($score['retname'])
 			$msg.= $score['retname']	. "你们也来试试！" .URLBASE ."iq/?retuid=".$account['uid']."&retapp=iq";
 		else
-			$msg.= "你们也来试试吧！" .URLBASE ."iq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=iq";
+			$msg.= "" .URLBASE ."iq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=iq";
 
-		///echo $score['zsurl'].$msg; exit;
+		//echo $score['zsurl'].$msg; exit;
 		$this->getApi()->upload($msg,$score['zsurl']);
 		echo "1";
 	}
@@ -288,19 +288,20 @@ class iq extends ctl_base
 	}
 
 	private function mingrenlist(){
+		global $lfrom;
 		$ocache=new Cache();
-		$minLast=$ocache->get('iq_minlast');
+		$minLast=$ocache->get('iq_minlast'.$lfrom);
 		if(getTimestamp() - $minLast<3600) {
-			$testlist=$ocache->get('iq_mingrenlist');
+			$testlist=$ocache->get('iq_mingrenlist'.$lfrom);
 			
 			if( is_array($testlist)) 
 				return $testlist;
 		}
 		$top=10;
 		$testlist=array();
-		
+		if($lfrom) $ll="lfrom='$lfrom' and ";
 		$sql="select l.uid,l.name,l.followers,testCount,iq,useTime,lfrom,l.avatar,l.verified from (select * from ".
-		dbhelper::tname("ppt","user")." where followers>70000 and avatar<>'' order by followers desc limit 0,100) l,". dbhelper::tname("iq","iq") . " iq where l.uid=iq.uid limit 0,10";
+		dbhelper::tname("ppt","user")." where $ll followers>10000 and avatar<>'' order by followers desc limit 0,100) l,". dbhelper::tname("iq","iq") . " iq where l.uid=iq.uid limit 0,10";
 
 		//$sql="select l.uid,l.name,l.followers,testCount,iq,useTime,lfrom,l.avatar,l.verified from ". dbhelper::tname("iq","iq") . " iq  inner join ".
 		//	dbhelper::tname("ppt","user")." l on iq.uid=l.uid where l.followers>80000 and l.avatar<>'' order by l.followers desc  limit 0,$top";
@@ -317,17 +318,19 @@ class iq extends ctl_base
 		}
 //		print_r($testlist);
 
-		$ocache->set('iq_minlast',gettimestamp());	
-		$ocache->set('iq_mingrenlist',$testlist);
+		$ocache->set('iq_minlast'.$lfrom,gettimestamp());	
+		$ocache->set('iq_mingrenlist'.$lfrom,$testlist);
 	
 		return $testlist;
 	}
 
 	private function toplist(){
+		global $lfrom;
+		if($lfrom) $ll="l.lfrom='$lfrom' and ";
 		$top=10;
 		$testlist=array();
 		$sql="select l.uid,l.name,testCount,iq,useTime,lfrom from ". dbhelper::tname("iq","iq") . " iq  inner join ".
-			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where iq>0 AND lasttime > UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  order by iq desc,testCount  limit 0,$top";
+			dbhelper::tname("ppt","login")." l on iq.uid=l.uid where $ll iq>0 AND lasttime > UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  order by iq desc,testCount  limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){
@@ -344,6 +347,8 @@ class iq extends ctl_base
 	}
 
 	public function testlist(){
+		global $lfrom;
+		if($lfrom) $ll="l.lfrom='$lfrom' and ";
 		$top=rq("mo",0);
 		$last=rq("last",0);
 		if($last==0)
@@ -352,7 +357,7 @@ class iq extends ctl_base
 			$top=5;
 
 		$testlist=array();
-		$sql="select iq.id,l.uid,l.name,iq,lasttime,l.lfrom from ". dbhelper::tname("iq","log") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid  where iq.iq>0 and iq.lasttime>{$last} order by iq.lasttime desc limit 0,$top";
+		$sql="select iq.id,l.uid,l.name,iq,lasttime,l.lfrom from ". dbhelper::tname("iq","log") . " iq  inner join ".dbhelper::tname("ppt","login")." l on iq.uid=l.uid  where $ll  iq.iq>0 and iq.lasttime>{$last} order by iq.lasttime desc limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){

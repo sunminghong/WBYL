@@ -1,4 +1,15 @@
 <? if(!defined('ROOT')) exit('Access Denied');?>
+<? if($lfrom=='tqq') { ?>
+
+<div class="bottom" id="footer1">
+	<span>Copy &copy; 2011 看看你有多聪明 版权所有    鄂ICP备10012123号 - Developed By <a href="http://t.qq.com/yihuiso" target="_blank">@孙铭鸿</a>　
+		<a href="http://v.t.qq.com/share/share.php?source=bookmark&title=对@孙铭鸿 (官方微博)说:" target="_blank">意见反馈</a>　
+		<a href="http://www.cnzz.com/stat/website.php?web_id=3050823" target="_blank">cnzz流量统计</a>
+	</span>
+</div>
+<br/><br/>
+<? } else { ?>
+
 <div class="bottom" id="footer1">
 	<span>Copy &copy; 2011 看看你有多聪明 版权所有    鄂ICP备10012123号 - Developed By @孙铭鸿 
 		<a href="http://weibo.com/5d13" target="_blank">5d13</a>　
@@ -18,6 +29,7 @@
 	</div>
 </div>
 
+<? } ?>
 <div id="zhengshupreview" style="display:none;position:absolute;left:100px;top:100px;width:400px;padding:10px 0 15px;text-align:center; background:#fff; border:10px solid #888;" >
 	<img id="zhengshuPic" src="<?=$urlbase?>images/zhengshu_iq_1.png"  style="margin-bottom:10px;"/>
 		<a href="javascript:void(0);" id="btn_send_2"><img src="<?=$templatepath?>/iq_images/btn_tweet.gif"/></a> 
@@ -26,12 +38,13 @@
 <? $coo=intval(mt_rand()*20); ?>
 
 <? if(!NOADS) { ?>
-<? if($coo<15) { ?>
+<? if($coo<10) { ?>
 <script type="text/javascript">
 	$('#ad_800_60').html('<a href="http://ciniao.me/wbapp/?tindex=app.80.index&app=app.80.intr&from=sina" target="_blank" title="我是80后!"><img src="<?=$urlbase?>images/ads/ad_80.gif"  width="800" height="60"/></a>'); </script>
 <? } else { ?>
 <script type="text/javascript">
-	$('#ad_800_60').html('<a href="http://www.265g.com/?from=5d13" target="_blank" title="中国网页游戏第一门户，找网页游戏，就上265G!"><img src="http://img.265g.com/images/gg/265g0525.gif"  width="800" height="60"/></a>'); 
+//	$('#ad_800_60').html('<a href="http://www.265g.com/?from=5d13" target="_blank" title="中国网页游戏第一门户，找网页游戏，就上265G!"><img src="http://img.265g.com/images/gg/265g0525.gif"  width="800" height="60"/></a>'); 
+	$('#ad_800_60').html('<a href="http://faner.sinaapp.com" target="_blank" title="看看我的范儿，秀出你自己！"><img src="<?=$urlbase?>images/ads/ad_faner.gif"  width="800" height="60"/></a>'); 
 </script>
 <? } ?>
 <? } ?>

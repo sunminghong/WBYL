@@ -2,41 +2,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>看看你有多聪明！ -  微博<!--{eval echo strtoupper($app);}-->测试 </title>
-	<link type="text/css" rel="stylesheet" href="{$templatepath}/q_images/main.css" />
+	<link type="text/css" rel="stylesheet" href="{$templatepath}/q_images/main.css?v=1.63" />
 <!--	<link href="http://js.wcdn.cn/t3/style/css/common/card.css" type="text/css" rel="stylesheet" /> -->
-<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
 <script>var app='{$app}';var op="{$op}"; var wbisload=false; var urlbase='{$urlbase}';<!--{if $account}-->var myuid='{$account[uid]}';<!--{else}-->var myuid='';<!--{/if}--></script>
-<script type="text/javascript" src="{$templatepath}/q_images/main.js?v=1.6"></script>
+<script type="text/javascript" src="{$templatepath}/q_images/main.js?v=1.63"></script>
 </head>
 <body>
 {template top}
 	<div class="mainFrame">
-		
-		<!--{if $op=="login"}-->
-		<div class="ui-widget">
+	<div class="ui-widget">
 			
 			<div class="login">
 						<!--{if is_array($account) }-->
 			<img class="zhengshuico icoview" zsurl="{$eqScore[zsurl]}" src="{$urlbase}images/zhengshu_eq_ico_{$eqScore[eqlv]}.png"/>
-<font color="#ff3333">{$account[screen_name]}</font> <img src="{$urlbase}images/weiboicon16_{$account[lfrom]}.png" height=16 /><!--{if $account[verified]==1}--><img src="{$urlbase}images/vip_{$account[lfrom]}.gif" title="认证用户" alt=""><!--{/if}-->, 你共测试{$eqScore[testCount]} 次， 最高<!--{eval echo strtoupper($app);}-->值是 {$eqScore[eq]} , 排名第<b> {$eqScore[top]} </b>, 打败了 <b>{$eqScore[win]}</b>人<!--{if $eqScore[lostname] }-->(包括{$eqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
+<font color="#ff3333">{$account[screen_name]}</font> <img src="{$urlbase}images/weiboicon16_{$account[lfrom]}.png" height=16 /><!--{if $account[verified]==1}--><img src="{$urlbase}images/vip_{$account[lfrom]}.gif" title="认证用户" alt=""><!--{/if}-->, 你共测试{$eqScore[testCount]} 次， 最高<!--{eval echo strtoupper($app);}-->值是 {$eqScore[eq]} , 排名第<b> {$eqScore[top]} </b>, 打败了 <b>{$eqScore[win]}</b>人<!--{if $eqScore[lostname] }-->(包括{$eqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　<a href="?app=home&act=account&op=logout">切换帐号</a>
 <!--{else}-->
-
-	<strong>　　<!--{eval echo strtoupper($app);}-->：</strong>就是常说的情商，与此对应的还有EQ、AQ、XQ...；
-	<strong>微博<!--{eval echo strtoupper($app);}-->测试：</strong>就是常说的情商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！
-		<!--{/if}-->
+<!--{eval global $canLogin;}-->
+			<!--{loop $canLogin $login}-->
+				<a href="?app=home&act=account&op=tologin&lfrom={$login}" border="0"><img height="24" src="{$templatepath}/images/btn_login_{$login}.png" alt="用微博帐号登录" /></a> 
+			<!--{/loop}-->
+<!--{/if}-->
 <br/><br/>
-<a href="?app=eq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_green.gif" alt="我来测试下"/></a>
+
+<!--{if ($app=='eq')}-->
+<a href="?app=eq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_eq.gif" alt="我来测试下EQ"/></a>
+<a href="?app=iq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_iq.gif" alt="我来测试下IQ"/></a>
+<!--{else}-->
+<a href="?app=iq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_iq.gif" alt="我来测试下IQ"/></a>
+<a href="?app=eq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_eq.gif" alt="我来测试下EQ"/></a>
+<!--{/if}-->
 	 <a href="?app=eq&op=stats"><img src="{$templatepath}/q_images/btn_stats.gif" alt="聪明排行榜" ></a>
 			</div>
 			
-			<div class="logo">
-				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/eq_logo.jpg" alt="看看你有多聪明"/></a>
+			<div class="logo" style="position:relative;">
+				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/logo_q.gif" alt="看看你有多聪明LOGO"/></a>
+				<a href="{$orgwbsite}" target="_blank" style="display:block;position:absolute;left:94px;top:50px;"><img src="{$templatepath}/q_images/btn_5d13site_logo.gif" alt="我的一生官方微博孙铭鸿"/></a>
 			</div>
 		</div>
-<div id="div_notice"></div>
-<div id="ad_800_60" style="width:800px;height:60px;"></div>	
+
+<div id="div_notice" style="clear:both;"></div>
+		<!--{if $op=="login"}-->
 		<div class="contentFrame" style="width:260px;float:right;padding:0px;">
 			<div class="ui-widget" style="text-align:center; color:#696a62;padding:0px;">
 				<div style="background:#ceeff6;line-height:27px;height:27px;">
@@ -66,35 +74,14 @@
 			<a href="?app=eq&op=ready"><img src="{$templatepath}/q_images/btn_test_green.gif" alt="我来测试下"/></a>
 
 		<!--{else}-->	
-<!--{eval global $canLogin;}-->
-	<!--{loop $canLogin $login}-->
-		<a href="?act=account&op=tologin&lfrom={$login}" border="0"><img height="24" src="{$templatepath}/images/btn_login_{$login}.png" alt="用微博帐号登录" /></a> 
-	<!--{/loop}-->
-
-<!--{/if}-->
+		<!--{eval global $canLogin;}-->
+			<!--{loop $canLogin $login}-->
+				<a href="?app=home&act=account&op=tologin&lfrom={$login}" border="0"><img height="24" src="{$templatepath}/images/btn_login_{$login}.png" alt="用微博帐号登录" /></a> 
+			<!--{/loop}-->
+		<!--{/if}-->
 		</div>
 
 <!--{elseif $op=="ready"}-->
-
-		<div class="ui-widget">			
-			<div class="login">			
-			<!--{if is_array($account) }-->
-			<img class="zhengshuico icoview" zsurl="{$eqScore[zsurl]}" src="{$urlbase}images/zhengshu_eq_ico_{$eqScore[eqlv]}.png"/>
-<font color="#ff3333">{$account[screen_name]}</font> <img src="{$urlbase}images/weiboicon16_{$account[lfrom]}.png" height=16 /><!--{if $account[verified]==1}--><img src="{$urlbase}images/vip_{$account[lfrom]}.gif" title="认证用户" alt=""><!--{/if}-->, 你共测试{$eqScore[testCount]} 次， 最高<!--{eval echo strtoupper($app);}-->值是 {$eqScore[eq]} , 排名第<b> {$eqScore[top]} </b>, 打败了 <b>{$eqScore[win]}</b>人<!--{if $eqScore[lostname] }-->(包括{$eqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
-<!--{/if}-->
-<br /><br/>
-				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/btn_follow_blue_{$app}.gif" alt="关注官方微博"></a> <a href="?app=eq&op=stats"><img src="{$templatepath}/q_images/btn_stats.gif" alt="聪明排行榜" ></a>
-			</div>
-			
-			<div class="logo">
-				
-			<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/eq_logo.jpg" alt="看看你有多聪明" /></a>
-
-			</div>
-		</div>
-		<br/>
-<div id="div_notice"></div>
-<div id="ad_800_60" style="width:800px;height:60px;"></div>	
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>
@@ -121,32 +108,14 @@
 		<!--{else}-->
 <!--{eval global $canLogin;}-->
 	<!--{loop $canLogin $login}-->
-		<a href="?act=account&op=tologin&lfrom={$login}" border="0"><img height="24" src="{$templatepath}/images/btn_login_{$login}.png" alt="用微博帐号登录" /></a> 
+		<a href="?app=home&act=account&op=tologin&lfrom={$login}" border="0"><img height="24" src="{$templatepath}/images/btn_login_{$login}.png" alt="用微博帐号登录" /></a> 
 	<!--{/loop}-->
 <!--{/if}-->
 
 		</div>
 
 <!--{elseif $op=="stats"}-->
-		<div class="ui-widget">			
-			<div class="login">
-			<!--{if is_array($account) }-->
-			<img class="zhengshuico icoview" zsurl="{$eqScore[zsurl]}" src="{$urlbase}images/zhengshu_eq_ico_{$eqScore[eqlv]}.png"/>
-<font color="#ff3333">{$account[screen_name]}</font> <img src="{$urlbase}images/weiboicon16_{$account[lfrom]}.png" height=16 /><!--{if $account[verified]==1}--><img src="{$urlbase}images/vip_{$account[lfrom]}.gif" title="认证用户" alt=""><!--{/if}-->, 你共测试{$eqScore[testCount]} 次， 最高<!--{eval echo strtoupper($app);}-->值是 {$eqScore[eq]} , 排名第<b> {$eqScore[top]} </b>, 打败了 <b>{$eqScore[win]}</b> 人<!--{if $eqScore[lostname] }-->(包括{$eqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　　　　　　<a href="?act=account&op=logout">退出</a>
-<!--{else}-->
-<br/><br/>	　　　
-<!--{eval global $canLogin;}-->
-	<!--{loop $canLogin $login}-->
-	<a href="?act=account&op=tologin&lfrom={$login}" border="0"><img height="24" src="{$templatepath}/images/btn_login_{$login}.png" alt="用微博帐号登录" /></a> 
-	<!--{/loop}-->
-<!--{/if}-->
-
-			</div>			
-			<div class="logo">
-				<a href="?app=eq" border="0" id="logo" wb_screen_name="孙铭鸿"><img src="{$templatepath}/q_images/eq_logo.jpg" alt="看看你有多聪明" /></a>
-			</div>
-		</div>
-
+<div id="ad_800_60" style="width:800px;height:60px;magin-top:8px;margin-bottom:3px;"></div>		
 <div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div class="welcomeDiv1" id="top_list1" style="text-align:left;">				
@@ -176,8 +145,6 @@
 			</div>
 		</div>
 		<!--{/if}-->
-		<div id="div_notice"></div>
-<div id="ad_800_60" style="width:800px;height:60px;margin-top:5px;"></div>	
 		<div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div>

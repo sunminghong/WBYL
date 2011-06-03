@@ -110,7 +110,7 @@ showtime();
 
 
 function follow(){
-	var url='?act=my&op=follow&fuid=1747738583';
+	var url='?app=home&act=my&op=follow&fuid=1747738583';
 	$.get(url,function(res){
 		$("#div_follow").hide();
 		alert('谢谢你的关注，我们会定期在官网公告“聪明行情”！');

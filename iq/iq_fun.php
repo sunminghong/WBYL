@@ -3,7 +3,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 
 
 	function readIqScore($uid,$nocache=false){
-		if(!$nocache){
+		if(1==0 && !$nocache){
 			$json=sreadcookie('iq_score');		
 			if ($json){
 				$json= authcode($json, 'DECODE', $key = 'abC!@#$%^');
@@ -61,31 +61,32 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			$iqScore['win']=100;
 		}
 		
-		
-		//获取打败的好友的名单
+			
+		if(SENTATNAME) {
+			//获取打败的好友的名单
 
-		$sql="select l.screen_name,l.lfrom,l.lfromuid from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=2 where sns.uid1=".$uid." and iq.iq<".$iqScore['iq']." order by rand() limit 0,3";
-		$rs=dbhelper::getrs($sql);
-		$sss="";
-		while($row=$rs->next()){
-			if($row['lfrom']=='tqq')
-				$sss.="@".$row['lfromuid']." ，";
-			else
-				$sss.="@".$row['screen_name']." ，";
+			$sql="select l.screen_name,l.lfrom,l.lfromuid from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=2 where sns.uid1=".$uid." and iq.iq<".$iqScore['iq']." order by rand() limit 0,3";
+			$rs=dbhelper::getrs($sql);
+			$sss="";
+			while($row=$rs->next()){
+				if($row['lfrom']=='tqq')
+					$sss.="@".$row['lfromuid']." ，";
+				else
+					$sss.="@".$row['screen_name']." ，";
+			}
+
+			$iqScore['lostname']=$sss;
+			
+			global $lfrom;
+			if($lfrom=="tsina") $lf_pre="";
+			else $lf_pre=$lfrom."_";
+			
+			$api=getApi();
+			importlib("ppt_class");
+			$ppt=new ppt();
+			$sss2=$ppt->getMeetSNS($api,2,$uid,3,$iqScore['lostname']);
+			$iqScore['retname']=$sss2;
 		}
-
-		$iqScore['lostname']=$sss;
-		
-		global $lfrom;
-		if($lfrom=="tsina") $lf_pre="";
-		else $lf_pre=$lfrom."_";
-		
-		$api=getApi();
-		importlib("ppt_class");
-		$ppt=new ppt();
-		$sss2=$ppt->getMeetSNS($api,2,$uid,3,$iqScore['lostname']);
-		$iqScore['retname']=$sss2;
-		
 		importlib("zhengshu");
 		$zs=zhengshu::makeIQ(getAccount(),$iqScore);
 		$iqScore=array_merge($iqScore,$zs);

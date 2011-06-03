@@ -1,19 +1,20 @@
 <?php
 if(!defined('ISWBYL')) exit('Access Denied');
 
+include_once('fun_common.php');
 class ilike extends ctl_base
 {
 	function index(){ // 这里是首页
 			//$this->ready();exit;
 		//$account=$this->checkLogin();
 		
-		$this->set("score",$this->_getScore());
+		$this->set("score",_getScore());
 		$this->set("op","index");
 		$this->display("ilike_index");
 	}
 	
 	function getscore() {
-		return $this->_getScore();
+		return _getScore();
 	}
 
 	function next() {
@@ -82,7 +83,7 @@ class ilike extends ctl_base
 		importlib("upload_class");
 		$upload=new upload();
 		$file=$upload->do_upload();
-
+//		$file=$upload->make_thumb($srcfile, $tofile, $toWidth = 100, $toHeight = 100, $stretch = false);
 		//echo 'file='.$file;
 		if(strlen($file)>5) {
 			$upl=$api->upload($wbmsg,$file);
@@ -92,6 +93,8 @@ class ilike extends ctl_base
 				$sql="select p.*,l.sex,l.name,l.lfrom,l.lfromuid,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid  where p.id=$id ";
 				$rs=dbhelper::getrs($sql);
 				if ($row=$rs->next()) {
+
+					$row['avg']= $row['byratecount']?round($row['score'] / $row['byratecount'],2): 0;
 					echo "<script>parent.upload_return({'success':1,curr:" .json_encode($row). "})</script>";
 				}
 				else {
@@ -169,8 +172,8 @@ class ilike extends ctl_base
 		//关注官方的处理
 		global $apiConfig;
 		$byuid=$apiConfig[$account['lfrom']]['orguid'];
-	
-		$ret=$api->follow($byuid); 
+
+		$ret=$api->follow($byuid);
 		echo '1';
 
 	}
@@ -199,22 +202,25 @@ class ilike extends ctl_base
 
 		if($id)  $msg.= URLBASE ."?lfrom=".$account["lfrom"]."&retapp=faner&retuid=".$account['uid']."#{$id}";
 		//echo $msg."picurl=" .$picurl; 
-		echo $wbid . $bylfrom .$account['lfrom'];
+		///echo $wbid . $bylfrom .$account['lfrom'];
+
+		$api=$this->getApi();
+
 		if($bylfrom==$account['lfrom'] && $wbid) {
 			echo '2=repost'.$is_comment;
-			$rel=$this->getApi()->repost($wbid,$msg,$is_comment);
+			$rel=$api->repost($wbid,$msg,$is_comment);
 			echo $rel;
 			if(!$rel) {
-				$this->getApi()->upload($msg,$picurl);				
+				$api->upload($msg,$picurl);				
 			}
 		}
 		elseif (strlen($picurl)>5) {
 			echo '3=upload';
-			$this->getApi()->upload($msg,$picurl);
+			$api->upload($msg,$picurl);
 		}
 		else{
 			echo '4=update';
-			$this->getApi()->update($msg);
+			$api->update($msg);
 		}
 		$sql="update ".dbhelper::tname("ilike","ilike")." set sharecount=sharecount+1,lasttime=$timestamp where uid=".$account['uid'];
 		$sql.=";;;update ".dbhelper::tname("ilike","pics")." set bysharecount=bysharecount+1,lasttime=$timestamp where id='$id'";
@@ -262,19 +268,6 @@ class ilike extends ctl_base
 	}	
 	private function delnewid($id) {
 		dbhelper::execute("delete from ". dbhelper::tname("ilike","pics") ." where id=$id");		
-	}
-
-	private function _getScore() {
-		$account=getAccount();		
-		if(!is_array($account)) 
-			return false;
-
-		$sql="select score,byratecount,ratecount,piccount,ratescore from ".dbhelper::tname("ilike","ilike")." where uid=".$account['uid'];
-		$rs=dbhelper::getrs($sql);
-		if($row=$rs->next()) {
-			return $row;
-		}
-		return false;
 	}
 
 	private function recRate() {

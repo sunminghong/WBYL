@@ -192,7 +192,7 @@ class eq extends ctl_base
 		dbhelper::execute($sql);
 
 		$eqCount=$this->eqCount();
-		$msg="#看看你有多聪明#数据统计：总登录人数 ".$eqCount['totalUser']."，成功测试人数 ".$eqCount[eqs]."人， 有效测试 ".$eqCount[logs]. "次。目前@".$eqCount[maxName]. " 以 ". $eqCount[maxEq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ ";
+		$msg="#看看你有多聪明#EQ测试数据统计：总登录人数 ".$eqCount['totalUser']."，成功测试人数 ".$eqCount[eqs]."人， 有效测试 ".$eqCount[logs]. "次。目前@".$eqCount[maxName]. " 以 ". $eqCount[maxEq]. "分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超过他！ ";
 	
 		$msg .= URLBASE ."eq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=eq";
 		//echo $msg;exit;
@@ -211,14 +211,14 @@ class eq extends ctl_base
 		$score=readEqScore($account['uid'],false); //得了".$score['eq']."分，
 
 		if($score['lostname'])
-			$msg="刚刚玩#看看你有多聪明#，我目前最高 EQ 得分".$score['eq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了".$score['lostname']."哈哈！";
+			$msg="我刚刚玩#看看你有多聪明#，EQ 得分".$score['eq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了".$score['lostname']."哈哈哈哈！";
 		else
-			$msg="刚刚玩#看看你有多聪明#，我目前最高 EQ 得分".$score['eq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了全国 ".$score["win"]. " 的博友! ";
+			$msg="哈哈哈，刚刚玩#看看你有多聪明#，我目前最高 EQ 得分".$score['eq']."，获得 #".$score['chs']."证书#，全国排名第".$score['top']."，打败了全国 ".$score["win"]. " 的博友! ";
 
 		if($score['retname'])
 			$msg.= $score['retname']	. "你们也来试试！";
 		else
-			$msg.= "你们也来试试吧！";
+			$msg.= "";
 
 		$msg .= URLBASE ."eq/?lfrom=".$account["lfrom"]."&retuid=".$account['uid']."&retapp=eq";
 		///echo $score['zsurl'].$msg; exit;
@@ -258,7 +258,7 @@ class eq extends ctl_base
 		$testlist=array();
 		$sql="select l.uid,l.name,eq.testCount,eq.eq,eq.useTime,l.lfrom from ". dbhelper::tname("eq","eq") . " eq  inner join ".dbhelper::tname("ppt","login")." l on eq.uid=l.uid   inner join ".
 			dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and sns.type=1 where sns.uid1=".$uid." order by eq desc,testCount limit 0,10";
-
+echo '<!--'.$sql.'-->';
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){
@@ -275,20 +275,20 @@ class eq extends ctl_base
 	}
 
 	private function mingrenlist(){
+		global $lfrom;
 		$ocache=new Cache();
-		$minLast=$ocache->get('eq_minlast');
+		$minLast=$ocache->get('eq_minlast'.$lfrom);
 		if(getTimestamp() - $minLast<3600) {
-			$testlist=$ocache->get('eq_mingrenlist');			
+			$testlist=$ocache->get('eq_mingrenlist'.$lfrom);			
 			if( is_array($testlist)) 
 				return $testlist;
 		}
 
 		$top=10;
 		$testlist=array();
-
+		if($lfrom) $ll="lfrom='$lfrom' and   ";
 		$sql="select l.uid,l.name,l.followers,testCount,eq,useTime,lfrom,l.avatar,l.verified from (select * from ".
-		dbhelper::tname("ppt","user")." where followers>70000 and avatar<>'' order by followers desc limit 0,100) l,". dbhelper::tname("eq","eq") . " eq where l.uid=eq.uid limit 0,10";
-
+		dbhelper::tname("ppt","user")." where $ll followers>20000 and avatar<>'' order by followers desc limit 0,100) l,". dbhelper::tname("eq","eq") . " eq where l.uid=eq.uid limit 0,10";
 		//$sql="select l.uid,l.name,l.followers,testCount,eq,useTime,lfrom,l.avatar,l.verified from ". dbhelper::tname("eq","eq") . " eq  inner join ".
 		//	dbhelper::tname("ppt","user")." l on eq.uid=l.uid where l.avatar<>'' order by l.followers desc  limit 0,$top";
 
@@ -306,16 +306,18 @@ class eq extends ctl_base
 			$testlist[]=$row;
 		}
 //		print_r($testlist);
-		$ocache->set('eq_minlast',gettimestamp());	
-		$ocache->set('eq_mingrenlist',$testlist);
+		$ocache->set('eq_minlast'.$lfrom,gettimestamp());	
+		$ocache->set('eq_mingrenlist'.$lfrom,$testlist);
 		return $testlist;
 	}
 
 	private function toplist(){
+		global $lfrom;
+		if($lfrom) $ll="l.lfrom='$lfrom' and ";
 		$top=10;
 		$testlist=array();
 		$sql="select l.uid,l.name,testCount,eq,useTime,lfrom from ". dbhelper::tname("eq","eq") . " eq  inner join ".
-			dbhelper::tname("ppt","login")." l on eq.uid=l.uid where eq>0 AND  lasttime > UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ))  order by eq desc,testCount  limit 0,$top";
+			dbhelper::tname("ppt","login")." l on eq.uid=l.uid where $ll eq>0 AND  lasttime > UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ))  order by eq desc,testCount  limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){
@@ -352,6 +354,8 @@ class eq extends ctl_base
 	}
 
 	public function testlist(){
+		global $lfrom;
+		if($lfrom) $ll="l.lfrom='$lfrom' and ";
 		$top=rq("mo",0);
 		$last=rq("last",0);
 		if($last==0)
@@ -360,7 +364,7 @@ class eq extends ctl_base
 			$top=5;
 
 		$testlist=array();
-		$sql="select eq.id,l.uid,l.name,eq,lasttime,l.lfrom from ". dbhelper::tname("eq","log") . " eq  inner join ".dbhelper::tname("ppt","login")." l on eq.uid=l.uid  where eq.eq>0 and eq.lasttime>{$last} order by eq.lasttime desc limit 0,$top";
+		$sql="select eq.id,l.uid,l.name,eq,lasttime,l.lfrom from ". dbhelper::tname("eq","log") . " eq  inner join ".dbhelper::tname("ppt","login")." l on eq.uid=l.uid  where $ll eq.eq>0 and eq.lasttime>{$last} order by eq.lasttime desc limit 0,$top";
 		$rs=dbhelper::getrs($sql);
 		$i=0;
 		while($row=$rs->next()){

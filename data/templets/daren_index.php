@@ -21,7 +21,7 @@
 			<div class="login">
 			<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；
 			<strong>微博IQ测试：</strong>就是常说的智商测试。特别提醒，现在是<font color="#33ff33">beta</font>版，本测试准确度有一定的误差！<br/>
-				<!--<a href="?act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/login.png" alt="用微博帐号登录" /></a><br />-->
+				<!--<a href="?app=home&act=account&op=tologin" border="0"><img src="<?=$templatepath?>/images/login.png" alt="用微博帐号登录" /></a><br />-->
 				<a id="div_follow" href="javascript:follow(0);" wb_screen_name="孙铭鸿"><img src="<?=$templatepath?>/iq_images/btn_follow_blue.gif" alt="关注官方微博" ></a> <a href="?app=iq&op=stats"><img src="<?=$templatepath?>/iq_images/btn_stats.gif" alt="聪明排行榜" ></a>
 			</div>
 			
@@ -58,7 +58,7 @@
 			<a href="?app=daren&op=ready"><img src="<?=$templatepath?>/iq_images/btn_test_green.gif" alt="我来测试下"/></a>
 
 			<? } else { ?>
-			<a href="?act=account&op=tologin" border="0"><img height1="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
+			<a href="?app=home&act=account&op=tologin" border="0"><img height1="24" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
 			<? } ?>
 		</div>
 
@@ -70,9 +70,9 @@
 			<div class="login">
 			<? if(is_array($account) ) { ?>
 			<img class="zhengshuico icoview" zsurl="<?=$iqScore['zsurl']?>" src="<?=$urlbase?>images/zhengshu_iq_ico_<?=$iqScore['iqlv']?>.png"/>
-<font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　　　　　　<a href="?act=account&op=logout">退出</a>
+<font color="#ff3333"><?=$account['screen_name']?></font>, 你共测试<?=$iqScore['testCount']?> 次， 最高IQ值是 <?=$iqScore['iq']?> , 排名第<b> <?=$iqScore['top']?> </b>, 打败了 <b><?=$iqScore['win']?>%</b> 的人<? if($iqScore['lostname'] ) { ?>(包括<?=$iqScore['lostname']?>~_~）<? } ?>加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a>　　　　　　<a href="?app=home&act=account&op=logout">退出</a>
 <? } else { ?>
-<a href="?act=account&op=tologin" border="0"><img height1="37" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
+<a href="?app=home&act=account&op=tologin" border="0"><img height1="37" src="<?=$templatepath?>/images/sign-in-with-sina-32.png" alt="用微博帐号登录" /></a> 
 <? } ?>
 
 			</div>			

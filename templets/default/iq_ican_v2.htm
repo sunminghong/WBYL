@@ -33,7 +33,7 @@ ul.test li a {color:#f00;font-size:12px;line-height:18px;}
 			<div class="login">
 					<!--{if is_array($account) }-->
 						<img class="zhengshuico icoview" zsurl="{$iqScore[zsurl]}" src="{$urlbase}images/zhengshu_iq_ico_{$iqScore[iqlv]}.png"/>
-			<font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}</b>人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?act=account&op=logout">退出</a>-->
+			<font color="#ff3333">{$account[screen_name]}</font>, 你共测试{$iqScore[testCount]} 次， 最高IQ值是 {$iqScore[iq]} , 排名第<b> {$iqScore[top]} </b>, 打败了 <b>{$iqScore[win]}</b>人<!--{if $iqScore[lostname] }-->(包括{$iqScore[lostname]}~_~）<!--{/if}-->，加油！<a href="javascript:void(0);" onclick="if(typeof sendmsg =='function')sendmsg();">记录到微博</a><!--<a href="?app=home&act=account&op=logout">退出</a>-->
 			<!--{else}-->
 
 				<strong>　　IQ：</strong>就是常说的智商，与此对应的还有EQ、AQ、XQ...；

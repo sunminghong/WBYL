@@ -25,7 +25,7 @@ function getshowpic() {
 		if ($id && ($ishistory || $isfirst)) {
 			if($sex!=0) $sex=" and l.sex=$sex ";
 			else $sex='';
-			$sql="select p.*,l.sex,l.name,l.lfrom,l.lfromuid,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid  where p.id=$id ".$sex; echo "/*1=$sql*/";
+			$sql="select p.*,l.sex,l.name,l.lfrom,l.lfromuid,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid  where p.id=$id ".$sex; //echo "/*1=$sql*/";
 			$rs=dbhelper::getrs($sql);
 			if ($row=$rs->next()) {
 				$lastpicid=$row["id"];
@@ -34,6 +34,7 @@ function getshowpic() {
 				if($ishistory) {
 					return json_encode($row);
 				}
+				$row['avg']= $row['byratecount']?round($row['score'] / $row['byratecount'],2): 0;
 				$picarr[]=$row;
 			}else {
 				if($ishistory) {
@@ -61,19 +62,22 @@ function getshowpic() {
 			$top=9;
 
 		$sql="select p.*,l.sex,l.name,l.lfrom,l.lfromuid,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid $swhere and p.byratecount>$lastbyratecount  order by p.byratecount,p.id desc limit 0,$top"; 		//echo "/*1=$sql*/";
-		$rs=dbhelper::getrs($sql); echo "/*2=$sql*/";
+		$rs=dbhelper::getrs($sql); //echo "/*2=$sql*/";
 		$row=$rs->next();
 		$co=0;$looco=0;
 		while ($looco<1 && $co<2) {
 			if(!$row) {
 				$sql="select p.*,l.sex,l.name,l.lfrom,l.lfromuid,l.domain,l.followers,l.followings from ".dbhelper::tname("ilike","pics") . " as p inner join ".dbhelper::tname("ppt","user") . "  as l on p.uid=l.uid $swhere and p.byratecount>=0  order by p.byratecount limit 0,".($top-$co);  //echo "\n/*2=$sql*/\n";
-				$rs=dbhelper::getrs($sql); echo "/*3=$sql*/";
+				$rs=dbhelper::getrs($sql); //echo "/*3=$sql*/";
 				$row=$rs->next();
 				$looco++;
 			}
+			
+			$row['avg']= $row['byratecount']?round($row['score'] / $row['byratecount'],2): 0;
 			$picarr[]=$row;$co++;
 
-			while($row=$rs->next()) {
+			while($row=$rs->next()) {				
+				$row['avg']= $row['byratecount']?round($row['score'] / $row['byratecount'],2): 0;
 				$picarr[]=$row;
 				$co++;
 			}

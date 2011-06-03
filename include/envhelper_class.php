@@ -23,7 +23,7 @@ class envhelper{
 		SESS::delall();
 	}
 	static public function saveAccounts($uid,$userinfo){
-		$json=false;//sreadcookie('sess');
+		$json=sreadcookie('sess');
 		if(!$json) $session=array();
 		else{
 			$json= authcode($json, 'DECODE', $key = 'abC!@#$%^');

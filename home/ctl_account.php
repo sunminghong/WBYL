@@ -7,9 +7,9 @@ class account extends ctl_base
 		$this->display("home_index");
 	}
 
-	function tologin(){		
-		$lfrom=rq("lfrom","tsina");
-		$callbackurl=URLBASE.'?act=account&op=callback&lfrom='.$lfrom.'&fromurl='.urlencode($_SERVER["HTTP_REFERER"]);
+	function tologin(){
+		global $lfrom;
+		$callbackurl=URLBASE.'?app=home&act=account&op=callback&lfrom='.$lfrom.'&fromurl='.urlencode($_SERVER["HTTP_REFERER"]);
 		
 		$api="sdk_".$lfrom."/openapi_class";
 		importlib($api);
@@ -19,10 +19,9 @@ class account extends ctl_base
 	}
 
 	function tologinmini(){
-		$lfrom=rq("lfrom","tsina");
+		global $lfrom;
 		$param=rq('param','');
-		$callbackurl=URLBASE.'?act=account&op=callback&lfrom='.$lfrom.'&fromurl=mini_'.$param;
-				
+		$callbackurl=URLBASE.'?app=home&act=account&op=callback&lfrom='.$lfrom.'&fromurl=mini_'.$param;
 		$api="sdk_".$lfrom."/openapi_class";
 		importlib($api);
 		$api=new openapi();	
@@ -31,8 +30,7 @@ class account extends ctl_base
 	}
 
 	function callback(){
-		global $account;
-		$lfrom=rq("lfrom","tsina");
+		global $account,$lfrom;
 		$tourl=rq("fromurl","");
 
 		$api="sdk_".$lfrom."/openapi_class";		
@@ -48,11 +46,13 @@ class account extends ctl_base
 			$ppt=new ppt();
 			$uid=$ppt->login($uidarr);
 			$uidarr['uid']=$uid;
-
+			if(!$uidarr['avatar']) {
+				$uidarr['avatar']='images/noavatar.gif';
+			}
 			envhelper::saveAccounts(envhelper::packKUID($lfrom,$uidarr['lfromuid']),$uidarr);
 					
 			if(!$tourl)
-				$tourl="?act=my";
+				$tourl=URLBASE;
 			elseif(left($tourl,5)=="mini_") {
 				$param=explode('_',$tourl);
 				$app=$param[1];
