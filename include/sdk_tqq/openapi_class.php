@@ -124,7 +124,11 @@ class openapi extends openapiAbstract{
 			'w' => ''
 		);
 
-		return $this->getClient()->postOne($p);
+		$rel=$this->getClient()->postOne($p);		
+		$rel=$rel['data'];
+
+		$rel=array('wbid'=>$rel['id']);
+		return $rel;
 	}
 
 	public function repost($wbid,$msg,$is_comment=0) {
