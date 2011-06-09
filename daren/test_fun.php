@@ -1,11 +1,11 @@
 <?php
 
-	//取得当前所选考试类型，0 为综合
+	//取得当前所选考试类型，1 为综合
 	function readQtype(){
 		$qtype=rq("qtype",false);
 		if($qtype===false) {
 			$qtype=sreadcookie("daren_qtype");
-			if(!$qtype) $qtype=0;
+			if(!$qtype) $qtype=1;
 		}else {
 			ssetcookie("daren_qtype",intval($qtype));
 		}

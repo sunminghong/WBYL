@@ -1,61 +1,68 @@
 <?php
 if(!defined('ISWBYL')) exit('Access Denied');
 
-	function readIqScore($uid,$nocache=false){
+	function readdarenScore($uid,$qtype=0,$nocache=false){
 		if(!$nocache){
-			$json=sreadcookie('iq_score');		
-			if ($json){
-				$json= authcode($json, 'DECODE', $key = 'abC!@#$%^');
-				$iqScore=unserialize($json);
-				if(is_array($iqScore)) {
-					return $iqScore;
-				}	
+			$darenScore=sreadcookie('daren_score');		
+			if(is_array($darenScore)) {
+				return $darenScore;
+			}	
+		}
+		if(!is_array($darenScore)) 
+				$darenScore=array();
+
+		//总成绩
+		$sql="select wincount,filishcount,testcount,l.uid,l.name from ". dbhelper::tname("daren","daren") ." d inner join ". dbhelper::tname("ppt","login") ." l on d.uid=l.uid where uid=$uid";
+		$rs=dbhelper::getrs($sql);
+		if($row=$rs->next()){
+			$darenScore=$row;
+		}else{	
+			$darenScore["wincount"]=0;
+			$darenScore['filishcount']=0;
+			$darenScore['testcount']=100000;
+		}
+		
+		//今天成绩			
+		$darenScore["todaytotalscore"]=0; 
+		$darenScore['todaytotalusetime']=0;
+
+		$sql="select qtype,max(score * 1000+990-usetime) as score2 from ". dbhelper::tname("daren","log") ." where  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and uid=$uid group by qtype order by score2";
+		$rs=dbhelper::getrs($sql);
+		while($row=$rs->next()){
+			$darenScore["todaytotalscore"] += intval($row['score2']  / 1000);
+			$darenScore['todaytotalusetime'] +=  990-  $row['score2'] % 1000 ;
+		}
+
+		//今日某科考试成绩
+
+		if($qtype) {
+			$darenScore["todayscore".$qtype]=0; 
+			$darenScore['todayusetime'.$qtype]=0;
+	
+			$sql="select max(score * 1000+990-usetime) as score2 from ". dbhelper::tname("daren","log") ." where  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and uid=$uid and qtype=$qtype order by score2";
+			$rs=dbhelper::getrs($sql);
+			while($row=$rs->next()){
+				$darenScore["todayscore".$qtype] = intval($row['score2'] / 1000);
+				$darenScore['todayusetime'.$qtype] =  990-  $row['score2'] % 1000 ;
+			}
+
+			$sql="select (select count(*) from ". dbhelper::tname("daren","log") ." where  qytpe=$qtype and  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and score>" . $darenScore["todayscore".$qtype].") + (select count(*) from ". 
+				dbhelper::tname("daren","log") ." where  qytpe=$qtype and  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and score=". $darenScore["todayscore".$qtype] ." and usetime<".$darenScore['todayusetime'.$qtype] .")  as top ,";
+			$sql.="(select count(*) from ". dbhelper::tname("daren","daren") ." where qytpe=$qtype and  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )) as total ";
+			$rs=dbhelper::getrs($sql);
+			if($row=$rs->next()){
+				$darenScore["todaytop$qtype"]=$row['top'];
+				if(intval($row["todaytotal$qtype"])==0)
+					$darenScore["todaywin$qtype"]=100;
+				else
+					$darenScore["todaywin$qtype"]=(1- $row["todaytop$qtype"]/$row["todaytotal$qtype"])*100;
+
+			}else{
+				$darenScore["todaytop$qtype"]=1;
+				$darenScore["todaywin$qtype"]=100;
 			}
 		}
 
-		$iqScore=array();
-		$sql="select testCount,iq,useTime from ". dbhelper::tname("iq","iq") ." where uid=$uid";
-		$rs=dbhelper::getrs($sql);
-		if($row=$rs->next()){
-			$iqScore["iq"]=$row['iq'];
-			$iqScore['testCount']=$row['testCount'];
-			$iqScore['useTime']=$row['useTime'];
-
-		}else{	
-			$iqScore["iq"]=0;
-			$iqScore['testCount']=0;
-			$iqScore['useTime']=100000;
-		}
-
-		$iqv=$iqScore['iq']*1;
-		$iqlv=0;
-		$iqScore['chs']=iqtoch($iqv,&$iqlv);
-		$iqScore['iqlv']=$iqlv;
-
-		$sql="select (select count(*) from ". dbhelper::tname("iq","iq") ." where iq>" . $iqScore['iq'].") + (select count(*) from ". 
-			dbhelper::tname("iq","iq") ." where iq=". $iqScore['iq'] ." and testCount<".$iqScore['testCount'] .")  as top ,";
-		$sql.="(select count(*) from ". dbhelper::tname("iq","iq") .") as total ";
-		$rs=dbhelper::getrs($sql);
-		if($row=$rs->next()){
-			$iqScore["top"]=$row['top'];
-			if(intval($row['total'])==0)
-				$iqScore['win']=100;
-			else
-				$iqScore['win']=(1- $row['top']/$row['total'])*100;
-
-		}else{
-			$iqScore["top"]=1;
-			$iqScore['win']=100;
-		}
-		
-		//获取打败的好友的名单
-		$sql="select l.screen_name from ". dbhelper::tname("iq","iq") . " iq  inner join ".dbhelper::tname("ppt","user")." l on iq.uid=l.uid   inner join ".dbhelper::tname("ppt","user_sns")." sns on sns.uid2=l.uid and type=2 where sns.uid1=".$uid." and iq.iq<".$iqScore['iq']." order by rand() limit 0,3";
-		$rs=dbhelper::getrs($sql);
-		$sss="";
-		while($row=$rs->next()){
-			$sss.="@".$row['screen_name']." ，";
-		}
-		$iqScore['lostname']=$sss;
 		//获取邀请人名单
 		$sql="select l.screen_name from ".dbhelper::tname("ppt","userlib")." l  inner join ".dbhelper::tname("ppt","userlib_sns")." sns on sns.uid2=l.id and type=2 where sns.uid1=".$uid." order by rand() limit 0,6";
 		$rs=dbhelper::getrs($sql);
@@ -67,43 +74,14 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			}
 		}
 
-		$iqScore['retname']=$sss2;
+		$darenScore['retname']=$sss2;
 		
-		importlib("zhengshu");
-		$zs=zhengshu::makeIQ(getAccount(),$iqScore);
-		$iqScore=array_merge($iqScore,$zs);
+		//importlib("zhengshu");
+		//$zs=zhengshu::makeIQ(getAccount(),$darenScore);
+		//$darenScore=array_merge($darenScore,$zs);
 
-		$json=serialize($iqScore);
-
-		$json= authcode($json, 'ENCODE', $key = 'abC!@#$%^');
-		ssetcookie('iq_score', $json,3600*24*100);
-		return $iqScore;
-	}
-
-	 function iqtoch($iqv,&$iqlv){
-		$iqv=$iqv*1;
-		$iqlv=0;
-		if($iqv<90)
-			$iqlv=0;
-		elseif($iqv>=150)
-			$iqlv=6;
-		else{
-			$iqlv=intval( ($iqv - 90) /10 ) +1;
-		}
-		$chs=array("文曲星转世","旷世奇才","颖慧绝伦","聪明过人","波澜不兴","呆头呆脑","愚不可及");
-		return $chs[6-$iqlv];
-	}
-	 function getWords($iqv){
-		$words=array(
-		"你与牛顿的区别，目前仅仅在于你还没被苹果砸到，建议你尽快蹲守苹果树下吧！",
-		"左手画方右手画圆的你聪明绝顶，于是获赠一个专属称号——光明顶！",
-		"21世纪最重要的竞争，其实不是人才的竞争，而是指你的竞争！",
-		"茫茫人海芸芸众生，把你的聪明放在人群之中，神都找不到你了，你懂的！",
-		"我知道你很努力，但是巧妇难为无米之炊，这不是你的错！",
-		"你很能吃苦，你做到了前面的80%！但是上帝是公平的，嘴巴和大脑只能选择其一。",
-		"经权威机构认证，在你睡着的时候，会比醒来的时候聪明得多！");
-
-		return $words[6-$iqv];
+		ssetcookie('daren_score', $darenScore,3600*24*100);
+		return $darenScore;
 	}
 
 ?>

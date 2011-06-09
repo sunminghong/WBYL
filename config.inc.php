@@ -24,23 +24,6 @@ $apiConfig=array(
 		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
 	)
 );
-//我就喜欢
-$apiConfig=array(
-	"tsina"=>array(
-		"name"=>'新浪微博',
-		"orguid" => '1747738583', //官方微博帐号
-		"domain_format" => 'http://weibo.com/{domain}',
-		"access_key" =>'517732164',
-		"screct_key"=>'42c11fb1beed4ea012177b28a7fd32fa'
-	),
-	"tqq"=>array(
-		"name"=>'腾讯微博',
-		"orguid" => 'yihuiso', //官方微博帐号
-		"domain_format" => 'http://t.qq.com/{domain}',
-		"access_key" =>'a6f5c8564ebe436b960bac23f3f7a7ba',
-		"screct_key"=>'17febd405a3753268cfdf539c935f8f8'
-	)
-);
 
 //火不火，给你看看
 $apiConfig=array(
@@ -61,6 +44,23 @@ $apiConfig=array(
 );
 
 
+//我就喜欢
+$apiConfig=array(
+	"tsina"=>array(
+		"name"=>'新浪微博',
+		"orguid" => '1747738583', //官方微博帐号
+		"domain_format" => 'http://weibo.com/{domain}',
+		"access_key" =>'517732164',
+		"screct_key"=>'42c11fb1beed4ea012177b28a7fd32fa'
+	),
+	"tqq"=>array(
+		"name"=>'腾讯微博',
+		"orguid" => 'yihuiso', //官方微博帐号
+		"domain_format" => 'http://t.qq.com/{domain}',
+		"access_key" =>'a6f5c8564ebe436b960bac23f3f7a7ba',
+		"screct_key"=>'17febd405a3753268cfdf539c935f8f8'
+	)
+);
 
 if(!ISSAE){
 	$DBCONFIG=array(

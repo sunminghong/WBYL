@@ -1,5 +1,5 @@
 <?php
-	$defapp="ilike";
+	$defapp="daren";
 if((!isset($_GET["app"]) || !$_GET['app']) && (!isset($_GET["act"]) || !$_GET["act"])){
 
 	//$tourl="?app=ilike";

@@ -9,7 +9,13 @@ var idx=0;
 
 function init() {//return;
 	$('#mask').show();
-	$('#div_test').show();
+	var w=$('#div_test').width();
+	var h=$('#div_test').height();
+	var l=(ww-w)/2;
+	var t=(hh-h)/2;
+	t=t>0?t:110;
+	t+=$(window).scrollTop();
+	$('#div_test').css('left',l).css('top',t).show();
 	isinit=true;
 	pr1.start({val:0,maxval:MAXTIME,timeout:400,step:4});	
 
@@ -32,7 +38,10 @@ function next(de,an){
 
 	var url="?app=daren&act=daren&op="+de+'&an='+an+'&t='+Math.random();
 	$.get(url,function(res){
-
+		if(res==-1) {
+			alert('请先登录哟！');
+			return;
+		}
 		eval("var json="+res);
 		clockStart=new Date().getTime();
 		usetime2=json[0]*1; 
@@ -89,37 +98,47 @@ var lastScoreWidth=0;
 var divScoreLeft=0;
 var divScoreTop=0;
 
-function addScore(lastScore,score) {	if(isinit) {isinit=false; return; }
+function addScore(lastScore,score,obj) {	if(isinit) {isinit=false; return; }
 	if(idx<=0) return;
-	poff=$("#div_icos b:eq("+(idx-1)+")").offset();
-	divScoreLeft=poff.left;
-	divScoreTop=poff.top+4; 
+	var oo=$('.timeline').position();
+	var o=$("#div_icos").position();
+	var poff=$("#div_icos b:eq("+(idx-1)+")");
+	var po=poff.position();
+	divScoreLeft=po.left+o.left+oo.left;
+	divScoreTop=po.top+4+o.top+oo.top; 
 
-alert(lastScoreLeft);
+	var oldmain=obj || $('#test_main');
+	var lastScoreLeft=oldmain.position().left;
+	var lastScoreTop=oldmain.position().top;
+	//alert(lastScoreLeft+'/'+lastScoreTop+'==>'+divScoreLeft+'/'+divScoreTop);
+	var ooo=oldmain.clone().css("position","absolute").css("border","1px solid #666")
+		.css("background-color","#CEEFF6")
+		.css({left:lastScoreLeft,top:lastScoreTop}).insertAfter(oldmain);
+	//$('body').append(ooo);
 
-	var oldmain=$('#test_main');
-	var ooo=oldmain.clone().css("position","absolute").css("border","1px solid #666").css("background-color","#CEEFF6").css({left:lastScoreLeft,top:lastScoreTop}).insertAfter(oldmain);
 	oldmain.hide();
 	ooo.animate({
-    opacity: 0.2,
-    left: divScoreLeft,
-	top:divScoreTop,
-    height: 'toggle',
-	lineHeight:'0',
-	fontSize:'0',
-	width:'toggle'
+		opacity: 0.2,
+		left: divScoreLeft,
+		top:divScoreTop,
+		height: 'toggle',
+		lineHeight:'0',
+		fontSize:'0',
+		width:'toggle'
   }, 400, function() {
 		ooo.remove();
-		$("#div_score").html(score);
-		if(score>0) 
+		$("#div_score").html(lastScore);
+		if(lastScore>0) 
 			poff.addClass('ico_right');
 		else
 			poff.addClass('ico_wrong');
 		
   });
-
 }
 
+
+var ww=0;
+var hh=0;
 
 $(document).ready(function(){	
 	pr1=new Progress({rand:'',conid:'progress',left:240,top:400,titclass:'',fn:function(){
@@ -127,26 +146,15 @@ $(document).ready(function(){
 		subm(-1);
 	}});
 	
-	poff=$("#test_main").offset();
-	lastScoreLeft=poff.left;
-	lastScoreTop=poff.top;
-	lastScoreWidth=$("#test_main").width();
-	
-/*	
-	$("#test_main td").find("div").hover(function(){
-		if(isLoading) return;
-		$(this).removeClass("answer-box").addClass("answer-box-green");
-	},function(){
-		if(isLoading) return;
-		$(this).addClass("answer-box").removeClass("answer-box-green");
-	}).
-*/
+	ww=$(window).width();
+	hh=$(window).height();
 
+	
 	$('#div_answer').find('.answer').live('click',function(){
 		if(isLoading) return;
 		isLoading=true;
 		//$(this).removeClass("answer-box").addClass("answer-box-green");
-		var idx2=$(this).attr("id").replace("answer","")*1-1;
+		var idx2=$(this).find('span').attr("id").replace("answer","")*1-1;
 
 		next('next',idx2);
 	});
@@ -154,7 +162,7 @@ $(document).ready(function(){
 	$('#btn_starttest').click(function() {
 		init();
 	});
-	init();
+	//init();
 	$('#mask').css({'width':$(document).width(),'height':$(document).height()});
 });
 

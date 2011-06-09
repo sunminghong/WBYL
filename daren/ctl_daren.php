@@ -18,8 +18,8 @@ class daren extends ctl_base
 	function index() {
 		$account=getAccount();		
 		if($account){
-			//$iqScore=readIqScore($account["uid"],false);
-			//$this->assign("iqScore",$iqScore);
+			//$darenScore=readdarenScore($account["uid"],false);
+			//$this->assign("darenScore",$darenScore);
 		}
 		//$this->set('mingrenlist',$this->mingrenlist());
 		$qtype=readqtype();
@@ -34,13 +34,13 @@ class daren extends ctl_base
 //		ssetcookie('daren_question',"");
 		ssetcookie('daren_starttime','');
 		ssetcookie('daren_usetime','');
-		ssetcookie("daren_iqvalue","");
+		ssetcookie("daren_darenvalue","");
 		ssetcookie("daren_ans","");
 
 		$account=$this->checkLogin();
 
-		$iqScore=readIqScore($account["uid"],false);
-		$this->assign("iqScore",$iqScore);
+		$darenScore=readdarenScore($account["uid"],false);
+		$this->assign("darenScore",$darenScore);
 		$this->set("op","ready");
 
 		$qtype=readqtype();
@@ -102,11 +102,11 @@ class daren extends ctl_base
 		$account=getAccount();
 		if(!$account){
 			$this->set("op","login");
-			$this->display("iq_index");
+			$this->display("daren_index");
 			return;
 		}
 		$useTime=('0'.sreadcookie('daren_usetime'))*1;
-		$iqvalue=('0'.sreadcookie('daren_iqvalue'))*1;
+		$darenvalue=('0'.sreadcookie('daren_darenvalue'))*1;
 		if($useTime==0){
 			$useTime=gettimestamp() - sreadcookie("daren_starttime") * 1;
 			ssetcookie('daren_usetime',$useTime);
@@ -115,38 +115,48 @@ class daren extends ctl_base
 			
 			$raarr=saveAndReadAnswerToCookie(true);
 			$ans=computeScore($raarr);
-			//print_r($ans);
-			$iqvalue=$ans[0];
+			$darenvalue=$ans[0];
+			$rightcount=0;
+			foreach($ans[1] as $aan) {
+				if($aan[2] > 0 ) {
+					$rightcount++;
+				}
+			}
 
-			ssetcookie("daren_ans",$ans[1]);
-			ssetcookie("daren_iqvalue",$iqvalue);
-			$this->savedaren($iqvalue,$useTime);
+			//ssetcookie("daren_ans",$ans[1]);
+			ssetcookie('daren_rightcount',$rightcount);
+			ssetcookie("daren_darenvalue",$darenvalue);
+			$this->savedaren($darenvalue,$useTime);
 			$this->clearQuestion();
 			saveAndReadAnswerToCookie(0); //清空答题记录
 		}
-
-		$score=readIqScore($account["uid"],true);
-		$score["words"] = getWords($score['iqlv']);
+		
+		$qtype=readqtype();
+		$rightcount=sreadcookie('daren_rightcount');
+		$score=readdarenScore($account["uid"],$qtype,true);
 		$score["newusetime"] = $useTime;
-
-		$score['nowiq']=$iqvalue;
-		//echo json_encode($score);
+		$score['rightcount'] =$rightcount;
+		$score['nowdaren']=$darenvalue;
 
 		ssetcookie('quest_idx',"");
-		/////ssetcookie('daren_question',"");
 		ssetcookie('daren_starttime','');
 		ssetcookie('daren_starttime2','');
 /*		ssetcookie('daren_usetime',$useTime);
 		ssetcookie('daren_usetime2',$useTime);
 */
-		$this->set('daren_ans',$ans);
+//echo $qtype;
+//print_r($score);
+
 		$this->set("score",$score);
 		$this->set("op","showscore");
 
-		$qtype=readqtype();
 		$this->set("qtype",$qtype);
-		$this->set("qtypelist",readqtypelist());
-		$this->display("daren_ican");
+		if($qtype==1) $this->set('qtypename','综合类');
+		else {
+			$qa=readqtypelist();
+			$this->set("qtypename",$qa[$qtype]);
+		}
+		$this->display("daren_result");
 
 		exit;
 	}
@@ -155,7 +165,7 @@ class daren extends ctl_base
 		global $question,$qtypes;
 		$qtype=readqtype();
 		$qtypearr=readqtypelist();
-		if($qtype==0) {
+		if($qtype==1) {
 			$qtypes=array(1=>"百科知识","文史政治","科技与科学");
 		}else {
 			$qtypes=array(1=>$qtypearr[$qtype]);
@@ -190,7 +200,7 @@ class daren extends ctl_base
 			$isDaylog=true;
 		}
 		else {			
-			if($qtype==0) {
+			if($qtype==1) {
 				$sql="select * from (select * from ". dbhelper::tname("daren","tmb") ."  where qtype=0 order by rand() limit 0,4 ) a
 				union select * from (select * from ". dbhelper::tname("daren","tmb") ."  where qtype=1 order by rand() limit 0,3 ) b
 				union select * from (select * from ". dbhelper::tname("daren","tmb") ."  where qtype=2 order by rand() limit 0,6 ) c";
@@ -205,7 +215,7 @@ class daren extends ctl_base
 		$sp="";		$i=0; $timestamp=gettimestamp();
 
 		while($i<10 && $row=$rs->next()) {
-			if($qtype==0) $kindid=$row['qtype']+1;
+			if($qtype==1) $kindid=$row['qtype']+1;
 			else  $kindid=$row['kindid']+1;
 					
 			$zqda=$row['tmzqda'];
@@ -243,14 +253,14 @@ class daren extends ctl_base
 		//echo "question=";print_r($question);exit;
 	}
 
-	//清空试卷，如果是固定的试卷如IQ测试，则此函数为空值
+	//清空试卷，如果是固定的试卷如daren测试，则此函数为空值
 	private function clearQuestion(){
 		ssetcookie('quest_idx',"");
 		//ssetcookie('daren_question',"");
 	}
 
 
-	private function savedaren($iqvalue,$useTime){
+	private function savedaren($darenvalue,$useTime){
 		global $timestamp;
 		$account=getAccount();
 		$qtype=readqtype();
@@ -263,7 +273,7 @@ class daren extends ctl_base
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$last=$row['lasttime'];
-			if($iqvalue == -1 ){
+			if($darenvalue == -1 ){
 				$testCount=1;
 				$filish=0;
 			}
@@ -273,7 +283,7 @@ class daren extends ctl_base
 			}
 
 			$wins=0;
-			if($iqvalue==FULLMINUTE) {
+			if($darenvalue==FULLMINUTE) {
 				$sql="select id from ". dbhelper::tname("daren","log") ." where  uid=" . $account["uid"]." and qtype=$qtype and score>=".FULLMINUTE." and  ( lasttime > UNIX_TIMESTAMP(FROM_DAYS(TO_DAYS(now())) ) limit 0,1";
 				$rs=dbhelper::getrs($sql);
 				if($row=$rs->next()){
@@ -285,18 +295,18 @@ class daren extends ctl_base
 			$sql="update ". dbhelper::tname("daren","win") ." set  testCount=testCount+$testCount,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  qtype=$qtype and uid=" . $account["uid"];
 			$sql .=";;;update ". dbhelper::tname("daren","daren") ." set  testCount=testCount+$testCount,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  uid=" . $account["uid"];
 			
-			if(SAVELOG && $iqvalue > -1 ) {
-				$sql .=";;;update ". dbhelper::tname("daren","log") ." set score=". $iqvalue. ",useTime=".$useTime.",$sqlu
+			if(SAVELOG && $darenvalue > -1 ) {
+				$sql .=";;;update ". dbhelper::tname("daren","log") ." set score=". $darenvalue. ",useTime=".$useTime.",$sqlu
 				where uid=".$account['uid']." and lasttime=".$last;
 			}
 			else{
-				$sql .=";;;insert into ". dbhelper::tname("daren","log") ." set qtype=$qtype,score=". $iqvalue. ",$sqlu,uid=" . $account['uid'];
+				$sql .=";;;insert into ". dbhelper::tname("daren","log") ." set qtype=$qtype,score=". $darenvalue. ",$sqlu,uid=" . $account['uid'];
 			}
 		}
 		else{
 			$sql ="insert into ". dbhelper::tname("daren","win") ." set qtype=$qtype,testCount=1,regtime=$timestamp,lasttime=$timestamp,uid=" . $account['uid'];
 			$sql .=";;;insert into ". dbhelper::tname("daren","daren") ." set testCount=1,regtime=$timestamp,lasttime=$timestamp,uid=" . $account['uid'];
-			$sql .=";;;insert into ". dbhelper::tname("daren","log") ." set qtype=$qtype,score=". $iqvalue. ",useTime=".$useTime.",$sqlu,uid=" . $account['uid'];
+			$sql .=";;;insert into ". dbhelper::tname("daren","log") ." set qtype=$qtype,score=". $darenvalue. ",useTime=".$useTime.",$sqlu,uid=" . $account['uid'];
 
 		}
 //echo $sql;//exit;
@@ -347,8 +357,16 @@ class daren extends ctl_base
 		}
 		$sql="delete from ". dbhelper::tname("daren","win_top") ." where winday=$day";
 		$sql .=";;;insert into ". dbhelper::tname("daren","win_top") ." (qtype,winday,uid,no,score,usetime,regtime,lasttime) ";
-		$sql .="select log.qtype,$day,log.uid,0,log.score,log.usetime,$timestamp,log.lasttime from ". dbhelper::tname("daren","tmp_daysort") ." top ,  ". dbhelper::tname("daren","log") ." log where log.qtype=top.qtype and log.uid=top.uid and log.score=top.score div 1000 and log.usetime=990-top.score % 1000 " ;
+		$sql .="select log.qtype,$day,log.uid,0,log.score,log.usetime,$timestamp,log.lasttime from ". dbhelper::tname("daren","tmp_daysort") ." top ,  ". dbhelper::tname("daren","log") ." log where log.qtype=top.qtype and log.uid=top.uid and log.score=top.score div 1000 and log.usetime=990-top.score % 1000 " ;		
 		//echo $sql;
+		dbhelper::exesqls($sql);
+		$sql="select uid,qtype from ". dbhelper::tname("daren","win_top") ." where winday=$day";
+		$rs=dbhelper::getrs($sql);
+		$sql="";
+		while($row=$rs->next()) {
+			$sql.="update ". dbhelper::tname("daren","win") ."  set topcount=topcount+1,lasttime=$timestamp where qtype=".$row['qtype']." and uid =".$row['uid'].";;;";
+			$sql.="update ". dbhelper::tname("daren","daren") ."  set topcount=topcount+1,lasttime=$timestamp where uid =".$row['uid'].";;;";
+		}
 		dbhelper::exesqls($sql);
 
 		$cache=new CACHE();
