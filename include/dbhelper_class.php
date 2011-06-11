@@ -122,16 +122,23 @@ class dbhelper {
 	 * @access public
 	 */	
 	static function getrs($sql){
-		$conn=null;
-		if(preg_match("/replace|insert|update|delete/i",$sql)){
-			$conn=self::getConnM();
-		}else {
-			$conn=self::getConnS();
-		}
+		$conn=self::getConnS();
 
 		return new recordset($sql,$conn);
 	}
 	
+	static function getrows($sql) {
+		$conn=self::getConnS();
+		$res=mysql_query($sql,$conn);
+		if (!$res)return false;
+
+		$arrs=array();
+		while($arr=mysql_fetch_array($res, MYSQL_ASSOC)) {
+			$arrs[]=$arr;
+		}
+		return $arrs;
+	}
+
 	/**
 	 * 执行SQL语句并返回第一行第一列的值
 	 * @param string $sql sql语句

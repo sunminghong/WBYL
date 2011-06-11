@@ -10,9 +10,6 @@ var isinit=false;
 var idx=0;
 var isfollow=false;
 
-var canAddScore=false;
-var lastScore=0;
-
 var qtype=1,qtypename="综合类";
 
 function init(iscontinue) {//return;
@@ -48,7 +45,6 @@ function next(de,an){
 		subm(an);
 		return;
 	}
-	addScore(0,0);
 
 	var url="?app=daren&act=daren&op="+de+'&an='+an+'&t='+Math.random();
 	$.get(url,function(res){
@@ -65,23 +61,10 @@ function next(de,an){
 
 		var co=json[2].split("/")[0]*1;
 		var lidx=json[2].split("/")[1]*1;
-		lastScore=json[3];
+		var lastScore=json[3];
 		var score=json[4];
-		//addScore(lastScore,score);
-		//$("#div_score").html(lastScore);
-		
-		if(idx>0) {
-			if(canAddScore) {
-				var poff=$("#div_icos b:eq("+(idx-1)+")");
-				if(lastScore>0) 
-					poff.addClass('ico_right');
-				else
-					poff.addClass('ico_wrong');
-			}else {
-				idx++;
-				canAddScore=true;
-			}
-		}
+		addScore(lastScore,score);
+
 		var jl=json.length;
 
 		for(i=5;i<jl;i++){
@@ -171,7 +154,7 @@ var lastScoreWidth=0;
 var divScoreLeft=0;
 var divScoreTop=0;
 
-function addScore(lastScore2,score,obj) {	if(isinit) {isinit=false; return; }
+function addScore(lastScore,score,obj) {	if(isinit) {isinit=false; return; }
 	if(idx<=0) return;
 	var oo=$('.timeline').position();
 	var o=$("#div_icos").position();
@@ -200,17 +183,12 @@ function addScore(lastScore2,score,obj) {	if(isinit) {isinit=false; return; }
 		width:'toggle'
   }, 400, function() {
 		ooo.remove();
-				
-		if(canAddScore) {
-			var poff=$("#div_icos b:eq("+(idx-2)+")");
-			if(lastScore>0) 
-				poff.addClass('ico_right');
-			else
-				poff.addClass('ico_wrong');
-			canAddScore=false;
-		}else {
-			canAddScore=true;
-		}
+		$("#div_score").html(lastScore);
+		if(lastScore>0) 
+			poff.addClass('ico_right');
+		else
+			poff.addClass('ico_wrong');
+		
   });
 }
 

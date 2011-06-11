@@ -1,7 +1,6 @@
 <?php
 if(!defined('ISWBYL')) exit('Access Denied');
 
-$qtypes=array(1=>"百科知识","文史政治","科技与科学");
 $question=array();
 $question[0]="";
 
@@ -21,15 +20,19 @@ class daren extends ctl_base
 			//$darenScore=readdarenScore($account["uid"],false);
 			//$this->assign("darenScore",$darenScore);
 		}
-		//$this->set('mingrenlist',$this->mingrenlist());
-		$qtype=readqtype();
-		$this->set("qtype",$qtype);
-		$this->set("qtypelist",readqtypelist());
+
+		$uid=0;
+
+		$score=readdarenScore($uid,0,false);
+		$this->set("score",$score);
+		$this->set('todaytoplist',_gettodaytop());
+		$this->set('testlist',_gettestlist());
+
 		$this->set("op","login");
 		$this->display("daren_index");
 	}
 
-	function ready(){
+	function ican(){
 		ssetcookie('quest_idx',"");
 //		ssetcookie('daren_question',"");
 		ssetcookie('daren_starttime','');
@@ -39,25 +42,15 @@ class daren extends ctl_base
 
 		$account=$this->checkLogin();
 
-		$darenScore=readdarenScore($account["uid"],false);
-		$this->assign("darenScore",$darenScore);
 		$this->set("op","ready");
 
-		$qtype=readqtype();
-		$this->set("qtype",$qtype);
-		$this->set("qtypelist",readqtypelist());
+		$score=readdarenScore($account["uid"],0,false);
+
+		$this->set("score",$score);
+
+		$this->set('todaytoplist',_gettodaytop());
+		$this->set('testlist',_gettestlist());
 		$this->display("daren_ican");
-	}
-
-	function ican(){
-		//$account=$this->checkLogin();
-		
-
-		$this->set("op","ican");
-		$qtype=readqtype();
-		$this->set("qtype",$qtype);
-		$this->set("qtypelist",readqtypelist());
-		$this->display("daren_ican");		
 	}
 
 	function init(){
@@ -138,6 +131,14 @@ class daren extends ctl_base
 		$score['rightcount'] =$rightcount;
 		$score['nowdaren']=$darenvalue;
 
+		if($darenvalue<=10) $score['naotou']='yundao';
+		elseif ($darenvalue<40) $score['naotou']='shengqi';
+		elseif ($darenvalue<60) $score['naotou']='yanshu';
+		elseif ($darenvalue<80) $score['naotou']='weixiao';
+		elseif ($darenvalue<90) $score['naotou']='daxiao';
+		elseif ($darenvalue<95) $score['naotou']='jinya';
+		else $score['naotou']='gaoao';
+
 		ssetcookie('quest_idx',"");
 		ssetcookie('daren_starttime','');
 		ssetcookie('daren_starttime2','');
@@ -154,28 +155,87 @@ class daren extends ctl_base
 		if($qtype==1) $this->set('qtypename','综合类');
 		else {
 			$qa=readqtypelist();
-			$this->set("qtypename",$qa[$qtype]);
+			$this->set("qtypename",$qa[$qtype][0]);
 		}
-		$this->display("daren_result");
 
-		exit;
+		$this->set('todaytoplist',_gettodaytop());
+		$this->set('testlist',_gettestlist());
+		$this->display("daren_result");
 	}
+
+	public function follow() {
+		global $timestamp;
+		$account=getAccount();
+		if(!is_array($account)){
+			echo '-1';return;
+		}
+		$api=$this->getApi();
+
+		$byuid=rf('byuid',''); 
+		if($byuid) {
+			$id=rf("id",'0');
+			$bylfrom=rf('bylfrom','');
+			$bylfromuid=rf('bylfromuid','');
+
+			if($bylfrom==$account['lfrom']) {
+				$ret=$api->follow($bylfromuid);			
+				echo "1";
+			}else {
+				echo "-2";
+			}
+			return ;
+		}
+
+		//关注官方的处理
+		global $apiConfig;
+		$byuid=$apiConfig[$account['lfrom']]['orguid'];
+
+		$ret=$api->follow($byuid);
+		echo '1';
+
+	}
+	public function sendstatus(){
+		global $timestamp;
+		$account=getAccount();
+		if(!is_array($account)){
+			echo '-1';exit;
+		}
+
+		$msg=rf("msg","");	
+		$is_follow=rf('is_follow','0');
+
+		if(!$msg) {
+			$msg="咱啥也不说了，上图！想看看更多图，请#看看我的范儿#。";
+		}
+
+		$msg.= URLBASE ."?lfrom=".$account["lfrom"]."&retuid=".$account['uid'];
+		//echo $msg."picurl=" .$picurl; 
+		///echo $wbid . $bylfrom .$account['lfrom'];
+
+		$api=$this->getApi();
+echo 'upload'.$msg;
+//		$api->upload($msg,$picurl);		
+	
+		if($is_follow) {
+			global $apiConfig;
+			$byuid=$apiConfig[$account['lfrom']]['orguid'];
+
+			$ret=$api->follow($byuid);
+		}
+		echo "1";
+	}
+
 	
 	private function readQuestion() {
-		global $question,$qtypes;
+		global $question;
 		$qtype=readqtype();
 		$qtypearr=readqtypelist();
-		if($qtype==1) {
-			$qtypes=array(1=>"百科知识","文史政治","科技与科学");
-		}else {
-			$qtypes=array(1=>$qtypearr[$qtype]);
-		}
 		
 		$timestamp=gettimestamp();
 
 		$cache=new CACHE();		
 		$question=$cache->get("daren_question_".$qtype); 
-		if(is_array($question) && 1==1) {
+		if(1==1 && is_array($question)) {
 			$questionovertime=$cache->get("daren_question_time_".$qtype);
 			
 			if(dateDiff("d",$questionovertime , $timestamp)==0) {
@@ -204,9 +264,12 @@ class daren extends ctl_base
 				$sql="select * from (select * from ". dbhelper::tname("daren","tmb") ."  where qtype=0 order by rand() limit 0,4 ) a
 				union select * from (select * from ". dbhelper::tname("daren","tmb") ."  where qtype=1 order by rand() limit 0,3 ) b
 				union select * from (select * from ". dbhelper::tname("daren","tmb") ."  where qtype=2 order by rand() limit 0,6 ) c";
-			}else {
-				$sql=" select * from ". dbhelper::tname("daren","tmb") ."  where kindid=".$qtype." order by rand() limit 0,15";
-				$qtypes=array(1=>$qtype[1]);
+			}else {//echo $qtype;print_r($qtypearr);print_r( $qtypearr[$qtype]);
+				if(strpos($qtypearr[$qtype][1],',')>-1)
+					$sql=" select * from ". dbhelper::tname("daren","tmb") ."  where kindid in (".$qtypearr[$qtype][1].") order by rand() limit 0,15";
+				else
+					$sql=" select * from ". dbhelper::tname("daren","tmb") ."  where kindid=".$qtypearr[$qtype][1]." order by rand() limit 0,15";
+				///echo 'question sql==='.$sql;
 			}
 		}
 		$rs=dbhelper::getrs($sql);
@@ -265,7 +328,6 @@ class daren extends ctl_base
 		$account=getAccount();
 		$qtype=readqtype();
 
-
 		$ret=envhelper::readRet();
 		$sqlu="lasttime=$timestamp,followers=".$account['followers'].",followings=".$account['followings'].",tweets=".$account['tweets'].",retuid='".$ret['retuid'] ."'";
 		$lasttime=0;
@@ -311,6 +373,22 @@ class daren extends ctl_base
 		}
 //echo $sql;//exit;
 		dbhelper::exesqls($sql);
+
+		if($darenvalue != -1 ){
+			$day=intval(strftime("%y%m%d",$timestamp));
+			$sql="delete from ". dbhelper::tname("daren","tmp_day") ." where winday=$day  and qtype=$qtype and uid=".$account['uid'];
+			$sql.=";;;insert into ". dbhelper::tname("daren","tmp_day") ." (qtype,winday,uid,score,usetime,lasttime)  
+				select qtype,$day,uid,score,usetime,$lasttime from ". dbhelper::tname("daren","log") ." where qtype=$qtype and uid=".$account['uid']." and lasttime >=UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  order by score desc,usetime limit 0,1";
+
+			$sql.=";;;delete from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day  and uid=".$account['uid'];
+			$sql.=";;;insert into ". dbhelper::tname("daren","tmp_day_total") ." (winday,uid,score,usetime,lasttime)  
+				select $day,uid,sum(score),sum(usetime),$lasttime from ". dbhelper::tname("daren","tmp_day") ." where qtype=$qtype and uid=".$account['uid']." and  winday=
+				$day order by score desc,usetime limit 0,1";
+				
+			//echo $sql."<br/>";
+			dbhelper::exesqls($sql);
+		}
+
 		$this->_makeTop() ;
 	}
 

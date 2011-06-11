@@ -96,6 +96,9 @@ function LetGo(){
 	$cont->assign("op",$op);
 	$cont->assign("lfrom",$lfrom);
 	
+	if(rq('template',''))
+		$currTemplate=rq('template','');
+
 	////$cont->set('qtype',readqtype());
 
 	$cont->set("lfrom",$lfrom);

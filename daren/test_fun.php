@@ -15,17 +15,30 @@
 	function readqtypelist(){
 		$cache=new CACHE();		
 		$qtypearr=$cache->get("daren_qtype_arr"); 
-		if(is_array($qtypearr) && 1==1) {
+		if( 1==0 && is_array($qtypearr)) {
 			return $qtypearr;
 		}
-
-		$qtypearr=array();
+		
+		$qtypearr=array(
+			1=>array('综合',''),
+			2=>array('文学','12'),
+			3=>array('历史','6'),
+			4=>array('地理','8'),
+			5=>array('常识','10'),
+			6=>array('自然','18'),
+			7=>array('科技','17'),
+			8=>array('物理天文','15,9'),
+			9=>array('文体','1,21,19'),
+			10=>array('电脑类','16'),
+			11=>array('其它','5,13,20,2')
+		);
+	/*
 		$sql="select * from ".dbhelper::tname("daren","tmb_type")." where num>=500 order by num desc";
 		$rs=dbhelper::getrs($sql);
 		while($row=$rs->next()) {
 			$qtypearr[intval($row["id"])]=$row["ctype"];
 		}
-		
+		*/
 		$cache->set("daren_qtype_arr",$qtypearr);
 		return $qtypearr;
 	}

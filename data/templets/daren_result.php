@@ -1,27 +1,23 @@
 <? if(!defined('ROOT')) exit('Access Denied');?>
 <? include $this->gettpl('daren_header');?>
 
-    [wincount] => 0
-    [filishcount] => 0
-    [testcount] => 100000
-    [todaytotalscore] => 180
-    [todaytotalusetime] => 16
-    [todayscore1] => 100
-    [todayusetime1] => 7
-    [todaytop1] => 1
-    [todaywin1] => 100
-    [retname] => @亱_初脗 ，@lisa1234 ，@扬勋无敌 ，
-    [newusetime] => 7
-    [rightcount] => 10
-    [nowdaren] => 100
 <div id="content">
 	<div id="div_result" class="mw">
-		<div id="div_result_naotou"></div>
-		<div id="div_result_text">这是今天第几次测试，用了<?=$score['newusetime']?>秒钟，答对了<?=$score['rightcount']?>，最后得分<?=$score['nowdaren']?><? if($score['nowdaren'] == 100 ) { ?>，得到1枚<?=$qtypename?>达人勋章。<? } ?></div>
-		<div id="div_result_area">
-			<img id="" src="" />
-			<textarea id="">@{}</textarea>
-			<div id="div_result_btns"></div>
+		<div id="div_result_naotou" class="naotou_<?=$score['naotou']?>">
+			<div id="div_result_text">本次测试，你用了<?=$score['newusetime']?>秒钟，答对了<?=$score['rightcount']?>题，最后得分<?=$score['nowdaren']?><? if($score['nowdaren'] == 100 ) { ?>，得到1枚<?=$qtypename?>达人勋章<? } ?>。在今天的<?=$qtypename?>测试中，你现在排名第<? echo $score['todaytop'.$qtype]?>名，打败了<? echo $score['todaywin'.$qtype]?>人。你今天的总成绩是<? echo $score['todaytotalscore']?>分。</div>
+			<div id="div_result_area">
+				<div id="div_result_area_zhengshu">
+					<img id="" src="" />
+				</div>
+				<textarea id="result_sendstatus">#我太有才了#！今天的<?=$qtypename?>测试中，我用了<?=$score['newusetime']?>秒钟，答对了<?=$score['rightcount']?>题，最后得分<?=$score['nowdaren']?>，排名第<? echo $score['todaytop'.$qtype]?>名，打败了<? echo $score['todaywin'.$qtype]?>人<? if($score['nowdaren'] == 100 ) { ?>，还得到了1枚<?=$qtypename?>达人勋章哦<? } ?>；我今天的总成绩是<? echo $score['todaytotalscore']?>分。呵呵！<?=$score['retname']?>你们抽几分钟来玩玩吧！</textarea>
+				<br/>
+				<a href="javascript:void(0);" id="sendstatus">记录到微博</a>
+				<div id="div_result_btns">
+					<a href="?op=ican" class="btn_big btn_red_big">再测试一次</a>
+					<a href="#" class="btn_small btn_green_small">玩玩别的</a>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
 		</div>
 	</div>
 </div>

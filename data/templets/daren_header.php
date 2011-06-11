@@ -10,6 +10,8 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="js/jquery.progressbar.js"></script>
 <script>var op="<?=$op?>"; var wbisload=false; var urlbase='<?=$urlbase?>';</script>
+<script type="text/javascript" src="<?=$templatepath?>/daren_images/daren.js?v=1.0"></script>
+
 </head>
 <body>
 <div id="header">
@@ -17,8 +19,9 @@
 		<div id="logo"><a href="<?=$urlbase?>" target="_blank">知识达人</a>
 		</div>
 		<div id="info">
-		<img src="images/noavatar.gif" align="left" />@孙铭鸿，快点做国快点做国做国快点做国，快点做国快点做国快快点做国快点做做国快点做国，快点做国快点做国快国快点做国，快点做国快点做国快点做国做国快点做国，快点做国快点做国快
+		<img src="images/noavatar.gif" align="left" />@<?=$score['name']?>，你现在共参加过了<?=$score['filishcount']?>次测试，得到了 <b><?=$score['wincount']?>枚</b> 达人勋章、 <b><?=$score['topcount']?>枚</b> 牛人勋章。今天总分是 <b><?=$score['todaytotalscore']?>分</b>。
+		<!--<div class="avatar_foot"><div>
+		<div class="avatar_maozi"></div>-->
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?=$templatepath?>/daren_images/daren.js?v=1.0"></script>

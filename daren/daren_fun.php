@@ -3,7 +3,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 
 	function readdarenScore($uid,$qtype=0,$nocache=false){
 		if(!$nocache){
-			$darenScore=sreadcookie('daren_score');		
+			$darenScore=sreadcookie('daren_score'.$qtype);		
 			if(is_array($darenScore)) {
 				return $darenScore;
 			}	
@@ -12,13 +12,14 @@ if(!defined('ISWBYL')) exit('Access Denied');
 				$darenScore=array();
 
 		//总成绩
-		$sql="select wincount,filishcount,testcount,l.uid,l.name from ". dbhelper::tname("daren","daren") ." d inner join ". dbhelper::tname("ppt","login") ." l on d.uid=l.uid where uid=$uid";
+		$sql="select wincount,filishcount,testcount,topcount,l.uid,l.name from ". dbhelper::tname("daren","daren") ." d inner join ". dbhelper::tname("ppt","login") ." l on d.uid=l.uid where uid=$uid";
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$darenScore=$row;
 		}else{	
 			$darenScore["wincount"]=0;
 			$darenScore['filishcount']=0;
+			$darenScore['topcount']=0;
 			$darenScore['testcount']=100000;
 		}
 		
@@ -34,7 +35,6 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		}
 
 		//今日某科考试成绩
-
 		if($qtype) {
 			$darenScore["todayscore".$qtype]=0; 
 			$darenScore['todayusetime'.$qtype]=0;
@@ -52,14 +52,14 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			$rs=dbhelper::getrs($sql);
 			if($row=$rs->next()){
 				$darenScore["todaytop$qtype"]=$row['top'];
-				if(intval($row["todaytotal$qtype"])==0)
-					$darenScore["todaywin$qtype"]=100;
+				if(intval($row["total"])==0)
+					$darenScore["todaywin$qtype"]='所有';
 				else
-					$darenScore["todaywin$qtype"]=(1- $row["todaytop$qtype"]/$row["todaytotal$qtype"])*100;
+					$darenScore["todaywin$qtype"]=$row["total"]-$row['top'];   // (1- $row["todaytop$qtype"]/$row["todaytotal$qtype"])*100;
 
 			}else{
 				$darenScore["todaytop$qtype"]=1;
-				$darenScore["todaywin$qtype"]=100;
+				$darenScore["todaywin$qtype"]='100%';
 			}
 		}
 
@@ -80,8 +80,44 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		//$zs=zhengshu::makeIQ(getAccount(),$darenScore);
 		//$darenScore=array_merge($darenScore,$zs);
 
-		ssetcookie('daren_score', $darenScore,3600*24*100);
+		ssetcookie('daren_score'.$qtype, $darenScore,3600*24*100);
 		return $darenScore;
 	}
+
+		function _gettodaytop() {		
+			global $timestamp;
+			$day=strftime("%y%m%d",$timestamp);
+			$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,score,usetime from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day order by score desc,usetime limit 0,10) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid";
+
+			$arrs=dbhelper::getrows($sql);
+
+			return $arrs;
+		}
+
+		function _gettestlist() {
+			//global $lfrom;
+			//if($lfrom) $ll="l.lfrom='$lfrom' and ";
+			$top=rq("mo",0);
+			$last=rq("last",0);
+			if($last==0)
+				$top=5;
+			else
+				$top=5;
+
+			$testlist=array();
+			$sql="select log.*,l.name,l.lfrom from (select * from ". dbhelper::tname("daren","log") . "   where score>0 and lasttime>{$last} order by lasttime desc limit 0,$top) as log  inner join ".dbhelper::tname("ppt","login")." l on log.uid=l.uid ";
+			$rs=dbhelper::getrs($sql);
+			$i=0;
+			$qtypenames=readqtypelist();
+			while($row=$rs->next()){
+				$i++;
+				$row["i"]=$i;
+				$row['testtime']= date("m-d H:i:s",$row['lasttime']);
+				$row['qtypename']=$qtypenames[intval($row['qtype'])][0];
+				$testlist[]=$row;			
+			}
+			//echo json_encode($testlist);
+			return $testlist;
+		}
 
 ?>
