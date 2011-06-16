@@ -107,6 +107,7 @@ function LetGo(){
 	else
 		$cont->set('orgwbsite','http://weibo.com/5d13');
 	$cont->assign("account",$account);
+	$cont->assign('logined', is_array($account)?'true':'false');
 
 	$cont->force=rq("clstemplate",0);
 	$cont->$op();

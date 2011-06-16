@@ -5,7 +5,7 @@ $question=array();
 $question[0]="";
 
 define("STEP",1);  //每次显示多少题
-define("FULLMINUTE",100); //得勋章的分数
+define("FULLMINUTE",70); //得勋章的分数
 define("MINUTEPER",10); //每题多少分
 
 include_once("test_fun.php");
@@ -15,24 +15,53 @@ include_once("daren_fun.php");
 class daren extends ctl_base
 {
 	function index() {
-		$account=getAccount();		
-		if($account){
-			//$darenScore=readdarenScore($account["uid"],false);
-			//$this->assign("darenScore",$darenScore);
-		}
-
+		global $ret;
 		$uid=0;
-
+		if(is_array($ret)) {
+			$uid=$ret['retuid'];
+		}
+		else {
+			$account=getAccount();
+			if($account) {
+				$uid=$account['uid'];
+			}
+		}
+		
 		$score=readdarenScore($uid,0,false);
 		$this->set("score",$score);
 		$this->set('todaytoplist',_gettodaytop());
 		$this->set('testlist',_gettestlist());
 
-		$this->set("op","login");
+		$this->set("op","index");
 		$this->display("daren_index");
+	}
+	function profile(){
+		$uid=rq("uid",0);
+		if(!is_numeric($uid) || !$uid) {
+			$this->index();
+			return;
+		}
+
+		echo '此页面还没做！';
 	}
 
 	function ican(){
+		$account=getAccount();		
+		if(!$account){
+			$this->index();
+			return;
+		}
+		
+		$uid=0;
+		if(is_array($ret)) {
+			$uid=$ret['retuid'];
+		}
+		else {			
+			if($account) {
+				$uid=$account['uid'];
+			}
+		}
+		
 		ssetcookie('quest_idx',"");
 //		ssetcookie('daren_question',"");
 		ssetcookie('daren_starttime','');
@@ -42,10 +71,10 @@ class daren extends ctl_base
 
 		$account=$this->checkLogin();
 
-		$this->set("op","ready");
+		$this->set("op","ican");
 
-		$score=readdarenScore($account["uid"],0,false);
-
+		$score=readdarenScore($uid,0,false);
+		print_r($score);
 		$this->set("score",$score);
 
 		$this->set('todaytoplist',_gettodaytop());
@@ -139,6 +168,9 @@ class daren extends ctl_base
 		elseif ($darenvalue<95) $score['naotou']='jinya';
 		else $score['naotou']='gaoao';
 
+		if($darenvalue<80) $score['word']='tanwan';
+		else  $score['word']='taiyoucaile';
+
 		ssetcookie('quest_idx',"");
 		ssetcookie('daren_starttime','');
 		ssetcookie('daren_starttime2','');
@@ -147,7 +179,13 @@ class daren extends ctl_base
 */
 //echo $qtype;
 //print_r($score);
-
+		
+		ssetcookie('daren_zhengshu_url','');
+		if($darenvalue>=FULLMINUTE){
+			$picurl=_makeZhengshu($account["uid"],$account['name'],"daren",$account['avatar']);
+			$this->set('darenzhengshuurl',$picurl);
+		}
+		
 		$this->set("score",$score);
 		$this->set("op","showscore");
 
@@ -205,16 +243,24 @@ class daren extends ctl_base
 		$is_follow=rf('is_follow','0');
 
 		if(!$msg) {
-			$msg="咱啥也不说了，上图！想看看更多图，请#看看我的范儿#。";
+			$msg="#我太有才了#，你们来挑战我吧！";
 		}
 
-		$msg.= URLBASE ."?lfrom=".$account["lfrom"]."&retuid=".$account['uid'];
+		$urlb= URLBASE ."?lfrom=".$account["lfrom"]."&retuid=".$account['uid'];
+		
+		$wbmsg=left($msg,275-strlen($urlb)).$urlb;  
 		//echo $msg."picurl=" .$picurl; 
 		///echo $wbid . $bylfrom .$account['lfrom'];
 
 		$api=$this->getApi();
-echo 'upload'.$msg;
-//		$api->upload($msg,$picurl);		
+
+		$picurl=sreadcookie('daren_zhengshu_url');
+		
+		//echo 'upload'.$wbmsg.$picurl;
+		if($picurl)
+			$api->upload($wbmsg,$picurl);
+		else
+			$api->update($wbmsg);
 	
 		if($is_follow) {
 			global $apiConfig;
@@ -345,8 +391,8 @@ echo 'upload'.$msg;
 			}
 
 			$wins=0;
-			if($darenvalue==FULLMINUTE) {
-				$sql="select id from ". dbhelper::tname("daren","log") ." where  uid=" . $account["uid"]." and qtype=$qtype and score>=".FULLMINUTE." and  ( lasttime > UNIX_TIMESTAMP(FROM_DAYS(TO_DAYS(now())) ) limit 0,1";
+			if($darenvalue>=FULLMINUTE) {
+				$sql="select id from ". dbhelper::tname("daren","log") ." where  uid=" . $account["uid"]." and qtype=$qtype and score>=".FULLMINUTE." and  ( lasttime > UNIX_TIMESTAMP(FROM_DAYS(TO_DAYS(now())))) limit 0,1";
 				$rs=dbhelper::getrs($sql);
 				if($row=$rs->next()){
 					$wins=0;

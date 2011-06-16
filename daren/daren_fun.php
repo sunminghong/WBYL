@@ -2,7 +2,7 @@
 if(!defined('ISWBYL')) exit('Access Denied');
 
 	function readdarenScore($uid,$qtype=0,$nocache=false){
-		if(!$nocache){
+		if(1==0 && !$nocache){
 			$darenScore=sreadcookie('daren_score'.$qtype);		
 			if(is_array($darenScore)) {
 				return $darenScore;
@@ -12,7 +12,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 				$darenScore=array();
 
 		//总成绩
-		$sql="select wincount,filishcount,testcount,topcount,l.uid,l.name from ". dbhelper::tname("daren","daren") ." d inner join ". dbhelper::tname("ppt","login") ." l on d.uid=l.uid where uid=$uid";
+		$sql="select wincount,filishcount,testcount,topcount,l.uid,l.name from ". dbhelper::tname("daren","daren") ." d inner join ". dbhelper::tname("ppt","login") ." l on d.uid=l.uid where uid=$uid";//echo $sql;
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$darenScore=$row;
@@ -84,40 +84,105 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		return $darenScore;
 	}
 
-		function _gettodaytop() {		
-			global $timestamp;
-			$day=strftime("%y%m%d",$timestamp);
-			$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,score,usetime from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day order by score desc,usetime limit 0,10) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid";
+	function _gettodaytop() {		
+		global $timestamp;
+		$day=strftime("%y%m%d",$timestamp);
+		$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,score,usetime from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day order by score desc,usetime limit 0,10) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid";
 
-			$arrs=dbhelper::getrows($sql);
+		$arrs=dbhelper::getrows($sql);
 
-			return $arrs;
+		return $arrs;
+	}
+
+	function _gettestlist() {
+		//global $lfrom;
+		//if($lfrom) $ll="l.lfrom='$lfrom' and ";
+		$top=rq("mo",0);
+		$last=rq("last",0);
+		if($last==0)
+			$top=5;
+		else
+			$top=5;
+
+		$testlist=array();
+		$sql="select log.*,l.name,l.lfrom from (select * from ". dbhelper::tname("daren","log") . "   where score>0 and lasttime>{$last} order by lasttime desc limit 0,$top) as log  inner join ".dbhelper::tname("ppt","login")." l on log.uid=l.uid ";
+		$rs=dbhelper::getrs($sql);
+		$i=0;
+		$qtypenames=readqtypelist();
+		while($row=$rs->next()){
+			$i++;
+			$row["i"]=$i;
+			$row['testtime']= date("m-d H:i:s",$row['lasttime']);
+			$row['qtypename']=$qtypenames[intval($row['qtype'])][0];
+			$testlist[]=$row;			
 		}
+		//echo json_encode($testlist);
+		return $testlist;
+	}
 
-		function _gettestlist() {
-			//global $lfrom;
-			//if($lfrom) $ll="l.lfrom='$lfrom' and ";
-			$top=rq("mo",0);
-			$last=rq("last",0);
-			if($last==0)
-				$top=5;
-			else
-				$top=5;
+	function _makeZhengshu($uid,$name,$zhengshutype,$avatar,$date=false) {
+		global $currTemplate,$timestamp;
 
-			$testlist=array();
-			$sql="select log.*,l.name,l.lfrom from (select * from ". dbhelper::tname("daren","log") . "   where score>0 and lasttime>{$last} order by lasttime desc limit 0,$top) as log  inner join ".dbhelper::tname("ppt","login")." l on log.uid=l.uid ";
-			$rs=dbhelper::getrs($sql);
-			$i=0;
-			$qtypenames=readqtypelist();
-			while($row=$rs->next()){
-				$i++;
-				$row["i"]=$i;
-				$row['testtime']= date("m-d H:i:s",$row['lasttime']);
-				$row['qtypename']=$qtypenames[intval($row['qtype'])][0];
-				$testlist[]=$row;			
-			}
-			//echo json_encode($testlist);
-			return $testlist;
+		importlib("watermark.fun");
+		
+		$cache =new Cache();
+		$ind=$cache->get('daren_zhengshuindex');
+		if(!$ind || !is_numeric($ind)) $ind=1;
+		else {
+			if( ($ind++) > 1000)$ind=1;
 		}
+		$cache->set('daren_zhengshuindex',$ind);
 
+
+		$sql="insert into ". dbhelper::tname("ppt","zhengshu") ." set uid=$uid,type='$zhengshutype',lasttime=$timestamp";
+		$zid=dbhelper::execute($sql,1);
+		$no="Q". right("0000000".$zid,7);
+
+		if(ISSAE){
+			$newName=tempnam(SAE_TMP_PATH, "SAE_IMAGE");
+		}
+		else
+			$newName=ROOT."data/zhengshu/$ind.jpg";
+
+		$backImage=ROOT."templets/$currTemplate/daren_images/zhengshu/zhengshu_{$zhengshutype}.gif";
+
+		
+		$text=$no;
+		$color="#ffffff";
+		$fontFile=ROOT."images/fonts/arial.ttf";
+		 imageWaterText($backImage,$text,$color,180,24,12,$fontFile,$newName);
+
+		$backImage=$newName;
+		$text=$name.'是的的的大的';
+		$color="#000000";
+		$fontFile=ROOT."images/fonts/YGY20070701.ttf";	
+		if(len($text)<6) $posx=178;
+		else $posx=154;
+		 imageWaterText($backImage,$text,$color,$posx,100,14,$fontFile,$newName);
+
+		if($date)
+			$text= $date;
+		else
+			$text= date("y-m-d",$timestamp);
+		$color="#000000";
+		$fontFile=ROOT."images/fonts/arial.ttf";
+		 imageWaterText($backImage,$text,$color,287,146,12,$fontFile,$newName);
+
+		$waterPic=$avatar;
+
+		$rel= imageWaterPic($backImage,$waterPic,47,97);
+		//echo 'backImage='.$backImage."<br/>";
+		//echo 'newname='.$newName;
+		if(ISSAE) {
+			 $s = new SaeStorage();
+			 $s->write( "zhengshu3", "data/zhengshu/$ind.gif",@file_get_contents($newName)  );			 
+			 $url=$s->getUrl( "zhengshu3" , "data/zhengshu/$ind.jpg");
+			 @unlink($newName);
+			ssetcookie('daren_zhengshu_url',$url);
+		}else{
+			$url=URLBASE."data/zhengshu/$ind.jpg";
+			ssetcookie('daren_zhengshu_url',$newName);
+		}
+		return $url;
+	}
 ?>

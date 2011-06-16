@@ -1,32 +1,65 @@
 
 /***********************************************************************************************/
-body {background:#b8b17f;margin:0;padding:0;}
+body {background:#b8b17f url('bg_index_sanpo.gif') repeat-x;margin:0;padding:0;}
 body, th, td, input, select, textarea, button {
 font: 12px/1.5em '微软雅黑',Tahoma, Arial, Helvetica, snas-serif;
 }
 p {text-align:left;}
 div {margin:auto;}
-a{outline:none;text-decoration: none;}
+a{outline:none;text-decoration: underline;color:#fff;}
 
-.mw { width:700px;}
+.mw { width:700px;position:relative;margin:auto;height:100%;}
 .cl {clear:both;}
 #wrap1 {background:#fff9cf; width:100%;}
 
 #header {background:#fff9cf url('bg_header.gif') bottom repeat-x; height:87px;text-align:center;}
-#logo {float:left;background:url('logo.png') no-repeat; width:214px;height:78px;text-indent:-5000px;margin-top:14px;}
-#info {float:left;width:440px;margin-left:30px;margin-top:30px; text-align:left;font-size:12px;line-height:17px; position:relative;}
+#logo {position:absolute;left:0;top:14px;background:url('logo.png') no-repeat; width:214px;height:78px;text-indent:-5000px;}
+#info {position:absolute;left:244px;top:30px;width:440px; text-align:left;font-size:12px;line-height:17px;}
 #info img {width:50px;height:50px; margin-right:15px;}
 #info .avatar_maozi {width:84px;height:54px;background:url(avatar_maozi.gif) 0 0 no-repeat;position:absolute;top:5px;left:5px;}
 #info .avatar_foot {width:84px;height:48px;background:url(avatar_maozi.gif) 0 -54px no-repeat;position:absolute;top:52px;left:5px;}
 
-#content {background:#fff9cf url('bg_light.jpg') bottom center no-repeat; height:385px;text-align:center;}
+#content {background:#fff9cf url('bg_light.jpg') bottom center no-repeat; width:100%;height:385px;text-align:center;}
+#contentindex{background:url(bg_index.jpg) center bottom no-repeat; height:472px; margin-bottom:-26px;}
+#div_home .ico {width:110px;height:110px;background-image:url(ico_questions.gif);background-repeat:no-repeat; position:absolute;}
+#div_home .ico1 {background-position:0 0;left:20px; top:219px;}
+#div_home .ico2 {background-position:0 -110px;left:92px; top:105px;}
+#div_home .ico3 {background-position:0 -220px;left:214px; top:45px;}
+#div_home .ico4 {background-position:0 -330px;left:381px; top:45px;}
+#div_home .ico5 {background-position:0 -440px;left:502px; top:105px;}
+#div_home .ico6 {background-position:0 -550px;left:557px; top:219px;}
+
+
+#div_home .tips {width:6em;font:12px/17px "宋体";position:absolute;}
+#div_home .tips1 {left:101px; top:300px;}
+#div_home .tips2 {left:169px; top:202px;}
+#div_home .tips3 {left:260px; top:137px;}
+#div_home .tips4 {left:366px; top:158px;}
+#div_home .tips5 {left:449px; top:200px;}
+#div_home .tips6 {left:506px; top:293px;}
+
+
+a#btn_start {display:block;border:0px;position:absolute; left:215px;top:234px;background:url(btn_index.png);width:267px;height:155px;}
+a#btn_start:hover {left:213px;top:232px;}
+
+
+
+#div_home .ico { width:110px;height:110px;background-image:url(ico_questions.gif);position:absolute;}
 
 #mask{ width:100%; height:100%; z-index:20010; top:0;left:0; background:#000; position:absolute;display:none;
- filter:alpha(opacity=70);
- -moz-opacity:0.7;
- -khtml-opacity: 0.7;
- opacity: 0.7;
+ filter:alpha(opacity=75);
+ -moz-opacity:0.75;
+ -khtml-opacity: 0.75;
+ opacity: 0.75;
 }
+
+#div_login {position:absolute;display:none;z-index:20012;text-align:center; color:#fff;width:220px;}
+#div_login a {display:block;margin:10px;}
+
+#div_wait {position:absolute;display:none;z-index:20011;width:65px;height:65px; background:url(number.gif) no-repeat;}
+
+#test_main {display:none;}
+
 /*test css area*/
 #div_test {position:absolute;top:115px;left:255px;display:none;z-index:20011;text-align:center; color:#fff;}
 #div_test .timeline {background:url(sprite.png) 0 -192px;width:604px;height:45px;margin-bottom:35px;position:relative;}
@@ -49,7 +82,7 @@ a{outline:none;text-decoration: none;}
 #div_test .div_question #question_index {font-size:14px;}
 #div_test .div_question #question {font: 32px/1.4em '微软雅黑','黑体';}
 #div_test .div_answer {width:600px;margin-top:30px}
-#div_test a.answer {display:block;float:left;width:252px;height:85px; margin:14px 20px 14px 20px;background:url(sprite.png) 0 0;text-align:center;color:#fff;}
+#div_test a.answer {display:block;float:left;width:252px;height:85px; margin:14px 20px 14px 20px;background:url(sprite.png) 0 0;text-align:center;color:#fff;text-decoration:none;}
 #div_test a.answer:hover {background-position:0 -101px; color:#0066fe;}
 #div_test a.answer span {display:block;padding:8px 8px 5px 8px;font-size:20px;line-height:25px;}
 
@@ -91,9 +124,9 @@ ul#qmenu li.curr a{color:#fff;background:#00f;}
 .naotou_xizhuang { background:url(naotou_weixiao.gif) 20px bottom no-repeat;}
 
 
-#div_ready {background:url(word_selectqtype.gif) 100px 20px  no-repeat;margin-top:43px;}
-#div_ready_naotou {height:284px;margin-top:64px; position1:relative;}
-#div_qtypeicos {width:430px;float:right; margin-right:70px;}
+#div_ready {background:url(word_selectqtype.gif) 100px 0  no-repeat;position:absolute; top:40px;left:0;width:100%;height:100%;}
+#div_ready_naotou {position:absolute; height:100%;width:100%;top:0;left:0;}
+#div_qtypeicos {width:440px;height:300px;position:absolute;left:211px;top:93px;}
 #div_qtypeicos .ico {width:80px;height:90px; margin:2px 13px; background-image:url(ico_qtype.gif);background-repeat:no-repeat; float:left;}
 #div_qtypeicos .emaobi{background-position:0 0;}
 #div_qtypeicos .xianzhuangshu{background-position:-80px 0;}
@@ -126,17 +159,20 @@ background:url(bg_ico_tips.gif)  no-repeat;font-size:19px;line-height:37px;font-
 
 /*result page*/
 
-#div_result {background:url(word_tanwan.gif)  no-repeat;margin-top:0px;margin-top:15px; padding-top:55px;}
-#div_result_naotou {padding-bottom:10px;}
-#div_result_text {font-family:"微软雅黑", "黑体";font-size:15px;line-height:21px; margin-left:200px; text-align:left;}
-#div_result_area {margin-left:200px;margin-top:30px; }
-#div_result_area {width:482px;height:235px; background:url(bg_result_text.gif) no-repeat;}
-#div_result_area_zhengshu {float:left;width:167px;height:182px;}
-#div_result_area textarea{width:285px;height:100px;font-family:"微软雅黑", "黑体";font-size:14px;line-height:19px;margin-top:15px;}
+#div_result {position:absolute; top:15px;left:0;width:100%;height:100%;}
+.word_taiwan {background:url(word_tanwan.gif) 30px 0  no-repeat;}
+.word_taiyoucaile {background:url(word_taiyoucaile.gif) 30px 0  no-repeat;}
 
-#sendstatus {font-size:18px;font-weight:bold;line-height:25px;padding-left:160px; text-decoration: underline;}
+#div_result_naotou {height:100%;width:100%;top:0;left:0;}
+#div_result_text {position:absolute;left:200px;top:65px; font-family:"微软雅黑", "黑体";font-size:15px;line-height:21px;text-align:left;}
+#div_result_area {position:absolute;left:200px;top:140px; width:482px;height:235px; background:url(bg_result_text.gif) no-repeat;}
+#div_result_area_zhengshu {float:left;width:220px;height:150px;overflow:hidden;margin:15px 12px 12px 15px;}
+#div_result_area_zhengshu img {width:220px;}
+#div_result_area textarea{width:215px;height:126px;font-family:"微软雅黑", "宋体";font-size:12px;line-height:17px;margin-top:15px;}
 
-#div_result_btns {margin-top:32px;float:right;width:280px;}
+#sendstatus {font-size:16px;font-weight:bold;line-height:21px;padding-left:120px; text-decoration: underline;color:#00f;}
+
+#div_result_btns {margin-top:10px;float:right;width:280px;}
 
 a.btn_big {float:left; margin:4px;display:block;width:148px;height:39px;font-size:19px ;line-height:35px;font-family:"微软雅黑", "黑体";color:#fff;font-weight:bold;}
 a.btn_small {float:left;margin:4px;display:block;width:111px;height:39px;font-size:19px ;line-height:35px;font-family:"微软雅黑", "黑体"; color:#fff;font-weight:bold;}
@@ -148,8 +184,7 @@ a.btn_red_big:hover {background:url(sprite.png) -424px -47px no-repeat;}
 a.btn_green_small:hover {background:url(sprite.png) -424px -91px no-repeat;}
 a.btn_green_small {background:url(sprite.png) -424px -133px no-repeat;}
 
-
-#wrap2 {background-color:#a59d71; width:676px;margin-top:26px;}
+#wrap2 {margin-top:26px;width:100%;}
 .wrap2header {background:url(bg_wrap2.gif) no-repeat; width:676px;height:41px;}
 .div_list {width:195px;float:left;color:#fff; margin:8px 15px 5px 15px;font-size:12px;}
 .wrap2bottom {background:url(bg_wrap2.gif) 0 -45px no-repeat; width:676px;height:10px;clear:both; }
@@ -160,3 +195,6 @@ a.btn_green_small {background:url(sprite.png) -424px -133px no-repeat;}
 .div_list .top_list img.avatar {height:50px;}
 
 .div_list p {line-height:23px;font-size:14px;margin:0px;padding:0;}
+
+
+#copyright {text-align:center; color:#656565;width:100%;font-size:14px;margin:14px auto;}
