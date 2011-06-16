@@ -17,8 +17,9 @@ class daren extends ctl_base
 	function index() {
 		global $ret;
 		$uid=0;
-		if(is_array($ret)) {
+		if($ret) {
 			$uid=$ret['retuid'];
+			$this->set("isret",1);
 		}
 		else {
 			$account=getAccount();
@@ -26,8 +27,8 @@ class daren extends ctl_base
 				$uid=$account['uid'];
 			}
 		}
-		
-		$score=readdarenScore($uid,0,false);
+		if( $uid==0) $score=false;
+		$score=readdarenScore($uid,0,false);//print_r($score);
 		$this->set("score",$score);
 		$this->set('todaytoplist',_gettodaytop());
 		$this->set('testlist',_gettestlist());
@@ -36,13 +37,65 @@ class daren extends ctl_base
 		$this->display("daren_index");
 	}
 	function profile(){
+		global $ret;
+		$account=getAccount();
+
 		$uid=rq("uid",0);
 		if(!is_numeric($uid) || !$uid) {
-			$this->index();
-			return;
+			
+			if($account) {
+				$uid=$account['uid'];
+			}else
+			{
+				$this->index();
+				return;
+			}
 		}
+		
+		$sql="select COALESCE(wincount,0) as wincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid limit 0,1"; //echo $sql;
+		$rs=dbhelper::getrs($sql);
+		if(!($row=$rs->next())) {		
+			$row=array(
+				"wincount"=>0,
+				"topcount"=>0,
+				"wenquxingcount"=>0,
+				"boshicount"=>0
+			);
+		}
+		$this->set('totalcountlist',$row);
 
-		echo '此页面还没做！';
+		$sql="select qtype,wincount,topcount from ".dbhelper::tname('daren','win') ." where uid=$uid and wincount>0 order by qtype";
+		$row=dbhelper::getrows($sql);
+		$this->set('qtypecountlist',$row);
+		$this->set('qtypenamelist',readqtypelist());
+
+
+
+		//todo:还没有读取文曲星和博士的记录
+		//$this->set('wenquxinglist',false);
+		//$this->set('boshilist',false);
+
+
+
+		$uid=0;
+		if($ret) {
+			$uid=$ret['retuid'];
+			$this->set("isret",1);
+		}
+		else {
+			if($account) {
+				$uid=$account['uid'];
+			}
+		}		
+		$score=readdarenScore($uid,0,false);//print_r($score);
+		$this->set("score",$score);
+
+
+		$this->set('todaytoplist',_gettodaytop());
+		$this->set('testlist',_gettestlist());
+
+		$this->set("op","profile");
+		$this->display("daren_profile");
 	}
 
 	function ican(){
@@ -53,7 +106,7 @@ class daren extends ctl_base
 		}
 		
 		$uid=0;
-		if(is_array($ret)) {
+		if($ret) {
 			$uid=$ret['retuid'];
 		}
 		else {			
@@ -73,8 +126,7 @@ class daren extends ctl_base
 
 		$this->set("op","ican");
 
-		$score=readdarenScore($uid,0,false);
-		print_r($score);
+		$score=readdarenScore($uid,0,false);		//print_r($score);
 		$this->set("score",$score);
 
 		$this->set('todaytoplist',_gettodaytop());
@@ -256,7 +308,7 @@ class daren extends ctl_base
 
 		$picurl=sreadcookie('daren_zhengshu_url');
 		
-、、echo 'upload'.$wbmsg.$picurl;
+		//echo 'upload'.$wbmsg.$picurl;
 		if($picurl)
 			$api->upload($wbmsg,$picurl);
 		else
@@ -281,7 +333,7 @@ class daren extends ctl_base
 
 		$cache=new CACHE();		
 		$question=$cache->get("daren_question_".$qtype); 
-		if(1==1 && is_array($question)) {
+		if(1==0 && is_array($question)) {
 			$questionovertime=$cache->get("daren_question_time_".$qtype);
 			
 			if(dateDiff("d",$questionovertime , $timestamp)==0) {
@@ -443,7 +495,8 @@ class daren extends ctl_base
 
 		$cache=new CACHE();
 		$lastmaketop=$cache->get("daren_lastmaketop"); 
-		if(1==0 && $lastmaketop && dateDiff("d",$lastmaketop , $timestamp)==1) {
+//echo 'difff='.		dateDiff("d",$lastmaketop , $timestamp);
+		if(1==0 && $lastmaketop && dateDiff("d",$lastmaketop , $timestamp)==0) {
 				return ;
 		}
 		
@@ -482,7 +535,7 @@ class daren extends ctl_base
 		$sql="delete from ". dbhelper::tname("daren","win_top") ." where winday=$day";
 		$sql .=";;;insert into ". dbhelper::tname("daren","win_top") ." (qtype,winday,uid,no,score,usetime,regtime,lasttime) ";
 		$sql .="select log.qtype,$day,log.uid,0,log.score,log.usetime,$timestamp,log.lasttime from ". dbhelper::tname("daren","tmp_daysort") ." top ,  ". dbhelper::tname("daren","log") ." log where log.qtype=top.qtype and log.uid=top.uid and log.score=top.score div 1000 and log.usetime=990-top.score % 1000 " ;		
-		//echo $sql;
+		echo $sql;
 		dbhelper::exesqls($sql);
 		$sql="select uid,qtype from ". dbhelper::tname("daren","win_top") ." where winday=$day";
 		$rs=dbhelper::getrs($sql);

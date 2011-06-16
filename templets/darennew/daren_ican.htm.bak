@@ -1,5 +1,4 @@
-<? if(!defined('ROOT')) exit('Access Denied');?>
-<? include $this->gettpl('daren_header');?>
+{template daren_header}
 <div id="content">
 	<div class="mw">
 	<div id="div_ready"></div>
@@ -16,7 +15,6 @@
 		<div class="ico lanqiu" qtypename="文体" qtype="9"></div>
 		<div class="ico diannao" qtypename="电脑" qtype="10"></div>
 		<div class="ico shiguan" qtypename="其它" qtype="11"></div>
-		<div style="clear:both;"></div>
 	</div>
 	</div>
 </div>
@@ -58,4 +56,4 @@
 </div>
 
 <div id="div_wait"></div>
-<? include $this->gettpl('daren_footer');?>
+{template daren_footer}

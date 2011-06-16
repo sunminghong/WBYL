@@ -8,19 +8,20 @@ if(!defined('ISWBYL')) exit('Access Denied');
 				return $darenScore;
 			}	
 		}
-		if(!is_array($darenScore)) 
-				$darenScore=array();
 
 		//总成绩
-		$sql="select wincount,filishcount,testcount,topcount,l.uid,l.name from ". dbhelper::tname("daren","daren") ." d inner join ". dbhelper::tname("ppt","login") ." l on d.uid=l.uid where uid=$uid";//echo $sql;
+		$sql="select COALESCE(wincount,0) as wincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid";//echo $sql;
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$darenScore=$row;
-		}else{	
+		}else{
+			return false;
+			$darenScore=array();
 			$darenScore["wincount"]=0;
 			$darenScore['filishcount']=0;
 			$darenScore['topcount']=0;
-			$darenScore['testcount']=100000;
+			$darenScore['testcount']=0;
+
 		}
 		
 		//今天成绩			
@@ -125,24 +126,18 @@ if(!defined('ISWBYL')) exit('Access Denied');
 
 		importlib("watermark.fun");
 		
-		$cache =new Cache();
-		$ind=$cache->get('daren_zhengshuindex');
-		if(!$ind || !is_numeric($ind)) $ind=1;
-		else {
-			if( ($ind++) > 1000)$ind=1;
-		}
-		$cache->set('daren_zhengshuindex',$ind);
-
-
 		$sql="insert into ". dbhelper::tname("ppt","zhengshu") ." set uid=$uid,type='$zhengshutype',lasttime=$timestamp";
 		$zid=dbhelper::execute($sql,1);
 		$no="Q". right("0000000".$zid,7);
+
+		if(!$date)
+			$date= date("y-m-d",$timestamp);
 
 		if(ISSAE){
 			$newName=tempnam(SAE_TMP_PATH, "SAE_IMAGE");
 		}
 		else
-			$newName=ROOT."data/zhengshu/$ind.jpg";
+			$newName=ROOT."data/zhengshu/{$date}-daren-{$zid}.jpg";
 
 		$backImage=ROOT."templets/$currTemplate/daren_images/zhengshu/zhengshu_{$zhengshutype}.gif";
 
@@ -160,10 +155,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		else $posx=154;
 		 imageWaterText($backImage,$text,$color,$posx,100,14,$fontFile,$newName);
 
-		if($date)
-			$text= $date;
-		else
-			$text= date("y-m-d",$timestamp);
+		$text= $date;		
 		$color="#000000";
 		$fontFile=ROOT."images/fonts/arial.ttf";
 		 imageWaterText($backImage,$text,$color,287,146,12,$fontFile,$newName);
@@ -175,12 +167,12 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		//echo 'newname='.$newName;
 		if(ISSAE) {
 			 $s = new SaeStorage();
-			 $s->write( "zhengshu3", "data/zhengshu/$ind.gif",@file_get_contents($newName)  );			 
-			 $url=$s->getUrl( "zhengshu3" , "data/zhengshu/$ind.jpg");
+			 $s->write( "zhengshu3", "{$date}-daren-{$zid}.jpg",@file_get_contents($newName)  );			 
+			 $url=$s->getUrl( "zhengshu3" , "{$date}-daren-{$zid}.jpg");
 			 @unlink($newName);
 			ssetcookie('daren_zhengshu_url',$url);
 		}else{
-			$url=URLBASE."data/zhengshu/$ind.jpg";
+			$url=URLBASE."data/zhengshu/{$date}-daren-{$zid}.jpg";
 			ssetcookie('daren_zhengshu_url',$newName);
 		}
 		return $url;

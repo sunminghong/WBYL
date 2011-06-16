@@ -21,6 +21,7 @@ class zs extends ctl_base {
 		$date= date("y-m-d",$timestamp)."";
 		echo "$date<br/>";
 		
+		return;
 		if(ISSAE){
 			 $this->_deletefilesSAE('zhengshu',$date);
 			 $this->_deletefilesSAE('zhengshu1',$date);

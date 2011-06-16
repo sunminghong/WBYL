@@ -74,7 +74,7 @@ class envhelper{
 			ssetcookie('retapp',$retapp,3600*24*3);
 		else
 			$retapp=sreadcookie('retapp');
-		if($retuid) {
+		if(retuid) {
 		$ret=array(
 			'retuid'=>$retuid,
 			'retapp'=>$retapp

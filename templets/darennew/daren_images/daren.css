@@ -6,15 +6,19 @@ font: 12px/1.5em '微软雅黑',Tahoma, Arial, Helvetica, snas-serif;
 }
 p {text-align:left;}
 div {margin:auto;}
-a{outline:none;text-decoration: underline;color:#fff;}
-
-.mw { width:700px;position:relative;margin:auto;height:100%;}
+a{outline:none;text-decoration: none;color:#fff;}
+.posrel{position:relative;}
+.posabs {position:absolute;}
+.cls {clear:both;}
+.mw { width:700px;margin:auto;position:relative;height:100%;}
 .cl {clear:both;}
 #wrap1 {background:#fff9cf; width:100%;}
 
 #header {background:#fff9cf url('bg_header.gif') bottom repeat-x; height:87px;text-align:center;}
-#logo {position:absolute;left:0;top:14px;background:url('logo.png') no-repeat; width:214px;height:78px;text-indent:-5000px;}
-#info {position:absolute;left:244px;top:30px;width:440px; text-align:left;font-size:12px;line-height:17px;}
+#logo {position:absolute;left:0;top:16px;background:url('logo.gif') no-repeat; width:272px;height:78px;}
+#logo a {display:block;width:100%;height:100%;text-indent:-5000px;}
+#info {position:absolute;left:294px;top:30px;width:400px; text-align:left;font-size:12px;line-height:17px;}
+#info a {color:#000;}
 #info img {width:50px;height:50px; margin-right:15px;}
 #info .avatar_maozi {width:84px;height:54px;background:url(avatar_maozi.gif) 0 0 no-repeat;position:absolute;top:5px;left:5px;}
 #info .avatar_foot {width:84px;height:48px;background:url(avatar_maozi.gif) 0 -54px no-repeat;position:absolute;top:52px;left:5px;}
@@ -183,6 +187,41 @@ a.btn_red_big:hover {background:url(sprite.png) -424px -47px no-repeat;}
 
 a.btn_green_small:hover {background:url(sprite.png) -424px -91px no-repeat;}
 a.btn_green_small {background:url(sprite.png) -424px -133px no-repeat;}
+
+
+/*profile */
+#content_profile {background:#fff9cf url('bg_light.jpg') bottom center no-repeat; width:100%;height1:485px;text-align:center;}
+#profile_header {position:relative;height:80px;}
+#profile_header img {position:absolute;top:18px;left:0px; }
+#profile_header .profile_title {position:absolute;top:18px;left:65px; width:220px;font-size:30px; line-height:31px;text-align:left;}
+#profile_header .profile_text {position:absolute;top:14px;left:295px; width:410px;height:60px;font-size:30px; line-height:31px;background:url(bg_sendmsg.png)no-repeat;}
+#profile_header .profile_text textarea {position:absolute;width:327px;height:42px;left:10px;top:4px;overflow:hidden; border:0px;font:12px/15px "宋体";}
+#profile_header .profile_text a.btn_tiny {position:absolute;width:55px;height:40px;left:345px;top:8px;background:url(sprite.png) -300px -47px no-repeat;font:16px/40px "微软雅黑","黑体";}
+#profile_header .profile_text a.btn_tiny:hover {background:url(sprite.png) -300px -90px no-repeat;cursor:pointer;border:0px;}
+
+.profile_xunzhang_list {margin-top:20px;}
+.xuanzhang_area0 {border-bottom:1px solid #ddd;}
+.xunzhang_area {padding:5px auto;margin:10px auto 5px auto;float:left;width:546px;}
+
+.profile_xunzhang_list .xunzhang {width:130px;height:71px;background-image:url(sprite_xunzhang.png);background-repeat:no-repeat; float:left;margin:3px; position:relative;}
+.profile_xunzhang_list .xunzhang i{font-size:18px;line-height:13px;color:#444;font-weight:bold;font-style:normal; position:absolute;top:44px;left:60px;}
+.profile_xunzhang_list .xunzhang b{font-size:12px;line-height:13px;color:#444;font-weight:normal;position:absolute;top:44px;left:48px;}
+.profile_xunzhang_list .xunzhang div{font-size:12px;line-height:15px;position:absolute;left:54px;top:33px;text-align:left;}
+.profile_xunzhang_list .xunzhang div font{font-size:14px;line-height:15px;color:#f00;}
+
+
+
+.profile_xunzhang_list .xunzhang_wenquxing0 {background-position:-130px 0;margin-right:15px;margin-left:0px;}
+.profile_xunzhang_list .xunzhang_boshi0 {background-position:-130px -72px;}
+.profile_xunzhang_list .xunzhang_niuren0 {background-position:-130px -144px;}
+.profile_xunzhang_list .xunzhang_daren0 {background-position:-130px -216px;}
+
+.profile_xunzhang_list .xunzhang_wenquxing {background-position:0 0;}
+.profile_xunzhang_list .xunzhang_boshi {background-position:0 -72px;}
+.profile_xunzhang_list .xunzhang_niuren {background-position:0 -144px;}
+.profile_xunzhang_list .xunzhang_daren {background-position:0 -216px;margin-top:-10px;}
+
+
 
 #wrap2 {margin-top:26px;width:100%;}
 .wrap2header {background:url(bg_wrap2.gif) no-repeat; width:676px;height:41px;}

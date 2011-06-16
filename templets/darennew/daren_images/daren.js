@@ -25,6 +25,7 @@ function init(iscontinue) {//return;
 	t=t>200?t:200;
 	t+=$(window).scrollTop();
 
+	$('#div_ready').css("background-image",'url('+urltemplate+'/daren_images/word_wait.gif)');
 	$('#div_wait').css('left',l).css('top',t).show();
 	daojishi(iscontinue);
 }

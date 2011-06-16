@@ -217,7 +217,7 @@ class zhengshu {
 		$uid=$account['uid'];
 		$type="eq";
 		$url="";
-		if(1==0 && !$newmake && ($url=self::checkZhengshu($uid,$type,$eqlv))){
+		if(!$newmake && ($url=self::checkZhengshu($uid,$type,$eqlv))){
 			return array("isold"=>1,"zsurl"=>$url);
 		}
 

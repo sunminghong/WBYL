@@ -25,6 +25,7 @@ function init(iscontinue) {//return;
 	t=t>200?t:200;
 	t+=$(window).scrollTop();
 
+	$('#div_ready').css("background-image",'url('+urlbase+'word_wait.gif)');
 	$('#div_wait').css('left',l).css('top',t).show();
 	daojishi(iscontinue);
 }
@@ -183,7 +184,7 @@ function _sendstatus(){
 		if(res=="-1"){alert('请先登录！');login();return;}
 
 		isfollow=true;
-		alert("已经将这张”范儿“分享到你的微博！");		
+		alert("已经将成绩单发布到你的微博！");		
 	});	
 }
 
