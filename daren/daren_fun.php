@@ -10,7 +10,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		}
 
 		//总成绩
-		$sql="select COALESCE(wincount,0) as wincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid";//echo $sql;
+		$sql="select coalesce(jifen,0) as jifen,COALESCE(wincount,0) as wincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid";//echo $sql;
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$darenScore=$row;
@@ -21,7 +21,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			$darenScore['filishcount']=0;
 			$darenScore['topcount']=0;
 			$darenScore['testcount']=0;
-
+			$darenScore['jifen']=0;
 		}
 		
 		//今天成绩			
@@ -148,7 +148,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		 imageWaterText($backImage,$text,$color,180,24,12,$fontFile,$newName);
 
 		$backImage=$newName;
-		$text=$name.'是的的的大的';
+		$text=$name;
 		$color="#000000";
 		$fontFile=ROOT."images/fonts/YGY20070701.ttf";	
 		if(len($text)<6) $posx=178;

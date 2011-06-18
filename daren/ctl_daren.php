@@ -5,7 +5,7 @@ $question=array();
 $question[0]="";
 
 define("STEP",1);  //每次显示多少题
-define("FULLMINUTE",70); //得勋章的分数
+define("FULLMINUTE",90); //得勋章的分数
 define("MINUTEPER",10); //每题多少分
 
 include_once("test_fun.php");
@@ -52,24 +52,23 @@ class daren extends ctl_base
 			}
 		}
 		
-		$sql="select COALESCE(wincount,0) as wincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid limit 0,1"; //echo $sql;
+		$sql="select coalesce(jifen,0) as jifen,COALESCE(wincount,0) as wincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,coalesce(wenquxingcount,0) as wenquxingcount,coalesce(boshicount,0) as boshicount,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid limit 0,1"; //echo $sql;
 		$rs=dbhelper::getrs($sql);
 		if(!($row=$rs->next())) {		
 			$row=array(
 				"wincount"=>0,
 				"topcount"=>0,
 				"wenquxingcount"=>0,
-				"boshicount"=>0
+				"boshicount"=>0,
+				'jifen'=>0
 			);
 		}
 		$this->set('totalcountlist',$row);
 
-		$sql="select qtype,wincount,topcount from ".dbhelper::tname('daren','win') ." where uid=$uid and wincount>0 order by qtype";
+		$sql="select qtype,wincount,topcount from ".dbhelper::tname('daren','daren_qtype') ." where uid=$uid and (wincount>0 or topcount>0) order by qtype";
 		$row=dbhelper::getrows($sql);
 		$this->set('qtypecountlist',$row);
 		$this->set('qtypenamelist',readqtypelist());
-
-
 
 		//todo:还没有读取文曲星和博士的记录
 		//$this->set('wenquxinglist',false);
@@ -333,7 +332,7 @@ class daren extends ctl_base
 
 		$cache=new CACHE();		
 		$question=$cache->get("daren_question_".$qtype); 
-		if(1==0 && is_array($question)) {
+		if(1==1 && is_array($question)) {
 			$questionovertime=$cache->get("daren_question_time_".$qtype);
 			
 			if(dateDiff("d",$questionovertime , $timestamp)==0) {
@@ -429,10 +428,11 @@ class daren extends ctl_base
 		$ret=envhelper::readRet();
 		$sqlu="lasttime=$timestamp,followers=".$account['followers'].",followings=".$account['followings'].",tweets=".$account['tweets'].",retuid='".$ret['retuid'] ."'";
 		$lasttime=0;
-		$sql="select * from ". dbhelper::tname("daren","win") ." where qtype=$qtype and uid=" . $account["uid"];
+		$sql="select * from ". dbhelper::tname("daren","daren_qtype") ." where qtype=$qtype and uid=" . $account["uid"];
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$last=$row['lasttime'];
+			$wins=0;$jifen=0;
 			if($darenvalue == -1 ){
 				$testCount=1;
 				$filish=0;
@@ -440,20 +440,27 @@ class daren extends ctl_base
 			else {
 				$testCount=0;
 				$filish=1;
+
+				if($darenvalue>=FULLMINUTE) {
+					$sql="select id from ". dbhelper::tname("daren","log") ." where  uid=" . $account["uid"]." and qtype=$qtype and score>=".FULLMINUTE." and  ( lasttime > UNIX_TIMESTAMP(FROM_DAYS(TO_DAYS(now())))) limit 0,1";
+					$rs=dbhelper::getrs($sql);
+					if($row=$rs->next()){
+						$wins=0;
+						$jifen=2;
+					}
+					else {
+						$wins=1;
+						$jifen=30;
+					}
+				}
+				elseif ($darenvalue>=60) 
+					$jifen=2;
+				else
+					$jifen=1;
 			}
 
-			$wins=0;
-			if($darenvalue>=FULLMINUTE) {
-				$sql="select id from ". dbhelper::tname("daren","log") ." where  uid=" . $account["uid"]." and qtype=$qtype and score>=".FULLMINUTE." and  ( lasttime > UNIX_TIMESTAMP(FROM_DAYS(TO_DAYS(now())))) limit 0,1";
-				$rs=dbhelper::getrs($sql);
-				if($row=$rs->next()){
-					$wins=0;
-				}
-				else
-					$wins=1;
-			}
-			$sql="update ". dbhelper::tname("daren","win") ." set  testCount=testCount+$testCount,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  qtype=$qtype and uid=" . $account["uid"];
-			$sql .=";;;update ". dbhelper::tname("daren","daren") ." set  testCount=testCount+$testCount,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  uid=" . $account["uid"];
+			$sql="update ". dbhelper::tname("daren","daren_qtype") ." set  testCount=testCount+$testCount,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  qtype=$qtype and uid=" . $account["uid"];
+			$sql .=";;;update ". dbhelper::tname("daren","daren") ." set  testCount=testCount+$testCount,jifen=jifen+$jifen,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  uid=" . $account["uid"];
 			
 			if(SAVELOG && $darenvalue > -1 ) {
 				$sql .=";;;update ". dbhelper::tname("daren","log") ." set score=". $darenvalue. ",useTime=".$useTime.",$sqlu
@@ -464,10 +471,14 @@ class daren extends ctl_base
 			}
 		}
 		else{
-			$sql ="insert into ". dbhelper::tname("daren","win") ." set qtype=$qtype,testCount=1,regtime=$timestamp,lasttime=$timestamp,uid=" . $account['uid'];
-			$sql .=";;;insert into ". dbhelper::tname("daren","daren") ." set testCount=1,regtime=$timestamp,lasttime=$timestamp,uid=" . $account['uid'];
-			$sql .=";;;insert into ". dbhelper::tname("daren","log") ." set qtype=$qtype,score=". $darenvalue. ",useTime=".$useTime.",$sqlu,uid=" . $account['uid'];
+			$sql ="insert into ". dbhelper::tname("daren","daren_qtype") ." set qtype=$qtype,testCount=1,regtime=$timestamp,lasttime=$timestamp,uid=" . $account['uid'];
+			
+			if(dbhelper::getvalue("select uid from ". dbhelper::tname("daren","daren") ." where uid=" . $account['uid']))
+				$sql .=";;;update ". dbhelper::tname("daren","daren") ." set testCount=testCount+1,regtime=$timestamp,lasttime=$timestamp where uid=" . $account['uid'];
+			else
+				$sql .=";;;insert into ". dbhelper::tname("daren","daren") ." set testCount=testCount+1,regtime=$timestamp,lasttime=$timestamp,uid=" . $account['uid'];
 
+			$sql .=";;;insert into ". dbhelper::tname("daren","log") ." set qtype=$qtype,score=". $darenvalue. ",useTime=".$useTime.",$sqlu,uid=" . $account['uid'];
 		}
 //echo $sql;//exit;
 		dbhelper::exesqls($sql);
@@ -485,9 +496,9 @@ class daren extends ctl_base
 				
 			//echo $sql."<br/>";
 			dbhelper::exesqls($sql);
-		}
+			$this->_makeTop() ;
 
-		$this->_makeTop() ;
+		}
 	}
 
 	private function _makeTop() {		
@@ -495,8 +506,8 @@ class daren extends ctl_base
 
 		$cache=new CACHE();
 		$lastmaketop=$cache->get("daren_lastmaketop"); 
-//echo 'difff='.		dateDiff("d",$lastmaketop , $timestamp);
-		if(1==0 && $lastmaketop && dateDiff("d",$lastmaketop , $timestamp)==0) {
+
+		if($lastmaketop && dateDiff("d",$lastmaketop , $timestamp)==0) {
 				return ;
 		}
 		
@@ -518,31 +529,41 @@ class daren extends ctl_base
 
 	public function maketop() {	
 		global $timestamp;
+
+		$cache=new CACHE();
+		$lastmaketop=$cache->get("daren_lastmaketop"); 
+
+		if(1==1 && $lastmaketop && dateDiff("d",$lastmaketop , $timestamp)==0) {
+				return ;
+		}	
 		
 		$day=intval(strftime("%y%m%d",$timestamp))-1;
 
+		//计算出每个人每科最高得分
 		$sql="delete from daren_tmp_daysort ";
 		dbhelper::execute($sql);
-
-		$rs=dbhelper::getrs("select qtype from ". dbhelper::tname("daren","log") ." where lasttime <UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  and  lasttime >= UNIX_TIMESTAMP( ADDDATE(now(), INTERVAL -1 DAY) )  group by qtype");
+		$sql="select qtype from ". dbhelper::tname("daren","log") ." where lasttime <UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  and  lasttime >= UNIX_TIMESTAMP(  DATE_FORMAT( ADDDATE(now(), INTERVAL -1 DAY) ,  '%Y-%m-%d' )  )  group by qtype";
+		$rs=dbhelper::getrs($sql);
 		while($row=$rs->next()) {
-			$sql="insert into ". dbhelper::tname("daren","tmp_daysort") ." (uid,score,qtype)  
-			select uid,max(score * 1000+990-usetime) as score2," .$row['qtype']. " from ". dbhelper::tname("daren","log") ." where qtype=" . $row["qtype"] . " and lasttime <UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  and  lasttime >= UNIX_TIMESTAMP( ADDDATE(now(), INTERVAL -1 DAY) )  group by uid order by score2 desc limit 0,10";
+			$sql="insert into ". dbhelper::tname("daren","tmp_daysort") ." (score,qtype)  
+			select max(score * 1000+990-usetime) as score2," .$row['qtype']. " from ". dbhelper::tname("daren","log") ." where score>0 and qtype=" . $row["qtype"] . " and lasttime <UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  and  lasttime >= UNIX_TIMESTAMP(  DATE_FORMAT( ADDDATE(now(), INTERVAL -1 DAY) ,  '%Y-%m-%d' )  )  order by score2 desc limit 0,1";
 			
 			//echo $sql."<br/>";
 			dbhelper::execute($sql);
 		}
-		$sql="delete from ". dbhelper::tname("daren","win_top") ." where winday=$day";
-		$sql .=";;;insert into ". dbhelper::tname("daren","win_top") ." (qtype,winday,uid,no,score,usetime,regtime,lasttime) ";
-		$sql .="select log.qtype,$day,log.uid,0,log.score,log.usetime,$timestamp,log.lasttime from ". dbhelper::tname("daren","tmp_daysort") ." top ,  ". dbhelper::tname("daren","log") ." log where log.qtype=top.qtype and log.uid=top.uid and log.score=top.score div 1000 and log.usetime=990-top.score % 1000 " ;		
-		///echo $sql;
+		
+		$sql="delete from ". dbhelper::tname("daren","top_day") ." where winday=$day";
+		$sql .=";;;insert into ". dbhelper::tname("daren","top_day") ." (qtype,winday,uid,no,score,usetime,regtime,lasttime) ";
+		$sql .="select log.qtype,$day,log.uid,0,log.score,log.usetime,$timestamp,log.lasttime from ". dbhelper::tname("daren","tmp_daysort") ." top ,  ". dbhelper::tname("daren","log") ." log where log.qtype=top.qtype and log.score=top.score div 1000 and log.usetime=990-top.score % 1000 limit 0,1" ;		
+		//echo $sql."<br/>";
 		dbhelper::exesqls($sql);
-		$sql="select uid,qtype from ". dbhelper::tname("daren","win_top") ." where winday=$day";
+		$sql="select uid,qtype from ". dbhelper::tname("daren","top_day") ." where winday=$day";
 		$rs=dbhelper::getrs($sql);
 		$sql="";
 		while($row=$rs->next()) {
-			$sql.="update ". dbhelper::tname("daren","win") ."  set topcount=topcount+1,lasttime=$timestamp where qtype=".$row['qtype']." and uid =".$row['uid'].";;;";
-			$sql.="update ". dbhelper::tname("daren","daren") ."  set topcount=topcount+1,lasttime=$timestamp where uid =".$row['uid'].";;;";
+			echo $row['uid'].$row['qtype'].$day.'<br/>';
+			$sql.="update ". dbhelper::tname("daren","daren_qtype") ."  set topcount=topcount+1,lasttime=$timestamp where qtype=".$row['qtype']." and uid =".$row['uid'].";;;";
+			$sql.="update ". dbhelper::tname("daren","daren") ."  set jifen=jifen+50,topcount=topcount+1,lasttime=$timestamp where uid =".$row['uid'].";;;";
 		}
 		dbhelper::exesqls($sql);
 
