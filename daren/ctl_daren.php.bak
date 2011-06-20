@@ -52,7 +52,7 @@ class daren extends ctl_base
 			}
 		}
 		
-		$sql="select coalesce(jifen,0) as jifen,COALESCE(wincount,0) as wincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,coalesce(wenquxingcount,0) as wenquxingcount,coalesce(boshicount,0) as boshicount,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid limit 0,1"; //echo $sql;
+		$sql="select coalesce(jifen,0) as jifen,COALESCE(wincount,0) as wincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,coalesce(wenquxingcount,0) as wenquxingcount,coalesce(boshicount,0) as boshicount,coalesce(jifen,0) as jifen,coalesce(alljifen,0) as alljifen,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid limit 0,1"; //echo $sql;
 		$rs=dbhelper::getrs($sql);
 		if(!($row=$rs->next())) {		
 			$row=array(
@@ -60,15 +60,22 @@ class daren extends ctl_base
 				"topcount"=>0,
 				"wenquxingcount"=>0,
 				"boshicount"=>0,
-				'jifen'=>0
+				'jifen'=>0,
+				'alljifen'=>0
 			);
 		}
 		$this->set('totalcountlist',$row);
 
-		$sql="select qtype,wincount,topcount from ".dbhelper::tname('daren','daren_qtype') ." where uid=$uid and wincount>0 order by qtype";
+		$sql="select qtype,wincount,topcount from ".dbhelper::tname('daren','daren_qtype') ." where uid=$uid and (wincount>0 or topcount>0) order by qtype";
 		$row=dbhelper::getrows($sql);
 		$this->set('qtypecountlist',$row);
 		$this->set('qtypenamelist',readqtypelist());
+
+
+		$sql="select qtype,DATE_FORMAT( FROM_UNIXTIME(regtime) ,  '%Y-%m-%d' ) as winday,score,usetime from ".dbhelper::tname('daren','top_day') ." where uid=$uid";
+		$row=dbhelper::getrows($sql);
+		$this->set('qtypetoplist',$row);
+
 
 		//todo:还没有读取文曲星和博士的记录
 		//$this->set('wenquxinglist',false);
@@ -290,8 +297,9 @@ class daren extends ctl_base
 			echo '-1';exit;
 		}
 
-		$msg=rf("msg","");	
+		$msg=trim(rf("msg",""));	
 		$is_follow=rf('is_follow','0');
+		$is_pic=rf('is_pic','0');
 
 		if(!$msg) {
 			$msg="#我太有才了#，你们来挑战我吧！";
@@ -307,8 +315,8 @@ class daren extends ctl_base
 
 		$picurl=sreadcookie('daren_zhengshu_url');
 		
-		//echo 'upload'.$wbmsg.$picurl;
-		if($picurl)
+		echo 'upload'.$wbmsg.$picurl;exit;
+		if($is_pic && $picurl)
 			$api->upload($wbmsg,$picurl);
 		else
 			$api->update($wbmsg);
@@ -460,7 +468,7 @@ class daren extends ctl_base
 			}
 
 			$sql="update ". dbhelper::tname("daren","daren_qtype") ." set  testCount=testCount+$testCount,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  qtype=$qtype and uid=" . $account["uid"];
-			$sql .=";;;update ". dbhelper::tname("daren","daren") ." set  testCount=testCount+$testCount,jifen=jifen+$jifen,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  uid=" . $account["uid"];
+			$sql .=";;;update ". dbhelper::tname("daren","daren") ." set  testCount=testCount+$testCount,jifen=jifen+$jifen,alljifen=alljifen+$jifen,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  uid=" . $account["uid"];
 			
 			if(SAVELOG && $darenvalue > -1 ) {
 				$sql .=";;;update ". dbhelper::tname("daren","log") ." set score=". $darenvalue. ",useTime=".$useTime.",$sqlu
@@ -561,9 +569,9 @@ class daren extends ctl_base
 		$rs=dbhelper::getrs($sql);
 		$sql="";
 		while($row=$rs->next()) {
-			echo $row['uid'].$row['qtype'].$day.'<br/>';
+			//echo $row['uid'].$row['qtype'].$day.'<br/>';
 			$sql.="update ". dbhelper::tname("daren","daren_qtype") ."  set topcount=topcount+1,lasttime=$timestamp where qtype=".$row['qtype']." and uid =".$row['uid'].";;;";
-			$sql.="update ". dbhelper::tname("daren","daren") ."  set jifen=jifen+50,topcount=topcount+1,lasttime=$timestamp where uid =".$row['uid'].";;;";
+			$sql.="update ". dbhelper::tname("daren","daren") ."  set jifen=jifen+50,alljifen=alljifen+50,topcount=topcount+1,lasttime=$timestamp where uid =".$row['uid'].";;;";
 		}
 		dbhelper::exesqls($sql);
 

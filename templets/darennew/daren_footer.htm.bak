@@ -1,7 +1,7 @@
 
 <div id="mask"></div>
 <div id="wrap2">
-	<div style="width:676px;margin:auto;">
+	<div style="width:676px;margin:auto;background-color:#a59d71; ">
 		<div class="wrap2header"></div>
 		<div class="div_list">
 			<!--{loop $testlist $test}-->
@@ -19,6 +19,7 @@
 			<!--{/loop}-->
 		</div>
 		<div class="div_list">
+			<p><a href="javascript:void(0);" onclick="follow();">关注官方微博</a></p>
 			<p><a href="{$orgwbsite}">浏览官方微博</a></p>
 			<p><b> 其他应用推荐</b></p>
 			<p>&gt; <a href="http://q.5d13.cn/iq">IQ测试</a></p>

@@ -163,28 +163,34 @@ function _follow(uid,lfrom,lfromuid){
 				login();
 				break;
 			case "-2":
-				alert('你知道吗？世界上最远的距离不是生与死的距离，也不是心和心的距离，而是你们一个在新浪微博一个在腾讯微博里！');
+				alert('你知道吗？世界上最远的距离不是生与死的距离，也不是心和心的距离，而是你们一个在新浪微博一个在腾讯微博里,你可以换个账号登录！');
 				break;
 		}
 	});
 }
 
-function _sendstatus(){
+function _sendstatus(msg){
+	var is_pic=1;
+	if(msg) {
+		is_pic=0;		
+	}else 
+		msg=$('#result_sendstatus').val();
+
 	var url=__url+'&op=sendstatus';
 	var is_follow=0;
 	if($('#iffollow').attr('checked')) is_follow=1;
 	if(isfollow) {
 		is_follow=0;
 	}
-	else if(!is_follow &&  confirm("是否关注开发者孙铭鸿？")){
+	else if(is_pic && !is_follow &&  confirm("是否关注开发者孙铭鸿？")){
 		is_follow=1;
 	}
 
-	$.post(url,{is_follow:is_follow,msg:$('#result_sendstatus').val()},function(res){
+	$.post(url,{is_pic:is_pic,is_follow:is_follow,msg:msg},function(res){
 		if(res=="-1"){alert('请先登录！');login();return;}
 
 		isfollow=true;
-		alert("已经将成绩单发布到你的微博！");		
+		alert("已经发布到你的微博！");		
 	});	
 }
 
@@ -313,6 +319,11 @@ $(document).ready(function(){
 	{
 		$('#sendstatus').click(function(){
 			 _sendstatus();
+		});
+	}
+	else if(op=="profile") {
+		$('#btn_profile_sendmsg').click(function(){
+			_sendstatus($('#profile_text_msg').val());
 		});
 	}
 

@@ -6,7 +6,8 @@ font: 12px/1.5em '微软雅黑',Tahoma, Arial, Helvetica, snas-serif;
 }
 p {text-align:left;}
 div {margin:auto;}
-a{outline:none;text-decoration: none;color:#fff;}
+a{outline:none;text-decoration: none;color:#fff;border:0px;}
+img {border:0px;}
 .posrel{position:relative;}
 .posabs {position:absolute;}
 .cls {clear:both;}
@@ -173,6 +174,7 @@ background:url(bg_ico_tips.gif)  no-repeat;font-size:19px;line-height:37px;font-
 #div_result_area_zhengshu {float:left;width:220px;height:150px;overflow:hidden;margin:15px 12px 12px 15px;}
 #div_result_area_zhengshu img {width:220px;}
 #div_result_area textarea{width:215px;height:126px;font-family:"微软雅黑", "宋体";font-size:12px;line-height:17px;margin-top:15px;}
+#div_result_area textarea.nozhengshu{width:435px;}
 
 #sendstatus {font-size:16px;font-weight:bold;line-height:21px;padding-left:120px; text-decoration: underline;color:#00f;}
 
@@ -188,18 +190,19 @@ a.btn_red_big:hover {background:url(sprite.png) -424px -47px no-repeat;}
 a.btn_green_small:hover {background:url(sprite.png) -424px -91px no-repeat;}
 a.btn_green_small {background:url(sprite.png) -424px -133px no-repeat;}
 
-
+.profile_title {/*position:absolute;top:18px;left:65px; width:220px;text-align:left;*/font-size:30px; line-height:31px;}
 /*profile */
 #content_profile {background:#fff9cf url('bg_light.jpg') bottom center no-repeat; width:100%;height1:485px;text-align:center;}
-#profile_header {position:relative;height:80px;}
+#profile_header {position:relative;height:95px; background:url(bg_profile_line.gif) bottom center no-repeat;}
 #profile_header img {position:absolute;top:18px;left:0px; }
-#profile_header .profile_title {position:absolute;top:18px;left:65px; width:220px;font-size:30px; line-height:31px;text-align:left;}
-#profile_header .profile_text {position:absolute;top:14px;left:295px; width:410px;height:60px;font-size:30px; line-height:31px;background:url(bg_sendmsg.png)no-repeat;}
+#profile_header .profile_title {position:absolute;top:18px;left:15px; width:250px;text-align:left;font-size:18px; line-height:27px;}
+#profile_header .profile_title b {font-size:24px; line-height:27px; color:#c80404;font-family:Tahoma, Helvetica, arial;}
+#profile_header .profile_text {position:absolute;top:20px;left:295px; width:410px;height:60px;font-size:30px; line-height:31px; background:url(bg_sendmsg.png) no-repeat;}
 #profile_header .profile_text textarea {position:absolute;width:327px;height:42px;left:10px;top:4px;overflow:hidden; border:0px;font:12px/15px "宋体";}
 #profile_header .profile_text a.btn_tiny {position:absolute;width:55px;height:40px;left:345px;top:8px;background:url(sprite.png) -300px -47px no-repeat;font:16px/40px "微软雅黑","黑体";}
 #profile_header .profile_text a.btn_tiny:hover {background:url(sprite.png) -300px -90px no-repeat;cursor:pointer;border:0px;}
 
-.profile_xunzhang_list {margin-top:20px;}
+.profile_xunzhang_list {margin-top:5px;}
 .xuanzhang_area0 {border-bottom:1px solid #ddd;}
 .xunzhang_area {padding:5px auto;margin:10px auto 5px auto;float:left;width:546px;}
 
@@ -208,18 +211,18 @@ a.btn_green_small {background:url(sprite.png) -424px -133px no-repeat;}
 .profile_xunzhang_list .xunzhang b{font-size:12px;line-height:13px;color:#444;font-weight:normal;position:absolute;top:44px;left:48px;}
 .profile_xunzhang_list .xunzhang div{font-size:12px;line-height:15px;position:absolute;left:54px;top:33px;text-align:left;}
 .profile_xunzhang_list .xunzhang div font{font-size:14px;line-height:15px;color:#f00;}
-
+.profile_xunzhang_list .xunzhang div u{font-size:12px;line-height:13px;color:#f33;text-decoration:none;}
 
 
 .profile_xunzhang_list .xunzhang_wenquxing0 {background-position:-130px 0;margin-right:15px;margin-left:0px;}
 .profile_xunzhang_list .xunzhang_boshi0 {background-position:-130px -72px;}
-.profile_xunzhang_list .xunzhang_niuren0 {background-position:-130px -144px;}
+.profile_xunzhang_list .xunzhang_niuren0 {background-position:-130px -144px;margin-top:10px;}
 .profile_xunzhang_list .xunzhang_daren0 {background-position:-130px -216px;}
 
 .profile_xunzhang_list .xunzhang_wenquxing {background-position:0 0;}
 .profile_xunzhang_list .xunzhang_boshi {background-position:0 -72px;}
 .profile_xunzhang_list .xunzhang_niuren {background-position:0 -144px;}
-.profile_xunzhang_list .xunzhang_daren {background-position:0 -216px;}
+.profile_xunzhang_list .xunzhang_daren {background-position:0 -216px;margin-top:-10px;}
 
 
 

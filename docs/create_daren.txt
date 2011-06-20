@@ -1,0 +1,145 @@
+CREATE TABLE `daren_daren` (
+  `uid` int(11) NOT NULL,
+  `jifen` int(11) NOT NULL default '0',
+  `alljifen` int(11) NOT NULL default '0',
+  `wincount` int(11) NOT NULL default '0' COMMENT '达人勋章数',
+  `filishcount` int(11) NOT NULL default '0',
+  `testcount` int(11) NOT NULL COMMENT '测试次数',
+  `topcount` int(11) NOT NULL default '0' COMMENT '牛人勋章个数，即得了多少次但可当日第一',
+  `boshicount` int(11) NOT NULL default '0' COMMENT '博士勋章',
+  `wenquxingcount` int(11) NOT NULL default '0' COMMENT '文曲星勋章',
+  `regtime` int(11) NOT NULL default '0',
+  `lasttime` int(11) NOT NULL,
+  PRIMARY KEY  (`uid`),
+  KEY `lasttime` USING BTREE (`lasttime`),
+  KEY `testcount` USING BTREE (`testcount`),
+  KEY `wincount` USING BTREE (`wincount`),
+  KEY `filishcount` USING BTREE (`filishcount`),
+  KEY `topCcount` USING BTREE (`topcount`),
+  KEY `boshicount` (`boshicount`),
+  KEY `wenquxingcount` (`wenquxingcount`),
+  KEY `jifen` (`jifen`),
+  KEY `alljifen` (`alljifen`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='记录个人的成绩表'
+
+
+CREATE TABLE `daren_daren_qtype` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid` int(11) NOT NULL,
+  `qtype` tinyint(4) NOT NULL,
+  `wincount` int(11) NOT NULL default '0',
+  `filishcount` int(11) NOT NULL default '0',
+  `testcount` int(11) NOT NULL COMMENT '测试次数',
+  `topcount` int(11) NOT NULL default '0',
+  `regtime` int(11) NOT NULL default '0',
+  `lasttime` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `uid` (`uid`),
+  KEY `qtype` (`qtype`),
+  KEY `lasttime` (`filishcount`),
+  KEY `topCount` (`topcount`),
+  KEY `testcount` USING BTREE (`testcount`),
+  KEY `wincount` USING BTREE (`wincount`),
+  KEY `filishcount` USING BTREE (`filishcount`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='记录个人的各科的成绩表'
+
+
+CREATE TABLE `daren_log` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid` int(11) NOT NULL,
+  `qtype` tinyint(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  `usetime` int(11) NOT NULL default '0',
+  `followers` int(11) NOT NULL,
+  `followings` int(11) NOT NULL,
+  `tweets` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `retuid` int(11) NOT NULL COMMENT '从哪个用户带过来的',
+  PRIMARY KEY  (`id`),
+  KEY `uid` (`uid`),
+  KEY `iq` (`score`),
+  KEY `followers` (`followers`),
+  KEY `useTime` (`usetime`),
+  KEY `qtype` (`qtype`)
+) ENGINE=InnoDB AUTO_INCREMENT=19081 DEFAULT CHARSET=utf8
+
+CREATE TABLE `daren_tmb_daylog` (
+  `id` int(11) NOT NULL auto_increment,
+  `qtype` int(11) NOT NULL,
+  `tmday` int(11) NOT NULL,
+  `tmid` int(11) NOT NULL,
+  `regtime` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `tmday` (`tmday`),
+  KEY `tmid` (`tmid`)
+) ENGINE=InnoDB AUTO_INCREMENT=422 DEFAULT CHARSET=utf8
+
+CREATE TABLE `daren_tmb_type` (
+  `id` int(11) NOT NULL auto_increment,
+  `ctype` varchar(30) NOT NULL,
+  `idlist` varchar(100) NOT NULL,
+  `regtime` int(11) NOT NULL,
+  `num` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `kind` (`ctype`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8
+
+CREATE TABLE `daren_tmp_day` (
+  `id` int(11) NOT NULL auto_increment,
+  `qtype` int(11) NOT NULL,
+  `winday` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `score` int(11) NOT NULL default '0',
+  `usetime` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `qtype` (`qtype`),
+  KEY `tmday` (`winday`),
+  KEY `uid` (`uid`),
+  KEY `usetime` (`usetime`),
+  KEY `score` (`score`)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='记录个人的每天每科的最高成绩'
+
+CREATE TABLE `daren_tmp_daysort` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  `qtype` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `score` (`score`),
+  KEY `uid` (`uid`)
+) ENGINE=MEMORY AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 COMMENT='进行排序用的临时内存表'
+
+CREATE TABLE `daren_tmp_day_total` (
+  `id` int(11) NOT NULL auto_increment,
+  `winday` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `score` int(11) NOT NULL default '0',
+  `usetime` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `tmday` (`winday`),
+  KEY `uid` (`uid`),
+  KEY `usetime` (`usetime`),
+  KEY `score` (`score`)
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 COMMENT='记录个人的当天的总成绩'
+
+
+CREATE TABLE `daren_top_day` (
+  `id` int(11) NOT NULL auto_increment,
+  `qtype` int(11) NOT NULL,
+  `winday` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `no` smallint(6) NOT NULL,
+  `regtime` int(11) NOT NULL,
+  `lasttime` int(11) NOT NULL,
+  `score` int(11) NOT NULL default '0',
+  `usetime` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `qtype` (`qtype`),
+  KEY `tmday` (`winday`),
+  KEY `tmid` (`uid`),
+  KEY `no` (`no`),
+  KEY `usetime` (`usetime`),
+  KEY `score` (`score`)
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 COMMENT='记录每日各科的第一名,这个要保存'
