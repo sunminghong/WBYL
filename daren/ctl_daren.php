@@ -5,8 +5,8 @@ $question=array();
 $question[0]="";
 
 define("STEP",1);  //每次显示多少题
-define("FULLMINUTE",90); //得勋章的分数
-define("MINUTEPER",10); //每题多少分
+define("FULLMINUTE",120); //得勋章的分数
+define("MINUTEPER",15); //每题多少分
 
 include_once("test_fun.php");
 include_once("daren_fun.php");
@@ -34,6 +34,7 @@ class daren extends ctl_base
 		$this->set('testlist',_gettestlist());
 
 		$this->set("op","index");
+		$this->set("pagetitle","");
 		$this->display("daren_index");
 	}
 	function profile(){
@@ -72,7 +73,7 @@ class daren extends ctl_base
 		$this->set('qtypenamelist',readqtypelist());
 
 
-		$sql="select qtype,DATE_FORMAT( FROM_UNIXTIME(regtime) ,  '%Y-%m-%d' ) as winday,score,usetime from ".dbhelper::tname('daren','top_day') ." where uid=$uid";
+		$sql="select qtype,DATE_FORMAT( FROM_UNIXTIME(lasttime) ,  '%Y-%m-%d' ) as winday,score,usetime from ".dbhelper::tname('daren','top_day') ." where uid=$uid";
 		$row=dbhelper::getrows($sql);
 		$this->set('qtypetoplist',$row);
 
@@ -101,6 +102,7 @@ class daren extends ctl_base
 		$this->set('testlist',_gettestlist());
 
 		$this->set("op","profile");
+		$this->set("pagetitle",$score["name"]."的成就 - ");
 		$this->display("daren_profile");
 	}
 
@@ -130,7 +132,8 @@ class daren extends ctl_base
 
 		$account=$this->checkLogin();
 
-		$this->set("op","ican");
+		$this->set("op","ican");		
+		$this->set("pagetitle","每日十问 - ");
 
 		$score=readdarenScore($uid,0,false);		//print_r($score);
 		$this->set("score",$score);
@@ -240,12 +243,11 @@ class daren extends ctl_base
 		
 		ssetcookie('daren_zhengshu_url','');
 		if($darenvalue>=FULLMINUTE){
-			$picurl=_makeZhengshu($account["uid"],$account['name'],"daren",$account['avatar']);
+			$picurl=_makeZhengshu($account["uid"],$account['name'],$darenvalue,"daren",$account['avatar']);
 			$this->set('darenzhengshuurl',$picurl);
 		}
 		
 		$this->set("score",$score);
-		$this->set("op","showscore");
 
 		$this->set("qtype",$qtype);
 		if($qtype==1) $this->set('qtypename','综合类');
@@ -256,6 +258,8 @@ class daren extends ctl_base
 
 		$this->set('todaytoplist',_gettodaytop());
 		$this->set('testlist',_gettestlist());
+		$this->set("op","showscore");		
+		$this->set("pagetitle","测试成绩 - ");
 		$this->display("daren_result");
 	}
 
@@ -315,7 +319,7 @@ class daren extends ctl_base
 
 		$picurl=sreadcookie('daren_zhengshu_url');
 		
-		echo 'upload'.$wbmsg.$picurl;exit;
+		//echo 'upload'.$wbmsg.$picurl;exit;
 		if($is_pic && $picurl)
 			$api->upload($wbmsg,$picurl);
 		else
@@ -329,7 +333,6 @@ class daren extends ctl_base
 		}
 		echo "1";
 	}
-
 	
 	private function readQuestion() {
 		global $question;
@@ -340,7 +343,7 @@ class daren extends ctl_base
 
 		$cache=new CACHE();		
 		$question=$cache->get("daren_question_".$qtype); 
-		if(1==1 && is_array($question)) {
+		if(1==0 && is_array($question)) {
 			$questionovertime=$cache->get("daren_question_time_".$qtype);
 			
 			if(dateDiff("d",$questionovertime , $timestamp)==0) {
@@ -366,14 +369,14 @@ class daren extends ctl_base
 		}
 		else {			
 			if($qtype==1) {
-				$sql="select * from (select * from ". dbhelper::tname("daren","tmb") ."  where qtype=0 order by rand() limit 0,4 ) a
-				union select * from (select * from ". dbhelper::tname("daren","tmb") ."  where qtype=1 order by rand() limit 0,3 ) b
-				union select * from (select * from ". dbhelper::tname("daren","tmb") ."  where qtype=2 order by rand() limit 0,6 ) c";
+				$sql="select * from (select * from ". dbhelper::tname("daren","tmb") ."  where flag<>3 and qtype=0 order by rand() limit 0,4 ) a
+				union select * from (select * from ". dbhelper::tname("daren","tmb") ."  where flag<>3 and qtype=1 order by rand() limit 0,3 ) b
+				union select * from (select * from ". dbhelper::tname("daren","tmb") ."  where flag<>3 and qtype=2 order by rand() limit 0,6 ) c";
 			}else {//echo $qtype;print_r($qtypearr);print_r( $qtypearr[$qtype]);
 				if(strpos($qtypearr[$qtype][1],',')>-1)
-					$sql=" select * from ". dbhelper::tname("daren","tmb") ."  where kindid in (".$qtypearr[$qtype][1].") order by rand() limit 0,15";
+					$sql=" select * from ". dbhelper::tname("daren","tmb") ."  where flag<>3 and kindid in (".$qtypearr[$qtype][1].") order by rand() limit 0,15";
 				else
-					$sql=" select * from ". dbhelper::tname("daren","tmb") ."  where kindid=".$qtypearr[$qtype][1]." order by rand() limit 0,15";
+					$sql=" select * from ". dbhelper::tname("daren","tmb") ."  where flag<>3 and kindid=".$qtypearr[$qtype][1]." order by rand() limit 0,15";
 				///echo 'question sql==='.$sql;
 			}
 		}
@@ -392,12 +395,12 @@ class daren extends ctl_base
 			else continue;
 
 			$arr=array(
-					trim($row['tmda1']),MINUTEPER,
+					trim($row['tmda1']),0,
 					trim($row['tmda2']),0,
 					trim($row['tmda3']),0,
 					trim($row['tmda4']),0
 				);
-//			$arr[$idx*2+1]=MINUTEPER;
+			$arr[$idx*2+1]=MINUTEPER;
 			$question[] = array(
 				0=>$kindid,
 				1=>trim($row['tmnr']),
@@ -515,7 +518,7 @@ class daren extends ctl_base
 		$cache=new CACHE();
 		$lastmaketop=$cache->get("daren_lastmaketop"); 
 
-		if($lastmaketop && dateDiff("d",$lastmaketop , $timestamp)==0) {
+		if(1==1 && $lastmaketop && dateDiff("d",$lastmaketop , $timestamp)==0) {
 				return ;
 		}
 		
@@ -562,7 +565,7 @@ class daren extends ctl_base
 		
 		$sql="delete from ". dbhelper::tname("daren","top_day") ." where winday=$day";
 		$sql .=";;;insert into ". dbhelper::tname("daren","top_day") ." (qtype,winday,uid,no,score,usetime,regtime,lasttime) ";
-		$sql .="select log.qtype,$day,log.uid,0,log.score,log.usetime,$timestamp,log.lasttime from ". dbhelper::tname("daren","tmp_daysort") ." top ,  ". dbhelper::tname("daren","log") ." log where log.qtype=top.qtype and log.score=top.score div 1000 and log.usetime=990-top.score % 1000 limit 0,1" ;		
+		$sql .="select log.qtype,$day,log.uid,0,log.score,log.usetime,$timestamp,log.lasttime from ". dbhelper::tname("daren","tmp_daysort") ." top ,  ". dbhelper::tname("daren","log") ." log where log.qtype=top.qtype and log.score=top.score div 1000 and log.usetime=990-top.score % 1000" ;		
 		//echo $sql."<br/>";
 		dbhelper::exesqls($sql);
 		$sql="select uid,qtype from ". dbhelper::tname("daren","top_day") ." where winday=$day";

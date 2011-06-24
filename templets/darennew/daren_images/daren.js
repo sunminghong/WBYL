@@ -1,5 +1,9 @@
 var __url=urlbase+"?app=daren";
 
+var ww=0;
+var hh=0;
+var isie6=false;
+
 var usetime2=0;
 var isFilish=false;
 var isLoading=false;
@@ -42,13 +46,14 @@ function daojishi(iscontinue) {
 }
 
 function __init(iscontinue) {
+	$('#div_test').show();
 	var w=$('#div_test').width();
 	var h=$('#div_test').height();
 	var l=(ww-w)/2;
 	var t=(hh-h)/2;
 	t=t>110?t:110;
-	t+=$(window).scrollTop();
-	$('#div_test').css('left',l).css('top',t).show();
+	t+=$(window).scrollTop();////alert(w+"/"+hh+"-"+h+"/"+t+' from '+$(window).scrollTop());
+	$('#div_test').css('left',l).css('top',t);
 	isinit=true;
 	$("#btn_b").show();
 	if(iscontinue)
@@ -58,6 +63,14 @@ function __init(iscontinue) {
 		location.hash="#continue";
 	}
 	pr1.start({val:0,maxval:MAXTIME,timeout:400,step:4});	
+
+
+	if(isie6) {
+		setTimeout(function(){
+			$('body').css('height',$('body').height()+1);
+			
+		},10);
+	}
 
 }
 
@@ -121,16 +134,16 @@ function next(de,an){
 			var sel=qu.a[0];
 			var ABC=['','A','B','C','D','E','F','G'];
 			var ph=[];
-			for(j=1;j<4;j++){
+			for(j=1;j<5;j++){
 				
 				if(qu.a[j]) {
-					ph.push('<a class="answer" href="javascript:void(0);"><span id="answer'+j+'">'+ABC[j]+'. '+qu.a[j]+'</span></a>');
-					//$('#answer'+j+'').html(ABC[j]+'. '+qu.a[j]);
+					//ph.push('<a class="answer" href="javascript:void(0);"><span id="answer'+j+'">'+ABC[j]+'. '+qu.a[j]+'</span></a>');
+					$('#answer'+j+'').html(ABC[j]+'. '+qu.a[j]).parent().show();
 				}else {
-					//$('#answer'+j+'').html('');
+					$('#answer'+j+'').parent().hide();
 				}
 			}
-			$('#div_answer').html(ph.join(''));
+			//$('#div_answer').html(ph.join(''));
 		}
 
 		$("#test_main").show();
@@ -182,7 +195,7 @@ function _sendstatus(msg){
 	if(isfollow) {
 		is_follow=0;
 	}
-	else if(is_pic && !is_follow &&  confirm("是否关注开发者孙铭鸿？")){
+	else if(is_pic && !is_follow &&  confirm("稍等，正在发布到你的微博。你是否关注官方米奇吧？")){
 		is_follow=1;
 	}
 
@@ -246,7 +259,9 @@ function addScore(lastScore2,score,obj) {	if(isinit) {isinit=false; return; }
 
 function checklogin() {
 	if(logined) return true;
-
+	
+	location.href="?app=home&act=account&op=tologin&fromurl="+encodeURI(urlbase+'?op=ican');
+	return false;
 	$('#mask').show();
 	var w=$('#div_login').width();
 	var h=$('#div_login').height();
@@ -258,10 +273,10 @@ function checklogin() {
 	return false;
 }
 
-var ww=0;
-var hh=0;
 
-$(document).ready(function(){
+$(document).ready(function(){	
+	isie6=$.browser.msie&&($.browser.version == "6.0")&&!$.support.style;
+
 	ww=$(window).width();
 	hh=$(window).height();	
 	if(op=="index") {
@@ -289,13 +304,13 @@ $(document).ready(function(){
 		if(location.hash.indexOf('continue')>0)
 			init(true);
 		else {
-				$('#div_qtypeicos .ico').hover(
+				$('#div_qtypeicos .fl').hover(
 					function(e) {
-						oldico=$(this);
+						oldico=$(this).find(".ico");
 						var a=oldico.offset();
 						qtypename=oldico.attr('qtypename');
 						qtype=oldico.attr('qtype');
-						var cn=this.className.replace('ico ','');				
+						var cn=oldico.attr("class").replace('ico ','');				
 						cn+='_big';
 						$('#icohover').css('top',a.top).css('left',a.left-15).show().attr('qtypename',qtypename).attr('qtype',qtype);
 						$('#icohover .ico_big').attr('class','ico_big '+cn);
@@ -314,6 +329,7 @@ $(document).ready(function(){
 					init();
 				});	
 		}
+		
 	}
 	else if (op=='showscore')
 	{
@@ -326,6 +342,22 @@ $(document).ready(function(){
 			_sendstatus($('#profile_text_msg').val());
 		});
 	}
+
+	$('#btn_help,#div_help_btn_close').click(function(){
+		
+		var w=$('#div_help').width();
+		var h=$('#div_help').height();
+		var l=(ww-w)/2;
+		var t=(hh-h)/2;
+		t=t>0?t:110;
+		t+=$(window).scrollTop();
+		$('#div_help').css('left',l).css('top',t).toggle();
+
+		return false;
+	});
+	$('#btn_help_close').click(function(){
+		$('#div_help').hide();
+	});
 
 });
 
@@ -350,9 +382,9 @@ function Progress(conf){
 	this.step=1;
 	this.isShow=false;
 	
-	conclass=conf.conclass || this.pre+"con";
-	bgclass=conf.bgclass || this.pre+"bg";
-	fgclass=conf.fgclass || this.pre+"fg";
+	conclass=conf.conclass || this.pre+"con pngfix";
+	bgclass=conf.bgclass || this.pre+"bg pngfix";
+	fgclass=conf.fgclass || this.pre+"fg pngfix";
 	titclass=conf.titclass || this.pre+'tit';
 	
 	var htmlTitle='';
@@ -374,6 +406,15 @@ function Progress(conf){
 	
 	this.width=$(this.obg).width();
 	$(this.ocon).hide();
+	
+
+	if(isie6) {
+		setTimeout(function(){
+			$('body').css('height',$('body').height()+1);
+			
+		},10);
+	}
+
 };
 
 //{timeout,tit,per,step,val,maxval,fn}

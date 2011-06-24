@@ -103,9 +103,9 @@ function LetGo(){
 
 	$cont->set("lfrom",$lfrom);
 	if($lfrom=='tqq') 
-		$cont->set('orgwbsite','http://t.qq.com/yihuiso');
+		$cont->set('orgwbsite','http://t.qq.com/miqibar');
 	else
-		$cont->set('orgwbsite','http://weibo.com/5d13');
+		$cont->set('orgwbsite','http://weibo.com/miqibar');
 	$cont->assign("account",$account);
 	$cont->assign('logined', is_array($account)?'true':'false');
 

@@ -121,7 +121,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		return $testlist;
 	}
 
-	function _makeZhengshu($uid,$name,$zhengshutype,$avatar,$date=false) {
+	function _makeZhengshu($uid,$name,$score,$zhengshutype,$avatar,$date=false) {
 		global $currTemplate,$timestamp;
 
 		importlib("watermark.fun");
@@ -137,7 +137,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			$newName=tempnam(SAE_TMP_PATH, "SAE_IMAGE");
 		}
 		else
-			$newName=ROOT."data/zhengshu/{$date}-daren-{$zid}.jpg";
+			$newName=ROOT."data/zhengshu/{$date}-daren-{$uid}.jpg";
 
 		$backImage=ROOT."templets/$currTemplate/daren_images/zhengshu/zhengshu_{$zhengshutype}.gif";
 
@@ -155,6 +155,16 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		else $posx=154;
 		 imageWaterText($backImage,$text,$color,$posx,100,14,$fontFile,$newName);
 
+		$text= $score;
+		$color="#000000";
+		$fontFile=ROOT."images/fonts/arial.ttf";
+		if($score*1 > 99) 
+			$left=327;
+		else
+			$left=332;
+		 imageWaterText($backImage,$text,$color,$left,125,12,$fontFile,$newName);
+
+
 		$text= $date;		
 		$color="#000000";
 		$fontFile=ROOT."images/fonts/arial.ttf";
@@ -167,12 +177,12 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		//echo 'newname='.$newName;
 		if(ISSAE) {
 			 $s = new SaeStorage();
-			 $s->write( "zhengshu3", "{$date}-daren-{$zid}.jpg",@file_get_contents($newName)  );			 
-			 $url=$s->getUrl( "zhengshu3" , "{$date}-daren-{$zid}.jpg");
+			 $s->write( "zhengshu2", "{$date}-daren-{$uid}.jpg",@file_get_contents($newName)  );			 
+			 $url=$s->getUrl( "zhengshu2" , "{$date}-daren-{$uid}.jpg");
 			 @unlink($newName);
 			ssetcookie('daren_zhengshu_url',$url);
 		}else{
-			$url=URLBASE."data/zhengshu/{$date}-daren-{$zid}.jpg";
+			$url=URLBASE."data/zhengshu/{$date}-daren-{$uid}.jpg";
 			ssetcookie('daren_zhengshu_url',$newName);
 		}
 		return $url;

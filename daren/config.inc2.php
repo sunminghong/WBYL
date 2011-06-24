@@ -65,21 +65,20 @@ $apiConfig=array(
 if(!ISSAE){
 	$DBCONFIG=array(
 		array("dbhost"=>"localhost",
-			"dbuser"=>"root",
-			"dbpwd"=>"root"),		//此为该组数据服务器的主服务器（Master/Slave 结构里的Master）
+			"dbuser"=>"youcai",
+			"dbpwd"=>"youcai!@#$%^"),		//此为该组数据服务器的主服务器（Master/Slave 结构里的Master）
 
 		array("dbhost"=>"localhost",
-			"dbuser"=>"root",
-			"dbpwd"=>"root")		//此为slave服务器，可以有多个进行读负载均衡
+			"dbuser"=>"youcai",
+			"dbpwd"=>"youcai!@#$%^")		//此为slave服务器，可以有多个进行读负载均衡
 	);
 
 	$MEMCONFIG=array(
-		'ip'=>'10.0.0.5',
+		'ip'=>'127.0.0.1',
 		'port' => '11330',
 	);
 
-	define("DEFAULT_DB","ppt");			//默认的数据库
-
+	define("DEFAULT_DB","youcai");			//默认的数据库
 }
 
 else{
@@ -112,8 +111,6 @@ define('DEFAULT_DB',SAE_MYSQL_DB);
 	$app_dbpre_log=DEFAULT_DB .".log_";
 	$app_dbpre_daren=DEFAULT_DB .".daren_";
 	$app_dbpre_ilike=DEFAULT_DB .'.ilike_';
-
-
 
 define("DEFAULT_CHARTSET","utf8"); //默认的数据库连接编码
 

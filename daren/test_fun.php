@@ -94,6 +94,7 @@
 		ssetcookie('quest_idx',$idx2);
 		$step=STEP+$idx;
 		
+		//print_r($question);
 
 		//echo $idx .":".$co.":" . $step;
 		$json="";
@@ -173,9 +174,9 @@ function g_s($raarr,$idx){
 			if($an[1]<=5)
 				$an[2]=$an[0];
 			elseif($an[1]>=15)
-				$an[2]=1 ;
+				$an[2]=10 ;
 			else
-				$an[2]=$an[0] * ((15-$an[1]) / 10);
+				$an[2]=10+($an[0]-10) * ((15-$an[1]) / 10);
 		}
 		return $an;
 	}

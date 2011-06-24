@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> android jsinterface demo! </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+ </head>
+
+ <body>
+  <p>android.exitapp() 退出应用软件</p>
+<p>android.capture() 打开相机</p>
+<p>android.getimage() 打开相册</p>
+<p>android.exit() 退出应用软件</p>
+<p>android.notify("abc.ico","nofify test!") 手机提醒</p>
+
+<script type="text/javascript">
+function exitcallback() {
+	if(confirm('确认退出吗')) {
+		exitapp();
+	}
+}
+
+function exitapp() {
+	if(typeof android=="undefined") {
+		alert('android is undefined!');
+		return;
+	}
+	if(typeof android.exitapp=="underfined") {
+		alert('android.exitapp is undefined!');
+		return;
+	}
+	android.exitapp();
+}
+
+function capture() {
+	if(typeof android=="undefined") {
+		alert('android is undefined!');
+		return;
+	}
+	if(typeof android.capture=="underfined") {
+		alert('android.capture is undefined!');
+		return;
+	}
+	var picfile=android.capture();
+	alert(picfile);
+}
+
+function get_image() {
+	if(typeof android=="undefined") {
+		alert('android is undefined!');
+		return;
+	}
+	if(typeof android.getimage=="underfined") {
+		alert('android.getimage is undefined!');
+		return;
+	}
+	var picfile=android.getimage();
+	alert(picfile);
+}
+
+
+function notify() {
+	if(typeof android=="undefined") {
+		alert('android is undefined!');
+		return;
+	}
+	if(typeof android.notify=="underfined") {
+		alert('android.notify is undefined!');
+		return;
+	}
+	android.notify("abc.ico","nofify test!");
+	alert("nofiy is success!");
+}
+
+function browserLoadCallback(status) {
+	alert("browserLoadCallback:"+status);
+}
+
+</script>
+
+
+<a href="#" onclick="exitapp()">退出应用</a><br/>
+<a href="#" onclick="capture()">打开相机</a><br/>
+<a href="#" onclick="get_image()">打开相册</a><br/>
+<a href="" onclick="notify()">手机提示</a>
+ </body>
+</html>
