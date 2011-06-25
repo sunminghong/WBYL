@@ -105,6 +105,25 @@ class daren extends ctl_base
 		$this->set("pagetitle",$score["name"]."的成就 - ");
 		$this->display("daren_profile");
 	}
+	function helper() {
+		global $timestamp;
+		$account=getAccount();		
+		if(!$account){
+			echo "-1";
+			return;
+		}
+		$sql="select jifen from ". dbhelper::tname("daren","daren") ." where uid=".$account['uid'];
+		$val=dbhelper::getvalue($sql);
+		if($val && is_numeric($val)) {
+			if(intval($val)>0) {
+				$sql ="update ". dbhelper::tname("daren","daren") ." set  jifen=jifen-1,lasttime=$timestamp  where  uid=" . $account["uid"];
+				dbhelper::execute($sql);
+				echo "1";
+				return;
+			}
+		}
+		echo  "-1";
+	}
 
 	function ican(){
 		$account=getAccount();		
@@ -127,7 +146,8 @@ class daren extends ctl_base
 //		ssetcookie('daren_question',"");
 		ssetcookie('daren_starttime','');
 		ssetcookie('daren_usetime','');
-		ssetcookie("daren_darenvalue","");
+		ssetcookie("daren_darenvalue","");		
+		ssetcookie("daren_givejifen","");
 		ssetcookie("daren_ans","");
 
 		$account=$this->checkLogin();
@@ -189,7 +209,9 @@ class daren extends ctl_base
 			return;
 		}
 		$useTime=('0'.sreadcookie('daren_usetime'))*1;
-		$darenvalue=('0'.sreadcookie('daren_darenvalue'))*1;
+		$darenvalue=('0'.sreadcookie('daren_darenvalue'))*1;		
+		$givejifen = ('0'.sreadcookie("daren_givejifen"))*1;
+
 		if($useTime==0){
 			$useTime=gettimestamp() - sreadcookie("daren_starttime") * 1;
 			ssetcookie('daren_usetime',$useTime);
@@ -209,7 +231,8 @@ class daren extends ctl_base
 			//ssetcookie("daren_ans",$ans[1]);
 			ssetcookie('daren_rightcount',$rightcount);
 			ssetcookie("daren_darenvalue",$darenvalue);
-			$this->savedaren($darenvalue,$useTime);
+			$givejifen = $this->savedaren($darenvalue,$useTime);
+			ssetcookie("daren_givejifen",$givejifen);
 			$this->clearQuestion();
 			saveAndReadAnswerToCookie(0); //清空答题记录
 		}
@@ -220,6 +243,7 @@ class daren extends ctl_base
 		$score["newusetime"] = $useTime;
 		$score['rightcount'] =$rightcount;
 		$score['nowdaren']=$darenvalue;
+		$score['givejifen']=$givejifen;
 
 		if($darenvalue<=10) $score['naotou']='yundao';
 		elseif ($darenvalue<40) $score['naotou']='shengqi';
@@ -258,7 +282,7 @@ class daren extends ctl_base
 
 		$this->set('todaytoplist',_gettodaytop());
 		$this->set('testlist',_gettestlist());
-		$this->set("op","showscore");		
+		$this->set("op","showscore");
 		$this->set("pagetitle","测试成绩 - ");
 		$this->display("daren_result");
 	}
@@ -285,13 +309,33 @@ class daren extends ctl_base
 			}
 			return ;
 		}
+		
+		$isFollow=0;
+		$sql="select isfollow from ". dbhelper::tname("daren","daren") ." where uid=".$account['uid'];
+		$rs=dbhelper::getrs($sql);
+		if($row=$rs->next()) {
+			if(intval($row['isfollow']) == 0) {
+				$sql ="update ". dbhelper::tname("daren","daren") ." set  jifen=jifen+10,alljifen=alljifen+10,isfollow=isfollow+1,lasttime=$timestamp  where  uid=" . $account["uid"];
+				dbhelper::execute($sql);
+				$isFollow=1;
+			}
+		}else{
+			$sql ="insert into ". dbhelper::tname("daren","daren") ." set  jifen=10,alljifen=10,isfollow=isfollow+1,regtime=$timestamp,lasttime=$timestamp  where  uid=" . $account["uid"];
+			dbhelper::execute($sql);
+			$isFollow=1;
+		}
 
-		//关注官方的处理
-		global $apiConfig;
-		$byuid=$apiConfig[$account['lfrom']]['orguid'];
+		if($isFollow==1) {
+			//关注官方的处理
+			global $apiConfig;
+			$byuid=$apiConfig[$account['lfrom']]['orguid'];
 
-		$ret=$api->follow($byuid);
-		echo '1';
+			$ret=$api->follow($byuid);
+			echo '1';
+		}
+		else {
+			echo "-3";
+		}
 
 	}
 	public function sendstatus(){
@@ -435,7 +479,8 @@ class daren extends ctl_base
 		global $timestamp;
 		$account=getAccount();
 		$qtype=readqtype();
-
+		
+		$givejifen=0;
 		$ret=envhelper::readRet();
 		$sqlu="lasttime=$timestamp,followers=".$account['followers'].",followings=".$account['followings'].",tweets=".$account['tweets'].",retuid='".$ret['retuid'] ."'";
 		$lasttime=0;
@@ -457,21 +502,19 @@ class daren extends ctl_base
 					$rs=dbhelper::getrs($sql);
 					if($row=$rs->next()){
 						$wins=0;
-						$jifen=2;
+						$givejifen=floor($darenvalue / 30);
 					}
 					else {
 						$wins=1;
-						$jifen=30;
+						$givejifen=30;
 					}
 				}
-				elseif ($darenvalue>=60) 
-					$jifen=2;
 				else
-					$jifen=1;
+					$givejifen=floor($darenvalue / 30);
 			}
 
 			$sql="update ". dbhelper::tname("daren","daren_qtype") ." set  testCount=testCount+$testCount,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  qtype=$qtype and uid=" . $account["uid"];
-			$sql .=";;;update ". dbhelper::tname("daren","daren") ." set  testCount=testCount+$testCount,jifen=jifen+$jifen,alljifen=alljifen+$jifen,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  uid=" . $account["uid"];
+			$sql .=";;;update ". dbhelper::tname("daren","daren") ." set  testCount=testCount+$testCount,jifen=jifen+$givejifen,alljifen=alljifen+$givejifen,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  uid=" . $account["uid"];
 			
 			if(SAVELOG && $darenvalue > -1 ) {
 				$sql .=";;;update ". dbhelper::tname("daren","log") ." set score=". $darenvalue. ",useTime=".$useTime.",$sqlu
@@ -510,6 +553,7 @@ class daren extends ctl_base
 			$this->_makeTop() ;
 
 		}
+		return $givejifen;
 	}
 
 	private function _makeTop() {		

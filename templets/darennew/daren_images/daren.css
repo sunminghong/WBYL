@@ -170,6 +170,8 @@ ul#qmenu li.curr a{color:#fff;background:#00f;}
 #icohover .ico_tips {cursor:pointer;font-weight:bold;text-indent:10px;position:absolute;top:40px;width:120px;height:38px;left:0px; 
 background:url(bg_ico_tips.gif)  no-repeat;font-size:19px;line-height:37px;font-family:"微软雅黑", "黑体";}
 
+#btn_helper {position:absolute;width:100px;height:100px;top:-50px;background:url(btn_helper.gif) no-repeat;text-indent:-1000px;cursor:pointer;}
+
 /*result page*/
 
 #div_result {position:absolute; top:15px;left:0;width:100%;height:100%;}

@@ -187,4 +187,24 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		}
 		return $url;
 	}
+
+
+	function crawlBaidu($key) {
+		$url = "http://www.baidu.com/s?wd=".$key;echo $url;exit;
+		$html = getHttpPage($url);echo $html;
+		//匹配结果列表
+		preg_match_all("/(<table(?:.(?<!<table))*class=\"result\".*?<\/table>)/sm",$html,$result);
+		if(count($result[0])>1){
+			$msg = '';
+		   foreach($result[0] as $k){
+			  $msg .= $k;
+		   }
+		}
+		echo $msg."\n\n\n\n\n\n";
+		//匹配结果分页
+		preg_match("/<p id=\"page\">(.*)<\/p>/sm",$html,$pages);
+		$pages = preg_replace("/<span (.*)<\/span>/sm",'',$pages);
+		echo $pages;
+	}
+
 ?>

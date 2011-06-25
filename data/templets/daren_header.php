@@ -8,7 +8,10 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
-
+<? if($op=="ican") { ?>
+	<link type="text/css" rel="stylesheet" href="js/colorbox.css" />
+<script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
+<? } ?>
 <script>var op="<?=$op?>"; var logined=<?=$logined?>; var urlbase='<?=$urlbase?>'; var urltemplate="<?=$templatepath?>";</script>
 <script type="text/javascript" src="<?=$templatepath?>/daren_images/daren.js?v=1.0"></script>
 <!--[if IE 6]>
@@ -47,9 +50,10 @@
 	<div class="mw">
 	　　<a href="<?=$urlbase?>">首页</a>
 		<a href="?op=ican">每日十问</a>
-		<a href="?op=profile">成就</a>
-		<a href="http://www.miqiba.com" target="_blank">米奇吧</a>
-		<a id="btn_help" href="javascript:void(0);">游戏攻略</a>
+		<a href="?op=profile">成就</a>		
+		<a href="javascript:void(0);" onclick="_follow();" style="color:#f00;">关注米奇吧，立即获取10枚智慧币！</a>
+
+		<a id="btn_help" href="javascript:void(0);" class="pngfix">游戏攻略</a>
 
 		
 

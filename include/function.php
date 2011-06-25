@@ -393,12 +393,31 @@ function len($str){
 	return mb_strlen($str,'utf8');	
 }
 
-function getEl($xmlobj,$name){
-	$el=$xmlobj->xpath($name);
-	if($el)
-	return $el[0]."";
-	else
-		return '';
+function getHttpPage($url,$poststr='',$con=''){
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5); //超时时间（秒）
+	if($poststr){
+		if(is_array($poststr)) {
+			$abc='';
+			foreach($poststr as $k=>$v) {
+				$abc.="$k=$v&";
+			}
+			$poststr=$abc.'aaaaaa=1';
+		}
+		//echo $poststr;
+		curl_setopt($ch, CURLOPT_POST, 1); 
+		curl_setopt($ch, CURLOPT_POSTFIELDS,$poststr); 	
+	}
+	if(is_array($con)){
+		foreach($con as $key => $value){
+			curl_setopt($ch,$key,$value); 
+		}
+	}
+	$html = curl_exec($ch);
+	curl_close($ch);
+	return $html;
 }
 	
 ?>

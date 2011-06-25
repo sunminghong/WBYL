@@ -11,7 +11,7 @@
 			<div id="div_result_area_zhengshu"><? if($darenzhengshuurl ) { ?>	
 				<img src="<?=$darenzhengshuurl?>" /><? } else { ?><img src="<?=$templatepath?>/daren_images/zhengshu/notdaren.gif" /><? } ?>			
 			</div>
-			<textarea id="result_sendstatus">#我太有才了#！今天的<?=$qtypename?>测试中，我用了<?=$score['newusetime']?>秒钟，答对了<?=$score['rightcount']?>题，最后得分<?=$score['nowdaren']?>分，并获得<? echo ($score['nowdaren'] >= FULLMINUTE?2:1) ?>枚#智慧币#，在今天的<?=$qtypename?>测试中，你现在排名第<? echo $score['todaytop'.$qtype]?>名，打败了<? echo $score['todaywin'.$qtype]?>人<? if($score['nowdaren'] >= FULLMINUTE ) { ?>，还得到了1枚<?=$qtypename?>达人勋章哦<? } ?>。我今天的总成绩是<? echo $score['todaytotalscore']?>分。呵呵！<?=$score['retname']?>你们抽几分钟来玩玩吧！</textarea>
+			<textarea id="result_sendstatus">#我太有才了#！今天的<?=$qtypename?>测试中，我用了<?=$score['newusetime']?>秒钟，答对了<?=$score['rightcount']?>题，最后得分<?=$score['nowdaren']?>分，并获得<?=$score['givejifen']?>枚#智慧币#，在今天的<?=$qtypename?>测试中，你现在排名第<? echo $score['todaytop'.$qtype]?>名，打败了<? echo $score['todaywin'.$qtype]?>人<? if($score['nowdaren'] >= FULLMINUTE ) { ?>，还得到了1枚<?=$qtypename?>达人勋章哦<? } ?>。我今天的总成绩是<? echo $score['todaytotalscore']?>分。呵呵！<?=$score['retname']?>你们抽几分钟来玩玩吧！</textarea>
 			<br/>
 			<a href="javascript:void(0);" id="sendstatus">记录到微博</a>
 			<div id="div_result_btns">

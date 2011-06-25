@@ -18,7 +18,8 @@ var canAddScore=false;
 var lastScore=0;
 
 var qtype=1,qtypename="综合类";
-var djs=0;
+var djs=2;
+var isConfirmHelper=false;
 
 function init(iscontinue) {//return;
 	$('#mask').show();
@@ -41,7 +42,7 @@ function daojishi(iscontinue) {
 	if(djs<6) 
 	{setTimeout(function(){daojishi(iscontinue)},1000);
 	return;}
-	djs==0;
+	djs==2;
 	__init(iscontinue);
 }
 
@@ -169,7 +170,10 @@ function _follow(uid,lfrom,lfromuid){
 	$.post(url,param,function(res){
 		switch(res) {
 			case "1":
-				alert('已经帮你关注TA了，以后就可以实时看到他的动态了！');
+				if(uid)
+					alert('已经帮你关注TA了，以后就可以实时看到他的动态了！');
+				else
+					alert('谢谢你关注米奇吧，已经给你增加了10枚#智慧币#！');
 				break;
 			case "-1":
 				alert('请先登录吧，否则他怎么知道你关注了 ta ?');
@@ -177,6 +181,9 @@ function _follow(uid,lfrom,lfromuid){
 				break;
 			case "-2":
 				alert('你知道吗？世界上最远的距离不是生与死的距离，也不是心和心的距离，而是你们一个在新浪微博一个在腾讯微博里,你可以换个账号登录！');
+				break;
+			case "-3":
+				alert('谢谢，你已经关注过我了！');
 				break;
 		}
 	});
@@ -190,14 +197,14 @@ function _sendstatus(msg){
 		msg=$('#result_sendstatus').val();
 
 	var url=__url+'&op=sendstatus';
-	var is_follow=0;
-	if($('#iffollow').attr('checked')) is_follow=1;
-	if(isfollow) {
-		is_follow=0;
-	}
-	else if(is_pic && !is_follow &&  confirm("稍等，正在发布到你的微博。你是否关注官方米奇吧？")){
-		is_follow=1;
-	}
+//	var is_follow=0;
+//	if($('#iffollow').attr('checked')) is_follow=1;
+//	if(isfollow) {
+//		is_follow=0;
+//	}
+//	else if(is_pic && !is_follow &&  confirm("稍等，正在发布到你的微博。你是否关注官方米奇吧？")){
+//		is_follow=1;
+//	}
 
 	$.post(url,{is_pic:is_pic,is_follow:is_follow,msg:msg},function(res){
 		if(res=="-1"){alert('请先登录！');login();return;}
@@ -329,6 +336,23 @@ $(document).ready(function(){
 					init();
 				});	
 		}
+
+		$("#btn_helper").click(function(){
+			if(!isConfirmHelper && confirm('在线求助每次需要消耗 1枚 智慧币，确定吗（下次不会提醒了）？')==false){
+				isConfirmHelper=true;
+				return;
+			}
+			isConfirmHelper=true;
+
+			$.get('?op=helper',function(res){
+				if(res=="1")
+					$.colorbox({href:'http://www.baidu.com/s?wd='+$('#question').text(),opacity:0.3,width:"80%", height:"80%", iframe:true});
+				else
+					alert('你拥有的智慧币不足哟！');
+
+			});
+		});
+
 		
 	}
 	else if (op=='showscore')

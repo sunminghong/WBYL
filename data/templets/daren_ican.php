@@ -27,6 +27,7 @@
 </div>
 <!--测试主区域-->
 <div id="div_test" class="mw">
+	<div id="btn_helper">在线求助</div>
 	<div class="timeline pngfix">
 		<div id="progress" class="pngfix"></div>
 		<div id="div_icos">
