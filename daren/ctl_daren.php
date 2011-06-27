@@ -5,7 +5,7 @@ $question=array();
 $question[0]="";
 
 define("STEP",1);  //每次显示多少题
-define("FULLMINUTE",120); //得勋章的分数
+define("FULLMINUTE",130); //得勋章的分数
 define("MINUTEPER",15); //每题多少分
 
 include_once("test_fun.php");
@@ -32,6 +32,7 @@ class daren extends ctl_base
 		$this->set("score",$score);
 		$this->set('todaytoplist',_gettodaytop());
 		$this->set('testlist',_gettestlist());
+		$this->set('allcount',_getallcount());
 
 		$this->set("op","index");
 		$this->set("pagetitle","");
@@ -132,15 +133,15 @@ class daren extends ctl_base
 			return;
 		}
 		
-		$uid=0;
-		if($ret) {
-			$uid=$ret['retuid'];
-		}
-		else {			
-			if($account) {
+		//$uid=0;
+		//if($ret) {
+		//	$uid=$ret['retuid'];
+		//}
+		//else {			
+		
 				$uid=$account['uid'];
-			}
-		}
+			
+		//}
 		
 		ssetcookie('quest_idx',"");
 //		ssetcookie('daren_question',"");
@@ -545,8 +546,8 @@ class daren extends ctl_base
 
 			$sql.=";;;delete from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day  and uid=".$account['uid'];
 			$sql.=";;;insert into ". dbhelper::tname("daren","tmp_day_total") ." (winday,uid,score,usetime,lasttime)  
-				select $day,uid,sum(score),sum(usetime),$lasttime from ". dbhelper::tname("daren","tmp_day") ." where qtype=$qtype and uid=".$account['uid']." and  winday=
-				$day order by score desc,usetime limit 0,1";
+				select $day,uid,sum(score),sum(usetime),$lasttime from ". dbhelper::tname("daren","tmp_day") ." where uid=".$account['uid']." and  winday=
+				$day";
 				
 			//echo $sql."<br/>";
 			dbhelper::exesqls($sql);

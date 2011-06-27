@@ -66,12 +66,7 @@ function __init(iscontinue) {
 	pr1.start({val:0,maxval:MAXTIME,timeout:400,step:4});	
 
 
-	if(isie6) {
-		setTimeout(function(){
-			$('body').css('height',$('body').height()+1);
-			
-		},10);
-	}
+	iefix();
 
 }
 
@@ -206,7 +201,7 @@ function _sendstatus(msg){
 //		is_follow=1;
 //	}
 
-	$.post(url,{is_pic:is_pic,is_follow:is_follow,msg:msg},function(res){
+	$.post(url,{is_pic:is_pic,is_follow:0,msg:msg},function(res){
 		if(res=="-1"){alert('请先登录！');login();return;}
 
 		isfollow=true;
@@ -280,7 +275,15 @@ function checklogin() {
 	return false;
 }
 
-
+function iefix() {
+	if(isie6) {
+		setTimeout(function(){
+			$('body').css('height',$('body').height()+1);
+			
+		},10);
+	}
+}
+var isHelperPng=false;
 $(document).ready(function(){	
 	isie6=$.browser.msie&&($.browser.version == "6.0")&&!$.support.style;
 
@@ -337,7 +340,7 @@ $(document).ready(function(){
 				});	
 		}
 
-		$("#btn_helper").click(function(){
+		$("#btn_helper").click(function(){isConfirmHelper=true;
 			if(!isConfirmHelper && confirm('在线求助每次需要消耗 1枚 智慧币，确定吗（下次不会提醒了）？')==false){
 				isConfirmHelper=true;
 				return;
@@ -376,13 +379,17 @@ $(document).ready(function(){
 		t=t>0?t:110;
 		t+=$(window).scrollTop();
 		$('#div_help').css('left',l).css('top',t).toggle();
-
+		
+		if(!isHelperPng){
+			isHelperPng=true;
+			iefix();
+		}
 		return false;
 	});
 	$('#btn_help_close').click(function(){
 		$('#div_help').hide();
 	});
-
+	iefix();
 });
 
 function Progress(conf){
@@ -430,15 +437,8 @@ function Progress(conf){
 	
 	this.width=$(this.obg).width();
 	$(this.ocon).hide();
-	
 
-	if(isie6) {
-		setTimeout(function(){
-			$('body').css('height',$('body').height()+1);
-			
-		},10);
-	}
-
+	iefix();
 };
 
 //{timeout,tit,per,step,val,maxval,fn}

@@ -16,7 +16,7 @@ IEPNGFix.data = IEPNGFix.data || {};
 // * An absolute path like:  '/images/blank.gif'
 // * A path relative to this HTC file like:  thisFolder + 'blank.gif'
 var thisFolder = document.URL.replace(/(\\|\/)[^\\\/]*$/, '/');
-IEPNGFix.blankImg = 'http://res.t.baidu.com/images/blank.gif';
+IEPNGFix.blankImg = 'js/blank.gif';
 
 
 IEPNGFix.fix = function(elm, src, t) {

@@ -101,7 +101,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		$top=rq("mo",0);
 		$last=rq("last",0);
 		if($last==0)
-			$top=5;
+			$top=10;
 		else
 			$top=5;
 
@@ -119,6 +119,18 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		}
 		//echo json_encode($testlist);
 		return $testlist;
+	}
+
+	function _getallcount() {
+
+		$testlist=array();
+		$sql="select (select max(id) from ". dbhelper::tname("daren","log") . ") as alltestcount, (select max(uid) from ". dbhelper::tname("daren","daren") . ") as allusercount";
+		$rs=dbhelper::getrs($sql);
+		if(!($row=$rs->next())){
+			$row=array('alltestcount'=>0,'allusercount'=>0);
+		}
+		//echo json_encode($testlist);
+		return $row;
 	}
 
 	function _makeZhengshu($uid,$name,$score,$zhengshutype,$avatar,$date=false) {

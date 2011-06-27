@@ -14,12 +14,17 @@
 		<div class="div_list">
 			<? foreach((array)$todaytoplist as $top) {?>
 				<div class="top_list">
-					<div class="top_list_text"><a href="?op=profile&uid=<?=$test['uid']?>" target="_blank">@<?=$top['name']?></a><!--<img src="<?=$urlbase?>images/weiboicon16_<?=$top['lfrom']?>.png" height=16 />--><? if($top['verified']==1 && 1==0) { ?><img src="<?=$urlbase?>images/vip_<?=$top['lfrom']?>.gif" title="认证用户" alt=""><? } ?><br/>今日总分数<b><?=$top['score']?></b>分，总用时<b><?=$top['usetime']?></b>秒</div>
-					<a href="?op=profile&uid=<?=$test['uid']?>" target="_blank"><img class="avatar" src="<?=$top['avatar']?>"/></a>
+					<div class="top_list_text"><a href="?op=profile&uid=<?=$top['uid']?>" target="_blank">@<?=$top['name']?></a><!--<img src="<?=$urlbase?>images/weiboicon16_<?=$top['lfrom']?>.png" height=16 />--><? if($top['verified']==1 && 1==0) { ?><img src="<?=$urlbase?>images/vip_<?=$top['lfrom']?>.gif" title="认证用户" alt=""><? } ?><br/>今日总分数<b><?=$top['score']?></b>分，总用时<b><?=$top['usetime']?></b>秒</div>
+					<a href="?op=profile&uid=<?=$top['uid']?>" target="_blank"><img class="avatar" src="<?=$top['avatar']?>"/></a>
 				</div>
 			<? } ?>
 		</div>
 		<div class="div_list">
+		<? if($op=='index') { ?>
+			<p>总测试次数：<b><?=$allcount['alltestcount']?>次</b></p>
+			<p>总使用人数：<b><?=$allcount['allusercount']?>人</b></p>
+			<p>统计时间：<b><? echo date("m-d H:i:s");?></b></p>
+		<? } ?>
 			<p><a href="javascript:void(0);" onclick="_follow();">关注@米奇吧(官方微博)</a></p>
 			<p><a href="<?=$orgwbsite?>">浏览@米奇吧(官方微博)</a></p>
 			<p><b> 其他应用推荐</b></p>
@@ -44,15 +49,16 @@
 <div id="div_help" class="pngfix"><div class="content">
 	<!--<p>#你太有才了#就是通过回答问题、赚取#智慧币#的过程来帮助你“积累知识”。#你太有才了#将有多种答题模式，目前开放的有“每日十问”。</p>-->
 		<p><b>“每日十问”规则：</b><br/>每天每个类别都有十道问题，可以重复多次答题，各类当天成绩以当天最好成绩为准；在同一天内，同一类别的题目是不变的；每天凌晨00:00:00统一更换各类别题目。</p>			
-		<p><b>智慧币获取规则：</b></p>
-		<ul>
-		<li>每完成一次问答得1枚智慧币</li>
-		<li>得分超过120分可以得到当天的达人证书及<b>30枚</b>智慧币（每类每天最多只能得到一次大人证书）</li>
+
+		<ul><b>智慧币获取规则：</b>
+		<li><a href="javascript:void(0);" onclick="_follow();" style="color:#f00;">关注米奇吧，立即获取10枚智慧币！</a></li>
+		<li>每完成一次问答（得分不超过<? echo FULLMINUTE;?>分）可得<b>1~4枚</b>智慧币</li>
+		<li>得分超过<? echo FULLMINUTE;?>分可以得到当天的达人证书及<b>30枚</b>智慧币（每类每天最多只能得到一次达人证书）</li>
 		<li>每天凌晨换题目时评出前天各类别的第一名，颁发一枚#牛人勋章#及奖励<b>50枚</b>智慧币</li>
 		<li>收集8枚不同类别#达人证书#可以领取一枚博士勋章及证书并奖励<b>180枚</b>智慧币</li>
-		<li>收集10枚不同类别牛人证书可以领取一次文曲星勋章并奖励500积分</li>
+		<li>收集10枚不同类别牛人证书可以领取一枚文曲星勋章并奖励<b>800枚</b>智慧币</li>
 		</ul>
-		<p><b>赚取智慧币攻略：</b><br/>“每日十问”模式下当天每类题目是不变的，所以“勤能补拙”————活用百度、谷歌，多做几遍，直至取得#达人证书#赚取30*n枚智慧币；如果幸运还可能取得一枚或n枚牛人勋章，又可以多赚50*n枚智慧币！</p>
+		<p><b>赚取智慧币攻略：</b><br/>“每日十问”模式下当天每类题目是不变的，所以“勤能补拙”————活用百度、谷歌，多做几遍，直至获得#达人证书#赚取30*n枚智慧币；如果幸运还可能获得一枚或n枚牛人勋章，又可以多赚50*n枚智慧币！</p>
 		</div>
 		<div id="btn_help_close"></div>
 </div>
