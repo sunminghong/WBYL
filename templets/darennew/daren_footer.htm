@@ -1,4 +1,4 @@
-
+<!--{if $op!="top"}-->
 <div id="mask"></div>
 <div id="wrap2">
 	<div style="width:676px;margin:auto;background-color:#a59d71;overflow:hidden; ">
@@ -34,38 +34,34 @@
 		<div class="wrap2bottom"></div>
 	</div>
 </div>
+<!--{/if}-->
 
 <div id="copyright">(c)Copyright by <a href="http://www.miqiba.com" target="_blank">米奇吧</a></div>
-<!--
-<div id="div_login">
-	<!--{eval global $canLogin;}-->
-	<!--{loop $canLogin $login}-->
-		<a href="?app=home&act=account&op=tologin&lfrom={$login}&fromurl=<!--{eval echo urlencode(URLBASE.'?op=ican');}-->" border="0"><img height="32" src="images/btn_login_{$login}_32.png" alt="用微博帐号登录" /></a> 
-	<!--{/loop}-->
-</div>
--->
 
 <div id="div_help" class="pngfix"><div class="content">
 	<!--<p>#你太有才了#就是通过回答问题、赚取#智慧币#的过程来帮助你“积累知识”。#你太有才了#将有多种答题模式，目前开放的有“每日十问”。</p>-->
 		<p><b>“每日十问”规则：</b><br/>每天每个类别都有十道问题，可以重复多次答题，各类当天成绩以当天最好成绩为准；在同一天内，同一类别的题目是不变的；每天凌晨00:00:00统一更换各类别题目。</p>			
 
 		<ul><b>智慧币获取规则：</b>
-		<li><a href="javascript:void(0);" onclick="_follow();" style="color:#f00;">关注米奇吧，立即获取10枚智慧币！</a></li>
-		<li>每完成一次问答（得分不超过<!--{eval echo FULLMINUTE;}-->分）可得<b>1~4枚</b>智慧币</li>
-		<li>得分超过<!--{eval echo FULLMINUTE;}-->分可以得到当天的达人证书及<b>30枚</b>智慧币（每类每天最多只能得到一次达人证书）</li>
-		<li>每天凌晨换题目时评出前天各类别的第一名，颁发一枚#牛人勋章#及奖励<b>50枚</b>智慧币</li>
-		<li>收集8枚不同类别#达人证书#可以领取一枚博士勋章及证书并奖励<b>180枚</b>智慧币</li>
-		<li>收集10枚不同类别牛人证书可以领取一枚文曲星勋章并奖励<b>800枚</b>智慧币</li>
+		<li><a href="javascript:void(0);" onclick="_follow();" style="color:#f00;">关注米奇吧，立即获取<b>10枚</b>智慧币！</a></li>
+		<li>每天每类第一次发送成绩单到微博，奖励<b>2枚</b>智慧币。</li>
+		<li>每完成一次回答，将会根据分数不同分别获得<b>1—5枚</b>智慧币，每天每类答题获得智慧币最多不超过<b>10枚</b>。</li>
+		<li>当单次得分超过<b><!--{eval echo FULLMINUTE;}-->分</b>，则可获得达人奖励，奖励 1 枚该类【达人勋章】及<b>30枚</b>智慧币（每天每类别最多可获得<b>1次</b>达人奖励）。</li>
+		<li>每天凌晨将评出前一天的各类别的冠军，冠军将获得牛人奖励，奖励 1 枚该类【牛人勋章】及<b>50枚</b>智慧币（若同时为多个种类的冠军，奖励累加）</li>
+		<li>收集50枚【达人勋章】可领取 1 枚【博士勋章】及168枚智慧币。</li>
+		<li>收集5枚【博士勋章】和5枚【牛人勋章】（类别不限）可领取一枚【文曲星勋章】及1176枚智慧币。</li>
+
 		</ul>
 		<p><b>赚取智慧币攻略：</b><br/>“每日十问”模式下当天每类题目是不变的，所以“勤能补拙”————活用百度、谷歌，多做几遍，直至获得#达人证书#赚取30*n枚智慧币；如果幸运还可能获得一枚或n枚牛人勋章，又可以多赚50*n枚智慧币！</p>
 		</div>
 		<div id="btn_help_close"></div>
 </div>
-
+<div style="display:none;">
 <script type="text/javascript">
 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fd41b22314bd46c30150e50c4c78bc128' type='text/javascript'%3E%3C/script%3E"));
 </script>
+</div>
 
 
 		<div id="div_tips" class="small_Yellow" style="display:none;">

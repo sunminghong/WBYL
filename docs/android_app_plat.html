@@ -11,12 +11,15 @@
 
  <body>
   <p>android.exitapp() 退出应用软件</p>
-<p>android.capture() 打开相机</p>
-<p>android.getimage() 打开相册</p>
-<p>android.exit() 退出应用软件</p>
+<p>android.capture('capturecallback',480,320) 打开相机</p>
+<p>android.getimage('capturecallback',480,320) 打开相册</p>
 <p>android.notify("abc.ico","nofify test!") 手机提醒</p>
 
 <script type="text/javascript">
+function alertcallback(msg) {
+	document.getElementById('div_msg_output').innerHTML+=msg+'<br/>';
+}
+
 function exitcallback() {
 	if(confirm('确认退出吗')) {
 		exitapp();
@@ -25,11 +28,11 @@ function exitcallback() {
 
 function exitapp() {
 	if(typeof android=="undefined") {
-		alert('android is undefined!');
+		alertcallback('android is undefined!');
 		return;
 	}
 	if(typeof android.exitapp=="underfined") {
-		alert('android.exitapp is undefined!');
+		alertcallback('android.exitapp is undefined!');
 		return;
 	}
 	android.exitapp();
@@ -37,46 +40,49 @@ function exitapp() {
 
 function capture() {
 	if(typeof android=="undefined") {
-		alert('android is undefined!');
+		alertcallback('android is undefined!');
 		return;
 	}
 	if(typeof android.capture=="underfined") {
-		alert('android.capture is undefined!');
+		alertcallback('android.capture is undefined!');
 		return;
 	}
-	var picfile=android.capture();
-	alert(picfile);
+	android.capture('capturecallback',480,320,90);
+}
+
+function capturecallback(imgbytesbase64) {
+		alertcallback('capturecallback is undefined!');
+		alertcallback(imgbytesbase64);
+		document.getElementById('img_show').src="data:image/jpeg;base64,"+imgbytesbase64;
 }
 
 function get_image() {
 	if(typeof android=="undefined") {
-		alert('android is undefined!');
+		alertcallback('android is undefined!');
 		return;
 	}
 	if(typeof android.getimage=="underfined") {
-		alert('android.getimage is undefined!');
+		alertcallback('android.getimage is undefined!');
 		return;
 	}
-	var picfile=android.getimage();
-	alert(picfile);
+	android.getimage('capturecallback',480,320,90);
 }
-
 
 function notify() {
 	if(typeof android=="undefined") {
-		alert('android is undefined!');
+		alertcallback('android is undefined!');
 		return;
 	}
 	if(typeof android.notify=="underfined") {
-		alert('android.notify is undefined!');
+		alertcallback('android.notify is undefined!');
 		return;
 	}
 	android.notify("abc.ico","nofify test!");
-	alert("nofiy is success!");
+	alertcallback("nofiy is success!");
 }
 
 function browserLoadCallback(status) {
-	alert("browserLoadCallback:"+status);
+	alertcallback("browserLoadCallback:"+status);
 }
 
 </script>
@@ -86,5 +92,9 @@ function browserLoadCallback(status) {
 <a href="#" onclick="capture()">打开相机</a><br/>
 <a href="#" onclick="get_image()">打开相册</a><br/>
 <a href="" onclick="notify()">手机提示</a>
+
+<img id="img_show"></img>
+
+<div id="div_msg_output"></div>
  </body>
 </html>

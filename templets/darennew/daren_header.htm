@@ -16,7 +16,7 @@
 <style type="text/css">.pngfix{behavior: url("js/iepngfix.htc");}</style>
 <![endif]--> 
 <script>var op="{$op}"; var logined={$logined}; var urlbase='{$urlbase}'; var urltemplate="{$templatepath}";</script>
-<script type="text/javascript" src="{$templatepath}/daren_images/daren.js?v=1.1"></script>
+<script type="text/javascript" src="{$templatepath}/daren_images/daren.js?v=1.2"></script>
 
 </head>
 <body>
@@ -35,7 +35,7 @@
 			<img src="images/avatar_miqiba.jpg" align="left" />hi，我是开发者 <a href="{$orgwbsite}" target="_blank">@米奇吧</a>，#你太有才了#是一款丰富知识的小游戏，寓教于乐。每天的努力赢取的#智慧币#，将是你参加高级玩法的筹码哟！
 			<!--{else}-->
 				<img src="{$score[avatar]}" align="left" />
-				<!--{if $isret && $op=='index'}-->
+				<!--{if $isret && ($op=='index' || $op=='top')}-->
 				hi，我是<a href="?op=profile&uid={$score[uid]}" target="_blank">@{$score[name]}</a>。我共参加过{$score['filishcount']}次每日测试，得到了 <b>{$score['wincount']}枚</b> 达人勋章、 <b>{$score['topcount']}枚</b> 牛人勋章。今天总分是 <b>{$score['todaytotalscore']}分</b>，呵呵！
 				<!--{else}-->
 				<a href="?op=profile&uid={$account[uid]}" target="_blank">@{$score[name]}</a>，你共参加过了{$score[filishcount]}次每日测试，得到了 <b>{$score['wincount']}枚</b> 达人勋章、 <b>{$score['topcount']}枚</b> 牛人勋章，拥有<b>{$score[jifen]}枚</b>智慧币。今天总分是 <b>{$score['todaytotalscore']}分</b>。
@@ -48,14 +48,14 @@
 </div>
 <div  id="menunav">
 	<div class="mw">
-	　　<a href="{$urlbase}">首页</a>
-		<a href="?op=ican">每日十问</a>
-		<a href="?op=profile">成就</a>
-		<a href="javascript:void(0);" onclick="alert('想用智慧币兑换奖品？你赚多点再来吧！\n（奖品正在筹备，欢迎奖品合作！）')">兑换中心</a>
+		<a href="{$urlbase}"<!--{if $op=="index"}--> class="curr"<!--{/if}-->>首页</a>
+		<a href="?op=ican"<!--{if $op=="ican"}--> class="curr"<!--{/if}-->>每日十问</a>
+		<a href="?op=profile"<!--{if $op=="profile"}--> class="curr"<!--{/if}-->>你的成就</a>
+		<a href="?op=top"<!--{if $op=="top"}--> class="curr"<!--{/if}-->>排行榜</a>
+		<a href="javascript:void(0);" onclick="alert('想用智慧币兑换奖品？你赚多点再来吧！\n（奖品正在筹备，欢迎奖品合作！）')"<!--{if $op=="cake"}--> class="curr"<!--{/if}-->>兑换中心</a>
 		<a href="javascript:void(0);" onclick="_follow();" style="color:#f00;">关注米奇吧，立即获取10枚智慧币！</a>
-
 		<a id="btn_help" href="javascript:void(0);" class="pngfix">游戏攻略</a>
-
+<div class="cl"></div>
 		
 
 	</div>

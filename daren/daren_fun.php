@@ -85,10 +85,26 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		return $darenScore;
 	}
 
-	function _gettodaytop() {		
+	function _gettodaytop($top=10) {		
 		global $timestamp;
 		$day=strftime("%y%m%d",$timestamp);
-		$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,score,usetime from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day order by score desc,usetime limit 0,10) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid";
+		$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,score,usetime from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day order by score desc,usetime limit 0,$top) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid";
+
+		$arrs=dbhelper::getrows($sql);
+
+		return $arrs;
+	}
+	
+	function _getjifentop($top=10) {
+		$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,jifen,alljifen from ". dbhelper::tname("daren","daren") ." order by jifen desc limit 0,$top) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid";
+
+		$arrs=dbhelper::getrows($sql);
+
+		return $arrs;
+	}
+		
+	function _getfilishtop($top=10) {
+		$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,filishcount,wincount from ". dbhelper::tname("daren","daren") ." order by filishcount desc,wincount desc limit 0,$top) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid";
 
 		$arrs=dbhelper::getrows($sql);
 
@@ -198,6 +214,21 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			ssetcookie('daren_zhengshu_url',$newName);
 		}
 		return $url;
+	}
+
+	function decjifen($_uid,$jifen) {
+		global $timestamp;
+
+		$sql="select jifen from ". dbhelper::tname("daren","daren") ." where uid=".$_uid;
+		$val=dbhelper::getvalue($sql);
+		if($val && is_numeric($val)) {
+			if(intval($val)>= $jifen) {
+				$sql ="update ". dbhelper::tname("daren","daren") ." set  jifen=jifen - {$jifen},lasttime=$timestamp  where  uid=" . $_uid;
+				dbhelper::execute($sql);				
+				return true;
+			}
+		}
+		return false;
 	}
 
 

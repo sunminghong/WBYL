@@ -7,6 +7,8 @@ $question[0]="";
 define("STEP",1);  //每次显示多少题
 define("FULLMINUTE",130); //得勋章的分数
 define("MINUTEPER",15); //每题多少分
+define("TODAYMAXJIFEN",10); //每天没类别最多可获得的智慧币数量
+define("HELPERPRICE",2); //在线求助的价格
 
 include_once("test_fun.php");
 include_once("daren_fun.php");
@@ -27,8 +29,12 @@ class daren extends ctl_base
 				$uid=$account['uid'];
 			}
 		}
-		if( $uid==0) $score=false;
-		$score=readdarenScore($uid,0,false);//print_r($score);
+
+		if( $uid==0)
+			$score=false;
+		else
+			$score=readdarenScore($uid,0,false);//print_r($score);
+
 		$this->set("score",$score);
 		$this->set('todaytoplist',_gettodaytop());
 		$this->set('testlist',_gettestlist());
@@ -38,6 +44,36 @@ class daren extends ctl_base
 		$this->set("pagetitle","");
 		$this->display("daren_index");
 	}
+	function top() {
+		global $ret;
+		$uid=0;
+		if($ret) {
+			$uid=$ret['retuid'];
+			$this->set("isret",1);
+		}
+		else {
+			$account=getAccount();
+			if($account) {
+				$uid=$account['uid'];
+			}
+		}
+
+		if( $uid==0)
+			$score=false;
+		else
+			$score=readdarenScore($uid,0,false);//print_r($score);
+
+		$this->set("score",$score);
+		$this->set('todaytoplist',_gettodaytop(20));
+		$this->set('filishtoplist',_getfilishtop(20));
+		$this->set('jifentoplist',_getjifentop(20));
+
+		$this->set("op","top");
+		$this->set("pagetitle","");
+		$this->display("daren_top");
+
+	}
+
 	function profile(){
 		global $ret;
 		$account=getAccount();
@@ -106,6 +142,7 @@ class daren extends ctl_base
 		$this->set("pagetitle",$score["name"]."的成就 - ");
 		$this->display("daren_profile");
 	}
+
 	function helper() {
 		global $timestamp;
 		$account=getAccount();		
@@ -113,17 +150,11 @@ class daren extends ctl_base
 			echo "-1";
 			return;
 		}
-		$sql="select jifen from ". dbhelper::tname("daren","daren") ." where uid=".$account['uid'];
-		$val=dbhelper::getvalue($sql);
-		if($val && is_numeric($val)) {
-			if(intval($val)>0) {
-				$sql ="update ". dbhelper::tname("daren","daren") ." set  jifen=jifen-1,lasttime=$timestamp  where  uid=" . $account["uid"];
-				dbhelper::execute($sql);
-				echo "1";
-				return;
-			}
-		}
-		echo  "-1";
+	
+		if( decjifen($account['uid'], HELPERPRICE))
+			echo "1";
+		else
+			echo  "-1";
 	}
 
 	function ican(){
@@ -337,8 +368,8 @@ class daren extends ctl_base
 		else {
 			echo "-3";
 		}
-
 	}
+
 	public function sendstatus(){
 		global $timestamp;
 		$account=getAccount();
@@ -376,6 +407,23 @@ class daren extends ctl_base
 
 			$ret=$api->follow($byuid);
 		}
+
+		$qtype=readqtype();
+		if($qtype>0) {
+			$day=intval(strftime("%y%m%d",$timestamp));
+
+			$sql2="select todayjifen from ". dbhelper::tname("daren","tmp_day") ." where winday=$day and qtype=$qtype and uid=".$account['uid'];
+			$todayjifen=dbhelper::getvalue($sql2);
+			if(!$todayjifen) $todayjifen=0;
+			if(intval($todayjifen)< 100) {
+				$sql="update ". dbhelper::tname("daren","tmp_day") ." set todayjifen=todayjifen+100 where  winday=$day and qtype=$qtype and uid=".$account['uid'];
+				$sql.=";;;update ". dbhelper::tname("daren","daren") ." set jifen=jifen+2,alljifen=alljifen+2,lasttime=$timestamp where uid=".$account['uid'];
+				dbhelper::exesqls($sql);
+				echo 102;
+				return;
+			}
+		}
+
 		echo "1";
 	}
 	
@@ -481,7 +529,8 @@ class daren extends ctl_base
 		$account=getAccount();
 		$qtype=readqtype();
 		
-		$givejifen=0;
+		$day=intval(strftime("%y%m%d",$timestamp));
+		$givejifen=$givejifen2=0;
 		$ret=envhelper::readRet();
 		$sqlu="lasttime=$timestamp,followers=".$account['followers'].",followings=".$account['followings'].",tweets=".$account['tweets'].",retuid='".$ret['retuid'] ."'";
 		$lasttime=0;
@@ -498,20 +547,31 @@ class daren extends ctl_base
 				$testCount=0;
 				$filish=1;
 
+				$sql2="select todayjifen from ". dbhelper::tname("daren","tmp_day") ." where winday=$day and qtype=$qtype and uid=".$account['uid'];
+				$todayjifen=dbhelper::getvalue($sql2);
+				if(!$todayjifen) $todayjifen=0;
+
+				$givejifen=floor($darenvalue / 30);
+
 				if($darenvalue>=FULLMINUTE) {
 					$sql="select id from ". dbhelper::tname("daren","log") ." where  uid=" . $account["uid"]." and qtype=$qtype and score>=".FULLMINUTE." and  ( lasttime > UNIX_TIMESTAMP(FROM_DAYS(TO_DAYS(now())))) limit 0,1";
 					$rs=dbhelper::getrs($sql);
 					if($row=$rs->next()){
 						$wins=0;
-						$givejifen=floor($darenvalue / 30);
+						if($todayjifen % 100 +$givejifen < TODAYMAXJIFEN) 
+							$givejifen2=$givejifen;
+						else
+							$givejifen2=$givejifen=TODAYMAXJIFEN-($todayjifen % 100);
 					}
 					else {
 						$wins=1;
 						$givejifen=30;
 					}
 				}
+				elseif($todayjifen % 100 + $givejifen < TODAYMAXJIFEN) 
+					$givejifen2=$givejifen;
 				else
-					$givejifen=floor($darenvalue / 30);
+					$givejifen2=$givejifen=TODAYMAXJIFEN- ($todayjifen % 100);
 			}
 
 			$sql="update ". dbhelper::tname("daren","daren_qtype") ." set  testCount=testCount+$testCount,wincount=wincount+$wins,filishcount=filishcount+$filish,lasttime=$timestamp  where  qtype=$qtype and uid=" . $account["uid"];
@@ -539,10 +599,15 @@ class daren extends ctl_base
 		dbhelper::exesqls($sql);
 
 		if($darenvalue != -1 ){
-			$day=intval(strftime("%y%m%d",$timestamp));
+			$sql2="select todayjifen from ". dbhelper::tname("daren","tmp_day") ." where winday=$day and qtype=$qtype and uid=".$account['uid'];
+			$todayjifen=dbhelper::getvalue($sql2);
+			if(!$todayjifen) $todayjifen=0;
+			$todayjifen += $givejifen2;
+
 			$sql="delete from ". dbhelper::tname("daren","tmp_day") ." where winday=$day  and qtype=$qtype and uid=".$account['uid'];
-			$sql.=";;;insert into ". dbhelper::tname("daren","tmp_day") ." (qtype,winday,uid,score,usetime,lasttime)  
-				select qtype,$day,uid,score,usetime,$lasttime from ". dbhelper::tname("daren","log") ." where qtype=$qtype and uid=".$account['uid']." and lasttime >=UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  order by score desc,usetime limit 0,1";
+			$sql.=";;;insert into ". dbhelper::tname("daren","tmp_day") ." (qtype,winday,uid,score,usetime,todayjifen,lasttime)  
+				select qtype,$day,uid,score,usetime,$todayjifen,$lasttime from ". dbhelper::tname("daren","log") ." where qtype=$qtype and uid=".$account['uid']." and lasttime >=UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  order by score desc,usetime limit 0,1";
+			
 
 			$sql.=";;;delete from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day  and uid=".$account['uid'];
 			$sql.=";;;insert into ". dbhelper::tname("daren","tmp_day_total") ." (winday,uid,score,usetime,lasttime)  

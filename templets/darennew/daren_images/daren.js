@@ -205,7 +205,10 @@ function _sendstatus(msg){
 		if(res=="-1"){alert('请先登录！');login();return;}
 
 		isfollow=true;
-		alert("已经发布到你的微博！");		
+		if(res=="102")
+			alert("已经发布到你的微博，并且为了嘉奖你勇发微博的行为，奖励你 2枚 智慧币！");		
+		else
+			alert("已经发布到你的微博！");		
 	});	
 }
 
