@@ -16,6 +16,14 @@ include_once("daren_fun.php");
 
 class daren extends ctl_base
 {
+	function _getfooter() {		
+		$this->set('qtypenamelist',readqtypelist());
+
+		$this->set('todaytoplist',_gettodaytop());
+		$this->set('testlist',_gettestlist());
+		$this->set('yesterdayniurenlist',_getyesterdayniuren());
+	}
+
 	function index() {
 		global $ret;
 		$uid=0;
@@ -36,14 +44,15 @@ class daren extends ctl_base
 			$score=readdarenScore($uid,0,false);//print_r($score);
 
 		$this->set("score",$score);
-		$this->set('todaytoplist',_gettodaytop());
-		$this->set('testlist',_gettestlist());
+
 		$this->set('allcount',_getallcount());
 
 		$this->set("op","index");
+		$this->_getfooter();
 		$this->set("pagetitle","");
 		$this->display("daren_index");
 	}
+
 	function top() {
 		global $ret;
 		$uid=0;
@@ -69,7 +78,7 @@ class daren extends ctl_base
 		$this->set('jifentoplist',_getjifentop(20));
 
 		$this->set("op","top");
-		$this->set("pagetitle","");
+		$this->set("pagetitle","智慧排行榜");
 		$this->display("daren_top");
 
 	}
@@ -107,7 +116,6 @@ class daren extends ctl_base
 		$sql="select qtype,wincount,topcount from ".dbhelper::tname('daren','daren_qtype') ." where uid=$uid and (wincount>0 or topcount>0) order by qtype";
 		$row=dbhelper::getrows($sql);
 		$this->set('qtypecountlist',$row);
-		$this->set('qtypenamelist',readqtypelist());
 
 
 		$sql="select qtype,DATE_FORMAT( FROM_UNIXTIME(lasttime) ,  '%Y-%m-%d' ) as winday,score,usetime from ".dbhelper::tname('daren','top_day') ." where uid=$uid";
@@ -134,6 +142,8 @@ class daren extends ctl_base
 		$score=readdarenScore($uid,0,false);//print_r($score);
 		$this->set("score",$score);
 
+
+		$this->set('qtypenamelist',readqtypelist());
 
 		$this->set('todaytoplist',_gettodaytop());
 		$this->set('testlist',_gettestlist());
@@ -190,8 +200,7 @@ class daren extends ctl_base
 		$score=readdarenScore($uid,0,false);		//print_r($score);
 		$this->set("score",$score);
 
-		$this->set('todaytoplist',_gettodaytop());
-		$this->set('testlist',_gettestlist());
+		$this->_getfooter();
 		$this->display("daren_ican");
 	}
 
@@ -297,7 +306,7 @@ class daren extends ctl_base
 //echo $qtype;
 //print_r($score);
 		
-		ssetcookie('daren_zhengshu_url','');
+		ssetcookie('daren_zhengshu_url_daren','');
 		if($darenvalue>=FULLMINUTE){
 			$picurl=_makeZhengshu($account["uid"],$account['name'],$darenvalue,"daren",$account['avatar']);
 			$this->set('darenzhengshuurl',$picurl);
@@ -312,8 +321,7 @@ class daren extends ctl_base
 			$this->set("qtypename",$qa[$qtype][0]);
 		}
 
-		$this->set('todaytoplist',_gettodaytop());
-		$this->set('testlist',_gettestlist());
+		$this->_getfooter();
 		$this->set("op","showscore");
 		$this->set("pagetitle","测试成绩 - ");
 		$this->display("daren_result");
@@ -347,40 +355,92 @@ class daren extends ctl_base
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()) {
 			if(intval($row['isfollow']) == 0) {
-				$sql ="update ". dbhelper::tname("daren","daren") ." set  jifen=jifen+10,alljifen=alljifen+10,isfollow=isfollow+1,lasttime=$timestamp  where  uid=" . $account["uid"];
+				$sql ="update ". dbhelper::tname("daren","daren") ." set  jifen=jifen+10,alljifen=alljifen+100,isfollow=isfollow+1,lasttime=$timestamp  where  uid=" . $account["uid"];
 				dbhelper::execute($sql);
 				$isFollow=1;
 			}
 		}else{
-			$sql ="insert into ". dbhelper::tname("daren","daren") ." set  jifen=10,alljifen=10,isfollow=isfollow+1,regtime=$timestamp,lasttime=$timestamp  where  uid=" . $account["uid"];
+			$sql ="insert into ". dbhelper::tname("daren","daren") ." set  jifen=10,alljifen=100,isfollow=isfollow+1,regtime=$timestamp,lasttime=$timestamp  where  uid=" . $account["uid"];
 			dbhelper::execute($sql);
 			$isFollow=1;
 		}
+		//关注官方的处理
+		global $apiConfig;
+		$byuid=$apiConfig[$account['lfrom']]['orguid'];
+
+		$ret=$api->follow($byuid);
 
 		if($isFollow==1) {
-			//关注官方的处理
-			global $apiConfig;
-			$byuid=$apiConfig[$account['lfrom']]['orguid'];
-
-			$ret=$api->follow($byuid);
-			echo '1';
+			echo '1';			
 		}
 		else {
 			echo "-3";
 		}
 	}
 
+	function showzhengshu() {
+		$zstype=rq("zstype","");
+		if(!$zstype) return;
+		$account=getAccount();
+		if(!$account) {
+			return;
+		}
+
+		$picurl=sreadcookie('daren_zhengshu_url_'.$zstype);
+		if(!$picurl) {
+			$picurl=_makeZhengshu($account["uid"],$account['name'],50,$zstype,$account['avatar']);
+//			ssetcookie('daren_zhengshu_url_daren_v',$picurl);
+			$picurl=sreadcookie('daren_zhengshu_url_'.$zstype);
+		}
+
+		header( "Content-type: image/jpg"); 
+		echo file_get_contents($picurl); 
+		exit;		
+	}
+
+	function getboshizhengshu(){
+		global $timestamp;
+		$account=getAccount();
+		if(!is_array($account)){
+			echo '-1';return;
+		}
+
+		$is_sendmsg=rf('is_sendmsg','0');
+		$msg=trim(rf("msg",""));
+		if($is_sendmsg && $msg) {
+			$qtype=0;
+			$is_follow=0;
+			$is_pic=1;
+			$this->_sendstatus($qtype,$is_follow,$is_pic,$msg,"boshi");
+		}
+		$sql="select lastwincount from ".dbhelper::tname("daren","daren")." where uid=".$account['uid'];
+		$lastwincount=dbhelper::getvalue($sql);
+		if($lastwincount && intval($lastwincount)>=50) {
+			$sql="update ".dbhelper::tname("daren","daren")." set lastwincount=lastwincount-50,boshicount=boshicount+1,lastboshicount=lastboshicount+1 where uid=".$account['uid'];
+			dbhelper::execute($sql);
+			echo 1;
+			return;
+		}
+		echo "-2";
+	}
+
+
 	public function sendstatus(){
+
+		$msg=trim(rf("msg",""));	
+		$is_follow=rf('is_follow','0');
+		$is_pic=rf('is_pic','0');
+		$qtype=readqtype();
+		$this->_sendstatus($qtype,$is_follow,$is_pic,$msg,"daren");
+	}
+
+	private function _sendstatus($qtype,$is_follow,$is_pic,$msg,$zstype) {
+
 		global $timestamp;
 		$account=getAccount();
 		if(!is_array($account)){
 			echo '-1';exit;
 		}
-
-		$msg=trim(rf("msg",""));	
-		$is_follow=rf('is_follow','0');
-		$is_pic=rf('is_pic','0');
-
 		if(!$msg) {
 			$msg="#我太有才了#，你们来挑战我吧！";
 		}
@@ -393,9 +453,9 @@ class daren extends ctl_base
 
 		$api=$this->getApi();
 
-		$picurl=sreadcookie('daren_zhengshu_url');
+		$picurl=sreadcookie('daren_zhengshu_url_'.$zstype);
 		
-		//echo 'upload'.$wbmsg.$picurl;exit;
+		echo 'upload'.$wbmsg.$picurl;exit;
 		if($is_pic && $picurl)
 			$api->upload($wbmsg,$picurl);
 		else
@@ -408,7 +468,6 @@ class daren extends ctl_base
 			$ret=$api->follow($byuid);
 		}
 
-		$qtype=readqtype();
 		if($qtype>0) {
 			$day=intval(strftime("%y%m%d",$timestamp));
 
@@ -532,6 +591,11 @@ class daren extends ctl_base
 		$day=intval(strftime("%y%m%d",$timestamp));
 		$givejifen=$givejifen2=0;
 		$ret=envhelper::readRet();
+
+		$sql2="select todayjifen from ". dbhelper::tname("daren","tmp_day") ." where winday=$day and qtype=$qtype and uid=".$account['uid'];
+		$todayjifen=dbhelper::getvalue($sql2);
+		if(!$todayjifen) $todayjifen=0;
+
 		$sqlu="lasttime=$timestamp,followers=".$account['followers'].",followings=".$account['followings'].",tweets=".$account['tweets'].",retuid='".$ret['retuid'] ."'";
 		$lasttime=0;
 		$sql="select * from ". dbhelper::tname("daren","daren_qtype") ." where qtype=$qtype and uid=" . $account["uid"];
@@ -547,9 +611,6 @@ class daren extends ctl_base
 				$testCount=0;
 				$filish=1;
 
-				$sql2="select todayjifen from ". dbhelper::tname("daren","tmp_day") ." where winday=$day and qtype=$qtype and uid=".$account['uid'];
-				$todayjifen=dbhelper::getvalue($sql2);
-				if(!$todayjifen) $todayjifen=0;
 
 				$givejifen=floor($darenvalue / 30);
 
@@ -599,14 +660,11 @@ class daren extends ctl_base
 		dbhelper::exesqls($sql);
 
 		if($darenvalue != -1 ){
-			$sql2="select todayjifen from ". dbhelper::tname("daren","tmp_day") ." where winday=$day and qtype=$qtype and uid=".$account['uid'];
-			$todayjifen=dbhelper::getvalue($sql2);
-			if(!$todayjifen) $todayjifen=0;
 			$todayjifen += $givejifen2;
 
 			$sql="delete from ". dbhelper::tname("daren","tmp_day") ." where winday=$day  and qtype=$qtype and uid=".$account['uid'];
 			$sql.=";;;insert into ". dbhelper::tname("daren","tmp_day") ." (qtype,winday,uid,score,usetime,todayjifen,lasttime)  
-				select qtype,$day,uid,score,usetime,$todayjifen,$lasttime from ". dbhelper::tname("daren","log") ." where qtype=$qtype and uid=".$account['uid']." and lasttime >=UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  order by score desc,usetime limit 0,1";
+				select qtype,$day,uid,score,usetime,$todayjifen,$timestamp from ". dbhelper::tname("daren","log") ." where qtype=$qtype and uid=".$account['uid']." and lasttime >=UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  order by score desc,usetime limit 0,1";
 			
 
 			$sql.=";;;delete from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day  and uid=".$account['uid'];
@@ -654,30 +712,24 @@ class daren extends ctl_base
 		$cache=new CACHE();
 		$lastmaketop=$cache->get("daren_lastmaketop"); 
 
-		if(1==1 && $lastmaketop && dateDiff("d",$lastmaketop , $timestamp)==0) {
+		if(1==0 && $lastmaketop && dateDiff("d",$lastmaketop , $timestamp)==0) {
 				return ;
 		}	
 		
 		$day=intval(strftime("%y%m%d",$timestamp))-1;
 
 		//计算出每个人每科最高得分
-		$sql="delete from daren_tmp_daysort ";
-		dbhelper::execute($sql);
-		$sql="select qtype from ". dbhelper::tname("daren","log") ." where lasttime <UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  and  lasttime >= UNIX_TIMESTAMP(  DATE_FORMAT( ADDDATE(now(), INTERVAL -1 DAY) ,  '%Y-%m-%d' )  )  group by qtype";
-		$rs=dbhelper::getrs($sql);
-		while($row=$rs->next()) {
-			$sql="insert into ". dbhelper::tname("daren","tmp_daysort") ." (score,qtype)  
-			select max(score * 1000+990-usetime) as score2," .$row['qtype']. " from ". dbhelper::tname("daren","log") ." where score>0 and qtype=" . $row["qtype"] . " and lasttime <UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )  and  lasttime >= UNIX_TIMESTAMP(  DATE_FORMAT( ADDDATE(now(), INTERVAL -1 DAY) ,  '%Y-%m-%d' )  )  order by score2 desc limit 0,1";
-			
-			//echo $sql."<br/>";
-			dbhelper::execute($sql);
-		}
-		
+
+		$qtypelist=readqtypelist();
 		$sql="delete from ". dbhelper::tname("daren","top_day") ." where winday=$day";
-		$sql .=";;;insert into ". dbhelper::tname("daren","top_day") ." (qtype,winday,uid,no,score,usetime,regtime,lasttime) ";
-		$sql .="select log.qtype,$day,log.uid,0,log.score,log.usetime,$timestamp,log.lasttime from ". dbhelper::tname("daren","tmp_daysort") ." top ,  ". dbhelper::tname("daren","log") ." log where log.qtype=top.qtype and log.score=top.score div 1000 and log.usetime=990-top.score % 1000" ;		
-		//echo $sql."<br/>";
-		dbhelper::exesqls($sql);
+		foreach($qtypelist as $key=>$r) {
+			$sql .=";;;insert into ". dbhelper::tname("daren","top_day") ." (qtype,winday,uid,no,score,usetime,regtime,lasttime)  
+			select qtype,$day,uid,0,score,usetime,$timestamp,lasttime from ". dbhelper::tname("daren","tmp_day") ." where score>0 and qtype=" . $key . " and winday=$day  order by score  desc,usetime,lasttime limit 0,1";
+			
+		}
+		dbhelper::exesqls($sql);		
+
+
 		$sql="select uid,qtype from ". dbhelper::tname("daren","top_day") ." where winday=$day";
 		$rs=dbhelper::getrs($sql);
 		$sql="";
@@ -688,7 +740,11 @@ class daren extends ctl_base
 		}
 		dbhelper::exesqls($sql);
 
+		$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,qtype,winday,score,usetime, DATE_FORMAT(regtime ,  '%Y-%m-%d' ) as regtime from ". dbhelper::tname("daren","top_day") ." where winday=$day order by rand()) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid order by rand() limit 0,9";
+		$arrs=dbhelper::getrows($sql);
+
 		$cache=new CACHE();
+		$cache->set("daren_yesterdayniuren",$arrs);
 		$cache->set("daren_lastmaketop",$timestamp);
 	}
 }	

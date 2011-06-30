@@ -2,6 +2,7 @@
 if(!defined('ISWBYL')) exit('Access Denied');
 
 	function readdarenScore($uid,$qtype=0,$nocache=false){
+		global $timestamp;
 		if(1==0 && !$nocache){
 			$darenScore=sreadcookie('daren_score'.$qtype);		
 			if(is_array($darenScore)) {
@@ -10,29 +11,31 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		}
 
 		//总成绩
-		$sql="select coalesce(jifen,0) as jifen,COALESCE(wincount,0) as wincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid";//echo $sql;
+		$sql="select coalesce(jifen,0) as jifen,coalesce(alljifen,0) as alljifen,COALESCE(wincount,0) as wincount,COALESCE(lastwincount,0) as lastwincount,COALESCE(filishcount,0) as filishcount,COALESCE(testcount,0) as testcount,COALESCE(topcount,0) as topcount,COALESCE(lasttopcount,0) as lasttopcount,COALESCE(boshicount,0) as boshicount,COALESCE(lastboshicount,0) as lastboshicount,l.uid,l.name,l.lfrom,l.avatar,l.lfromuid from ".dbhelper::tname('ppt','user') ." l left join ".dbhelper::tname('daren','daren') ." d on d.uid=l.uid  where l.uid=$uid";//echo $sql;
 		$rs=dbhelper::getrs($sql);
 		if($row=$rs->next()){
 			$darenScore=$row;
 		}else{
 			return false;
-			$darenScore=array();
-			$darenScore["wincount"]=0;
-			$darenScore['filishcount']=0;
-			$darenScore['topcount']=0;
-			$darenScore['testcount']=0;
-			$darenScore['jifen']=0;
 		}
 		
 		//今天成绩			
 		$darenScore["todaytotalscore"]=0; 
 		$darenScore['todaytotalusetime']=0;
 
-		$sql="select qtype,max(score * 1000+990-usetime) as score2 from ". dbhelper::tname("daren","log") ." where  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and uid=$uid group by qtype order by score2";
+		//$sql="select qtype,max(score * 1000+990-usetime) as score2 from ". dbhelper::tname("daren","log") ." where  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and uid=$uid group by qtype order by score2";
+		//$rs=dbhelper::getrs($sql);
+		//while($row=$rs->next()){
+		//	$darenScore["todaytotalscore"] += intval($row['score2']  / 1000);
+		//	$darenScore['todaytotalusetime'] +=  990-  $row['score2'] % 1000 ;
+		//}
+
+		$day=strftime("%y%m%d",$timestamp);
+		$sql="select uid,score,usetime from ". dbhelper::tname("daren","tmp_day_total") ." where winday=$day and uid=$uid";
 		$rs=dbhelper::getrs($sql);
-		while($row=$rs->next()){
-			$darenScore["todaytotalscore"] += intval($row['score2']  / 1000);
-			$darenScore['todaytotalusetime'] +=  990-  $row['score2'] % 1000 ;
+		if($row=$rs->next()) {
+			$darenScore["todaytotalscore"] = $row['score'];
+			$darenScore['todaytotalusetime'] = $row['usetime'];
 		}
 
 		//今日某科考试成绩
@@ -40,6 +43,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			$darenScore["todayscore".$qtype]=0; 
 			$darenScore['todayusetime'.$qtype]=0;
 	
+	/*
 			$sql="select max(score * 1000+990-usetime) as score2 from ". dbhelper::tname("daren","log") ." where  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and uid=$uid and qtype=$qtype order by score2";
 			$rs=dbhelper::getrs($sql);
 			while($row=$rs->next()){
@@ -47,9 +51,9 @@ if(!defined('ISWBYL')) exit('Access Denied');
 				$darenScore['todayusetime'.$qtype] =  990-  $row['score2'] % 1000 ;
 			}
 
-			$sql="select (select count(*) from ". dbhelper::tname("daren","log") ." where  qytpe=$qtype and  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and score>" . $darenScore["todayscore".$qtype].") + (select count(*) from ". 
-				dbhelper::tname("daren","log") ." where  qytpe=$qtype and  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and score=". $darenScore["todayscore".$qtype] ." and usetime<".$darenScore['todayusetime'.$qtype] .")  as top ,";
-			$sql.="(select count(*) from ". dbhelper::tname("daren","daren") ." where qytpe=$qtype and  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )) as total ";
+			$sql="select (select count(*) from ". dbhelper::tname("daren","log") ." where  qtype=$qtype and  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and score>" . $darenScore["todayscore".$qtype].") + (select count(*) from ". 
+				dbhelper::tname("daren","log") ." where  qtype=$qtype and  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) ) and score=". $darenScore["todayscore".$qtype] ." and usetime<".$darenScore['todayusetime'.$qtype] .")  as top ,";
+			$sql.="(select count(*) from ". dbhelper::tname("daren","daren") ." where qtype=$qtype and  lasttime >UNIX_TIMESTAMP( DATE_FORMAT( NOW( ) ,  '%Y-%m-%d' ) )) as total ";
 			$rs=dbhelper::getrs($sql);
 			if($row=$rs->next()){
 				$darenScore["todaytop$qtype"]=$row['top'];
@@ -62,6 +66,32 @@ if(!defined('ISWBYL')) exit('Access Denied');
 				$darenScore["todaytop$qtype"]=1;
 				$darenScore["todaywin$qtype"]='100%';
 			}
+			*/
+
+			$sql="select score,usetime from ".dbhelper::tname("daren","tmp_day")." where winday=$day and qtype=$qtype and uid=$uid";
+			$rs=dbhelper::getrs($sql);
+			if($row=$rs->next()) {
+				$darenScore["todayscore".$qtype] = $row['score'];
+				$darenScore['todayusetime'.$qtype] = $row['usetime'];
+			}
+	
+			$sql="select (select count(*) from ". dbhelper::tname("daren","tmp_day") ." where  winday=$day and qtype=$qtype and score>" . $darenScore["todayscore".$qtype].") + (select count(*) from ". dbhelper::tname("daren","tmp_day") ." where winday=$day and qtype=$qtype and score=". $darenScore["todayscore".$qtype] ." and usetime<".$darenScore['todayusetime'.$qtype] .")  as top ,";
+			$sql.="(select count(*) from ". dbhelper::tname("daren","tmp_day") ." where  winday=$day and qtype=$qtype) as total ";
+			$rs=dbhelper::getrs($sql);
+			if($row=$rs->next()){
+				$darenScore["todaytop$qtype"]=$row['top']+1;
+				if(intval($row["total"])==0)
+					$darenScore["todaywin$qtype"]='所有';
+				else
+					$darenScore["todaywin$qtype"]=$row["total"]-$row['top'];   // (1- $row["todaytop$qtype"]/$row["todaytotal$qtype"])*100;
+
+			}else{
+				$darenScore["todaytop$qtype"]=1;
+				$darenScore["todaywin$qtype"]='所有';
+			}
+
+			//print_r($darenScore);
+
 		}
 
 		//获取邀请人名单
@@ -111,6 +141,20 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		return $arrs;
 	}
 
+	function _getyesterdayniuren() {
+		$cache=new CACHE();
+		$arrs=$cache->get("daren_yesterdayniuren");
+		
+		if(is_array($arrs)) return $arrs;
+		$day=date("ymd",strtotime("-1 day"));
+		$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,qtype,winday,score,usetime, DATE_FORMAT(regtime ,  '%Y-%m-%d' ) as regtime from ". dbhelper::tname("daren","top_day") ." where winday=$day order by rand()) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid order by rand() limit 0,9";
+		$arrs=dbhelper::getrows($sql);
+
+		$cache->set("daren_yesterdayniuren",$arrs);
+
+		return $arrs;
+	}
+
 	function _gettestlist() {
 		//global $lfrom;
 		//if($lfrom) $ll="l.lfrom='$lfrom' and ";
@@ -151,9 +195,8 @@ if(!defined('ISWBYL')) exit('Access Denied');
 
 	function _makeZhengshu($uid,$name,$score,$zhengshutype,$avatar,$date=false) {
 		global $currTemplate,$timestamp;
-
-		importlib("watermark.fun");
 		
+		importlib("watermark.fun");
 		$sql="insert into ". dbhelper::tname("ppt","zhengshu") ." set uid=$uid,type='$zhengshutype',lasttime=$timestamp";
 		$zid=dbhelper::execute($sql,1);
 		$no="Q". right("0000000".$zid,7);
@@ -165,7 +208,7 @@ if(!defined('ISWBYL')) exit('Access Denied');
 			$newName=tempnam(SAE_TMP_PATH, "SAE_IMAGE");
 		}
 		else
-			$newName=ROOT."data/zhengshu/{$date}-daren-{$uid}.jpg";
+			$newName=ROOT."data/zhengshu/{$date}-{$zhengshutype}-{$uid}.jpg";
 
 		$backImage=ROOT."templets/$currTemplate/daren_images/zhengshu/zhengshu_{$zhengshutype}.gif";
 
@@ -205,13 +248,13 @@ if(!defined('ISWBYL')) exit('Access Denied');
 		//echo 'newname='.$newName;
 		if(ISSAE) {
 			 $s = new SaeStorage();
-			 $s->write( "zhengshu2", "{$date}-daren-{$uid}.jpg",@file_get_contents($newName)  );			 
-			 $url=$s->getUrl( "zhengshu2" , "{$date}-daren-{$uid}.jpg");
+			 $s->write( "zhengshu2", "{$date}-{$zhengshutype}-{$uid}.jpg",@file_get_contents($newName)  );			 
+			 $url=$s->getUrl( "zhengshu2" , "{$date}-{$zhengshutype}-{$uid}.jpg");
 			 @unlink($newName);
-			ssetcookie('daren_zhengshu_url',$url);
+			ssetcookie('daren_zhengshu_url_'.$zhengshutype,$url);
 		}else{
-			$url=URLBASE."data/zhengshu/{$date}-daren-{$uid}.jpg";
-			ssetcookie('daren_zhengshu_url',$newName);
+			$url=URLBASE."data/zhengshu/{$date}-{$zhengshutype}-{$uid}.jpg";
+			ssetcookie('daren_zhengshu_url_'.$zhengshutype,$newName);
 		}
 		return $url;
 	}

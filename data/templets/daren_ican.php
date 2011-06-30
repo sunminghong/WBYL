@@ -28,6 +28,7 @@
 <!--测试主区域-->
 <div id="div_test" class="mw">
 	<div id="div_helper">找我求助很便宜的，每次<b><? echo HELPERPRICE;?>枚</b>智慧币，你还可以求助<b><? echo intval($score['jifen']/HELPERPRICE);?>次</b>！<br/>
+	<p><a href="javascript:void(0);" onclick="_follow();" style="text-decoration:underline;">关注米奇吧，立即获取 <b style="color:#f00;">100枚</b> 智慧币！</a></p>
 	<a href="javascript:void(0);" class="btn_tiny" id="btn_helper">求助</a>
 	</div>
 	<div class="timeline pngfix">

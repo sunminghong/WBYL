@@ -1,5 +1,3 @@
-
-
 <?php
 /*
 imageWaterText($backImage,$text,$color='#000000',$posX,$posY,$fontSize,$fontFile,$newName='')

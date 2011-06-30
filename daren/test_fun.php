@@ -13,11 +13,11 @@
 		return $qtype;
 	}
 	function readqtypelist(){
-		$cache=new CACHE();		
-		$qtypearr=$cache->get("daren_qtype_arr"); 
-		if( 1==0 && is_array($qtypearr)) {
-			return $qtypearr;
-		}
+		//$cache=new CACHE();		
+		//$qtypearr=$cache->get("daren_qtype_arr"); 
+		//if( 1==0 && is_array($qtypearr)) {
+		//	return $qtypearr;
+		//}
 		
 		$qtypearr=array(
 			1=>array('综合',''),
@@ -39,7 +39,7 @@
 			$qtypearr[intval($row["id"])]=$row["ctype"];
 		}
 		*/
-		$cache->set("daren_qtype_arr",$qtypearr);
+		//$cache->set("daren_qtype_arr",$qtypearr);
 		return $qtypearr;
 	}
 

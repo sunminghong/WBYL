@@ -11,10 +11,17 @@
 
  <body>
   <p>android.exitapp() 退出应用软件</p>
-<p>android.capture('capturecallback',480,320) 打开相机</p>
-<p>android.getimage('capturecallback',480,320) 打开相册</p>
+<p>android.capture('capturecallback',480,320,90) 打开相机</p>
+<p>android.getimage('capturecallback',480,320,90) 打开相册</p>
 <p>android.notify("abc.ico","nofify test!") 手机提醒</p>
+<p>
 
+	     
+    	//这是设置通知是否同时播放声音或振动，声音为Notification.DEFAULT_SOUND  ==1
+    	//振动为Notification.DEFAULT_VIBRATE  == 2;
+    	//Light为Notification.DEFAULT_LIGHTS=4，在我的Milestone上好像没什么反应
+    	//全部为Notification.DEFAULT_ALL==0xffffffff;
+</p>
 <script type="text/javascript">
 function alertcallback(msg) {
 	document.getElementById('div_msg_output').innerHTML+=msg+'<br/>';
@@ -50,10 +57,13 @@ function capture() {
 	android.capture('capturecallback',480,320,90);
 }
 
-function capturecallback(imgbytesbase64) {
-		alertcallback('capturecallback is undefined!');
-		alertcallback(imgbytesbase64);
-		document.getElementById('img_show').src="data:image/jpeg;base64,"+imgbytesbase64;
+function capturecallback(isSuccess) {
+		alertcallback('capturecallback is'+isSuccess);
+		if(isSuccess) {
+			document.getElementById('img_show').src = "data:image/jpeg;base64,"+
+			android.getimgbase64();
+		}
+			
 }
 
 function get_image() {
@@ -77,7 +87,7 @@ function notify() {
 		alertcallback('android.notify is undefined!');
 		return;
 	}
-	android.notify("abc.ico","nofify test!");
+	android.notify("is tips","is title","is msg",1+2+4);
 	alertcallback("nofiy is success!");
 }
 
@@ -93,8 +103,8 @@ function browserLoadCallback(status) {
 <a href="#" onclick="get_image()">打开相册</a><br/>
 <a href="" onclick="notify()">手机提示</a>
 
-<img id="img_show"></img>
+<img id="img_show"/>
 
-<div id="div_msg_output"></div>
+<div id="div_msg_output">00</div>
  </body>
 </html>

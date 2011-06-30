@@ -88,6 +88,7 @@ function next(de,an){
 	$.get(url,function(res){
 		if(res==-1) {
 			alert('请先登录哟！');
+			checklogin();
 			return;
 		}
 		eval("var json="+res);
@@ -172,7 +173,7 @@ function _follow(uid,lfrom,lfromuid){
 				break;
 			case "-1":
 				alert('请先登录吧，否则他怎么知道你关注了 ta ?');
-				login();
+				checklogin();
 				break;
 			case "-2":
 				alert('你知道吗？世界上最远的距离不是生与死的距离，也不是心和心的距离，而是你们一个在新浪微博一个在腾讯微博里,你可以换个账号登录！');
@@ -184,10 +185,35 @@ function _follow(uid,lfrom,lfromuid){
 	});
 }
 
-function _sendstatus(msg){
+function getboshizhengshu(msg,issendmsg) {
+
+	var url=__url+'&op=getboshizhengshu';
+//	var is_follow=0;
+//	if($('#iffollow').attr('checked')) is_follow=1;
+//	if(isfollow) {
+//		is_follow=0;
+//	}
+//	else if(is_pic && !is_follow &&  confirm("稍等，正在发布到你的微博。你是否关注官方米奇吧？")){
+//		is_follow=1;
+//	}
+
+	$.post(url,{is_sendmsg:issendmsg?1:0,is_follow:0,msg:msg},function(res){
+		if(res=="-1"){alert('请先登录！');checklogin();return;}
+
+		if(res=="-2") {
+			alert("“有才委员会”经查不能给你颁发【博士奖励】哟，请核查一下！");			
+		}
+		else {
+			alert("【博士勋章】、【博士证书】以及 168枚 智慧币 以及向你颁发！");		
+		}
+	});	
+
+}
+
+function _sendstatus(msg,has_pic){
 	var is_pic=1;
 	if(msg) {
-		is_pic=0;		
+		is_pic=has_pic || 0;		
 	}else 
 		msg=$('#result_sendstatus').val();
 
@@ -202,7 +228,7 @@ function _sendstatus(msg){
 //	}
 
 	$.post(url,{is_pic:is_pic,is_follow:0,msg:msg},function(res){
-		if(res=="-1"){alert('请先登录！');login();return;}
+		if(res=="-1"){alert('请先登录！');checklogin();return;}
 
 		isfollow=true;
 		if(res=="102")
@@ -286,7 +312,30 @@ function iefix() {
 		},10);
 	}
 }
+
+
+
 var isHelperPng=false;
+
+function showxinzhi(msg) {
+	$('#div_xinzhi').find('.content').html(msg);
+
+	var w=$('#div_xinzhi').width();
+	var h=$('#div_xinzhi').height();
+	var l=(ww-w)/2;
+	var t=(hh-h)/2;
+	t=t>0?t:110;
+	t+=$(window).scrollTop();
+	$('#div_xinzhi').css('left',l).css('top',t).toggle();
+	
+	if(!isHelperPng){
+		isHelperPng=true;
+		iefix();
+	}
+	return false;
+}
+
+
 $(document).ready(function(){	
 	isie6=$.browser.msie&&($.browser.version == "6.0")&&!$.support.style;
 
@@ -357,8 +406,7 @@ $(document).ready(function(){
 					alert('你拥有的智慧币不足哟！');
 
 			});
-		});
-
+		});		
 		
 	}
 	else if (op=='showscore')
@@ -373,27 +421,25 @@ $(document).ready(function(){
 		});
 	}
 
-	$('#btn_help,#div_help_btn_close').click(function(){
-		
-		var w=$('#div_help').width();
-		var h=$('#div_help').height();
-		var l=(ww-w)/2;
-		var t=(hh-h)/2;
-		t=t>0?t:110;
-		t+=$(window).scrollTop();
-		$('#div_help').css('left',l).css('top',t).toggle();
-		
-		if(!isHelperPng){
-			isHelperPng=true;
-			iefix();
-		}
-		return false;
+	$('#btn_help').click(function(){
+		showxinzhi($('#text_content_help').html());
 	});
-	$('#btn_help_close').click(function(){
-		$('#div_help').hide();
+	$('#btn_xinzhi_close').click(function(){
+		$('#div_xinzhi').hide();
 	});
+
+	if(op=="ican" && alljifen * 1<=0) $('#btn_help').click();
+	var notifyniuren=$('#text_content_notifyniuren');
+	if(notifyniuren.length>0 && lastwincount >= 40) {
+		var content=notifyniuren.html();
+		//content.replace(/_nickname_/ig,'');
+		content=content.replace('src=""','src="?app=daren&act=daren&op=showzhengshu&zstype=boshi"');
+		showxinzhi(content);
+		
+	}
 	iefix();
 });
+
 
 function Progress(conf){
 	this.pre="progress_";
