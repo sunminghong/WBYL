@@ -57,7 +57,7 @@
 <? } ?>
 
 <div id="copyright">(c)Copyright by <a href="http://www.miqiba.com" target="_blank">米奇吧</a></div>
-<div id="text_content_help" class="display:none;">
+<div id="text_content_help" style="display:none;">
 		<p><b>“每日十问”规则：</b><br/>每天每个类别都有十道问题，可以重复多次答题，各类当天成绩以当天最好成绩为准；在同一天内，同一类别的题目是不变的；每天凌晨00:00:00统一更换各类别题目。</p>			
 
 		<ul><b>智慧币获取规则：</b>
@@ -71,22 +71,42 @@
 		</ul>
 		<p><b>赚取智慧币攻略：</b><br/>“每日十问”模式下当天每类题目是不变的，所以“勤能补拙”————活用百度、谷歌，多做几遍，直至获得#达人证书#赚取30*n枚智慧币；如果幸运还可能获得一枚或n枚牛人勋章，又可以多赚50*n枚智慧币！</p>
 </div>
+
 <? if(!$isret) { ?>
-<div id="text_content_notifyniuren" class="display:none;">
+
+<? if(intval($score['lastwincount']) >= 50) { ?>
+<div id="text_content_notifyniuren" style="display:none;">
 	<p>亲爱的 @<?=$score['name']?>：</p>
-	<p>　　你的勤奋、博学我们一直在关注。恭喜！你已经达到【博士奖励】的条件，可以领取一枚【博士勋章】、【博士证书】及<b>168枚</b>#智慧币#！</p>
+	<p>　　你的勤奋、博学我们一直在关注。恭喜！你收集到了<b>50枚</b>【达人勋章】，现在可以领取一次【博士奖励】（包括一枚【博士勋章】、【博士证书】及<b>168枚</b>#智慧币#）！</p>
 	<div style="position:relative;width:424px;height:260px;margin-top:30px;">
 		<img style="position:absolute;width:220px;top:0px;left:0px;" src="" />			
 		<div style="position:absolute;width:220px;top:0px;left:230px;font-size:14px;font-weight:bold;">写下你的获奖感言：</div>
-		<textarea id="textarea_msg" style="position:absolute;width:200px;height:122px;top:20px;left:230px;">好好学习，天天向上！几天的坚持、努力才使我领取了一枚【博士勋章】和【博士证书】，并获得了168枚#智慧币#。#我太有才了#！</textarea>
-		<div style="position:absolute;width:400px;top:175px;left:80px;"><input type="checkbox" value="1" id="chb_sendmsg">发布到微博炫耀一下</div>
+		<textarea class="textarea_msg" style="position:absolute;width:200px;height:122px;top:20px;left:230px;">好好学习，天天向上！几天的坚持、努力才使我领取了一枚【博士勋章】和【博士证书】，并获得了168枚#智慧币#。#我太有才了#！</textarea>
+		<div style="position:absolute;width:400px;top:175px;left:80px;"><input type="checkbox" value="1" class="chb_sendmsg">发布到微博炫耀一下</div>
 		<div style="position:absolute;width:400px;top:200px;left:80px;" >
-				<a href="javascript:void(0);" class="btn_big btn_red_big" onclick="getboshizhengshu(document.getElementById('textarea_msg').value,document.getElementById('chb_sendmsg').checked);">领取奖励</a>
+			<a href="javascript:void(0);" class="btn_big btn_red_big" onclick="getboshizhengshu($('#div_xinzhi .textarea_msg').val(),$('#div_xinzhi .chb_sendmsg').attr('checked'));">领取奖励</a>
+				
+			</div>
+		</div>
+</div>
+<? } elseif($op=='index' && intval($score['lastwincount']) >= 40) { ?>
+<div id="text_content_notifyniuren" style="display:none;">
+	<p>亲爱的 @<?=$score['name']?>：</p>
+	<p>　　你的勤奋、博学我们一直在关注。每收集<b>50枚</b>【达人勋章】就可以领取一次【博士奖励】（包括一枚【博士勋章】、【博士证书】及<b>168枚</b>#智慧币#），你现在只差<b><? echo 50-$score['lastwincount'];?>枚</b>就可以领取一次了！</p>
+	<div style="position:relative;width:424px;height:260px;margin-top:30px;">
+		<img style="position:absolute;width:220px;top:0px;left:100px;" src="" />			
+
+		
+		<div style="position:absolute;width:400px;top:200px;left:120px;" >
+			<a href="javascript:void(0);" class="btn_big btn_red_big" onclick="$('#div_xinzhi').hide();">我继续努力</a>
 				
 			</div>
 		</div>	
 </div>
 <? } ?>
+<? } ?>
+
+
 <div id="div_xinzhi" class="xinzhi pngfix">
 	<div class="content">
 	</div>

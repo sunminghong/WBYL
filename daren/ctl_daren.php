@@ -123,6 +123,10 @@ class daren extends ctl_base
 		$this->set('qtypetoplist',$row);
 
 
+		$sql="select zstype,DATE_FORMAT( FROM_UNIXTIME(lasttime) ,  '%Y-%m-%d' ) as winday from ".dbhelper::tname('daren','zslog') ." where uid=$uid";
+		$row=dbhelper::getrows($sql);
+		$this->set('boshilist',$row);
+		
 		//todo:还没有读取文曲星和博士的记录
 		//$this->set('wenquxinglist',false);
 		//$this->set('boshilist',false);
@@ -261,7 +265,7 @@ class daren extends ctl_base
 			
 			$raarr=saveAndReadAnswerToCookie(true);
 			$ans=computeScore($raarr);
-			$darenvalue=$ans[0];
+			$darenvalue=floor($ans[0]);
 			$rightcount=0;
 			foreach($ans[1] as $aan) {
 				if($aan[2] > 0 ) {
@@ -416,14 +420,14 @@ class daren extends ctl_base
 		$sql="select lastwincount from ".dbhelper::tname("daren","daren")." where uid=".$account['uid'];
 		$lastwincount=dbhelper::getvalue($sql);
 		if($lastwincount && intval($lastwincount)>=50) {
-			$sql="update ".dbhelper::tname("daren","daren")." set lastwincount=lastwincount-50,boshicount=boshicount+1,lastboshicount=lastboshicount+1 where uid=".$account['uid'];
-			dbhelper::execute($sql);
+			$sql="update ".dbhelper::tname("daren","daren")." set lastwincount=lastwincount-50,boshicount=boshicount+1,lastboshicount=lastboshicount+1,jifen=jifen+168,alljifen=alljifen+168 where uid=".$account['uid'];
+			$sql.=";;;insert into ".dbhelper::tname("daren","zslog")." (uid,zstype,lasttime) values(".$account['uid'].",1,$timestamp)";
+			dbhelper::exesqls($sql);
 			echo 1;
 			return;
 		}
 		echo "-2";
 	}
-
 
 	public function sendstatus(){
 
@@ -455,7 +459,7 @@ class daren extends ctl_base
 
 		$picurl=sreadcookie('daren_zhengshu_url_'.$zstype);
 		
-		echo 'upload'.$wbmsg.$picurl;exit;
+		//echo 'upload'.$wbmsg.$picurl;exit;
 		if($is_pic && $picurl)
 			$api->upload($wbmsg,$picurl);
 		else

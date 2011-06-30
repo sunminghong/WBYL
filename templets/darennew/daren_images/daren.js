@@ -186,7 +186,10 @@ function _follow(uid,lfrom,lfromuid){
 }
 
 function getboshizhengshu(msg,issendmsg) {
-
+	if( lastwincount < 50) {
+		alert('呵呵，你现在还没有达到条件哟！');
+		return;
+	}
 	var url=__url+'&op=getboshizhengshu';
 //	var is_follow=0;
 //	if($('#iffollow').attr('checked')) is_follow=1;
@@ -206,6 +209,7 @@ function getboshizhengshu(msg,issendmsg) {
 		else {
 			alert("【博士勋章】、【博士证书】以及 168枚 智慧币 以及向你颁发！");		
 		}
+		$('#div_xinzhi').hide();
 	});	
 
 }

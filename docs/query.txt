@@ -220,3 +220,7 @@ PARTITION p7 VALUES LESS THAN (4000000) ,
 PARTITION p8 VALUES LESS THAN (4500000) ,
 PARTITION p9 VALUES LESS THAN (5000000) , 
 PARTITION p10 VALUES LESS THAN MAXVALUE )
+
+
+/*daren daren*/
+select l.name,t.* from (SELECT uid,max(wincount) as win FROM `daren_daren_qtype` where wincount>1 group by uid) t inner join ppt_login l on t.uid=l.uid order by t.win desc

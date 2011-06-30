@@ -35,9 +35,11 @@
 				</div>
 				<div class="xunzhang_area">
 					<!--{loop $boshilist $log}-->
+					<!--{if $log[zstype]==1}-->
 					<div class="xunzhang xunzhang_boshi">
-						<b>{$log}</b>
+						<b>{$log[winday]}</b>
 					</div>
+					<!--{/if}-->
 					<!--{/loop}-->
 					<div class="cls"></div>
 				</div>
