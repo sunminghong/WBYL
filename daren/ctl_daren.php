@@ -74,7 +74,8 @@ class daren extends ctl_base
 
 		$this->set("score",$score);
 		$this->set('todaytoplist',_gettodaytop(20));
-		$this->set('filishtoplist',_getfilishtop(20));
+//		$this->set('filishtoplist',_getfilishtop(20));
+		$this->set('darentoplist',_getdarentop(20));
 		$this->set('jifentoplist',_getjifentop(20));
 
 		$this->set("op","top");
@@ -129,7 +130,6 @@ class daren extends ctl_base
 		
 		//todo:还没有读取文曲星和博士的记录
 		//$this->set('wenquxinglist',false);
-		//$this->set('boshilist',false);
 
 
 
@@ -473,12 +473,21 @@ class daren extends ctl_base
 		}
 
 		if($qtype>0) {
-			$day=intval(strftime("%y%m%d",$timestamp));
+			$day=strftime("%y%m%d",$timestamp);
 
 			$sql2="select todayjifen from ". dbhelper::tname("daren","tmp_day") ." where winday=$day and qtype=$qtype and uid=".$account['uid'];
 			$todayjifen=dbhelper::getvalue($sql2);
-			if(!$todayjifen) $todayjifen=0;
-			if(intval($todayjifen)< 100) {
+
+			if($todayjifen===false) {
+				$sql="insert into ". dbhelper::tname("daren","tmp_day") ." set uid=".$account['uid'].",qtype=$qtype,winday=$day,todayjifen=100";
+				$sql.=";;;update ". dbhelper::tname("daren","daren") ." set jifen=jifen+2,alljifen=alljifen+2,lasttime=$timestamp where uid=".$account['uid'];
+				dbhelper::exesqls($sql);
+				echo 102;
+				return;
+			}
+			if(!$todayjifen)$todayjifen=0;				
+				
+			if(intval($todayjifen) < 100) {
 				$sql="update ". dbhelper::tname("daren","tmp_day") ." set todayjifen=todayjifen+100 where  winday=$day and qtype=$qtype and uid=".$account['uid'];
 				$sql.=";;;update ". dbhelper::tname("daren","daren") ." set jifen=jifen+2,alljifen=alljifen+2,lasttime=$timestamp where uid=".$account['uid'];
 				dbhelper::exesqls($sql);
@@ -592,7 +601,7 @@ class daren extends ctl_base
 		$account=getAccount();
 		$qtype=readqtype();
 		
-		$day=intval(strftime("%y%m%d",$timestamp));
+		$day=strftime("%y%m%d",$timestamp);
 		$givejifen=$givejifen2=0;
 		$ret=envhelper::readRet();
 
@@ -720,7 +729,7 @@ class daren extends ctl_base
 				return ;
 		}	
 		
-		$day=intval(strftime("%y%m%d",$timestamp))-1;
+		$day=date("ymd",strtotime("-1 day"));
 
 		//计算出每个人每科最高得分
 

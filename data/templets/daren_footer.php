@@ -9,8 +9,8 @@
 	<? foreach((array)$yesterdayniurenlist as $top) {?>
 		<div class="top_list pngfix">
 				<? echo $qtypenamelist[$top["qtype"]][0];?><br/>
-				<a href="?op=profile&uid=<?=$top['uid']?>" target="_blank"><img class="avatar" src="<?=$top['avatar']?>"/></a>				
-		<a href="?op=profile&uid=<?=$top['uid']?>" target="_blank">@<?=$top['name']?>第三方的</a><!--<img src="<?=$urlbase?>images/weiboicon16_<?=$top['lfrom']?>.png" height=16 />--><? if($top['verified']==1 && 1==0) { ?><img src="<?=$urlbase?>images/vip_<?=$top['lfrom']?>.gif" title="认证用户" alt=""><? } ?>
+				<a href="?op=profile&uid=<?=$top['uid']?>" target="_blank" title="@<?=$top['name']?>"><img class="avatar" src="<?=$top['avatar']?>"/></a>				
+		<a href="?op=profile&uid=<?=$top['uid']?>" target="_blank" title="@<?=$top['name']?>">@<?=$top['name']?>第三方的</a><!--<img src="<?=$urlbase?>images/weiboicon16_<?=$top['lfrom']?>.png" height=16 />--><? if($top['verified']==1 && 1==0) { ?><img src="<?=$urlbase?>images/vip_<?=$top['lfrom']?>.gif" title="认证用户" alt=""><? } ?>
 			
 		</div>
 	<? } ?>
@@ -79,7 +79,7 @@
 	<p>亲爱的 @<?=$score['name']?>：</p>
 	<p>　　你的勤奋、博学我们一直在关注。恭喜！你收集到了<b>50枚</b>【达人勋章】，现在可以领取一次【博士奖励】（包括一枚【博士勋章】、【博士证书】及<b>168枚</b>#智慧币#）！</p>
 	<div style="position:relative;width:424px;height:260px;margin-top:30px;">
-		<img style="position:absolute;width:220px;top:0px;left:0px;" src="" />			
+		<img style="position:absolute;width:220px;top:0px;left:0px;" _src="" />			
 		<div style="position:absolute;width:220px;top:0px;left:230px;font-size:14px;font-weight:bold;">写下你的获奖感言：</div>
 		<textarea class="textarea_msg" style="position:absolute;width:200px;height:122px;top:20px;left:230px;">好好学习，天天向上！几天的坚持、努力才使我领取了一枚【博士勋章】和【博士证书】，并获得了168枚#智慧币#。#我太有才了#！</textarea>
 		<div style="position:absolute;width:400px;top:175px;left:80px;"><input type="checkbox" value="1" class="chb_sendmsg">发布到微博炫耀一下</div>
@@ -94,7 +94,7 @@
 	<p>亲爱的 @<?=$score['name']?>：</p>
 	<p>　　你的勤奋、博学我们一直在关注。每收集<b>50枚</b>【达人勋章】就可以领取一次【博士奖励】（包括一枚【博士勋章】、【博士证书】及<b>168枚</b>#智慧币#），你现在只差<b><? echo 50-$score['lastwincount'];?>枚</b>就可以领取一次了！</p>
 	<div style="position:relative;width:424px;height:260px;margin-top:30px;">
-		<img style="position:absolute;width:220px;top:0px;left:100px;" src="" />			
+		<img style="position:absolute;width:220px;top:0px;left:100px;" _src="" />			
 
 		
 		<div style="position:absolute;width:400px;top:200px;left:120px;" >

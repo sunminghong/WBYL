@@ -150,7 +150,7 @@ class dbhelper {
 			foreach($row as $val)
 				return $val;	
 		}else
-			return "";		
+			return false;
 	}
 	
 	/**

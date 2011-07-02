@@ -5,9 +5,17 @@
 	<title><?=$pagetitle?>你太有才了！ - 看看你有多聪明系列 </title>
 	<link type="text/css" rel="stylesheet" href="<?=$templatepath?>/daren_images/daren.css" />
 
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<!--<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>   -->
+
+ <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.5.2.min.js"></script>
+
+    <script type="text/javascript">
+   if(!window.jQuery)
+    document.write('<script type="text/javascript" src="js/jquery.min.js"><'+'/script>');
+    </script>
+
 <? if($op=="ican") { ?>
 	<link type="text/css" rel="stylesheet" href="js/colorbox.css" />
 <script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
@@ -17,7 +25,7 @@
 <style type="text/css">.pngfix{behavior: url("js/iepngfix.htc");}</style>
 <![endif]--> 
 <script>var op="<?=$op?>"; var logined=<?=$logined?>; var urlbase='<?=$urlbase?>'; var urltemplate="<?=$templatepath?>",alljifen='<?=$score['alljifen']?>',lastwincount='<?=$score['lastwincount']?>',lastniuren='<?=$score['lasttopcount']?>',lastboshi='<?=$score['lastboshicount']?>';</script>
-<script type="text/javascript" src="<?=$templatepath?>/daren_images/daren.js?v=1.3"></script>
+<script type="text/javascript" src="<?=$templatepath?>/daren_images/daren.js?v=1.5"></script>
 
 </head>
 <body>

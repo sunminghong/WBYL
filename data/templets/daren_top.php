@@ -14,9 +14,9 @@
 		</div>
 
 		<div class="div_list">
-			<? foreach((array)$filishtoplist as $top) {?>
+			<? foreach((array)$darentoplist as $top) {?>
 			<div class="top_list">
-				<div class="top_list_text"><a href="?op=profile&uid=<?=$top['uid']?>" target="_blank">@<?=$top['name']?></a><!--<img src="<?=$urlbase?>images/weiboicon16_<?=$top['lfrom']?>.png" height=16 />--><? if($top['verified']==1 && 1==0) { ?><img src="<?=$urlbase?>images/vip_<?=$top['lfrom']?>.gif" alt="认证用户"><? } ?><br/>共完成了<b><?=$top['filishcount']?>次</b>问答，累计获得<?=$top['wincount']?>枚【达人勋章】。</div>
+				<div class="top_list_text"><a href="?op=profile&uid=<?=$top['uid']?>" target="_blank">@<?=$top['name']?></a><!--<img src="<?=$urlbase?>images/weiboicon16_<?=$top['lfrom']?>.png" height=16 />--><? if($top['verified']==1 && 1==0) { ?><img src="<?=$urlbase?>images/vip_<?=$top['lfrom']?>.gif" alt="认证用户"><? } ?><br/>获得<?=$top['wincount']?>枚【达人勋章】，共完成了<b><?=$top['filishcount']?>次</b>测试。</div>
 				<a href="?op=profile&uid=<?=$top['uid']?>" target="_blank"><img class="avatar" src="<?=$top['avatar']?>"/></a>
 			</div>
 			<? } ?>

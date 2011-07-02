@@ -140,6 +140,14 @@ if(!defined('ISWBYL')) exit('Access Denied');
 
 		return $arrs;
 	}
+			
+	function _getdarentop($top=10) {
+		$sql="select l.lfrom,l.lfromuid,l.uid,l.name,l.avatar,l.verified,t.* from (select uid,filishcount,wincount from ". dbhelper::tname("daren","daren") ." order by wincount desc,filishcount desc limit 0,$top) as t inner join  ". dbhelper::tname("ppt","user") ." as l on t.uid=l.uid";
+
+		$arrs=dbhelper::getrows($sql);
+
+		return $arrs;
+	}
 
 	function _getyesterdayniuren() {
 		$cache=new CACHE();

@@ -437,7 +437,7 @@ $(document).ready(function(){
 	if(notifyniuren.length>0 && lastwincount >= 40) {
 		var content=notifyniuren.html();
 		//content.replace(/_nickname_/ig,'');
-		content=content.replace('src=""','src="?app=daren&act=daren&op=showzhengshu&zstype=boshi"');
+		content=content.replace('_src=""','src="?app=daren&act=daren&op=showzhengshu&zstype=boshi"');
 		showxinzhi(content);
 		
 	}
