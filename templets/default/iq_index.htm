@@ -31,13 +31,14 @@
 			<!--{/loop}-->
 		<!--{/if}-->
 		<br/><br/>
-<!--{if ($app=='eq')}-->
-<a href="?app=eq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_eq.gif" alt="我来测试下EQ"/></a>
-<a href="?app=iq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_iq.gif" alt="我来测试下IQ"/></a>
-<!--{else}-->
-<a href="?app=iq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_iq.gif" alt="我来测试下IQ"/></a>
-<a href="?app=eq&op=ready&lfrom={$lfrom}"><img src="{$templatepath}/q_images/btn_test_blue_eq.gif" alt="我来测试下EQ"/></a>
-<!--{/if}-->
+
+<div class="menunav">
+<a class="home" href="?app={$app}">&nbsp;</a>
+<a class="iq" href="?app=iq&op=ready&lfrom={$lfrom}">&nbsp;</a>
+<a class="eq" href="?app=eq&op=ready&lfrom={$lfrom}">&nbsp;</a>
+<a class="mq" href="?app=mq&op=ready&lfrom={$lfrom}">&nbsp;</a>
+</div>
+
 	 <a href="?app=iq&op=stats"><img src="{$templatepath}/q_images/btn_stats.gif" alt="聪明排行榜" ></a>
 
 			</div>			
@@ -117,11 +118,10 @@
 		</div>
 
 <!--{elseif $op=="stats"}-->
-<div id="ad_800_60" style="width:800px;height:60px;magin-top:5px;margin-bottom:5px;"></div>	
 <div class="contentFrame">
 			<div class="ui-widget" style="text-align:center; color:#696a62;">
 				<div class="welcomeDiv1" id="top_list1" style="text-align:left;">				
-					<b>数据统计</b>：总登录人数 <b>{$iqCount[totalUser]}</b>，成功测试人数 <b>{$iqCount[iqs]}</b>人， 有效测试  <b>{$iqCount[logs]}</b>次。目前@{$iqCount[maxName]} 以  <b>{$iqCount[maxIq]}</b>分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超越 TA！ 
+					<b><!--{eval echo strtoupper($app);}-->数据统计</b>：总登录人数 <b>{$iqCount[totalUser]}</b>，成功测试人数 <b>{$iqCount[iqs]}</b>人， 有效测试  <b>{$iqCount[logs]}</b>次。目前@{$iqCount[maxName]} 以  <b>{$iqCount[maxIq]}</b>分的惊人成绩 排名第一！希望聪明的你可以创造奇迹超越 TA！ 
 <br/><br/>
 		<a href="javascript:void();" onclick="javascript:sendStats();"><img src="{$templatepath}/iq_images/btn_tweettop.gif" alt="发到微博瞻仰一下"/></a>
 					<a id="div_follow" href="javascript:void(0)" onclick="follow(0);" wb_screen_name="孙铭鸿"><img src="{$templatepath}/iq_images/btn_follow_blue.gif" alt="关注官方微博"></a>

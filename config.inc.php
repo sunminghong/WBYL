@@ -5,25 +5,6 @@ define('NOADS',false); //是否不显示广告
 
 $canLogin=array("tsina");
 
-//我的一生
-$apiConfig=array(
-	"tsina"=>array(
-		"name"=>'新浪微博',
-		"orguid" => '1747738583', //官方微博帐号
-		'orgwbsite'=>'http://weibo.com/5d13',
-		"domain_format" => 'http://weibo.com/{domain}',
-		"access_key" =>'4106323544',
-		"screct_key"=>'fdea0fd0626378d951a366e00c5444d7'
-	),
-	"tqq"=>array(
-		"name"=>'腾讯微博',
-		"orguid" => 'yihuiso', //官方微博帐号
-		'orgwbsite'=>'http://t.qq.com/yihuiso',
-		"domain_format" => 'http://t.qq.com/{domain}',
-		"access_key" =>'633e42f93e2f4a8a9981711ee890cf99',
-		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
-	)
-);
 
 //火不火，给你看看
 $apiConfig=array(
@@ -62,6 +43,27 @@ $apiConfig=array(
 	)
 );
 
+//我的一生
+$apiConfig=array(
+	"tsina"=>array(
+		"name"=>'新浪微博',
+		"orguid" => '1747738583', //官方微博帐号
+		'orgwbsite'=>'http://weibo.com/5d13',
+		"domain_format" => 'http://weibo.com/{domain}',
+		"access_key" =>'4106323544',
+		"screct_key"=>'fdea0fd0626378d951a366e00c5444d7'
+	),
+	"tqq"=>array(
+		"name"=>'腾讯微博',
+		"orguid" => 'yihuiso', //官方微博帐号
+		'orgwbsite'=>'http://t.qq.com/yihuiso',
+		"domain_format" => 'http://t.qq.com/{domain}',
+		"access_key" =>'633e42f93e2f4a8a9981711ee890cf99',
+		"screct_key"=>'957cdac92749aa9e346ffc44830ee875'
+	)
+);
+
+
 if(!ISSAE){
 	$DBCONFIG=array(
 		array("dbhost"=>"localhost",
@@ -74,7 +76,7 @@ if(!ISSAE){
 	);
 
 	$MEMCONFIG=array(
-		'ip'=>'10.0.0.5',
+		'ip'=>'127.0.0.1',
 		'port' => '11330',
 	);
 
@@ -109,6 +111,7 @@ define('DEFAULT_DB',SAE_MYSQL_DB);
 	$app_dbpre_redchess=DEFAULT_DB . ".red_";
 	$app_dbpre_iq=DEFAULT_DB . ".iq_";	
 	$app_dbpre_eq=DEFAULT_DB . ".eq_";	
+	$app_dbpre_mq=DEFAULT_DB . ".mq_";	
 	$app_dbpre_log=DEFAULT_DB .".log_";
 	$app_dbpre_daren=DEFAULT_DB .".daren_";
 	$app_dbpre_ilike=DEFAULT_DB .'.ilike_';
@@ -121,4 +124,4 @@ define("CookieDomain",""); //cookie域
 define("CookiePre","wbyl"); //cookie键前缀
 
 
-$currTemplate='darennew'; //定义采用哪个模版
+$currTemplate='default'; //定义采用哪个模版

@@ -103,7 +103,7 @@ class openapi extends openapiAbstract{
 		$uidarr['tweets']=$oarr['statuses_count'];
 		$uidarr['followings']=$oarr['friends_count'];
 		
-		$uidarr['verified']=$oarr['verified'];
+		$uidarr['verified']=$oarr['verified']?1:0;
 		$uidarr['verifyinfo']=$oarr[''];
 		$uidarr['type'] =$oarr['following']?3:$type;
 

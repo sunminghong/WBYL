@@ -64,6 +64,12 @@ clear:both;
 	margin:0px 0px 0px 10px;
 }
 
+
+.menunav {background:url(btn_test_blue.gif) center left no-repeat;width:315px;height:37px;overflow:hidden;float:left;}
+.menunav a {width:59px;height:36px;display:block;float:left;margin:0px 6px;text-decoration:none;}
+.menunav a.menu {margin:10px;}
+.menunav a.iq {margin-left:17px;}
+
 .contentFrame
 {
 clear:both;
